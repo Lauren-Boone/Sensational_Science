@@ -3,15 +3,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ClassListPage extends StatelessWidget{
   @override
-
+getClassList(String teachName){
+ 
+  return (Firestore.instance.collection('Teachers')
+        .document('Dr. Who')
+        .collection('Classes')
+        .snapshots()
+        );
+}
 
   Widget build(BuildContext context){
     return Material(
           child: new StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('Teachers')
-        .document('Dr. Who')
-        .collection('Classes')
-        .snapshots(),
+        stream: getClassList("Dr. Who"),
         
         builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
           if(!snapshot.hasData)return new Text('..Loading');
