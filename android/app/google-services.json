@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "286001680675",
+    "firebase_url": "https://citizen-science-app.firebaseio.com",
+    "project_id": "citizen-science-app",
+    "storage_bucket": "citizen-science-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286001680675:android:fa8a59446f1232d1eabc96",
+        "android_client_info": {
+          "package_name": "com.example.sensational_science"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286001680675-69p3qhi8qln68l7n58p84jg56ci452vp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU8vLcjL-77i-M5AS-KP7_txrAfE-Owq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286001680675-69p3qhi8qln68l7n58p84jg56ci452vp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
