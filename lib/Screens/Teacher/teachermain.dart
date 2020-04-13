@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 
 
 class TeacherHome extends StatelessWidget{
@@ -10,11 +11,19 @@ class TeacherHome extends StatelessWidget{
         title: Text("Home")
       ),
       body: ListView(
-          children: const <Widget>[
+          children:  <Widget>[
             Card(child: ListTile(
               title: Text('Classes'),
               subtitle: Text('View All Classes'),
               trailing: Icon(Icons.arrow_forward_ios), 
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>ClassListPage(),
+                  ),
+                );
+              },
               ),
               ),
           ]
