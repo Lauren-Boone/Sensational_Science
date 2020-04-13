@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>286001680675-e4kct1dt32klr2v2qp7fcsie80hve0pa.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.286001680675-e4kct1dt32klr2v2qp7fcsie80hve0pa</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA-eBlDZfsXwpCdW6SmIjEKDzWnda_pAqw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>286001680675</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>sensationalScience</string>
+	<key>PROJECT_ID</key>
+	<string>citizen-science-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>citizen-science-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:286001680675:ios:b30bfb3032774574eabc96</string>
+	<key>DATABASE_URL</key>
+	<string>https://citizen-science-app.firebaseio.com</string>
+</dict>
+</plist>
