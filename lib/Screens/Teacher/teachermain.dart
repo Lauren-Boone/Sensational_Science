@@ -1,42 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-class TeacherHome extends StatelessWidget{
+class ClassListPage extends StatelessWidget{
   @override
 
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Home")
+    return Material(
+          child: new StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection('Teachers').snapshots(),
+        builder:(BuildContext conetext, AsyncSnapshot<QuerySnapshot> snapshot){
+          if(!snapshot.hasData)return new Text('..Loading');
+          return new ListView(
+            children: snapshot.data.documents.map((document){
+              return new ListTile( 
+                title: new ListTile(
+                  title: new Text(document['name']),
+
+                ),
+              );
+              
+            }).toList(),
+            );
+        }
+
       ),
-      body: ListView(
-          children:  <Widget>[
-            Card(child: ListTile(
-              title: Text('Classes'),
-              subtitle: Text('View All Classes'),
-              trailing: Icon(Icons.arrow_forward_ios), 
-              onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>ClassListPage(),
-                  ),
-                );
-              },
-              ),
-              ),
-          ]
-          ),
-        
-       floatingActionButton: RaisedButton(
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          child: Text("Go Back"),
-          
-        ),
-      
-        );
+    );
+    
   }
 }
+
+
