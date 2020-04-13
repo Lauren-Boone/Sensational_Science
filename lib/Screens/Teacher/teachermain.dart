@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 
-
 class TeacherHome extends StatelessWidget{
   @override
 
@@ -10,14 +9,25 @@ class TeacherHome extends StatelessWidget{
       appBar: AppBar(
         title: Text("Home")
       ),
-      body: Center(
-        child: RaisedButton(
+      body: ListView(
+          children: const <Widget>[
+            Card(child: ListTile(
+              title: Text('Classes'),
+              subtitle: Text('View All Classes'),
+              trailing: Icon(Icons.arrow_forward_ios), 
+              ),
+              ),
+          ]
+          ),
+        
+       floatingActionButton: RaisedButton(
           onPressed: (){
             Navigator.pop(context);
           },
-          child: Text("Sign Out")
-        )
-      )
+          child: Text("Go Back"),
+          
+        ),
+      
         );
   }
 }
