@@ -71,7 +71,7 @@ Stream<DocumentSnapshot> getRosterList() {
             if(!snapshot.hasData)return new Text('..Loading');
 
                         return new ListView(
-                          children: snapshot.data.document.map((document){
+                          children: snapshot.data.document.map((DocumentSnapshot document){
                 return new ListTile( 
   
                     title: new Text(document['name']),
