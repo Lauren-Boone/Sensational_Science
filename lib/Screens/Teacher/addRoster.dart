@@ -14,9 +14,11 @@ class AddRoster extends StatefulWidget{
 
 
 class _AddRosterState extends State<AddRoster>{
+  String name;
   List<DynamicWidget> roster=[];
 
 addStudent(){
+  
   roster.add(new DynamicWidget());
   setState((){
 
@@ -32,7 +34,7 @@ submitData() async {
   .collection('Class Info')
   .document('Roster');
   DocumentSnapshot doc = await docRef.get();
-  List tags = doc.data['Name'];
+  List<String> tags = List.from(doc.data['Name']);
   roster.forEach((element) {
     if(tags.contains(element.controller.text)==true){
     
