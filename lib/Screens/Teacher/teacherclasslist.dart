@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'classInfo.dart';
 
-class ClassListPage extends StatelessWidget{
+class ClassListPage extends StatefulWidget{
+ @override
+  _ClassListState createState() => _ClassListState();
+}
+
+
+class _ClassListState extends State<ClassListPage>{
+    
+ 
+
+  
   @override
 getClassList(String teachName){
  
@@ -12,7 +24,11 @@ getClassList(String teachName){
         );
 }
 
+
+
   Widget build(BuildContext context){
+
+    
     
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +45,16 @@ getClassList(String teachName){
                 return new ListTile( 
   
                     title: new Text(document['name']),
-
+                    subtitle: new Text('Click to View Class Info'),
+                    trailing: Icon(Icons.arrow_forward_ios), 
+              onTap: () =>{
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>ClassInfo( name: document['name']),
+                  ),
+                )
+              },
+                  
                   
                 );
                 
