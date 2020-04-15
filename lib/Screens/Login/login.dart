@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class CreateAccount extends StatefulWidget {
+class LoginAccount extends StatefulWidget {
   @override
-  CreateAccountState createState() {
-    return CreateAccountState();
+  LoginAccountState createState() {
+    return LoginAccountState();
   }
 }
 
-class CreateAccountState extends State<CreateAccount> {
+class LoginAccountState extends State<LoginAccount> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -17,7 +18,7 @@ class CreateAccountState extends State<CreateAccount> {
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
-          title: Text("Create Account"),
+          title: Text("Login to Account"),
         ),
         body: Form(
             key: _formKey,
