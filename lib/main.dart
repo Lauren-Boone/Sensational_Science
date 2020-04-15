@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Screens/Teacher/teachermain.dart';
+import 'Screens/Login/create_account.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,8 +54,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   //int _counter = 0;
 
- 
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -70,10 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-     // a layout widget. It takes a list of children and
+
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          // a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
           //
@@ -87,21 +86,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-        child: RaisedButton(
-          onPressed: (){
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context)=> TeacherHome())
-          );
-          },
-          child: Text("Teacher Page")
-        )
-      
-       
-      ),
-      
-        
-       // This trailing comma makes auto-formatting nicer for build methods.
+          child: Row(children: <Widget>[
+        RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => TeacherHome()));
+            },
+            child: Text("Teacher Page")),
+        RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CreateAccount()));
+            },
+            child: Text("Create Account"))
+      ])),
+
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

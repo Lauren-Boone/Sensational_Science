@@ -1,46 +1,44 @@
-import 'package:flutter_login/flutter_login.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:sensational_science/main.dart';
-import 'transition_route_observer.dart';
-import 'login_screen.dart'; 
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main(){
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      systemNavigationBarColor:
-        SystemUiOverlayStyle.dark.systemNavigationBarColor,
-    ),
-  );
-  runApp(MyApp());
+class LoginAccount extends StatefulWidget {
+  @override
+  LoginAccountState createState() {
+    return LoginAccountState();
+  }
 }
 
-class MyApp() extends StatelessWidget{
+class LoginAccountState extends State<LoginAccount> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
-  Widget build(BuildContext context){
-    return MaterialApp(
-      title: 'Login', 
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-        accentColor: Colors.deepPurple,
-        cursorColor: Colors.green,
-        textTheme: TextTheme(
-          headline3:TextStyle(
-              fontFamily: 'OpenSans',
-          ),
-          caption: TextStyle(
-            fontFamily: 'NotoSans',
-            fontSize: 12.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.black,
-          ),
-          headline4: TextStyle(fontFamily: 'OpenSans')
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text("Create Account"),
         ),
-      ),
-      home: Login(),
-      routes: {
-        Login.routeName: (context) => Login()
-      }
-    )
+        body: Form(
+            key: _formKey,
+            child: Column(children: <Widget>[
+              //Text form fields and raised button
+              TextFormField(
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              RaisedButton(
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      Scaffold.of(context).showSnackBar(
+                          SnackBar(content: Text('Processing Data')));
+                    }
+                  },
+                  child: Text('Submit'))
+            ])));
   }
 }
