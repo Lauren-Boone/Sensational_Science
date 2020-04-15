@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Screens/Teacher/teachermain.dart';
 import 'Screens/Login/create_account.dart';
+import 'Screens/Login/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -93,6 +94,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => TeacherHome()));
             },
             child: Text("Teacher Page")),
+        RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginAccount()));
+            },
+            child: Text("Login")),
         RaisedButton(
             onPressed: () {
               Navigator.push(context,
