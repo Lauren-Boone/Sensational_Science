@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateAccount extends StatefulWidget{
   @override
@@ -24,7 +25,7 @@ class CreateAccountState extends State<CreateAccount>{
               }
               return null; 
             },
-          )
+          ),
           RaisedButton(
             onPressed: (){
               if(_formKey.currentState.validate()){
