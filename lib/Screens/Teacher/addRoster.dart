@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
-import 'roster.dart';
+
 
 
 class AddRoster extends StatefulWidget{
@@ -23,7 +23,32 @@ addStudent(){
   });
 }
 
-submitData(){
+submitData() async {
+  DocumentReference docRef = Firestore.instance
+  .collection("Teachers")
+  .document("Dr. Who")
+  .collection('Classes')
+  .document(widget.name)
+  .collection('Class Info')
+  .document('Roster');
+  DocumentSnapshot doc = await docRef.get();
+  List tags = doc.data['Name'];
+  roster.forEach((element) {
+    if(tags.contains(element.controller.text)==true){
+    
+    docRef.updateData({
+      'Name' : FieldValue.arrayRemove([element.controller.text])
+    });
+    
+  }
+  else{
+    docRef.updateData(
+      {
+      'Name' : FieldValue.arrayUnion([element.controller.text])
+      });
+  }
+  });
+  
   roster.forEach(
     (widget)=>print(widget.controller.text)
   );
@@ -48,8 +73,8 @@ submitData(){
                 ),
                 new Container(
                   child: new RaisedButton(
-                    onPressed: submitData,
                     child: new Text('Submit'),
+                    onPressed: submitData,
                     ),
                 ),
             ],
@@ -67,7 +92,7 @@ submitData(){
 }
 
 class DynamicWidget extends StatelessWidget{
-  TextEditingController controller = new TextEditingController();
+  final controller = new TextEditingController();
   @override
   Widget build(BuildContext context){
     return Container(
@@ -75,7 +100,7 @@ class DynamicWidget extends StatelessWidget{
       child: new TextField(
         controller: controller,
         decoration: new InputDecoration(hintText: 'Enter Student Name'),
-      )
+      ),
     );
   }
 }
