@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
+import 'addRoster.dart';
 
 class ViewRoster extends StatefulWidget {
  //DocumentSnapshot snapshot;
@@ -75,13 +76,7 @@ Stream<DocumentSnapshot> getRosterList() {
   
                     title: new Text(document['name']),
                     trailing: Icon(Icons.arrow_forward_ios), 
-              onTap: () =>{
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>AddRoster(name: document['name']),
-                  ),
-                )
-              },
+              
                   
                   
                 );
@@ -93,6 +88,16 @@ Stream<DocumentSnapshot> getRosterList() {
         
       ),
     ),
+    floatingActionButton: RaisedButton(
+      child: Text("Add Roster"),
+          onPressed: (){
+             Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=> AddRoster(name: widget.name))
+                      );
+                           
+          }
+        ),
     );
     
   }

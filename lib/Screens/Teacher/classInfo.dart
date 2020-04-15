@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'roster.dart';
+import 'addRoster.dart';
 
 class ClassInfo extends StatefulWidget {
   //QuerySnapshot snapshot;
@@ -120,6 +121,16 @@ getInfoList() {
           ),
         ],
       ),
+       floatingActionButton: RaisedButton(
+      child: Text("Add Roster"),
+          onPressed: (){
+             Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=> AddRoster(name: widget.name))
+                      );
+                           
+          }
+        ),
     );
   }
 }
