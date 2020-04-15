@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Screens/Teacher/teachermain.dart';
 import 'Screens/Login/create_account.dart';
 import 'Screens/Login/login.dart';
+import 'Screens/Student/student_enter_code.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
@@ -71,30 +72,42 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          // a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          child: Row(children: <Widget>[
-        RaisedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TeacherHome()));
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        // a layout widget. It takes a list of children and
+        // arranges them vertically. By default, it sizes itself to fit its
+        // children horizontally, and tries to be as tall as its parent.
+        //
+        // Invoke "debug painting" (press "p" in the console, choose the
+        // "Toggle Debug Paint" action from the Flutter Inspector in Android
+        // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+        // to see the wireframe for each widget.
+        //
+        // Column has various properties to control how it sizes itself and
+        // how it positions its children. Here we use mainAxisAlignment to
+        // center the children vertically; the main axis here is the vertical
+        // axis because Columns are vertical (the cross axis would be
+        // horizontal).
+        child: Column(children: <Widget>[
+          RaisedButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=> TeacherHome())
+              );
             },
-            child: Text("Teacher Page")),
+            child: Text("Teacher Page")
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=> StudentEnterCode())
+              );
+            },
+            child: Text("Access Project With Student Code"),
+          ),
+                      
         RaisedButton(
             onPressed: () {
               Navigator.push(context,
@@ -107,9 +120,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => CreateAccount()));
             },
             child: Text("Create Account"))
-      ])),
+        ],)
+      ),
+      
+        
+       // This trailing comma makes auto-formatting nicer for build methods.
 
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
