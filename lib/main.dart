@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Screens/Teacher/teachermain.dart';
 import 'Screens/Login/create_account.dart';
 import 'Screens/Login/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(MyApp());
