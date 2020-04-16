@@ -14,7 +14,8 @@ class LoginAccount extends StatefulWidget {
 
 class LoginAccountState extends State<LoginAccount> {
   final _formKey = GlobalKey<FormState>();
-  final loginController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController(); 
 
   findUser(idUser) async {
     var data = Firestore.instance.collection('Teachers').document(idUser).get();
@@ -49,7 +50,7 @@ class LoginAccountState extends State<LoginAccount> {
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     maxLines: 1,
-                    controller: loginController,
+                    controller: emailController,
                     decoration: const InputDecoration(
                         hintText: 'Enter your email address'),
                     validator: (value) {
@@ -62,7 +63,7 @@ class LoginAccountState extends State<LoginAccount> {
                   TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     maxLines: 1,
-                    controller: loginController,
+                    controller: passwordController,
                     decoration:
                         const InputDecoration(hintText: 'Enter your password'),
                     validator: (value) {
