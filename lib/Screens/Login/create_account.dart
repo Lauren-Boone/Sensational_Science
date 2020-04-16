@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sensational_science/Screens/Login/login_auth.dart';
 import 'dart:async';
 import '../Teacher/teachermain.dart';
+import 'login_auth.dart'; 
 
 final FirebaseAuth authorization = FirebaseAuth.instance;
 
@@ -145,23 +146,29 @@ class CreateAccountState extends State<CreateAccount> {
                         // dynamic result = await authorization.createUserAccount(emailController.text, passwordController.text); 
                         if (passwordController.text ==
                             passwordCheckController.text) {
-                          var uid = getUID();
-                          FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text)
-                              .then((user) => Firestore.instance
-                                  .collection("Teachers")
-                                  .document(uid)
-                                  .setData({
-                                    "uid": uid,
-                                    "first_name": firstNameController.text,
-                                    "last_name": lastNameController.text,
-                                    "email": emailController.text
-                                  })
-                                  .catchError((err) => print(err))
-                                  .catchError((err) => print(err)));
-                        } else {
+                              createAccountHandler.createUserAccount(emailController.text, passwordController.text).then(FirebaseUser user){
+                                Navigator.push(context, new MaterialPageRoute(builder: (context) => new TeacherHome()).catchError((ex) => print(ex)); 
+                              }
+                            }
+                            // {
+                          // var uid = getUID();
+                          // FirebaseAuth.instance
+                          //     .createUserWithEmailAndPassword(
+                          //         email: emailController.text,
+                          //         password: passwordController.text)
+                          //     .then((user) => Firestore.instance
+                          //         .collection("Teachers")
+                          //         .document(uid)
+                          //         .setData({
+                          //           "uid": uid,
+                          //           "first_name": firstNameController.text,
+                          //           "last_name": lastNameController.text,
+                          //           "email": emailController.text
+                          //         })
+                          //         .catchError((err) => print(err))
+                          //         .catchError((err) => print(err)));
+                        // } 
+                        else {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
