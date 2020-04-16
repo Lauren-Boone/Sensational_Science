@@ -46,6 +46,9 @@ class LoginAccountState extends State<LoginAccount> {
                 child: Column(children: <Widget>[
                   //Text form fields and raised button
                   TextFormField(
+                    decoration: const InputDecoration(
+                  hintText: 'Email',
+                ),
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';
