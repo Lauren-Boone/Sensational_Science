@@ -8,7 +8,7 @@ import 'login_auth.dart';
 
 final FirebaseAuth authorization = FirebaseAuth.instance;
 
-var createAccountHandler = new Authorization(); 
+var createAccountHandler = new AuthorizationState(); 
 
 class User{
   final String uid; 
@@ -146,9 +146,10 @@ class CreateAccountState extends State<CreateAccount> {
                         // dynamic result = await authorization.createUserAccount(emailController.text, passwordController.text); 
                         if (passwordController.text ==
                             passwordCheckController.text) {
-                              createAccountHandler.createUserAccount(emailController.text, passwordController.text).then(FirebaseUser user){
-                                Navigator.push(context, new MaterialPageRoute(builder: (context) => new TeacherHome()).catchError((ex) => print(ex)); 
-                              }
+                              createAccountHandler.createUserAccount(emailController.text, passwordController.text)
+                              .then((FirebaseUser user){
+                                Navigator.push(context, new MaterialPageRoute(builder: (context) => new TeacherHome())); 
+                              }).catchError((ex) => print(ex));
                             }
                             // {
                           // var uid = getUID();
