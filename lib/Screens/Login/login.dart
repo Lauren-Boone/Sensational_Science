@@ -43,6 +43,7 @@ class LoginAccountState extends State<LoginAccount> {
           // the App.build method, and use it to set our appbar title.
           title: Text("Login to Account"),
         ),
+        backgroundColor: Colors.lightBlue[100], 
         body: Form(
             key: _formKey,
             child: Padding(
