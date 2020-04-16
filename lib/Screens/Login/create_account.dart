@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../Teacher/teachermain.dart';
+
+final FirebaseAuth authorization = FirebaseAuth.instance;
+getUID() async {
+  final FirebaseUser user = await authorization.currentUser();
+  final uid = user.uid;
+  return uid;
+}
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -10,6 +19,27 @@ class CreateAccount extends StatefulWidget {
 
 class CreateAccountState extends State<CreateAccount> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordCheckController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+
+  findUser(idUser) async {
+    var data = Firestore.instance.collection('Teachers').document(idUser).get();
+    await data.then((user) {
+      return user.exists;
+    });
+  }
+
+  getUserData(String idUser) async {
+    var data = Firestore.instance.collection('Teachers').document(idUser).get();
+    return await data.then((pw) {
+      if (!pw.exists) {
+        return null;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,26 +49,131 @@ class CreateAccountState extends State<CreateAccount> {
           // the App.build method, and use it to set our appbar title.
           title: Text("Create Account"),
         ),
+        backgroundColor: Colors.lightBlue[100],
         body: Form(
             key: _formKey,
-            child: Column(children: <Widget>[
-              //Text form fields and raised button
-              TextFormField(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              RaisedButton(
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Processing Data')));
-                    }
-                  },
-                  child: Text('Submit'))
-            ])));
+            child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(children: <Widget>[
+                  //Text form fields and raised button
+                  TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    maxLines: 1,
+                    controller: passwordController,
+                    decoration: const InputDecoration(hintText: 'First Name'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your first name.';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    maxLines: 1,
+                    controller: passwordController,
+                    decoration: const InputDecoration(hintText: 'Last Name'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your last name.';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    maxLines: 1,
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                        hintText: 'Enter an email address'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter an email address.';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    maxLines: 1,
+                    controller: passwordController,
+                    decoration:
+                        const InputDecoration(hintText: 'Enter a password'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter a password.';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    maxLines: 1,
+                    controller: passwordCheckController,
+                    decoration:
+                        const InputDecoration(hintText: 'Re-enter password'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please re-enter password.';
+                      }
+                      return null;
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: RaisedButton(child: Text('Create Account'),
+                     onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        if (passwordController.text ==
+                            passwordCheckController.text) {
+                          var uid = getUID();
+                          FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text)
+                              .then((user) => Firestore.instance
+                                  .collection("Teachers")
+                                  .document(uid)
+                                  .setData({
+                                    "uid": uid,
+                                    "first_name": firstNameController.text,
+                                    "last_name": lastNameController.text,
+                                    "email": emailController.text
+                                  })
+                                  .catchError((err) => print(err))
+                                  .catchError((err) => print(err)));
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                    title: Text("Mismatched passwords"),
+                                    content: Text(
+                                        "The passwords you entered did not match"),
+                                    actions: <Widget>[
+                                      RaisedButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ]);
+                              });
+                        }
+                      }
+                    },
+                    // child: Text('Create Account')
+                  )),
+                ]))));
   }
 }
+
+// @override
+// // void creatAccount() async{
+// //   final FirebaseUser user = (await FirebaseAuth.instance
+// //     .createUserWithEmailAndPassword(
+// //     email: emailController.text,
+// //     password: passwordController.text
+
+// //   ));
+// // }
