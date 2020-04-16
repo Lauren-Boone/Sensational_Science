@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:async'; 
+import 'dart:async';
 
 class LoginAccount extends StatefulWidget {
   LoginAccount({Key key}) : super(key: key);
@@ -25,8 +25,8 @@ class LoginAccountState extends State<LoginAccount> {
 
   getUserData(String idUser) async {
     var data = Firestore.instance.collection('Teachers').document(idUser).get();
-    return await data.then((doc) {
-      if (!doc.exists) {
+    return await data.then((pw) {
+      if (!pw.exists) {
         return null;
       }
     });
@@ -47,28 +47,42 @@ class LoginAccountState extends State<LoginAccount> {
                 child: Column(children: <Widget>[
                   //Text form fields and raised button
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress, 
-                    controller: loginController, 
+                    keyboardType: TextInputType.emailAddress,
+                    maxLines: 1,
+                    controller: loginController,
                     decoration: const InputDecoration(
-                      hintText: 'Enter your email address'
-                    ),
+                        hintText: 'Enter your email address'),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please enter an email address';
+                        return 'Please enter an email address.';
                       }
                       return null;
                     },
                   ),
-            
-                  
-                  RaisedButton(
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing Data')));
-                        }
-                      },
-                      child: Text('Submit'))
+                  TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    maxLines: 1,
+                    controller: loginController,
+                    decoration:
+                        const InputDecoration(hintText: 'Enter your password'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your password.';
+                      }
+                      return null;
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: RaisedButton(
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            Scaffold.of(context).showSnackBar(
+                                SnackBar(content: Text('Processing Data')));
+                          }
+                        },
+                        child: Text('Submit')),
+                  )
                 ]))));
   }
 }
