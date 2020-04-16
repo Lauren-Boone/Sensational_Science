@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 
+final FirebaseAuth authenticate = FirebaseAuth.instance; 
+
 class LoginAccount extends StatefulWidget {
   LoginAccount({Key key}) : super(key: key);
 
