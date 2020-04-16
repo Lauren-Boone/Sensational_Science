@@ -6,16 +6,16 @@ import 'dart:async';
 
 final FirebaseAuth authenticate = FirebaseAuth.instance; 
 
-class LoginAccount extends StatefulWidget {
-  LoginAccount({Key key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  SplashScreen({Key key}) : super(key: key);
 
   @override
-  LoginAccountState createState() {
-    return LoginAccountState();
+  SplashScreenState createState() {
+    return SplashScreenState();
   }
 }
 
-class LoginAccountState extends State<LoginAccount> {
+class SplashScreenState extends State<SplashScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController(); 
