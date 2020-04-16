@@ -10,16 +10,13 @@ class CreateAccount extends StatefulWidget {
   }
 }
 
-// void creatAccount() async{
-//   final FirebaseUser user = (await authorization.createUserWithEmailAndPassword(
-//     email: 
-//   ))
-// }
-
 class CreateAccountState extends State<CreateAccount> {
   final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController(); 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController(); 
+  final TextEditingController passwordCheckController = TextEditingController(); 
+  final TextEditingController firstNameController = TextEditingController(); 
+  final TextEditingController lastNameController = TextEditingController(); 
 
   findUser(idUser) async {
     var data = Firestore.instance.collection('Teachers').document(idUser).get();
@@ -51,12 +48,38 @@ class CreateAccountState extends State<CreateAccount> {
                 padding: EdgeInsets.all(16.0),
                 child: Column(children: <Widget>[
                   //Text form fields and raised button
-                  TextFormField(
+                    TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    maxLines: 1,
+                    controller: passwordController,
+                    decoration:
+                        const InputDecoration(hintText: 'First Name'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your first name.';
+                      }
+                      return null;
+                    },
+                    
+                  ),TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    maxLines: 1,
+                    controller: passwordController,
+                    decoration:
+                        const InputDecoration(hintText: 'Last Name'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your last name.';
+                      }
+                      return null;
+                    },
+                    
+                  ),TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     maxLines: 1,
                     controller: emailController,
                     decoration: const InputDecoration(
-                        hintText: 'Enter your email address'),
+                        hintText: 'Enter an email address'),
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'Please enter an email address.';
@@ -69,10 +92,23 @@ class CreateAccountState extends State<CreateAccount> {
                     maxLines: 1,
                     controller: passwordController,
                     decoration:
-                        const InputDecoration(hintText: 'Enter your password'),
+                        const InputDecoration(hintText: 'Enter a password'),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please enter your password.';
+                        return 'Please enter a password.';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    maxLines: 1,
+                    controller: passwordCheckController,
+                    decoration:
+                        const InputDecoration(hintText: 'Re-enter password'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please re-enter password.';
                       }
                       return null;
                     },
@@ -86,8 +122,18 @@ class CreateAccountState extends State<CreateAccount> {
                                 SnackBar(content: Text('Processing Data')));
                           }
                         },
-                        child: Text('Submit')),
+                        child: Text('Create Account')),
                   )
                 ]))));
   }
 }
+
+// @override
+// // void creatAccount() async{
+// //   final FirebaseUser user = (await FirebaseAuth.instance
+// //     .createUserWithEmailAndPassword(
+// //     email: emailController.text,
+// //     password: passwordController.text
+
+// //   ));
+// // }
