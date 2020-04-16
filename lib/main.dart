@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'Screens/Teacher/teachermain.dart';
+import 'Screens/Login/create_account.dart';
+import 'Screens/Login/login.dart';
 import 'Screens/Student/student_enter_code.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(MyApp());
@@ -54,8 +57,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   //int _counter = 0;
 
- 
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -106,11 +107,25 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             child: Text("Access Project With Student Code"),
           ),
+                      
+        RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginAccount()));
+            },
+            child: Text("Login")),
+        RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CreateAccount()));
+            },
+            child: Text("Create Account"))
         ],)
       ),
       
         
        // This trailing comma makes auto-formatting nicer for build methods.
+
     );
   }
 }
