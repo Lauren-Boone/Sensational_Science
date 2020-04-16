@@ -29,7 +29,7 @@ dependencies:
 
   cloud_firestore: ^0.13.4+2
 
-  firebase_auth: ^0.15.5+3
+  firebase_auth: ^0.16.0
   google_sign_in: ^4.4.1
   flutter_login: ^1.0.14
 

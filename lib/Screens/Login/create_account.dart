@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sensational_science/Screens/Login/login_auth.dart';
+import 'dart:async';
 import '../Teacher/teachermain.dart';
 
 final FirebaseAuth authorization = FirebaseAuth.instance;
 
+var createAccountHandler = new Authorization(); 
 
 class User{
   final String uid; 
@@ -13,6 +16,11 @@ class User{
 
 User databaseUser(FirebaseUser user){
   return user != null ? User(uid: user.uid) : null; 
+}
+
+Stream<User> get user{
+return authorization.onAuthStateChanged
+  .map(databaseUser); 
 }
 getUID() async {
   final FirebaseUser user = await authorization.currentUser();
@@ -179,16 +187,19 @@ class CreateAccountState extends State<CreateAccount> {
   }
 }
 
-Future createUserAccount(String email, String password) async{
-  try{
-    AuthResult response = await authorization.createUserWithEmailAndPassword(email: email, password: password); 
-    FirebaseUser user = response.user; 
-    return databaseUser(user); 
-  }catch(ex){
-    print(ex.toString()); 
-    return null; 
-  }
-}
+// Future createUserAccount(String email, String password) async{
+//   try{
+//     AuthResult response = await authorization.createUserWithEmailAndPassword(email: email, password: password); 
+//     FirebaseUser user = response.user; 
+//     return databaseUser(user); 
+//   }catch(ex){
+//     print(ex.toString()); 
+//     return null; 
+//   }
+// }
+
+
+
 // @override
 // // void creatAccount() async{
 // //   final FirebaseUser user = (await FirebaseAuth.instance

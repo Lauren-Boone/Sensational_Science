@@ -3,7 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 
-final FirebaseAuth authenticate = FirebaseAuth.instance; 
+import 'package:sensational_science/Screens/Login/login_auth.dart';
+
+final FirebaseAuth authorization = FirebaseAuth.instance;
+var loginHandler = new Authorization(); 
 
 class LoginAccount extends StatefulWidget {
   LoginAccount({Key key}) : super(key: key);
@@ -88,5 +91,23 @@ class LoginAccountState extends State<LoginAccount> {
                         child: Text('Submit')),
                   )
                 ]))));
+  }
+}
+
+Future<FirebaseUser> Login(email, password) async{
+    try{
+    AuthResult response = await authorization.createUserWithEmailAndPassword(
+      email: email, password: password);
+
+    final FirebaseUser user = response.user;  
+    assert(user != null); 
+    assert(await user.getIdToken() != null); 
+    final FirebaseUser currentUser = await authorization.currentUser(); 
+    assert(user.uid == currentUser.uid); 
+    print("Success!"); 
+    return user; 
+  }catch(ex){
+    print(ex.toString()); 
+    return null; 
   }
 }
