@@ -81,8 +81,8 @@ class LoginAccountState extends State<LoginAccount> {
                     child: RaisedButton(
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
-                            Scaffold.of(context).showSnackBar(
-                                SnackBar(content: Text('Processing Data')));
+                            // Scaffold.of(context).showSnackBar(
+                            //     SnackBar(content: Text('Processing Data')));
                           }
                         },
                         child: Text('Submit')),
