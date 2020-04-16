@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:sensational_science/Screens/Login/login_auth.dart';
 
 final FirebaseAuth authorization = FirebaseAuth.instance;
-var loginHandler = new Authorization(); 
+var loginHandler = new AuthorizationState(); 
 
 class LoginAccount extends StatefulWidget {
   LoginAccount({Key key}) : super(key: key);

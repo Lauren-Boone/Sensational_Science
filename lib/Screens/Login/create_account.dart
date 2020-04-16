@@ -78,7 +78,7 @@ class CreateAccountState extends State<CreateAccount> {
                   TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     maxLines: 1,
-                    controller: passwordController,
+                    controller: firstNameController,
                     decoration: const InputDecoration(hintText: 'First Name'),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -90,7 +90,7 @@ class CreateAccountState extends State<CreateAccount> {
                   TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     maxLines: 1,
-                    controller: passwordController,
+                    controller: lastNameController,
                     decoration: const InputDecoration(hintText: 'Last Name'),
                     validator: (value) {
                       if (value.isEmpty) {
