@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async'; 
 
 class LoginAccount extends StatefulWidget {
   LoginAccount({Key key}) : super(key: key);
@@ -16,14 +17,14 @@ class LoginAccountState extends State<LoginAccount> {
   final loginController = TextEditingController();
 
   findUser(idUser) async {
-    var data = Firestore.instance.collection('users').document(idUser).get();
+    var data = Firestore.instance.collection('Teachers').document(idUser).get();
     await data.then((user) {
       return user.exists;
     });
   }
 
   getUserData(String idUser) async {
-    var data = Firestore.instance.collection('users').document(idUser).get();
+    var data = Firestore.instance.collection('Teachers').document(idUser).get();
     return await data.then((doc) {
       if (!doc.exists) {
         return null;
@@ -46,13 +47,20 @@ class LoginAccountState extends State<LoginAccount> {
                 child: Column(children: <Widget>[
                   //Text form fields and raised button
                   TextFormField(
+                    keyboardType: TextInputType.emailAddress, 
+                    controller: loginController, 
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your email address'
+                    ),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Please enter an email address';
                       }
                       return null;
                     },
                   ),
+            
+                  
                   RaisedButton(
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
