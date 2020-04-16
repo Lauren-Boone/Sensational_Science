@@ -4,6 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../Teacher/teachermain.dart';
 
 final FirebaseAuth authorization = FirebaseAuth.instance;
+
+
+class User{
+  final String uid; 
+  User({this.uid}); 
+}
+
+User databaseUser(FirebaseUser user){
+  return user != null ? User(uid: user.uid) : null; 
+}
 getUID() async {
   final FirebaseUser user = await authorization.currentUser();
   final uid = user.uid;
@@ -100,8 +110,8 @@ class CreateAccountState extends State<CreateAccount> {
                     decoration:
                         const InputDecoration(hintText: 'Enter a password'),
                     validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter a password.';
+                      if (value.isEmpty||value.length < 6) {
+                        return 'Please enter a password at least characters in length.';
                       }
                       return null;
                     },
@@ -122,8 +132,9 @@ class CreateAccountState extends State<CreateAccount> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: RaisedButton(child: Text('Create Account'),
-                     onPressed: () {
+                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
+                        // dynamic result = await authorization.createUserAccount(emailController.text, passwordController.text); 
                         if (passwordController.text ==
                             passwordCheckController.text) {
                           var uid = getUID();
@@ -168,6 +179,16 @@ class CreateAccountState extends State<CreateAccount> {
   }
 }
 
+Future createUserAccount(String email, String password) async{
+  try{
+    AuthResult response = await authorization.createUserWithEmailAndPassword(email: email, password: password); 
+    FirebaseUser user = response.user; 
+    return databaseUser(user); 
+  }catch(ex){
+    print(ex.toString()); 
+    return null; 
+  }
+}
 // @override
 // // void creatAccount() async{
 // //   final FirebaseUser user = (await FirebaseAuth.instance
