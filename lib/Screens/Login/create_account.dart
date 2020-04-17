@@ -151,24 +151,7 @@ class CreateAccountState extends State<CreateAccount> {
                                 Navigator.push(context, new MaterialPageRoute(builder: (context) => new TeacherHome())); 
                               }).catchError((ex) => print(ex));
                             }
-                            // {
-                          // var uid = getUID();
-                          // FirebaseAuth.instance
-                          //     .createUserWithEmailAndPassword(
-                          //         email: emailController.text,
-                          //         password: passwordController.text)
-                          //     .then((user) => Firestore.instance
-                          //         .collection("Teachers")
-                          //         .document(uid)
-                          //         .setData({
-                          //           "uid": uid,
-                          //           "first_name": firstNameController.text,
-                          //           "last_name": lastNameController.text,
-                          //           "email": emailController.text
-                          //         })
-                          //         .catchError((err) => print(err))
-                          //         .catchError((err) => print(err)));
-                        // } 
+                  
                         else {
                           showDialog(
                               context: context,
@@ -195,25 +178,5 @@ class CreateAccountState extends State<CreateAccount> {
   }
 }
 
-// Future createUserAccount(String email, String password) async{
-//   try{
-//     AuthResult response = await authorization.createUserWithEmailAndPassword(email: email, password: password); 
-//     FirebaseUser user = response.user; 
-//     return databaseUser(user); 
-//   }catch(ex){
-//     print(ex.toString()); 
-//     return null; 
-//   }
-// }
 
 
-
-// @override
-// // void creatAccount() async{
-// //   final FirebaseUser user = (await FirebaseAuth.instance
-// //     .createUserWithEmailAndPassword(
-// //     email: emailController.text,
-// //     password: passwordController.text
-
-// //   ));
-// // }
