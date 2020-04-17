@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Services/auth.dart';
 import 'register.dart';
+import 'create_account.dart'; 
 
 
 class SignIn extends StatefulWidget {
@@ -29,7 +30,11 @@ class _SignInState extends State<SignIn> {
           FlatButton.icon(
             icon: Icon(Icons.person),
             label: Text('Register'),
-            onPressed: () => widget.toggleView(),
+            onPressed: () => Navigator.push(
+                      context, MaterialPageRoute(
+                        builder: (context) => CreateAccount()
+                      ),
+            )
           ),
         ],
       ),
@@ -78,7 +83,19 @@ class _SignInState extends State<SignIn> {
                     }
 
                   }
-                ),
+                ), 
+                // RaisedButton(
+                //   child: Text(
+                //     'Create Account',
+                //   ), onPressed: (){
+                //     Navigator.push(
+                //       context, MaterialPageRoute(
+                //         builder: (context) => CreateAccount()
+                //       )
+                //     ); 
+                //   }
+
+                //   )
                 
                 
             ],
