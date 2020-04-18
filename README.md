@@ -1,6 +1,6 @@
 # sensational_science
 
-A new Flutter project.
+A Flutter project inspired by Citizen Science Projects that aims to give K-8 students and teachers an application where teachers can create science projects and students can complete them.
 
 ## Getting Started
 
