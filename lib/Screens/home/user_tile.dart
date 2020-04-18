@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/teacher.dart';
+import '../../models/teacher.dart';
 
 
 

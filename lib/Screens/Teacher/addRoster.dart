@@ -30,11 +30,11 @@ submitData() async {
   .collection("Teachers")
   .document("Dr. Who")
   .collection('Classes')
-  .document(widget.name)
+  .document('CS 467')
   .collection('Class Info')
   .document('Roster');
   DocumentSnapshot doc = await docRef.get();
-  List<String> tags = List.from(doc.data['name']);
+  List<String> tags = List.from(doc.data['Name']);
   roster.forEach((element) {
     if(tags.contains(element.controller.text)==true){
     

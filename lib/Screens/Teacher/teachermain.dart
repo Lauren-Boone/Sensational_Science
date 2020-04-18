@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
-import '../user_list.dart';
+import '../home/user_list.dart';
 import '../../models/teacher.dart';
 import '../../models/user.dart';
 

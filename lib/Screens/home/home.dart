@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Services/auth.dart';
-import 'package:sensational_science/settings_form.dart';
-import 'Teacher/teachermain.dart';
-import 'Student/student_enter_code.dart';
+import 'settings_form.dart';
+import '../Teacher/teachermain.dart';
+import '../Student/student_enter_code.dart';
 import 'user_list.dart';
 import 'package:provider/provider.dart';
-import '../Services/database.dart';
-import '../models/teacher.dart';
-import '../testdatabase.dart';
+import '../../Services/database.dart';
+import '../../models/teacher.dart';
+import 'testdatabase.dart';
 
 class Home extends StatelessWidget {
   // This widget is the root of your application.

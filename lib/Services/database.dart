@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sensational_science/models/user.dart';
 import '../models/teacher.dart';
+import '../models/user.dart';
 
 class DatabaseService{
 
@@ -33,9 +35,21 @@ Stream<List<Teacher>> get user{
 
 
 //get user doc stream
-Stream<DocumentSnapshot> get userData{
-  return userCollection.document(uid).snapshots();
+Stream<UserData> get userData{
+  return userCollection.document(uid).snapshots()
+    .map(_userDataFromSnapshot);
   
 }
+
+//User data from snapshot
+UserData  _userDataFromSnapshot(DocumentSnapshot snapshot){
+  return UserData(
+    uid: uid,
+    name: snapshot.data['name'],
+    email: snapshot.data['email'],
+  );
+}
+
+
 
 }

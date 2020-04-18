@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sensational_science/Screens/user_list.dart';
-import 'package:sensational_science/Screens/user_tile.dart';
-import 'Services/database.dart';
-import 'models/teacher.dart';
+import 'user_list.dart';
+import 'user_tile.dart';
+import '../../Services/database.dart';
+import '../../models/teacher.dart';
 
 
 
