@@ -34,7 +34,7 @@ submitData() async {
   .collection('Class Info')
   .document('Roster');
   DocumentSnapshot doc = await docRef.get();
-  List<String> tags = List.from(doc.data['Name']);
+  List<String> tags = List.from(doc.data['name']);
   roster.forEach((element) {
     if(tags.contains(element.controller.text)==true){
     

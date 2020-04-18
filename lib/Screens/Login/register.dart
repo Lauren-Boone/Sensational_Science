@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../Services/auth.dart';
 import 'sign_in.dart';
+import '../../Shared/loading.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -15,7 +16,9 @@ class _RegisterState extends State<Register> {
    final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   String email = '';
+  bool loading = false;
   String password='';
+  String name = '';
 String error='';
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,17 @@ String error='';
           child: Column(
             children: <Widget>[
               SizedBox(height: 20),
+               TextFormField(
+                  validator: (val)=> val.length < 6 ? 'Enter Name' : null,
+                   decoration: const InputDecoration(
+                  hintText: 'Full Name',
+                ),
+                  obscureText: false,
+                  onChanged: (val){
+                    setState(()=>name=val);
+                  }
+                  
+                ),
               TextFormField(  
                 validator: (val)=> val.isEmpty ? 'Enter an email' : null,
                  decoration: const InputDecoration(
@@ -61,6 +75,7 @@ String error='';
                   }
                   
                 ),
+               
                 SizedBox(height: 20),
                 RaisedButton(
                   color: Colors.blue[200],
@@ -69,7 +84,7 @@ String error='';
                   ),
                   onPressed: () async{
                     if(_formKey.currentState.validate()){
-                      dynamic result = await _auth.register(email.toString().trim(), password);
+                      dynamic result = await _auth.register(email.toString().trim(), password, name);
                       print(email);
                       if(result == null){
                         setState(()=> error = 'please supply a valid email');

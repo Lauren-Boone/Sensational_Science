@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sensational_science/Services/auth.dart';
 import 'register.dart';
 import 'create_account.dart'; 
-
+import '../../Shared/loading.dart';
+import '../../Shared/constants.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -16,6 +17,7 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
  final _formKey = GlobalKey<FormState>();
   //2 states store values in input fields
+   bool loading = false;
   String email = '';
   String password='';
   String error='';
@@ -32,7 +34,7 @@ class _SignInState extends State<SignIn> {
             label: Text('Register'),
             onPressed: () => Navigator.push(
                       context, MaterialPageRoute(
-                        builder: (context) => CreateAccount()
+                        builder: (context) => Register()
                       ),
             )
           ),
@@ -75,9 +77,11 @@ class _SignInState extends State<SignIn> {
                   ),
                   onPressed: () async{
                     if(_formKey.currentState.validate()){
+                      setState(() => loading = true);
                       dynamic result = await _auth.signIn(email.toString().trim(), password);
                       print(email);
                       if(result == null){
+                         loading = false;
                         setState(()=> error = 'please supply a valid email');
                       }
                     }
