@@ -77,7 +77,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   onPressed: () async{
                     if(_formKey.currentState.validate()){
-                      setState(() => loading = true);
+                     // setState(() => loading = true);
                       dynamic result = await _auth.signIn(email.toString().trim(), password);
                       print(email);
                       if(result == null){

@@ -77,7 +77,7 @@ class _SettingsFormState extends State<SettingsForm> {
         );
         }
         else{
-          return Loading();
+          //return Loading();
 
         }
         
