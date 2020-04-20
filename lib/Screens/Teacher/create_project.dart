@@ -27,7 +27,7 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   Widget build(BuildContext context) {
-    Widget acceptData;
+    List<Widget> acceptData = [];
 
     return MaterialApp(
       home: Scaffold(
@@ -50,13 +50,15 @@ class _CreateProjectState extends State<CreateProject> {
                 },
                 onAccept: (Widget addItem) {
                   print('accepting an item');
-                  acceptData = addItem;
+                  acceptData.add(addItem);
                 },
                 builder: (context, List<dynamic> candidateData, List<dynamic> rejectedData) {
                   return Container(
                     height: MediaQuery.of(context).size.height,
                     color: Colors.lightBlue[50],
-                    child: candidateData.isEmpty ? Center(child: Text('Add Form Fields Here'),) : acceptData,
+                    child: acceptData.isEmpty 
+                      ? Center(child: Text('Add Form Fields Here'),) 
+                      : Column(children: acceptData),
                   );
                 },
 
