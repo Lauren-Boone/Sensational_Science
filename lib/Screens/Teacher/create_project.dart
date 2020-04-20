@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:geolocator/geolocator.dart';
+
+Future<Position> getUserLocation()async{
+  try{
+    Position currentUserPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }catch(ex){
+    Position currentUserPosition; 
+    currentUserPosition = null; 
+    return currentUserPosition; 
+  }
+}
 
 class TextInputItem extends StatelessWidget {
   final controller = new TextEditingController();
