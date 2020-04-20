@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
+import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
 
 
 class TeacherHome extends StatelessWidget{
@@ -25,7 +26,21 @@ class TeacherHome extends StatelessWidget{
                 );
               },
               ),
+            ),
+            Card(child: ListTile(
+              title: Text('Add Class'),
+              subtitle: Text('Add A New Class'),
+              trailing: Icon(Icons.arrow_forward_ios), 
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>AddClassPage(),
+                  ),
+                );
+              },
               ),
+            ),
           ]
           ),
         

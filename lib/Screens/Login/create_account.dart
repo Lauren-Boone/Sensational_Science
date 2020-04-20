@@ -145,7 +145,8 @@ class CreateAccountState extends State<CreateAccount> {
                         // dynamic result = await authorization.createUserAccount(emailController.text, passwordController.text); 
                         if (passwordController.text ==
                             passwordCheckController.text) {
-                              createAccountHandler.createUserAccount(emailController.text, passwordController.text)
+                              //add fname and lname to create the user account
+                              createAccountHandler.createUserAccount(emailController.text, passwordController.text, firstNameController.text, lastNameController.text)
                               .then((FirebaseUser user){
                                 Navigator.pop(context); 
                               }).catchError((ex) => print(ex));
