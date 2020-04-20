@@ -27,7 +27,7 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> acceptData;
+    Widget acceptData;
 
     return MaterialApp(
       home: Scaffold(
@@ -40,7 +40,15 @@ class _CreateProjectState extends State<CreateProject> {
           children: <Widget>[
             Expanded(
               child: DragTarget(
-                onAccept: (List<Widget> addItem) {
+                onWillAccept: (Widget addItem) {
+                  print('checking if will accept item');
+                  print(addItem);
+                  if (addItem == null) {
+                    return false;
+                  }
+                  return true;
+                },
+                onAccept: (Widget addItem) {
                   print('accepting an item');
                   acceptData = addItem;
                 },
@@ -56,10 +64,10 @@ class _CreateProjectState extends State<CreateProject> {
             ),
             Container(
               width: MediaQuery.of(context).size.width/3,
-              child: Draggable(
+              child: Draggable<Widget>(
                 child: Text('Text Input Field'),
-                data: [new TextInputItem()],
-                feedback: Text('Text Input Field'),
+                data: new TextInputItem(),
+                feedback: Text('Text'),
               ),
             ),
           ],
