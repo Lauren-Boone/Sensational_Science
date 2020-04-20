@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
+import 'package:sensational_science/Screens/Teacher/create_project.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
 import '../home/user_list.dart';
@@ -45,6 +46,21 @@ class TeacherHome extends StatelessWidget{
                       context,
                       MaterialPageRoute(
                         builder: (context) =>AddClassPage(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  title: Text('Create Project'),
+                  subtitle: Text('Create A New Project From Scratch'),
+                  trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateProject(),
                       ),
                     );
                   },
