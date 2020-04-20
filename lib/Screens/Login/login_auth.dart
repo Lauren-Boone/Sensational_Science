@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import '../Teacher/teachermain.dart';
+//referenced this stack overflow page: https://stackoverflow.com/questions/58905933/duplicate-symbols-with-ios-build
+
 
 final FirebaseAuth authorization = FirebaseAuth.instance;
 
