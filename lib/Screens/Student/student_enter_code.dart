@@ -14,13 +14,6 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
   final _formKey = GlobalKey<FormState>();
   final codeController = TextEditingController();
 
-  findCode(String idCode) async {
-    var data = Firestore.instance.collection('codes').document(idCode).get();
-    await data.then((doc) {
-      return doc.exists;
-    });
-  }
-
   getCodeData(String idCode) async {
     var data = Firestore.instance.collection('codes').document(idCode).get();
     return await data.then((doc) {
@@ -62,12 +55,30 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                     }
                     var data = await getCodeData(codeController.text);
                     if (data == null) {
-                      return;
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Invalid Code"),
+                            content: Text(
+                                "The code you entered does not exist, please check the code and try again."),
+                            actions: <Widget>[
+                              RaisedButton(
+                                child: Text("Close"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();;
+                                },
+                              )
+                            ]
+                          );
+                        }
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=> StudentHome(classData: codeController.text))
+                      );
                     }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context)=> StudentHome(classData: codeController.text))
-                    );
                   },
                   child: Text('Go to Project'),
                 ),

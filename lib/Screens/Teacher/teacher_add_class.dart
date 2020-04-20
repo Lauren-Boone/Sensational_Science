@@ -53,7 +53,7 @@ class _AddClassPageState extends State<AddClassPage> {
                 ),
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please a subject';
+                    return 'Please enter a subject';
                   }
 
                   return null;
@@ -66,7 +66,7 @@ class _AddClassPageState extends State<AddClassPage> {
                 ),
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please choose a class level';
+                    return 'Please enter a class level';
                   }
 
                   return null;
@@ -93,13 +93,11 @@ class _AddClassPageState extends State<AddClassPage> {
                       bool docExists = false;
                       final existingClasses = await classCollection.getDocuments();
                       for (var doc in existingClasses.documents) {
-                        print(doc.documentID);
                         if (doc.documentID == classNameController.text.trim()) {
                           docExists = true;
                         }
                       }
                       if (docExists) {
-                        print("doc exists, I should return");
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -127,7 +125,25 @@ class _AddClassPageState extends State<AddClassPage> {
                           'students': 0,
                           'projects': 0,
                         });  
-                        Navigator.pop(context);                   
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Success!"),
+                              content: Text(
+                                  "A new class has been created! Go to View All Classes to see your new class."),
+                              actions: <Widget>[
+                                RaisedButton(
+                                  child: Text("Close"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ]
+                            );
+                          }
+                        );  
+                        Navigator.pop(context);               
                       }
                     } else {
                       return;
