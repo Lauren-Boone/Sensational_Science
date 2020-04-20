@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class StudentHome extends StatefulWidget{
-  StudentHome({Key key}) : super(key: key);
+  final String classData;
+
+  StudentHome({
+    Key key,
+    @required this.classData,
+    }) :  assert(classData != null),
+          super(key: key);
 
   @override
   _StudentHomeState createState() => _StudentHomeState();
