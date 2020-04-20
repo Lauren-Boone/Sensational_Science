@@ -48,7 +48,7 @@ class _ClassListState extends State<ClassListPage>{
               onTap: () =>{
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) =>ClassInfo( name: document['name']),
+                    builder: (context) =>ClassInfo(name: document.documentID),
                   ),
                 )
               },

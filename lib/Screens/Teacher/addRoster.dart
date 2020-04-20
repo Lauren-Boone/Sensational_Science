@@ -3,6 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
 
+import 'package:provider/provider.dart';
+import 'package:sensational_science/models/user.dart';
+
 
 
 class AddRoster extends StatefulWidget{
@@ -25,20 +28,34 @@ addStudent(){
   });
 }
 
-submitData() async {
-  DocumentReference docRef = Firestore.instance
-  .collection("Teachers")
-  .document("Dr. Who")
+submitData(teachID) async {
+
+  Firestore.instance
+  .runTransaction((transaction) async{
+    await transaction.set(Firestore.instance
+    .collection("Teachers")
+  .document(teachID)
   .collection('Classes')
-  .document('CS 467')
-  .collection('Class Info')
-  .document('Roster');
-  DocumentSnapshot doc = await docRef.get();
-  List<String> tags = List.from(doc.data['Name']);
-  roster.forEach((element) {
+  .document(widget.name)
+  .collection('Roster')
+  .document(),
+  {
+    
+    'name': 'Lauren',
+  
+  });
+  });
+
+print(teachID);
+  }
+
+
+  /*
+  List<String> tags = List.from(doc.data['name']);
+  
     if(tags.contains(element.controller.text)==true){
     
-    docRef.updateData({
+    docRef.addData({
       'Name' : FieldValue.arrayRemove([element.controller.text])
     });
     
@@ -55,13 +72,15 @@ submitData() async {
     (widget)=>print(widget.controller.text)
   );
 }
+*/
 @override
-  Widget build(BuildContext context){
 
+  Widget build(BuildContext context){
+  final user = Provider.of<User>(context);
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text(widget.name.toUpperCase()),
+          title: new Text("Add Roster"),
         ),
         body: new Container(
           child: new Column(
@@ -76,7 +95,8 @@ submitData() async {
                 new Container(
                   child: new RaisedButton(
                     child: new Text('Submit'),
-                    onPressed: submitData,
+                    onPressed: 
+                    submitData(user.uid),
                     ),
                 ),
             ],
