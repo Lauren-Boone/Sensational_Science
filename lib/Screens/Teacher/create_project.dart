@@ -11,6 +11,7 @@ class CreateProject extends StatefulWidget {
 Future<Position> getUserLocation()async{
   try{
     Position currentUserPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(currentUserPosition); 
      return currentUserPosition; 
   }catch(ex){
     Position currentUserPosition; 
@@ -29,7 +30,8 @@ class UserLocation extends StatelessWidget {
       child: RaisedButton(
               child: Text("Location"),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                 getUserLocation(); 
+                  print("Success!"); 
                     },
                       ),        
       );
