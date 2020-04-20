@@ -27,7 +27,7 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   Widget build(BuildContext context) {
-    //final List<Widget> acceptData;
+    List<Widget> acceptData;
 
     return MaterialApp(
       home: Scaffold(
@@ -40,23 +40,24 @@ class _CreateProjectState extends State<CreateProject> {
           children: <Widget>[
             Expanded(
               child: DragTarget(
-                builder: (context, List<Widget> candidateData, rejectedData) {
-                  return Center(
-                    child: candidateData != null
-                      ? Column(
-                        children: candidateData,
-                      )
-                      : Container(
-                        color: Colors.lightBlue,
-                      ),
+                onAccept: (List<Widget> addItem) {
+                  print('accepting an item');
+                  acceptData = addItem;
+                },
+                builder: (context, List<dynamic> candidateData, List<dynamic> rejectedData) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.lightBlue[50],
+                    child: candidateData.isEmpty ? Center(child: Text('Add Form Fields Here'),) : acceptData,
                   );
                 },
+
               ),
             ),
             Container(
               width: MediaQuery.of(context).size.width/3,
               child: Draggable(
-                child: new TextInputItem(),
+                child: Text('Text Input Field'),
                 data: [new TextInputItem()],
                 feedback: Text('Text Input Field'),
               ),
