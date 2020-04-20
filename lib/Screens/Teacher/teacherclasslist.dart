@@ -2,8 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/user.dart';
+import 'dart:async';
+import 'classInfo.dart';
 
-class ClassListPage extends StatelessWidget{
+class ClassListPage extends StatefulWidget{
+ @override
+  _ClassListState createState() => _ClassListState();
+}
+
+
+class _ClassListState extends State<ClassListPage>{
+    
+ 
+
+  
   @override
   getClassList(String teachID){
   
@@ -16,25 +28,39 @@ class ClassListPage extends StatelessWidget{
 
   Widget build(BuildContext context){
     final user = Provider.of<User>(context);
-    return Material(
-        child: new StreamBuilder<QuerySnapshot>(
-        stream: getClassList(user.uid),
-        
-        builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if(!snapshot.hasData)return new Text('..Loading');
-          return new ListView(
-            children: snapshot.data.documents.map((document){
-              return new ListTile( 
-                title: new ListTile(
-                  title: new Text(document['name']),
-
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Classes")
+      ),
+          body: Material(
+            child: new StreamBuilder<QuerySnapshot>(
+          stream: getClassList(user.uid),
+          
+          builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+            if(!snapshot.hasData)return new Text('..Loading');
+            return new ListView(
+              children: snapshot.data.documents.map((document){
+                return new ListTile( 
+  
+                    title: new Text(document['name']),
+                    subtitle: new Text('Click to View Class Info'),
+                    trailing: Icon(Icons.arrow_forward_ios), 
+              onTap: () =>{
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>ClassInfo( name: document['name']),
+                  ),
+                )
+              },
+                  
+                  
+                );
+                
+              }).toList(),
               );
-              
-            }).toList(),
-            );
-        }
+          }
 
+        ),
       ),
     );
     

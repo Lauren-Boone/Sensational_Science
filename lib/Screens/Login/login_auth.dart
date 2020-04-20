@@ -13,6 +13,7 @@ class AuthorizationState {
     AuthResult response = await authorization.createUserWithEmailAndPassword(
         email: email, password: password);
     final FirebaseUser user = response.user;
+    
     assert(user != null);
     assert(await user.getIdToken() != null);
     //add the user as a teacher
