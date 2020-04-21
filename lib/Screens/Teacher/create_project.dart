@@ -15,8 +15,8 @@ Future<Position> getUserLocation()async{
   }catch(ex){
     Position currentUserPosition; 
     currentUserPosition = null;
-    print('Error getting user location');
-    return currentUserPosition;
+    print('Error getting user location');  
+    return currentUserPosition; 
   }
 }
 
@@ -27,16 +27,15 @@ class UserLocation extends StatelessWidget {
     return Container(
       margin: new EdgeInsets.all(8.0),
       child: RaisedButton(
-        child: Text("Location"),
-        onPressed: () {
+              child: Text("Location"),
+                onPressed: () {
                  getUserLocation(); 
                   print("Success!"); 
                     },
-      ),
-    );
+                      ),        
+      );
   }
 }
-
 class DynamicWidget extends StatelessWidget {
   final controller = new TextEditingController();
   @override
