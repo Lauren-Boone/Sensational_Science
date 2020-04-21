@@ -97,21 +97,25 @@ class _CreateProjectState extends State<CreateProject> {
 
               ),
             ),
-            Container(
-              width: MediaQuery.of(context).size.width/3,
-              child: Draggable<Widget>(
-                child: Text('Text Input Field'),
-                data: new TextInputItem(),
-                feedback: Text('Text'),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width/3,
-              child: Draggable<Widget>(
-                child: Text('User Location'),
-                data: new UserLocation(),
-                feedback: Text('Text'),
-              ),
+            Column(
+              children: <Widget> [
+                Container(
+                  width: MediaQuery.of(context).size.width/3,
+                  child: Draggable<Widget>(
+                    child: Text('Text Input Field'),
+                    data: new TextInputItem(),
+                    feedback: Text('Text'),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width/3,
+                  child: Draggable<Widget>(
+                    child: Text('User Location'),
+                    data: new UserLocation(),
+                    feedback: Text('Text'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
