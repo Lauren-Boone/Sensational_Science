@@ -38,16 +38,32 @@ class UserLocation extends StatelessWidget {
   }
 }
 
-class TextInputItem extends StatelessWidget {
+class TextInputItem extends StatefulWidget {
+  @override
+  _TextInputItemState createState() => _TextInputItemState();
+}
+
+class _TextInputItemState extends State<TextInputItem>{
   final controller = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: new EdgeInsets.all(8.0),
-      child: new TextField(
-        controller: controller,
-        decoration: new InputDecoration(
-          hintText: 'Text Input Prompt',
+    return new Container(
+      margin: EdgeInsets.all(3.0),
+      child: new Card(
+        child: new Container(
+          margin: EdgeInsets.all(3.0),
+          child: new Column(
+            children: <Widget> [
+              new Text('Text Input Prompt'),
+              new TextField(
+                controller: controller,
+                decoration: new InputDecoration(
+                  hintText: 'Text Input Prompt',
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -97,25 +113,30 @@ class _CreateProjectState extends State<CreateProject> {
 
               ),
             ),
-            Column(
-              children: <Widget> [
-                Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  child: Draggable<Widget>(
-                    child: Text('Text Input Field'),
-                    data: new TextInputItem(),
-                    feedback: Text('Text'),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child:  Column(
+                children: <Widget> [
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width/3,
+                    child: Draggable<Widget>(
+                      child: Text('Text Input Field'),
+                      data: new TextInputItem(),
+                      feedback: Text('Text'),
+                    ),
                   ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  child: Draggable<Widget>(
-                    child: Text('User Location'),
-                    data: new UserLocation(),
-                    feedback: Text('Text'),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width/3,
+                    child: Draggable<Widget>(
+                      child: Text('User Location'),
+                      data: new UserLocation(),
+                      feedback: Text('Text'),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
