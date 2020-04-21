@@ -29,7 +29,10 @@ dependencies:
 
   cloud_firestore: ^0.13.4+2
 
+  geolocator: ^5.3.1
+
   firebase_auth: ^0.15.5+3
+  firebase_auth_web:
   google_sign_in: ^4.4.1
   firebase_database:
   flutter_login: ^1.0.14
