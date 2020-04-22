@@ -101,6 +101,7 @@ class MultipleChoice extends StatefulWidget {
 class _MultipleChoiceState extends State<MultipleChoice> {
   List<String> items = [];
   String _selection = '';
+  String mult_question='';
   String item1;
   String result;
   String item2, item3, item4;
@@ -113,26 +114,37 @@ class _MultipleChoiceState extends State<MultipleChoice> {
       //results=result;
     });
   }
-
+  
+final controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child: new Column(
+      child: Row(
         children: <Widget>[
+          new Flexible(
+            child: new TextFormField(
+              controller: controller,
+                decoration: new InputDecoration(
+                  hintText: 'Enter Question Here',),
+                  onChanged: (val) => setState(() => mult_question = val),
+            ),
+          ),
+          new IconButton(
+            icon: Icon(Icons.add),
+            
+            onPressed: () {
+              addField();
+            },
+            tooltip: 'Add Answer',
+          ),
+          new Container(
+            child: Text('Add answer'),
+          ),
           new Flexible(
             child: new ListView.builder(
               itemCount: add_items.length,
               itemBuilder: (_, index) => add_items[index],
             ),
-          ),
-          new IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              addField();
-            },
-          ),
-          new Flexible(
-            child: Text('Add answer'),
           ),
         ],
       ),
@@ -209,7 +221,7 @@ class _CreateProjectState extends State<CreateProject> {
     return MaterialApp(
       home: Scaffold(
       appBar: AppBar (
-        title: Text("Create New Project"),
+        title: Text(widget.title),
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
