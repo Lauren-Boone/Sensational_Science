@@ -25,13 +25,13 @@ class StagePageState extends State<StagingPage> {
       appBar: AppBar(
         title: Text("Add Project Info"),
       ),
+      backgroundColor: Colors.grey[100],
       body: Material(
         
         child: Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
-                
                 SizedBox(height: 20),
                 TextFormField(
                   initialValue: '',

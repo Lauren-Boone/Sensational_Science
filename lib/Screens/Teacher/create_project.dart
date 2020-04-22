@@ -1,7 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+
+class BasicDateField extends StatefulWidget{
+  @override
+  BasicDateFieldState createState() => BasicDateFieldState(); 
+
+}
+
+class BasicDateFieldState extends State<BasicDateField>{
+  final format = DateFormat("yyyy-MM-dd"); 
+  @override 
+    Widget build(BuildContext context){
+    return Column(children: <Widget>[
+      Text('Basic Date Field (${format.pattern})'),
+      DateTimeField(
+        format: format,
+        onShowPicker: (context, currentValue){
+          return showDatePicker(
+            context: context,
+            firstDate: DateTime(1900),
+            initialDate: currentValue ?? DateTime.now(),
+            lastDate: DateTime(2100) 
+          );
+        },
+      )
+    ]);
+  }
+}
 
 
 class CreateProject extends StatefulWidget {
@@ -224,6 +252,7 @@ class _CreateProjectState extends State<CreateProject> {
       appBar: AppBar (
         title: Text(widget.title),
       ),
+      backgroundColor: Colors.grey[100],
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Row(
@@ -285,6 +314,15 @@ class _CreateProjectState extends State<CreateProject> {
                       feedback: Text('Mult choice'),
                       ),
                     ),
+                    Container(
+                    margin: EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width/3,
+                    child: Draggable<Widget>(
+                      child: Text('Date Time'),
+                      data: new BasicDateField(),
+                      feedback: Text('Text'),
+                    ),
+                  ),
                   ],
                 ),
               ),
