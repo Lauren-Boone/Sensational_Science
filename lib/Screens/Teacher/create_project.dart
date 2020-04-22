@@ -7,16 +7,17 @@ class CreateProject extends StatefulWidget {
   _CreateProjectState createState() => _CreateProjectState();
 }
 
-Future<Position> getUserLocation()async{
-  try{
-    Position currentUserPosition = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(currentUserPosition); 
-     return currentUserPosition; 
-  }catch(ex){
-    Position currentUserPosition; 
+Future<Position> getUserLocation() async {
+  try {
+    Position currentUserPosition = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(currentUserPosition);
+    return currentUserPosition;
+  } catch (ex) {
+    Position currentUserPosition;
     currentUserPosition = null;
-    print('Error getting user location');  
-    return currentUserPosition; 
+    print('Error getting user location');
+    return currentUserPosition;
   }
 }
 
@@ -27,16 +28,24 @@ class UserLocation extends StatelessWidget {
     return Container(
       margin: new EdgeInsets.all(8.0),
       child: RaisedButton(
-              child: Text("Location"),
-                onPressed: () {
-                 getUserLocation(); 
-                  print("Success!"); 
-                    },
-                      ),        
-      );
+        child: Text("Location"),
+        onPressed: () {
+          getUserLocation();
+          print("Success!");
+        },
+      ),
+    );
   }
 }
-class DynamicWidget extends StatelessWidget {
+
+class DynamicWidget extends StatefulWidget {
+  @override
+  _DynamicWidgetState createState() => _DynamicWidgetState();
+}
+
+class _DynamicWidgetState extends State<DynamicWidget> {
+  List<String> items = [];
+  String item = '';
   final controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -45,6 +54,7 @@ class DynamicWidget extends StatelessWidget {
       child: new TextField(
         controller: controller,
         decoration: new InputDecoration(hintText: 'Enter Answer'),
+        //onChanged: (val) => setState(() => item = val),
       ),
     );
   }
@@ -65,56 +75,67 @@ class _MultipleChoiceState extends State<MultipleChoice> {
   List<DynamicWidget> add_items = [];
   addField() {
     add_items.add(new DynamicWidget());
-    setState(() {});
+    setState(() {
+      //print(add_items);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child: PopupMenuButton<String>(
-        onSelected: (String value) {
-          setState(() {
-            _selection = value;
-          });
-        },
+      child: new Column(
+            children: <Widget>[
+              new Flexible(
+                child: new ListView.builder(
+                  itemCount: add_items.length,
+                  itemBuilder: (_, index)=>add_items[index],
+
+                  ),
+                ),
+                
+           new IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              addField();
+            },
+          ),
+          new Flexible(
+            child: Text(
+              'Add answer'
+            ),
+          ),
+        
+
+            ],
+          ),
+          /*
         child: ListTile(
           leading: new IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
               addField();
-              print(add_items);
-              // itemCount: add_items.length,
-              itemBuilder:
-              (_, index) => add_items[index];
             },
           ),
+        ),
           title: Text(question),
+          //Remove from subtitle
           subtitle: Column(
             children: <Widget>[
               new Flexible(
                 child: new ListView.builder(
-                    itemCount: add_items.length,
-                    itemBuilder: (_, index) => add_items[index]),
+                  itemCount: add_items.length,
+                  itemBuilder: (_, index) => add_items[index],
+                ),
               ),
             ],
           ),
           trailing: Icon(Icons.account_circle),
         ),
-        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          const PopupMenuItem<String>(
-            value: 'Value1',
-            child: Text('Choose value 1'),
-          ),
-          const PopupMenuItem<String>(
-            value: 'Value2',
-            child: Text('Choose value 2'),
-          ),
-          const PopupMenuItem<String>(
-            value: 'Value3',
-            child: Text('Choose value 3'),
-          ),
-        ],
-      ),
+        floatingActionButton: new FloatingActionButton(
+          onPressed: addStudent,
+          child: new Icon(Icons.add),
+        ),
+        */
     );
   }
 }
@@ -136,6 +157,14 @@ class TextInputItem extends StatelessWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
+  List<DynamicWidget> add_items = [];
+  addField() {
+    add_items.add(new DynamicWidget());
+    setState(() {
+      //print(add_items);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> acceptData = [];
@@ -163,6 +192,7 @@ class _CreateProjectState extends State<CreateProject> {
                     onAccept: (Widget addItem) {
                       print('accepting an item');
                       acceptData.add(addItem);
+                      print(acceptData);
                     },
                     builder: (context, List<dynamic> candidateData,
                         List<dynamic> rejectedData) {
@@ -183,7 +213,10 @@ class _CreateProjectState extends State<CreateProject> {
                     Container(
                       width: MediaQuery.of(context).size.width / 4,
                       child: Draggable<Widget>(
-                        child: Text('Text Input Field'),
+                        child: ListTile(
+                            title: Text('Add Text Response'),
+                            trailing: Icon(Icons.text_fields),
+                         ),
                         data: new TextInputItem(),
                         feedback: Text('Text'),
                       ),
@@ -195,7 +228,11 @@ class _CreateProjectState extends State<CreateProject> {
                     Container(
                       width: MediaQuery.of(context).size.width / 4,
                       child: Draggable<Widget>(
-                        child: Text('User Location'),
+                        child: ListTile(
+                            title: Text('Add User Location'),
+                            trailing: Icon(Icons.location_on),
+                         ),
+                        //child: Text('User Location'),
                         data: new UserLocation(),
                         feedback: Text('Text'),
                       ),
@@ -205,15 +242,70 @@ class _CreateProjectState extends State<CreateProject> {
                 Column(
                   children: <Widget>[
                     Container(
-                      width: MediaQuery.of(context).size.width / 4,
-                      child: Draggable<Widget>(
-                        child: Text('Add Multiple'),
-                        data: new MultipleChoice(),
-                        feedback: Text('Mult choice'),
-                      ),
+                        width: MediaQuery.of(context).size.width / 4,
+                     /* child: PopupMenuButton<String>(
+                        onSelected: (String value) {
+                          setState(() {
+                            var _selection = value;
+                          });
+                        },
+                      
+
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<String>>[
+                          const PopupMenuItem<String>(
+                              child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Text Input Prompt',
+                            ),
+                          )
+                              //value: 'Value1',
+                              //child: Text('Choose value 1'),
+                              ),
+                          const PopupMenuItem<String>(
+                              child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Text Input Prompt',
+                            ),
+                          )
+                              //value: 'Value2',
+                              //child: Text('Choose value 2'),
+                              ),
+                          const PopupMenuItem<String>(
+                              child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Text Input Prompt',
+                            ),
+                          )
+                              //value: 'Value3',
+                              //child: Text('Choose value 3'),
+                              ),
+                          PopupMenuItem<String>(
+                            child: ListTile(
+                              leading: new IconButton(
+                                icon: Icon(Icons.add),
+                                onPressed: () {
+                                  addField();
+                                },
+                              ),
+                              //value: 'Value3',
+                              //child: Text('Choose value 3'),
+                            ),
+                          ),
+                        ],
+*/
+                        child: Draggable<Widget>(
+                          data: new MultipleChoice(),
+                          feedback: Text('Mult choice'),
+                          child: ListTile(
+                            title: Text('Add Multiple choice'),
+                            trailing: Icon(Icons.add_box),
+                         ),
+                    ),
                     ),
                   ],
                 ),
+                
               ],
             ),
           ),
