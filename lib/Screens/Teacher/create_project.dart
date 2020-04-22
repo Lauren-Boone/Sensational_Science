@@ -3,6 +3,9 @@ import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
 
 class CreateProject extends StatefulWidget {
+  final String title;
+  final bool pub;
+  CreateProject({this.title, this.pub});
   @override
   _CreateProjectState createState() => _CreateProjectState();
 }
@@ -193,7 +196,7 @@ class _CreateProjectState extends State<CreateProject> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Create New Project"),
+          title: Text(widget.title),
         ),
         body: Padding(
           padding: EdgeInsets.all(10),

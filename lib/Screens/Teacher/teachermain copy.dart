@@ -74,12 +74,12 @@ class TeacherHome extends StatelessWidget{
                   subtitle: Text('test popup'),
                   trailing: Icon(Icons.arrow_forward_ios), 
                   onTap: (){
-                   /* Navigator.push(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                        //builder: (context) => PopUp(),
+                        builder: (context) => TodoList(),
                       ),
-                    );*/
+                    );
                   },
                 ),
               ),
