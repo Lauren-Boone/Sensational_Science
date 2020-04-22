@@ -22,6 +22,7 @@ class TeacherHome extends StatelessWidget{
         appBar: AppBar(
           title: Text("Home")
         ),
+        backgroundColor: Colors.grey,
         body: ListView(
             children:  <Widget>[
               Card(child: ListTile(
