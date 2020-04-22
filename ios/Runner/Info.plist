@@ -47,5 +47,9 @@
 	<string>This app needs access to location when in the background.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open and in the background.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app wants to access your photo library to upload photos as part of a project.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app wants to access your camera to take photos to upload as part of a project.</string>
 </dict>
 </plist>
