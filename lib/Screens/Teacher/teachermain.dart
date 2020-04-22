@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import '../home/user_list.dart';
 import '../../models/teacher.dart';
 import '../../models/user.dart';
+import 'popup.dart';
+import 'staging.dart';
 
 
 class TeacherHome extends StatelessWidget{
@@ -60,9 +62,24 @@ class TeacherHome extends StatelessWidget{
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CreateProject(),
+                        builder: (context) => StagingPage(),
                       ),
                     );
+                  },
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  title: Text('Pop up test'),
+                  subtitle: Text('test popup'),
+                  trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                   /* Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        //builder: (context) => PopUp(),
+                      ),
+                    );*/
                   },
                 ),
               ),

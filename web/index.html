@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -12,21 +13,80 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="shortcut icon" type="image/png" href="favicon.png" />
 
   <title>sensational_science</title>
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
 
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-analytics.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyC6-_dD-gwhS-uwIBiczczVlu11tGYRYuI",
+      authDomain: "citizen-science-app.firebaseapp.com",
+      databaseURL: "https://citizen-science-app.firebaseio.com",
+      projectId: "citizen-science-app",
+      storageBucket: "citizen-science-app.appspot.com",
+      messagingSenderId: "286001680675",
+      appId: "1:286001680675:web:9f569ffc82bf1437eabc96",
+      measurementId: "G-FQMGND42VN"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+
+  </script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyC6-_dD-gwhS-uwIBiczczVlu11tGYRYuI",
+      authDomain: "citizen-science-app.firebaseapp.com",
+      databaseURL: "https://citizen-science-app.firebaseio.com",
+      projectId: "citizen-science-app",
+      storageBucket: "citizen-science-app.appspot.com",
+      messagingSenderId: "286001680675",
+      appId: "1:286001680675:web:aedb23346c91817ceabc96",
+      measurementId: "G-GYMRGLY14H"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-analytics.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-
 <script>
   // Your web app's Firebase configuration
   var firebaseConfig = {
@@ -52,31 +112,8 @@
         navigator.serviceWorker.register('flutter_service_worker.js');
       });
     }
-    
-  </script>
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-  
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-       https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-analytics.js"></script>
-  
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyC6-_dD-gwhS-uwIBiczczVlu11tGYRYuI",
-      authDomain: "citizen-science-app.firebaseapp.com",
-      databaseURL: "https://citizen-science-app.firebaseio.com",
-      projectId: "citizen-science-app",
-      storageBucket: "citizen-science-app.appspot.com",
-      messagingSenderId: "286001680675",
-      appId: "1:286001680675:web:aedb23346c91817ceabc96",
-      measurementId: "G-GYMRGLY14H"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
+
 </html>
