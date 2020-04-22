@@ -21,20 +21,32 @@ Future<Position> getUserLocation() async {
   }
 }
 
-class UserLocation extends StatelessWidget {
-  final locationController = new TextEditingController();
+class UserLocation extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Container(
+  UserLocationState createState() => UserLocationState(); 
+}
+
+class UserLocationState extends State<UserLocation>{
+  var results;
+  @override 
+  Widget build(BuildContext context){
+      return Container(
       margin: new EdgeInsets.all(8.0),
-      child: RaisedButton(
-        child: Text("Location"),
-        onPressed: () {
-          getUserLocation();
-          print("Success!");
-        },
-      ),
-    );
+      child: Column(children: <Widget>[
+        RaisedButton(
+              child: Text("Location"),
+                onPressed: () {
+                  getUserLocation().then((result){
+                    setState((){results = result;}) ; 
+                  });
+                  print("Success!"); 
+                    },
+                      ), 
+          new Text(
+            '$results'
+          )
+      ],)        
+      );
   }
 }
 
