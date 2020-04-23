@@ -314,15 +314,22 @@ class _CreateProjectState extends State<CreateProject> {
                       feedback: Text('Mult choice'),
                       ),
                     ),
-                  //   Container(
-                  //   margin: EdgeInsets.all(10),
-                  //   width: MediaQuery.of(context).size.width/3,
-                  //   child: Draggable<Widget>(
-                  //     child: Text('Date Time'),
-                  //     data: new BasicDateField(),
-                  //     feedback: Text('Text'),
-                  //   ),
-                  // ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width/3,
+                    child: Draggable<Widget>(
+                      child: TextFormField(
+                        decoration: new InputDecoration(
+                          labelText: "Short Answer", 
+                          fillColor: Colors.white,enabledBorder: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(color: Colors.black,),
+                          )
+                        )
+                      ),
+                      feedback: Text('Short Answer'),
+                    ),
+                  ),
                   ],
                 ),
               ),
