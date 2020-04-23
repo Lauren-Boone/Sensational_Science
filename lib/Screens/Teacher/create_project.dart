@@ -4,10 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'userlocation.dart'; 
+import 'FormInputs/userlocation.dart'; 
+import 'FormInputs/textInputItem.dart'; 
 
 var createLocationHandler = new UserLocation();
 var locationResult= createLocationHandler.getUserLocation(); 
+
+var createTextInputHandler = new TextInputItem(); 
 
 class CreateProject extends StatefulWidget {
   final String title;
@@ -132,38 +135,6 @@ class _MultipleChoiceState extends State<MultipleChoice> {
   }
 }
 
-class TextInputItem extends StatefulWidget {
-  @override
-  _TextInputItemState createState() => _TextInputItemState();
-}
-
-class _TextInputItemState extends State<TextInputItem> {
-  final controller = new TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      margin: EdgeInsets.all(3.0),
-      child: new Card(
-        child: new Container(
-          margin: EdgeInsets.all(3.0),
-          child: new Column(
-            children: <Widget>[
-              new Text('Text Input Prompt'),
-              new TextField(
-                controller: controller,
-                decoration: new InputDecoration(
-                  hintText: 'Text Input Prompt',
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _CreateProjectState extends State<CreateProject> {
         List<Widget> acceptData = [];
   @override
@@ -218,7 +189,7 @@ class _CreateProjectState extends State<CreateProject> {
                       width: MediaQuery.of(context).size.width / 3,
                       child: Draggable<Widget>(
                         child: Text('Text Input Field'),
-                        data: new TextInputItem(),
+                        data: createTextInputHandler,
                         feedback: Text('Text'),
                       ),
                     ),
