@@ -1,9 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class BasicDateField extends StatefulWidget {
   @override
@@ -28,14 +33,6 @@ class BasicDateFieldState extends State<BasicDateField> {
       )
     ]);
   }
-}
-
-class CreateProject extends StatefulWidget {
-  final String title;
-  final bool pub;
-  CreateProject({this.title, this.pub});
-  @override
-  _CreateProjectState createState() => _CreateProjectState();
 }
 
 Future<Position> getUserLocation() async {
@@ -233,6 +230,14 @@ class _TextInputItemState extends State<TextInputItem> {
       ),
     );
   }
+}
+
+class CreateProject extends StatefulWidget {
+  final String title;
+  final bool pub;
+  CreateProject({this.title, this.pub});
+  @override
+  _CreateProjectState createState() => _CreateProjectState();
 }
 
 class _CreateProjectState extends State<CreateProject> {

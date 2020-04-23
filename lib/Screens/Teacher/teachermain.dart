@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
-import 'package:sensational_science/Screens/Teacher/create_project.dart';
+import 'package:sensational_science/Screens/Teacher/image_capture.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
 import '../home/user_list.dart';
@@ -84,6 +84,21 @@ class TeacherHome extends StatelessWidget{
                   },
                 ),
               ),
+              Card(
+                child: ListTile(
+                  title: Text('Test Camera'),
+                  subtitle: Text('Test opening camera & picture from file'),
+                  trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImageCapture(),
+                      ),
+                    );
+                  },
+                ),
+              ), 
             ],
           ),
           floatingActionButton: RaisedButton(
