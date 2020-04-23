@@ -318,6 +318,15 @@ class _CreateProjectState extends State<CreateProject> {
                     margin: EdgeInsets.all(10),
                     width: MediaQuery.of(context).size.width/3,
                     child: Draggable<Widget>(
+                      data: new TextFormField(
+                      decoration: new InputDecoration(
+                          labelText: "Short Answer", 
+                          fillColor: Colors.white,enabledBorder: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: BorderSide(color: Colors.black,),
+                          )
+                        )
+                    ),
                       child: TextFormField(
                         decoration: new InputDecoration(
                           labelText: "Short Answer", 
