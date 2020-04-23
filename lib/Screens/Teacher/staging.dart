@@ -92,13 +92,13 @@ class StagePageState extends State<StagingPage> {
                 SwitchListTile(
                   value: pub,
                   title:
-                      const Text('Is this a public project? (Defuault Public)'),
+                      const Text('Is this a public project? (Default Public)'),
                   onChanged: (value) {
                     setState(() {
                       pub = value;
                       print(pub);
                       if (pub.toString() == 'true') {
-                        pubpriv = 'Currect Setting: Public';
+                        pubpriv = 'Current Setting: Public';
                       } else {
                         pubpriv = 'Current Setting: Private';
                       }
