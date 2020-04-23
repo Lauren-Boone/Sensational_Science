@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
-import 'package:sensational_science/Screens/Teacher/image_capture.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
 import '../home/user_list.dart';
