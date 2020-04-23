@@ -59,7 +59,7 @@ class _TextInputItemState extends State<TextInputItem>{
               new Text('Text Input Prompt'),
               new TextField(
                 controller: controller,
-                decoration: new InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'Text Input Prompt',
                 ),
               ),
