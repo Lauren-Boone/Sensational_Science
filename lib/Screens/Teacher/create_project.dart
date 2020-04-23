@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -337,6 +338,27 @@ class _CreateProjectState extends State<CreateProject> {
                         )
                       ),
                       feedback: Text('Short Answer'),
+                    ),
+                  ),
+                                    Container(
+                    margin: EdgeInsets.all(40),
+                    width: MediaQuery.of(context).size.width/3,
+                    child: Draggable<Widget>(
+                      data: new TextFormField(
+                      decoration: new InputDecoration(
+                          labelText: "Numerical Input",
+                        ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
+                    ),
+                      child: new TextFormField(
+                        decoration: new InputDecoration(
+                          labelText: "Numerical Input", 
+                        ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
+                      ),
+                      feedback: Text('Numerical Input'),
                     ),
                   ),
                   ],
