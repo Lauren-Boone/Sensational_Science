@@ -22,10 +22,24 @@ Future<Position> getUserLocation() async {
 class UserLocation extends StatefulWidget {
   @override
   UserLocationState createState() => UserLocationState();
+  Future<Position> getUserLocation() async {
+  try {
+    Position currentUserPosition = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(currentUserPosition);
+    return currentUserPosition;
+  } catch (ex) {
+    Position currentUserPosition;
+    currentUserPosition = null;
+    print('Error getting user location');
+    return currentUserPosition;
+  }
+}
 }
 
 class UserLocationState extends State<UserLocation> {
   var results;
+
   @override
   Widget build(BuildContext context) {
     return Container(
