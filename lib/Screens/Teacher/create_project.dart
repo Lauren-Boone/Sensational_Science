@@ -36,7 +36,9 @@ class _CreateProjectState extends State<CreateProject> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text("Create Project Details"),
+            leading: IconButton(icon:Icon(Icons.arrow_back), 
+            onPressed: () => Navigator.pop(context, false),)
         ),
         backgroundColor: Colors.grey[100],
         body: Padding(
