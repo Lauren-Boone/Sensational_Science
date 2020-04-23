@@ -59,7 +59,8 @@ class StagePageState extends State<StagingPage> {
         title: Text("Add Project Info"),
       ),
       backgroundColor: Colors.grey[100],
-      body: Material(
+      body: Container(
+        margin: EdgeInsets.all(10),
         child: Form(
             key: _formKey,
             child: Column(
