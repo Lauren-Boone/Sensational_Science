@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-
 
 class DynamicWidget extends StatefulWidget {
+  final TextEditingController controller;
+
+  DynamicWidget({this.controller});
+
   @override
   _DynamicWidgetState createState() => _DynamicWidgetState();
 }
@@ -15,7 +14,7 @@ class _DynamicWidgetState extends State<DynamicWidget> {
   List<String> items = [];
   String item = '';
   //var results;
-  final controller = new TextEditingController();
+  //final controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +22,7 @@ class _DynamicWidgetState extends State<DynamicWidget> {
       child: Column(
         children: <Widget>[
           new TextField(
-            controller: controller,
+            controller: widget.controller,
             decoration: new InputDecoration(hintText: 'Enter Answer'),
             //onChanged: (val) => setState(() => item = val),
           ),
@@ -35,6 +34,11 @@ class _DynamicWidgetState extends State<DynamicWidget> {
 }
 
 class MultipleChoice extends StatefulWidget {
+  final TextEditingController controller;
+  final List<TextEditingController> answers;
+
+  MultipleChoice({this.controller, this.answers});
+  
   @override
   _MultipleChoiceState createState() => _MultipleChoiceState();
 }
@@ -42,21 +46,22 @@ class MultipleChoice extends StatefulWidget {
 class _MultipleChoiceState extends State<MultipleChoice> {
   List<String> items = [];
   String _selection = '';
-  String mult_question = '';
+  //String mult_question = '';
   String item1;
   String result;
   String item2, item3, item4;
   String question = 'add question';
   String dropdownValue = 'One';
   List<DynamicWidget> add_items = [];
-  addField() {
-    add_items.add(new DynamicWidget());
+
+  addField(List<TextEditingController> answers) {
+    answers.add(new TextEditingController());
+    add_items.add(new DynamicWidget(controller: answers[answers.length - 1]));
     setState(() {
       //results=result;
     });
   }
 
-  final controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Flexible(
@@ -64,17 +69,17 @@ class _MultipleChoiceState extends State<MultipleChoice> {
         children: <Widget>[
           new Flexible(
             child: new TextFormField(
-              controller: controller,
+              controller: widget.controller,
               decoration: new InputDecoration(
                 hintText: 'Enter Question Here',
               ),
-              onChanged: (val) => setState(() => mult_question = val),
+              //onChanged: (val) => setState(() => mult_question = val),
             ),
           ),
           new IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              addField();
+              addField(widget.answers);
             },
             tooltip: 'Add Answer',
           ),

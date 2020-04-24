@@ -5,6 +5,41 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+class AddImageInput extends StatefulWidget {
+  final TextEditingController controller;
+
+  AddImageInput({this.controller});
+
+  @override
+  _AddImageInputState createState() => _AddImageInputState();
+}
+
+class _AddImageInputState extends State<AddImageInput>{
+  
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: EdgeInsets.all(3.0),
+      child: new Card(
+        child: new Container(
+          margin: EdgeInsets.all(3.0),
+          child: new Column(
+            children: <Widget>[
+              new Text('Prompt for Image'),
+              new TextField(
+                controller: widget.controller,
+                decoration: new InputDecoration(
+                  hintText: 'Image Upload Prompt',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 class ImageCapture extends StatefulWidget {
   @override

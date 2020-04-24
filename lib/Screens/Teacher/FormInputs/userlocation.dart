@@ -20,6 +20,10 @@ Future<Position> getUserLocation() async {
 }
 
 class UserLocation extends StatefulWidget {
+  final TextEditingController controller;
+
+  UserLocation({this.controller});
+
   @override
   UserLocationState createState() => UserLocationState();
   Future<Position> getUserLocation() async {
@@ -42,29 +46,36 @@ class UserLocationState extends State<UserLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: new EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            new TextField(
-              //controller: controller,
-              decoration: new InputDecoration(
-                hintText: 'Location Description',
-              ),
+    return new Container(
+        margin: EdgeInsets.all(3.0),
+        child: new Card(
+          child: new Container(
+            margin: EdgeInsets.all(3.0),
+            child: Column(
+              children: <Widget>[
+                new TextField(
+                  controller: widget.controller,
+                  decoration: new InputDecoration(
+                    hintText: 'Location Description',
+                  ),
+                ),
+                RaisedButton(
+                  child: Text("Location"),
+                  onPressed: () {
+                    getUserLocation().then((result) {
+                      setState(() {
+                        results = result;
+                      });
+                    });
+                    print("Success!");
+                  },
+                ),
+                if(results != null)
+                  new Text('$results'),
+              ],
             ),
-            RaisedButton(
-              child: Text("Location"),
-              onPressed: () {
-                getUserLocation().then((result) {
-                  setState(() {
-                    results = result;
-                  });
-                });
-                print("Success!");
-              },
-            ),
-            new Text('$results')
-          ],
-        ));
+          ),
+        ),
+      );
   }
 }
