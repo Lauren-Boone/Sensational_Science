@@ -6,12 +6,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class AddImageInput extends StatefulWidget {
+  final TextEditingController controller;
+
+  AddImageInput({this.controller});
+
   @override
   _AddImageInputState createState() => _AddImageInputState();
 }
 
 class _AddImageInputState extends State<AddImageInput>{
-  final controller = new TextEditingController();
   
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class _AddImageInputState extends State<AddImageInput>{
             children: <Widget>[
               new Text('Prompt for Image'),
               new TextField(
-                controller: controller,
+                controller: widget.controller,
                 decoration: new InputDecoration(
                   hintText: 'Image Upload Prompt',
                 ),
