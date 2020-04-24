@@ -20,6 +20,10 @@ Future<Position> getUserLocation() async {
 }
 
 class UserLocation extends StatefulWidget {
+  final TextEditingController controller;
+
+  UserLocation({this.controller});
+
   @override
   UserLocationState createState() => UserLocationState();
   Future<Position> getUserLocation() async {
@@ -50,7 +54,7 @@ class UserLocationState extends State<UserLocation> {
             child: Column(
               children: <Widget>[
                 new TextField(
-                  //controller: controller,
+                  controller: widget.controller,
                   decoration: new InputDecoration(
                     hintText: 'Location Description',
                   ),

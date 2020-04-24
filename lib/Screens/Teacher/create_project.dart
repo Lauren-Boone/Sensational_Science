@@ -86,6 +86,11 @@ class _CreateProjectState extends State<CreateProject> {
                             acceptData.add(new AddImageInput(controller: controllers[questionCount]));
                             questionCount++;
                             acceptType.add(addItem.toString());
+                          } else if (addItem.toString() == createLocationHandler.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new UserLocation(controller: controllers[questionCount]));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
                           } else {
                             acceptData.add(addItem);
                             acceptType.add(addItem.toString());
