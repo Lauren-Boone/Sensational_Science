@@ -8,15 +8,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/multiplechoice.dart';
-import 'FormInputs/userlocation.dart'; 
-import 'FormInputs/textInputItem.dart'; 
+import 'FormInputs/userlocation.dart';
+import 'FormInputs/textInputItem.dart';
 
 var createLocationHandler = new UserLocation();
-var locationResult= createLocationHandler.getUserLocation(); 
+var locationResult = createLocationHandler.getUserLocation();
 
-var createTextInputHandler = new TextInputItem(); 
+var createTextInputHandler = new TextInputItem();
 
-var createMultipleChoice = new MultipleChoice(); 
+var createMultipleChoice = new MultipleChoice();
 
 class CreateProject extends StatefulWidget {
   final String title;
@@ -27,19 +27,17 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
-        List<Widget> acceptData = [];
+  List<Widget> acceptData = [];
   @override
-
   Widget build(BuildContext context) {
-
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Create Project Details"),
-            leading: IconButton(icon:Icon(Icons.arrow_back), 
-            onPressed: () => Navigator.pop(context, false),)
-        ),
+            title: Text("Create Project Details"),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context, false),
+            )),
         backgroundColor: Colors.grey[100],
         body: Padding(
           padding: EdgeInsets.all(10),
@@ -119,18 +117,17 @@ class _CreateProjectState extends State<CreateProject> {
                                   ),
                                 ))),
                         child: TextFormField(
-                            decoration: new InputDecoration(
-                                labelText: "Short Answer",
-                                fillColor: Colors.white,
-                                enabledBorder: new OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                )),
-                                keyboardType: TextInputType.multiline,
-                                
+                          decoration: new InputDecoration(
+                              labelText: "Short Answer",
+                              fillColor: Colors.white,
+                              enabledBorder: new OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: BorderSide(
+                                  color: Colors.black,
                                 ),
+                              )),
+                          keyboardType: TextInputType.multiline,
+                        ),
                         feedback: Text('Short Answer'),
                       ),
                     ),
@@ -159,6 +156,18 @@ class _CreateProjectState extends State<CreateProject> {
                         feedback: Text('Numerical Input'),
                       ),
                     ),
+                    // Padding(padding:  const EdgeInsets.symmetric(vertical: 2.0),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: new Row(children: <Widget>[
+                          RaisedButton(
+                            child: Text('Save'),
+                            onPressed: () {
+                              
+                            },
+                          )
+                        ]))
+                    // )
                   ],
                 ),
               ),
