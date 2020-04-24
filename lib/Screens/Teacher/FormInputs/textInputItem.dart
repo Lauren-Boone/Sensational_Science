@@ -4,9 +4,7 @@ import 'package:flutter/rendering.dart';
 class TextInputItem extends StatefulWidget {
   final TextEditingController controller;
 
-  TextInputItem({
-    @required this.controller,
-  }) : assert(controller != null);
+  TextInputItem({this.controller});
 
   @override
   _TextInputItemState createState() => _TextInputItemState();

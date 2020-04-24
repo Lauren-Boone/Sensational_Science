@@ -76,6 +76,11 @@ class _CreateProjectState extends State<CreateProject> {
                             acceptData.add(new ShortAnswerItem(controller: controllers[questionCount],));
                             questionCount++;
                             acceptType.add(addItem.toString());
+                          } else if (addItem.toString() == createNumericalInput.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new NumericalInputItem(controller: controllers[questionCount],));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
                           } else {
                             acceptData.add(addItem);
                             acceptType.add(addItem.toString());
