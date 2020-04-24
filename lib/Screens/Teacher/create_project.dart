@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/multiplechoice.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart'; 
@@ -13,7 +13,7 @@ var createLocationHandler = new UserLocation();
 
 var locationResult= createLocationHandler.getUserLocation(); 
 
-var createTextInputHandler = new TextInputItem(); 
+var createTextInputHandler = new TextInputItem(controller: new TextEditingController()); 
 
 var createMultipleChoice = new MultipleChoice(); 
 
@@ -32,8 +32,11 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
+  List<TextEditingController> controllers = [];
   List<Widget> acceptData = [];
   List<String> acceptType = [];
+  int questionCount = 0;
+
   @override
 
   Widget build(BuildContext context) {
@@ -48,155 +51,183 @@ class _CreateProjectState extends State<CreateProject> {
         body: Padding(
           padding: EdgeInsets.all(10),
           child: Row(
-            children: <Widget>[
-              Expanded(
-                child: DragTarget(
-                  onWillAccept: (Widget addItem) {
-                    if (addItem == null) {
-                      return false;
-                    }
-                    return true;
-                  },
-                  onAccept: (Widget addItem) {
-                    acceptData.add(addItem);
-                    acceptType.add(addItem.toString());
-                    print(acceptType);
-                  },
-                  builder: (context, List<dynamic> candidateData,
-                      List<dynamic> rejectedData) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height,
-                      color: Colors.lightBlue[50],
-                      child: acceptData.isEmpty
-                          ? Center(
-                              child: Text('Add Form Fields Here'),
-                            )
-                          : Column(children: acceptData),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
+              children: <Widget>[
+                Column(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Draggable<Widget>(
-                        child: Text('Text Input Field'),
-                        data: createTextInputHandler,
-                        feedback: Text('Text'),
+                      width: MediaQuery.of(context).size.width/4*2,
+                      height: MediaQuery.of(context).size.height/10*7,
+                      child: DragTarget(
+                        onWillAccept: (Widget addItem) {
+                          if (addItem == null) {
+                            return false;
+                          }
+                          return true;
+                        },
+                        onAccept: (Widget addItem) {
+                          if (addItem.toString() == createTextInputHandler.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new TextInputItem(controller: controllers[questionCount]));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
+
+                          } else {
+                            acceptData.add(addItem);
+                            acceptType.add(addItem.toString());
+                          }
+                          print(acceptType);
+                        },
+                        builder: (context, List<dynamic> candidateData,
+                            List<dynamic> rejectedData) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height,
+                            color: Colors.lightBlue[50],
+                            child: acceptData.isEmpty
+                                ? Center(
+                                    child: Text('Add Form Fields Here'),
+                                  )
+                                : Column(children: acceptData),
+                          );
+                        },
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Draggable<Widget>(
-                        child: Text('Image Upload'),
-                        data: createImageCapture,
-                        feedback: Text('Image'),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Draggable<Widget>(
-                        child: Text('User Location'),
-                        data: createLocationHandler,
-                        feedback: Text('Text'),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Draggable<Widget>(
-                        child: Text('Multiple Choice'),
-                        data: createMultipleChoice,
-                        feedback: Text('Mult choice'),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Draggable<Widget>(
-                        child: Text('Short Answer'),
-                        data: createShortAnswer,
-                        feedback: Text('Short Answer'),
-                      ),
-                    ),                    Container(
-                      margin: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Draggable<Widget>(
-                        child: Text('Numerical Input'),
-                        data: createNumericalInput,
-                        feedback: Text('Numerical Input'),
-                      ),
-                    ),
-/*                  Container(
-                      margin: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Draggable<Widget>(
-                        data: new TextFormField(
-                            decoration: new InputDecoration(
-                                labelText: "Short Answer",
-                                fillColor: Colors.white,
-                                enabledBorder: new OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                ))),
-                        child: TextFormField(
-                            decoration: new InputDecoration(
-                                labelText: "Short Answer",
-                                fillColor: Colors.white,
-                                enabledBorder: new OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                )),
-                                keyboardType: TextInputType.multiline,
-                                
-                                ),
-                        feedback: Text('Short Answer'),
-                      ),
-                    ),
-*/
-/*                    Container(
-                      margin: EdgeInsets.all(40),
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Draggable<Widget>(
-                        data: new TextFormField(
-                          decoration: new InputDecoration(
-                            labelText: "Numerical Input",
-                          ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            WhitelistingTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                        child: new TextFormField(
-                          decoration: new InputDecoration(
-                            labelText: "Numerical Input",
-                          ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            WhitelistingTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                        feedback: Text('Numerical Input'),
-                      ),
-                    ),
-*/
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: RaisedButton(
+                        child: Text('Submit Project'),
+                        onPressed: () async {
+                          print('submit project onPressed');
+                          for( var item in controllers) {
+                            print(item.text);
+                          }
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    )
                   ],
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Text Input Field'),
+                          data: createTextInputHandler,
+                          feedback: Text('Text'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Image Upload'),
+                          data: createImageCapture,
+                          feedback: Text('Image'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('User Location'),
+                          data: createLocationHandler,
+                          feedback: Text('Text'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Multiple Choice'),
+                          data: createMultipleChoice,
+                          feedback: Text('Mult choice'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Short Answer'),
+                          data: createShortAnswer,
+                          feedback: Text('Short Answer'),
+                        ),
+                      ),                    Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Numerical Input'),
+                          data: createNumericalInput,
+                          feedback: Text('Numerical Input'),
+                        ),
+                      ),
+  /*                  Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          data: new TextFormField(
+                              decoration: new InputDecoration(
+                                  labelText: "Short Answer",
+                                  fillColor: Colors.white,
+                                  enabledBorder: new OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ))),
+                          child: TextFormField(
+                              decoration: new InputDecoration(
+                                  labelText: "Short Answer",
+                                  fillColor: Colors.white,
+                                  enabledBorder: new OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  )),
+                                  keyboardType: TextInputType.multiline,
+                                  
+                                  ),
+                          feedback: Text('Short Answer'),
+                        ),
+                      ),
+  */
+  /*                    Container(
+                        margin: EdgeInsets.all(40),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          data: new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "Numerical Input",
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
+                          ),
+                          child: new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "Numerical Input",
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
+                          ),
+                          feedback: Text('Numerical Input'),
+                        ),
+                      ),
+  */
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

@@ -66,7 +66,7 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                               RaisedButton(
                                 child: Text("Close"),
                                 onPressed: () {
-                                  Navigator.of(context).pop();;
+                                  Navigator.of(context).pop();
                                 },
                               )
                             ]
