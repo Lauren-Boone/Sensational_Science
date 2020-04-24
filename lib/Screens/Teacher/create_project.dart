@@ -1,22 +1,27 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/multiplechoice.dart';
-import 'FormInputs/userlocation.dart'; 
-import 'FormInputs/textInputItem.dart'; 
+import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart'; 
+import 'package:sensational_science/Screens/Teacher/FormInputs/textInputItem.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart'; 
+import 'package:sensational_science/Screens/Teacher/FormInputs/shortAnswer.dart'; 
+import 'package:sensational_science/Screens/Teacher/FormInputs/numericalInput.dart';
 
 var createLocationHandler = new UserLocation();
+
 var locationResult= createLocationHandler.getUserLocation(); 
 
 var createTextInputHandler = new TextInputItem(); 
 
 var createMultipleChoice = new MultipleChoice(); 
+
+var createImageCapture = new AddImageInput();
+
+var createShortAnswer = new ShortAnswerItem();
+
+var createNumericalInput = new NumericalInputItem();
 
 class CreateProject extends StatefulWidget {
   final String title;
@@ -27,7 +32,8 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
-        List<Widget> acceptData = [];
+  List<Widget> acceptData = [];
+  List<String> acceptType = [];
   @override
 
   Widget build(BuildContext context) {
@@ -46,16 +52,15 @@ class _CreateProjectState extends State<CreateProject> {
               Expanded(
                 child: DragTarget(
                   onWillAccept: (Widget addItem) {
-                    print('checking if will accept item');
-                    print(addItem);
                     if (addItem == null) {
                       return false;
                     }
                     return true;
                   },
                   onAccept: (Widget addItem) {
-                    print('accepting an item');
                     acceptData.add(addItem);
+                    acceptType.add(addItem.toString());
+                    print(acceptType);
                   },
                   builder: (context, List<dynamic> candidateData,
                       List<dynamic> rejectedData) {
@@ -88,6 +93,15 @@ class _CreateProjectState extends State<CreateProject> {
                       margin: EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width / 3,
                       child: Draggable<Widget>(
+                        child: Text('Image Upload'),
+                        data: createImageCapture,
+                        feedback: Text('Image'),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: Draggable<Widget>(
                         child: Text('User Location'),
                         data: createLocationHandler,
                         feedback: Text('Text'),
@@ -97,12 +111,29 @@ class _CreateProjectState extends State<CreateProject> {
                       margin: EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width / 3,
                       child: Draggable<Widget>(
-                        child: Text('Add Multiple Choice'),
+                        child: Text('Multiple Choice'),
                         data: createMultipleChoice,
                         feedback: Text('Mult choice'),
                       ),
                     ),
                     Container(
+                      margin: EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: Draggable<Widget>(
+                        child: Text('Short Answer'),
+                        data: createShortAnswer,
+                        feedback: Text('Short Answer'),
+                      ),
+                    ),                    Container(
+                      margin: EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: Draggable<Widget>(
+                        child: Text('Numerical Input'),
+                        data: createNumericalInput,
+                        feedback: Text('Numerical Input'),
+                      ),
+                    ),
+/*                  Container(
                       margin: EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width / 3,
                       child: Draggable<Widget>(
@@ -132,7 +163,8 @@ class _CreateProjectState extends State<CreateProject> {
                         feedback: Text('Short Answer'),
                       ),
                     ),
-                    Container(
+*/
+/*                    Container(
                       margin: EdgeInsets.all(40),
                       width: MediaQuery.of(context).size.width / 3,
                       child: Draggable<Widget>(
@@ -157,6 +189,7 @@ class _CreateProjectState extends State<CreateProject> {
                         feedback: Text('Numerical Input'),
                       ),
                     ),
+*/
                   ],
                 ),
               ),
