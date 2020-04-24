@@ -67,10 +67,15 @@ class _CreateProjectState extends State<CreateProject> {
                         onAccept: (Widget addItem) {
                           if (addItem.toString() == createTextInputHandler.toString()) {
                             controllers.add(new TextEditingController());
-                            acceptData.add(new TextInputItem(controller: controllers[questionCount]));
+                            acceptData.add(new TextInputItem(controller: controllers[questionCount],));
                             questionCount++;
                             acceptType.add(addItem.toString());
 
+                          } else if (addItem.toString() == createShortAnswer.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new ShortAnswerItem(controller: controllers[questionCount],));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
                           } else {
                             acceptData.add(addItem);
                             acceptType.add(addItem.toString());
@@ -97,8 +102,8 @@ class _CreateProjectState extends State<CreateProject> {
                         child: Text('Submit Project'),
                         onPressed: () async {
                           print('submit project onPressed');
-                          for( var item in controllers) {
-                            print(item.text);
+                          for(var i=0; i<questionCount; i++) {
+                            print(acceptType[i] +': '+ controllers[i].text);
                           }
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
