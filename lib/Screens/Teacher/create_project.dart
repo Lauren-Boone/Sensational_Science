@@ -33,6 +33,7 @@ class CreateProject extends StatefulWidget {
 
 class _CreateProjectState extends State<CreateProject> {
   List<TextEditingController> controllers = [];
+  List<List<TextEditingController>> answerControllers = [];
   List<Widget> acceptData = [];
   List<String> acceptType = [];
   int questionCount = 0;
@@ -91,11 +92,13 @@ class _CreateProjectState extends State<CreateProject> {
                             acceptData.add(new UserLocation(controller: controllers[questionCount]));
                             questionCount++;
                             acceptType.add(addItem.toString());
-                          } else {
-                            acceptData.add(addItem);
+                          } else if (addItem.toString() == createMultipleChoice.toString()) {
+                            controllers.add(new TextEditingController());
+                            answerControllers.add([]);
+                            acceptData.add(new MultipleChoice(controller: controllers[questionCount], answers: answerControllers[answerControllers.length - 1]));
+                            questionCount++;
                             acceptType.add(addItem.toString());
                           }
-                          print(acceptType);
                         },
                         builder: (context, List<dynamic> candidateData,
                             List<dynamic> rejectedData) {
@@ -116,9 +119,16 @@ class _CreateProjectState extends State<CreateProject> {
                       child: RaisedButton(
                         child: Text('Submit Project'),
                         onPressed: () async {
+                          var answerCount = 0;
                           print('submit project onPressed');
                           for(var i=0; i<questionCount; i++) {
                             print(acceptType[i] +': '+ controllers[i].text);
+                            if(acceptType[i] == createMultipleChoice.toString()) {
+                              for( var item in answerControllers[answerCount]) {
+                                print('answer option: ' + item.text);
+                              }
+                              answerCount++;
+                            }
                           }
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
