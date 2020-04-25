@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/multiplechoice.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart'; 
+import 'package:sensational_science/Screens/Teacher/FormInputs/textInputItem.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart'; 
+import 'package:sensational_science/Screens/Teacher/FormInputs/shortAnswer.dart'; 
+import 'package:sensational_science/Screens/Teacher/FormInputs/numericalInput.dart';
 
+var createLocationHandler = new UserLocation();
+
+var locationResult= createLocationHandler.getUserLocation(); 
+
+var createTextInputHandler = new TextInputItem(controller: new TextEditingController()); 
+
+var createMultipleChoice = new MultipleChoice();
+
+var createImageCapture = new AddImageInput();
+
+var createShortAnswer = new ShortAnswerItem();
+
+var createNumericalInput = new NumericalInputItem();
 
 class CreateProject extends StatefulWidget {
   final String title;
@@ -11,289 +31,247 @@ class CreateProject extends StatefulWidget {
   _CreateProjectState createState() => _CreateProjectState();
 }
 
-Future<Position> getUserLocation() async {
-  try {
-    Position currentUserPosition = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(currentUserPosition);
-    return currentUserPosition;
-  } catch (ex) {
-    Position currentUserPosition;
-    currentUserPosition = null;
-    print('Error getting user location');
-    return currentUserPosition;
-  }
-}
-
-class UserLocation extends StatefulWidget {
-  @override
-  UserLocationState createState() => UserLocationState();
-}
-
-class UserLocationState extends State<UserLocation> {
-  var results;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: new EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            new TextField(
-        //controller: controller,
-        decoration: new InputDecoration(
-          hintText: 'Location Description',
-        ),
-      ),
-            RaisedButton(
-              child: Text("Location"),
-              onPressed: () {
-                getUserLocation().then((result) {
-                  setState(() {
-                    results = result;
-                  });
-                });
-                print("Success!");
-              },
-            ),
-            new Text('$results')
-          ],
-        ));
-  }
-}
-
-class DynamicWidget extends StatefulWidget {
-  @override
-  _DynamicWidgetState createState() => _DynamicWidgetState();
-}
-
-class _DynamicWidgetState extends State<DynamicWidget> {
-  List<String> items = [];
-  String item = '';
-  //var results;
-  final controller = new TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: new EdgeInsets.all(8.0),
-      child: Column(
-        children: <Widget>[
-          new TextField(
-          controller: controller,
-          decoration: new InputDecoration(hintText: 'Enter Answer'),
-          //onChanged: (val) => setState(() => item = val),
-     
-        ),
-        //new Text('$results')
-        ],
-              
-        
-      ),
-      
-    );
-  }
-}
-
-class MultipleChoice extends StatefulWidget {
-  @override
-  _MultipleChoiceState createState() => _MultipleChoiceState();
-}
-
-class _MultipleChoiceState extends State<MultipleChoice> {
-  List<String> items = [];
-  String _selection = '';
-  String mult_question='';
-  String item1;
-  String result;
-  String item2, item3, item4;
-  String question = 'add question';
-  String dropdownValue = 'One';
-  List<DynamicWidget> add_items = [];
-  addField() {
-    add_items.add(new DynamicWidget());
-    setState(() {
-      //results=result;
-    });
-  }
-  
-final controller = new TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: Row(
-        children: <Widget>[
-          new Flexible(
-            child: new TextFormField(
-              controller: controller,
-                decoration: new InputDecoration(
-                  hintText: 'Enter Question Here',),
-                  onChanged: (val) => setState(() => mult_question = val),
-            ),
-          ),
-          new IconButton(
-            icon: Icon(Icons.add),
-            
-            onPressed: () {
-              addField();
-            },
-            tooltip: 'Add Answer',
-          ),
-          new Container(
-            child: Text('Add answer'),
-          ),
-          new Flexible(
-            child: new ListView.builder(
-              itemCount: add_items.length,
-              itemBuilder: (_, index) => add_items[index],
-            ),
-          ),
-        ],
-      ),
-      /*
-        child: ListTile(
-          leading: new IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              addField();
-            },
-          ),
-        ),
-          title: Text(question),
-          //Remove from subtitle
-          subtitle: Column(
-            children: <Widget>[
-              new Flexible(
-                child: new ListView.builder(
-                  itemCount: add_items.length,
-                  itemBuilder: (_, index) => add_items[index],
-                ),
-              ),
-            ],
-          ),
-          trailing: Icon(Icons.account_circle),
-        ),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: addStudent,
-          child: new Icon(Icons.add),
-        ),
-        */
-    );
-  }
-}
-
-class TextInputItem extends StatefulWidget {
-  @override
-  _TextInputItemState createState() => _TextInputItemState();
-}
-
-class _TextInputItemState extends State<TextInputItem>{
-  final controller = new TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      margin: EdgeInsets.all(3.0),
-      child: new Card(
-        child: new Container(
-          margin: EdgeInsets.all(3.0),
-          child: new Column(
-            children: <Widget> [
-              new Text('Text Input Prompt'),
-              new TextField(
-                controller: controller,
-                decoration: new InputDecoration(
-                  hintText: 'Text Input Prompt',
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _CreateProjectState extends State<CreateProject> {
- 
+  List<TextEditingController> controllers = [];
+  List<List<TextEditingController>> answerControllers = [];
+  List<Widget> acceptData = [];
+  List<String> acceptType = [];
+  int questionCount = 0;
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> acceptData = [];
-
     return MaterialApp(
       home: Scaffold(
-      appBar: AppBar (
-        title: Text(widget.title),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: DragTarget(
-                onWillAccept: (Widget addItem) {
-                  print('checking if will accept item');
-                  print(addItem);
-                  if (addItem == null) {
-                     print('Error');
-                    return false;
-                   
-                  }
-                  return true;
-                },
-                onAccept: (Widget addItem) {
-                  print('accepting an item');
-                  acceptData.add(addItem);
-                },
-                builder: (context, List<dynamic> candidateData, List<dynamic> rejectedData) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.lightBlue[50],
-                    child: acceptData.isEmpty 
-                      ? Center(child: Text('Add Form Fields Here'),) 
-                      : Column(children: acceptData),
-                  );
-                },
+        appBar: AppBar(
+            title: Text("Create Project Details"),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context, false),
+            )),
+        backgroundColor: Colors.grey[100],
+        body: Padding(
+          padding: EdgeInsets.all(10),
+          child: Row(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width/4*2,
+                      height: MediaQuery.of(context).size.height/10*7,
+                      child: DragTarget(
+                        onWillAccept: (Widget addItem) {
+                          if (addItem == null) {
+                            return false;
+                          }
+                          return true;
+                        },
+                        onAccept: (Widget addItem) {
+                          if (addItem.toString() == createTextInputHandler.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new TextInputItem(controller: controllers[questionCount],));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
 
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child:  Column(
-                children: <Widget> [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width/3,
-                    child: Draggable<Widget>(
-                      child: Text('Text Input Field'),
-                      data: new TextInputItem(),
-                      feedback: Text('Text'),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width/3,
-                    child: Draggable<Widget>(
-                      child: Text('User Location'),
-                      data: new UserLocation(),
-                      feedback: Text('Text'),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width/3,
-                    child: Draggable<Widget>(
-                      child: Text('Add Multiple Choice'),
-                      data: new MultipleChoice(),
-                      feedback: Text('Mult choice'),
+                          } else if (addItem.toString() == createShortAnswer.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new ShortAnswerItem(controller: controllers[questionCount],));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
+                          } else if (addItem.toString() == createNumericalInput.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new NumericalInputItem(controller: controllers[questionCount],));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
+                          } else if (addItem.toString() == createImageCapture.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new AddImageInput(controller: controllers[questionCount]));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
+                          } else if (addItem.toString() == createLocationHandler.toString()) {
+                            controllers.add(new TextEditingController());
+                            acceptData.add(new UserLocation(controller: controllers[questionCount]));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
+                          } else if (addItem.toString() == createMultipleChoice.toString()) {
+                            controllers.add(new TextEditingController());
+                            answerControllers.add([]);
+                            acceptData.add(new MultipleChoice(controller: controllers[questionCount], answers: answerControllers[answerControllers.length - 1]));
+                            questionCount++;
+                            acceptType.add(addItem.toString());
+                          }
+                        },
+                        builder: (context, List<dynamic> candidateData,
+                            List<dynamic> rejectedData) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height,
+                            color: Colors.lightBlue[50],
+                            child: acceptData.isEmpty
+                                ? Center(
+                                    child: Text('Add Form Fields Here'),
+                                  )
+                                : Column(children: acceptData),
+                          );
+                        },
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: RaisedButton(
+                        child: Text('Submit Project'),
+                        onPressed: () async {
+                          var answerCount = 0;
+                          print('submit project onPressed');
+                          for(var i=0; i<questionCount; i++) {
+                            print(acceptType[i] +': '+ controllers[i].text);
+                            if(acceptType[i] == createMultipleChoice.toString()) {
+                              for( var item in answerControllers[answerCount]) {
+                                print('answer option: ' + item.text);
+                              }
+                              answerCount++;
+                            }
+                          }
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    )
                   ],
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Text Input Field'),
+                          data: createTextInputHandler,
+                          feedback: Text('Text'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Image Upload'),
+                          data: createImageCapture,
+                          feedback: Text('Image'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('User Location'),
+                          data: createLocationHandler,
+                          feedback: Text('Text'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Multiple Choice'),
+                          data: createMultipleChoice,
+                          feedback: Text('Mult choice'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Short Answer'),
+                          data: createShortAnswer,
+                          feedback: Text('Short Answer'),
+                        ),
+                      ),                    Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          child: Text('Numerical Input'),
+                          data: createNumericalInput,
+                          feedback: Text('Numerical Input'),
+                        ),
+                      ),
+  /*                  Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          data: new TextFormField(
+                              decoration: new InputDecoration(
+                                  labelText: "Short Answer",
+                                  fillColor: Colors.white,
+                                  enabledBorder: new OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ))),
+                          child: TextFormField(
+                              decoration: new InputDecoration(
+                                  labelText: "Short Answer",
+                                  fillColor: Colors.white,
+                                  enabledBorder: new OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  )),
+                                  keyboardType: TextInputType.multiline,
+                                  
+                                  ),
+                          feedback: Text('Short Answer'),
+                        ),
+                      ),
+  */
+  /*                    Container(
+                        margin: EdgeInsets.all(40),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Draggable<Widget>(
+                          data: new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "Numerical Input",
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
+                          ),
+                          child: new TextFormField(
+                            decoration: new InputDecoration(
+                              labelText: "Numerical Input",
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
+                          ),
+                          feedback: Text('Numerical Input'),
+                        ),
+                      ),
+                    ),
+                    // Padding(padding:  const EdgeInsets.symmetric(vertical: 2.0),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: new Row(children: <Widget>[
+                          RaisedButton(
+                            child: Text('Save'),
+                            onPressed: () {
+                              
+                            },
+                          )
+                        ]))
+                    // )
+                  ],
+  */
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
   }
-
 }

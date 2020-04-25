@@ -102,6 +102,7 @@ final AuthService _auth = AuthService();
 
           ],
         ),
+        backgroundColor: Colors.grey[100],
         body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
