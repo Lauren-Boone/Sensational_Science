@@ -233,7 +233,9 @@ class _CreateProjectState extends State<CreateProject> {
                   print('checking if will accept item');
                   print(addItem);
                   if (addItem == null) {
+                     print('Error');
                     return false;
+                   
                   }
                   return true;
                 },

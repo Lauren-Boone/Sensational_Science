@@ -28,8 +28,9 @@ addStudent(){
   });
 }
 
-submitData(teachID) async {
-
+ submitData(teachID) async {
+  //String val='Success!';
+roster.forEach((e){
   Firestore.instance
   .runTransaction((transaction) async{
     await transaction.set(Firestore.instance
@@ -41,14 +42,17 @@ submitData(teachID) async {
   .document(),
   {
     
-    'name': 'Lauren',
+      'name': e.controller.text,
+  
+    
   
   });
   });
 
 print(teachID);
-  }
-
+  });
+ // return val;
+}
 
   /*
   List<String> tags = List.from(doc.data['name']);
@@ -73,6 +77,7 @@ print(teachID);
   );
 }
 */
+String success = '';
 @override
 
   Widget build(BuildContext context){
@@ -92,13 +97,22 @@ print(teachID);
 
                   ),
                 ),
+                 new Container(
+                  child: Text(success),
+                ),
                 new Container(
                   child: new RaisedButton(
                     child: new Text('Submit'),
-                    onPressed: 
-                    submitData(user.uid),
+                    onPressed: ()=> 
+                    
+                       submitData(user.uid),
+                        
+                    
                     ),
+                     
+                    
                 ),
+               
             ],
           ),
         ),
