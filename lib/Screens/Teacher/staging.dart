@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../Services/projectDB.dart';
 import 'package:sensational_science/Screens/Login/login_auth.dart';
+import 'package:sensational_science/models/user.dart';
 import 'dart:async';
 import 'create_project.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class BasicDateField extends StatefulWidget {
@@ -48,12 +51,36 @@ class StagingPage extends StatefulWidget {
 }
 
 class StagePageState extends State<StagingPage> {
+
   String _currentTitle = '';
   bool pub = true;
   String pubpriv = 'Current Setting: Public';
   final _formKey = GlobalKey<FormState>();
+  AddProject proj;
+
+ String createProjectDoc(String title, bool public ){
+ DocumentReference docRef = Firestore.instance
+ .collection('Projects')
+ .document();
+ docRef
+ .setData({
+   'title': title,
+    'public': public,
+    'docID': docRef.documentID,
+
+ });
+ return docRef.documentID;
+  
+}
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Project Info"),
@@ -113,12 +140,14 @@ class StagePageState extends State<StagingPage> {
                     subtitle: Text('Add Questions'),
                     trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () {
+                      String docID = createProjectDoc(_currentTitle, pub);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              CreateProject(title: _currentTitle, pub: pub),
+                              CreateProject(title: _currentTitle, pub: pub, docID: docID),
                         ),
+                      
                       );
                       
                     },

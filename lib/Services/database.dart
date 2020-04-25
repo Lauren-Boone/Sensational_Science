@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:sensational_science/models/user.dart';
 import '../models/teacher.dart';
 import '../models/user.dart';
+import '../Screens/Teacher/create_project.dart';
 
 class DatabaseService{
 
   final String uid;
   DatabaseService({this.uid});
+
+
+
 
   final CollectionReference userCollection = Firestore.instance.collection('Teachers');
   Future updateUserData(String name, String email) async{

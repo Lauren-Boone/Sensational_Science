@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/multiplechoice.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart'; 
 import 'package:sensational_science/Screens/Teacher/FormInputs/textInputItem.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart'; 
 import 'package:sensational_science/Screens/Teacher/FormInputs/shortAnswer.dart'; 
 import 'package:sensational_science/Screens/Teacher/FormInputs/numericalInput.dart';
+import '../../models/project.dart';
+import '../../Services/projectDB.dart';
 
 var createLocationHandler = new UserLocation();
 
@@ -26,12 +29,34 @@ var createNumericalInput = new NumericalInputItem();
 class CreateProject extends StatefulWidget {
   final String title;
   final bool pub;
-  CreateProject({this.title, this.pub});
+  final String docID;
+  CreateProject({this.title, this.pub, this.docID});
   @override
   _CreateProjectState createState() => _CreateProjectState();
 }
 
 class _CreateProjectState extends State<CreateProject> {
+  
+addProjectDataToDoc(List<Widget> acceptData, List<String> acceptType,List<List<TextEditingController>> multAnswers, int numQuestions, String docID)async{
+
+   DocumentReference docRef = Firestore.instance
+   .collection('Projects')
+   .document(docID);
+   for(var i =0; i < numQuestions; ++i){
+     
+     docRef
+     .updateData({
+       'TESTINGtype': acceptType[i].toString(),
+       'TestQUEstion': acceptData[i].toString(), 
+
+     });
+
+ 
+
+   }
+}
+
+
   List<TextEditingController> controllers = [];
   List<List<TextEditingController>> answerControllers = [];
   List<Widget> acceptData = [];
@@ -40,6 +65,8 @@ class _CreateProjectState extends State<CreateProject> {
 
   @override
   Widget build(BuildContext context) {
+   
+    
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -119,6 +146,7 @@ class _CreateProjectState extends State<CreateProject> {
                       child: RaisedButton(
                         child: Text('Submit Project'),
                         onPressed: () async {
+                          addProjectDataToDoc(acceptData, acceptType, answerControllers, questionCount, widget.docID);
                           var answerCount = 0;
                           print('submit project onPressed');
                           for(var i=0; i<questionCount; i++) {
@@ -130,6 +158,7 @@ class _CreateProjectState extends State<CreateProject> {
                               answerCount++;
                             }
                           }
+                          
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
                         },
