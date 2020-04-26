@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:sensational_science/models/project.dart';
 import '../../Services/projectDB.dart';
 import 'package:sensational_science/Screens/Login/login_auth.dart';
 import 'package:sensational_science/models/user.dart';
@@ -9,6 +11,7 @@ import 'dart:async';
 import 'create_project.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import '../../Services/projectDB.dart';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
@@ -58,6 +61,7 @@ class StagePageState extends State<StagingPage> {
   final _formKey = GlobalKey<FormState>();
   AddProject proj;
 
+/*
  String createProjectDoc(String title, bool public ){
  DocumentReference docRef = Firestore.instance
  .collection('Projects')
@@ -72,7 +76,7 @@ class StagePageState extends State<StagingPage> {
  return docRef.documentID;
   
 }
-
+*/
 
 
 
@@ -80,7 +84,7 @@ class StagePageState extends State<StagingPage> {
 
   @override
   Widget build(BuildContext context) {
-   
+   final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Project Info"),
@@ -140,12 +144,14 @@ class StagePageState extends State<StagingPage> {
                     subtitle: Text('Add Questions'),
                     trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () {
-                      String docID = createProjectDoc(_currentTitle, pub);
+                      AddProject proj = new AddProject(title: _currentTitle, public: pub);
+                      String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
+                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              CreateProject(title: _currentTitle, pub: pub, docID: docID),
+                              CreateProject(proj: proj, title: _currentTitle),
                         ),
                       
                       );

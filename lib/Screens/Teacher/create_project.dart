@@ -9,6 +9,7 @@ import 'package:sensational_science/Screens/Teacher/FormInputs/textInputItem.dar
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart'; 
 import 'package:sensational_science/Screens/Teacher/FormInputs/shortAnswer.dart'; 
 import 'package:sensational_science/Screens/Teacher/FormInputs/numericalInput.dart';
+import 'package:sensational_science/models/user.dart';
 import '../../models/project.dart';
 import '../../Services/projectDB.dart';
 
@@ -28,16 +29,16 @@ var createNumericalInput = new NumericalInputItem();
 
 class CreateProject extends StatefulWidget {
   final String title;
-  final bool pub;
-  final String docID;
-  CreateProject({this.title, this.pub, this.docID});
+  AddProject proj;
+  CreateProject({this.title, this.proj});
   @override
   _CreateProjectState createState() => _CreateProjectState();
 }
 
 class _CreateProjectState extends State<CreateProject> {
   
-addProjectDataToDoc(List<Widget> acceptData, List<String> acceptType,List<List<TextEditingController>> multAnswers, int numQuestions, String docID)async{
+  /*
+addProjectDataToDoc(String uid, List<Widget> acceptData, List<String> acceptType,List<List<TextEditingController>> multAnswers, int numQuestions, String docID)async{
 
    DocumentReference docRef = Firestore.instance
    .collection('Projects')
@@ -50,11 +51,25 @@ addProjectDataToDoc(List<Widget> acceptData, List<String> acceptType,List<List<T
        'TestQUEstion': acceptData[i].toString(), 
 
      });
-
+ 
  
 
    }
-}
+
+     Firestore.instance
+  .runTransaction((transaction) async{
+    await transaction.set(Firestore.instance
+    .collection("Teachers")
+  .document(uid)
+  .collection('Created Projects')
+  .document(),{
+    'docIDref': docID,
+    'title': widget.title,
+  });
+});
+
+  
+}*/
 
 
   List<TextEditingController> controllers = [];
@@ -65,9 +80,8 @@ addProjectDataToDoc(List<Widget> acceptData, List<String> acceptType,List<List<T
 
   @override
   Widget build(BuildContext context) {
-   
-    
-    return MaterialApp(
+   final user = Provider.of<User>(context);
+        return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
             title: Text("Create Project Details"),
@@ -146,7 +160,8 @@ addProjectDataToDoc(List<Widget> acceptData, List<String> acceptType,List<List<T
                       child: RaisedButton(
                         child: Text('Submit Project'),
                         onPressed: () async {
-                          addProjectDataToDoc(acceptData, acceptType, answerControllers, questionCount, widget.docID);
+                         widget.proj.addProjectDataToDoc(user.uid, controllers, acceptType, answerControllers, questionCount, widget.proj.getDocID());
+                          widget.proj.addtodb(questionCount);
                           var answerCount = 0;
                           print('submit project onPressed');
                           for(var i=0; i<questionCount; i++) {

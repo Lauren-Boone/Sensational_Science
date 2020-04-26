@@ -9,6 +9,7 @@ import '../../models/teacher.dart';
 import '../../models/user.dart';
 import 'popup.dart';
 import 'staging.dart';
+import 'listprojects.dart';
 
 
 class TeacherHome extends StatelessWidget{
@@ -64,6 +65,21 @@ class TeacherHome extends StatelessWidget{
                       context,
                       MaterialPageRoute(
                         builder: (context) => StagingPage(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  title: Text('View Projects You Created'),
+                  subtitle: Text(''),
+                  trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ListProjects(),
                       ),
                     );
                   },

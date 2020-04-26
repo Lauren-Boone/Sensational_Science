@@ -1,117 +1,144 @@
+import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sensational_science/Screens/Teacher/create_project.dart';
-import '../models/project.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sensational_science/models/project.dart';
 
-class AddProject{
-//final String title;
-//final bool public;
-//AddProject({this.title, this.public});
+class Question {
+  final String type;
+  final String question;
+  final String number;
+  Question({this.type, this.question, this.number});
+  Map<String, dynamic> questionMap = Map();
 
-/*
-    final CollectionReference projCollection = Firestore.instance.collection('Project');
-  Future updateprojData(String title, String public) async{
-      return await projCollection.document(docID).setData({
-        'title': title,
-        'public': public,
-      });
-  }
-*/
-//get proj list from snapshot
-List<Project> _projectListFromSnapshopt(QuerySnapshot snapshot){
-  return snapshot.documents.map((doc){
-    return Project(
-      docID: doc.data['docID'],
-      public: doc.data['public'] ?? '',
-      title: doc.data['title'] ?? '',
-       );
-  }).toList();
-}
-
-//get proj Stream
-/*
-Stream<List<Project>> get proj{
-  return projCollection.snapshots()
-    .map(_projectListFromSnapshopt);
-}*/
-
-
-//get proj doc stream
-/*
-Stream<ProjectData> get projData{
-  return projCollection.document(docID).snapshots()
-    .map(_projDataFromSnapshot);
-  
-}*/
-
-//proj data from snapshot
-/*
-ProjectData  _projDataFromSnapshot(DocumentSnapshot snapshot){
-  return ProjectData(
-    title: snapshot.data['title'],
-    public: snapshot.data['public'],
-  );
-}*/
-
-Future<bool> doestitleAlreadyExist(String title) async {
-  final QuerySnapshot result = await Firestore.instance
-    .collection('Projects')
-    .where('title', isEqualTo: title)
-    .limit(1)
-    .getDocuments();
-  final List<DocumentSnapshot> documents = result.documents;
-  return documents.length == 1;
-}
-
-
-
-//Create a project Document
-String createProjectDoc(String title, bool public ){
- DocumentReference docRef = Firestore.instance
- .collection('Projects')
- .document();
- docRef
- .setData({
-   'title': title,
-    'public': public,
-    'docID': docRef.documentID,
-
- });
- return docRef.documentID;
-  
-}
-
-Future<Project> createProjectObj(String title, bool public){
-
-}
-
-  //Add project function
-addProjectDataToDoc(List<Widget> acceptData, List<String> acceptType,List<List<TextEditingController>> multAnswers, int numQuestions, String docID)async{
-   DocumentReference docRef = Firestore.instance
-   .collection('Projects')
-   .document(docID);
-   for(var i =0; i < numQuestions; ++i){
-     
-     docRef
-     .setData({
-       'TESTINGtype': acceptType[i].toString(),
-       'TestQUEstion': acceptData[i].toString(), 
-
-     });
+  Map toJson() {
+    questionMap = Map();
+    questionMap['Number'] = "Question" + this.number;
+    questionMap['Type'] = this.type;
+    questionMap['Question'] = this.question;
 
  
+    return questionMap;
+  }
 
-   }
-   
+  Map toJsonMult(List<TextEditingController> answers) {
+    int count = 0;
+    questionMap = {
+      'Answers': answers.toList(),
+      'Number': "Question" + this.number,
+      'Question': this.question,
+      'Type': this.type,
+    };
    
 
+    return questionMap;
+  }
+}
+
+class AddProject {
+  final String title;
+  final bool public;
+  AddProject({this.title, this.public});
+  List<Question> questions = new List();
+  String docID;
+
+  String getDocID() {
+    return docID;
+  }
+//get proj list from snapshot
+
+  Future<bool> doestitleAlreadyExist(String title) async {
+    final QuerySnapshot result = await Firestore.instance
+        .collection('Projects')
+        .where('title', isEqualTo: title)
+        .limit(1)
+        .getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    return documents.length == 1;
+  }
+
+//adds map to database using key value pairs
+  addtodb(int count) async {
+    String questionNum = "Question";
+    DocumentReference docRef =
+        Firestore.instance.collection('Projects').document(docID);
+
+    for (var i = 0; i < count; i++) {
+      questionNum = "Question" + questions[i].number;
+      questions[i].questionMap.forEach((key, value) {
+        if (key == 'Answers') {
+          value.forEach((e) {
+            docRef.setData({
+              questionNum: {
+                '$key': FieldValue.arrayUnion([e.text]),
+              }
+            }, merge: true);
+          });
+        } else {
+          docRef.setData({
+            questionNum: {
+              '$key': '$value',
+            }
+          }, merge: true);
+        }
+      });
+    }
+  }
+
+//Addds the data to the project calls variables
+  addProjectDataToDoc(
+      String uid,
+      List<TextEditingController> acceptData,
+      List<String> acceptType,
+      List<List<TextEditingController>> multAnswers,
+      int numQuestions,
+      String docID) async {
+    List<String> textAnswers;
+
+    var answerCount = 0;
+    for (var i = 0; i < numQuestions; i++) {
+      this.questions.add(new Question(
+          number: i.toString(),
+          type: acceptType[i].toString(),
+          question: acceptData[i].text));
+      if (acceptType[i] == 'MultipleChoice') {
+        print(multAnswers[answerCount]);
+        questions[i].toJsonMult(multAnswers[answerCount]);
+        answerCount++;
+        //this.questions.add(question);
+      } else {
+        Map mq = questions[i].toJson();
+        //this.questions.add(question);
+      }
+    }
+  }
+
+  String createProjectDoc(String title, bool public, String uid) {
+    DocumentReference docRef =
+        Firestore.instance.collection('Projects').document();
+    docRef.setData({
+      'title': title,
+      'public': public,
+      'docID': docRef.documentID,
+    });
+
+    Firestore.instance.runTransaction((transaction) async {
+      await transaction.set(
+          Firestore.instance
+              .collection("Teachers")
+              .document(uid)
+              .collection('Created Projects')
+              .document(),
+          {
+            'docIDref': docRef.documentID,
+            'title': title,
+          });
+    });
+    docID = docRef.documentID;
+    return getDocID();
+  }
 }
 
 
-
-//get Proj doc stream
-
-
-
-}
