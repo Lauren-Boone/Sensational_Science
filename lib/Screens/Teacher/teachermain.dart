@@ -85,21 +85,7 @@ class TeacherHome extends StatelessWidget{
                   },
                 ),
               ),
-              Card(
-                child: ListTile(
-                  title: Text('Pop up test'),
-                  subtitle: Text('test popup'),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                   /* Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        //builder: (context) => PopUp(),
-                      ),
-                    );*/
-                  },
-                ),
-              ),
+              
               Card(
                 child: ListTile(
                   title: Text('Test Camera'),

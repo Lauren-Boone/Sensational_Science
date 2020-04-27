@@ -12,6 +12,8 @@ class Question {
   final String number;
   Question({this.type, this.question, this.number});
   Map<String, dynamic> questionMap = Map();
+  List<String> answers= new List();
+ 
 
   Map toJson() {
     questionMap = Map();
@@ -43,6 +45,8 @@ class AddProject {
   AddProject({this.title, this.public});
   List<Question> questions = new List();
   String docID;
+  int numberQuestions;
+
 
   String getDocID() {
     return docID;
@@ -64,9 +68,11 @@ class AddProject {
     String questionNum = "Question";
     DocumentReference docRef =
         Firestore.instance.collection('Projects').document(docID);
-
+docRef.setData({
+  'count': numberQuestions,
+},merge: true);
     for (var i = 0; i < count; i++) {
-      questionNum = "Question" + questions[i].number;
+     questionNum = "Question" + questions[i].number;
       questions[i].questionMap.forEach((key, value) {
         if (key == 'Answers') {
           value.forEach((e) {
@@ -96,7 +102,7 @@ class AddProject {
       int numQuestions,
       String docID) async {
     List<String> textAnswers;
-
+  numberQuestions= numQuestions;
     var answerCount = 0;
     for (var i = 0; i < numQuestions; i++) {
       this.questions.add(new Question(
