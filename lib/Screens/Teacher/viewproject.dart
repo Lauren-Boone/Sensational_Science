@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../models/project.dart';
-import '../../Services/projectbuildDB.dart';
+import '../../Services/getproject.dart';
 
 class ViewProject extends StatefulWidget {
   final String docIDref;
-  ViewProject({this.docIDref});
+  final String title;
+  ViewProject({this.docIDref, this.title});
   @override
   _ViewProjectState createState() => _ViewProjectState();
 }
@@ -15,8 +16,8 @@ class _ViewProjectState extends State<ViewProject> {
    @override
 
   Widget build(BuildContext context) {
-  GetProject project = new GetProject(docID: widget.docIDref);
- // project.getDataFromProject();
+  GetProject project = new GetProject(docID: widget.docIDref, title: widget.title);
+  project.getdataFromProject();
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
