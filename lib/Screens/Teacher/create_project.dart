@@ -109,9 +109,13 @@ addProjectDataToDoc(String uid, List<Widget> acceptData, List<String> acceptType
         backgroundColor: Colors.grey[100],
         body: Padding(
           padding: EdgeInsets.all(10),
-          child: Align(
-            child: Container(
-              child: SingleChildScrollView(
+          child: new Expanded(
+          // child: Align(
+            child: new ListView(
+              shrinkWrap: true,
+                                children: <Widget>[
+            new Container(
+              // child: SingleChildScrollView(
                 child: Row(
                   children: <Widget>[
                     Column(
@@ -295,10 +299,11 @@ addProjectDataToDoc(String uid, List<Widget> acceptData, List<String> acceptType
                   ],
                 ),
               ),
+            ]
             ),
           ),
         ),
-      ),
+      )
     );
   }
 }
