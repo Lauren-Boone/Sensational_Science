@@ -34,6 +34,7 @@ class _ViewProjectState extends State<ViewProject> {
       case 'UserLocation':
       return new UserLocationInfo(question: e); 
     }
+    return null; 
   });
   //project.printproj();
  return Scaffold(
