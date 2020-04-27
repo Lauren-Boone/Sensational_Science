@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sensational_science/Screens/Login/login_auth.dart';
+import 'package:sensational_science/Screens/Login/sign_in.dart';
 import 'dart:async';
 import '../Teacher/teachermain.dart';
 import 'login_auth.dart'; 
@@ -64,6 +65,17 @@ class CreateAccountState extends State<CreateAccount> {
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
           title: Text("Create Account"),
+           actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.person),
+            label: Text('Sign In'),
+            onPressed: () => Navigator.push(
+                      context, MaterialPageRoute(
+                        builder: (context) => SignIn()
+                      ),
+            )
+          ),
+        ],
         ),
         backgroundColor: Colors.lightBlue[100],
         body: Form(
