@@ -3,6 +3,8 @@ import '../../models/project.dart';
 import '../../Services/getproject.dart';
 import 'textquestion.dart';
 import 'multiplechoicequestion.dart';
+import 'UserLocationInfo.dart';
+import 'shortanswerquestion.dart'; 
 
 class ViewProject extends StatefulWidget {
   final String docIDref;
@@ -27,6 +29,10 @@ class _ViewProjectState extends State<ViewProject> {
       return new TextQuestionWidget(question: e);
       case 'MultipleChoice':
       return new MultQuestionWidget(question: e);
+      case 'ShortAnswer':
+      return new ShortAnswerQuestion(question: e); 
+      case 'UserLocation':
+      return new UserLocationInfo(question: e); 
     }
   });
   //project.printproj();
