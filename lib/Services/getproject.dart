@@ -64,6 +64,8 @@ class GetProject {
        
   }
 
+
+
   printproj() {
     questions.forEach((e) {
       print(e.question);
@@ -72,19 +74,5 @@ class GetProject {
       print(e.answers);
     });
   }
-/*
-//Project Data from snapshot
-Project _projectDataFromSnapshot(DocumentSnapshot snapshot){
-  return Project(
-    title:  snapshot.data['title'],
-    docID:  snapshot.documentID,
-    );
-}
 
-//get project doc stream
-Stream<Project> get projectData{
-  return projectCollection.document(this.docID).snapshots()
-  .map(_projectDataFromSnapshot);
-}
-*/
 }

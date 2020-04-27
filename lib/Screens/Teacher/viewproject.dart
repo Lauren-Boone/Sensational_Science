@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
 import 'textquestion.dart';
+import 'multiplechoicequestion.dart';
 
 class ViewProject extends StatefulWidget {
   final String docIDref;
@@ -24,6 +25,8 @@ class _ViewProjectState extends State<ViewProject> {
     switch(type){
       case 'TextInputItem':
       return new TextQuestionWidget(question: e);
+      case 'MultipleChoice':
+      return new MultQuestionWidget(question: e);
     }
   });
   //project.printproj();
