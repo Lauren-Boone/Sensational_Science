@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Services/auth.dart';
+import 'create_account.dart';
 import 'register.dart';
 
 import '../../Shared/loading.dart';
@@ -34,7 +35,7 @@ class _SignInState extends State<SignIn> {
             label: Text('Register'),
             onPressed: () => Navigator.push(
                       context, MaterialPageRoute(
-                        builder: (context) => Register()
+                        builder: (context) => CreateAccount()
                       ),
             )
           ),
