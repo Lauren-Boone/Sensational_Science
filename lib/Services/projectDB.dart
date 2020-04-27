@@ -15,7 +15,7 @@ class Question {
 
   Map toJson() {
     questionMap = Map();
-    questionMap['Number'] = "Question" + this.number;
+    questionMap['Number'] = this.number;
     questionMap['Type'] = this.type;
     questionMap['Question'] = this.question;
 
@@ -27,7 +27,7 @@ class Question {
     int count = 0;
     questionMap = {
       'Answers': answers.toList(),
-      'Number': "Question" + this.number,
+      'Number': this.number,
       'Question': this.question,
       'Type': this.type,
     };
