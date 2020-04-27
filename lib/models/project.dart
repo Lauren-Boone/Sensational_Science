@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Services/projectDB.dart';
+
 
 
 class Project{
@@ -8,16 +8,15 @@ class Project{
   final String docID;
  
   Project({this.title, this.public, this.docID});
-
+  List<Questions> questions;
 
 
 }
 
-class ProjectData{
-
-  final String title;
-  //final String public;
-  //final String docID;
-   List<Question> questions;
-  ProjectData({this.title});
+class Questions{
+  final String question;
+  final String number;
+  final String type;
+  Questions({this.question, this.number, this.type});
+  
 }

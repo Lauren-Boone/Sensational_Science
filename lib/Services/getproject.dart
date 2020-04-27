@@ -2,27 +2,30 @@ import 'package:flutter/material.dart';
 import '../models/project.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'projectDB.dart';
+import '../models/project.dart';
 
 
 class GetProject{
   final String docID;
   final String title;
   GetProject({this.docID, this.title});
-List<Question> questions;
+  List<Questions> questions;
+
+  final CollectionReference projectCollection = Firestore.instance.collection('Projects');
 
 getdataFromProject(){
   DocumentReference docRef = Firestore.instance
   .collection('Projects')
   .document(docID);
   
- Stream<QuerySnapshot> snapshot = Firestore.instance.collection('Projects')
-  .where('docID', isEqualTo: this.docID)
-  .snapshots();
- 
-  print(snapshot.where((public) => true));
+
   
 
 
+}
+//get project doc stream
+Stream<DocumentSnapshot> get projectData{
+  return projectCollection.document(this.docID).snapshots();
 }
 
 }
