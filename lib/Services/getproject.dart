@@ -61,9 +61,10 @@ class GetProject {
             }
           }),
         });
+        //return 1;
   }
 
-  Future<int> getType(int index) async {
+ Future<int> getType(int index) async{
     switch (questions[index].type) {
       case 'TextInputItem':
         return 0;

@@ -29,20 +29,49 @@ class _ViewProjectState extends State<ViewProject> {
   }
    
 Widget build(BuildContext context) {
-  
+  if(project.questions.length == 0){
+    setState(() {
+      
+    });
+  }
+  if(project.questions.length !=0){
+    return mainScreen(context);
+  }
+}
+Widget mainScreen(BuildContext context){
     return new MaterialApp(
+      
       home: new Scaffold(
           appBar: AppBar(title: Text("Random Widget")),
-          body: Center(child:
+          body: project.questions.length == 0
+
+          ? Center(child: CircularProgressIndicator()
+          
+              
+          )
+          :Center(child:
+          /*FutureBuilder(
+            initialData: 0,
+            future: _getQuestions(),
+            builder: (context, snapshot){
+              if(snapshot.hasData){
+                return getRandomWidget(_getType(_currentQuestion));
+              }
+              else{
+                return getRandomWidget(-1);
+              }
+            }
+          )*/
           FutureBuilder(
               initialData: 0,
-              future:_getType(_currentQuestion),
+              future: _getType(_currentQuestion),
               builder: (context, snapshot) {
                 if(snapshot.hasData){
-                  return getRandomWidget(snapshot.data);
+                  return getQuestionWidget(snapshot.data);
                 }
                 else{
-                  return getRandomWidget(-1);
+                  
+                  return getQuestionWidget(-1);
                 }
               }
           )
@@ -50,7 +79,7 @@ Widget build(BuildContext context) {
     );
   }
 
-   Widget getRandomWidget(int randomNumber) {
+   Widget getQuestionWidget(int randomNumber) {
     switch(randomNumber){
       case 0:
         return Column(children: <Widget>[
@@ -79,7 +108,7 @@ Widget build(BuildContext context) {
         case -1:
         return Column(children: <Widget>[
         Text("Submit Page",textScaleFactor: 4),
-        getNextButton()
+        //getNextButton()
         ]);
         
 
@@ -119,7 +148,12 @@ Widget getNextButton(){
     // you mentioned you use firebase for database, so 
     // you have to wait for the data to be loaded from the network
     await project.getdataFromProject();
-    setState(() {});
+   
+   //super.initState();
+   
+    setState(() {
+      
+    });
   }
 
   // Call this function when you want to move to the next page
