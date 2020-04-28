@@ -139,7 +139,7 @@ Widget mainScreen(BuildContext context){
 */
    Widget getQuestionWidget() {
 
-    switch(_getType(_currentQuestion)){
+    switch(_getType(_currentQuestion++)){
       case 0:
         return Column(children: <Widget>[
           Text("TextInputItem", textScaleFactor: 4),
@@ -187,8 +187,10 @@ Widget getNextButton(){
           child: Text("NEXT"),
           color: Colors.red,
           onPressed: () {
-            _currentQuestion++;
-            return getQuestionWidget();
+            if(_currentQuestion < project.questions.length){
+                return getQuestionWidget();
+            }
+            return Text("All done!"); 
             //setState(() {
               
               //_currentQuestion++;
