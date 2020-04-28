@@ -40,7 +40,7 @@ class GetProject {
 
  // var snapshot = projectCollection.document(this.docID).get();
   //snapshot.asStream();
-    snapshot.then((DocumentSnapshot questionSnap) => {
+    return await snapshot.then((DocumentSnapshot questionSnap) => {
           questionSnap.data.forEach((key, value) {
             if ('$key' == 'count') {
               count = value;
@@ -65,7 +65,7 @@ class GetProject {
             }
           }),
         });
-        //return 1;
+        
   }
 
  int getType(int index) {

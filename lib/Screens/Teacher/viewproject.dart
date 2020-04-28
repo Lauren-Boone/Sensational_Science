@@ -206,8 +206,9 @@ Widget getNextButton(){
     project = new GetProject(docID: widget.docIDref, title: widget.title);
     //project.getdataFromProject();
     //_getQuestions();
-    super.initState();
     projectFuture=_getQuestions();
+    super.initState();
+    
   }
 
   Future<void> _getQuestions() async {
@@ -215,11 +216,7 @@ Widget getNextButton(){
     // you have to wait for the data to be loaded from the network
     return await project.getdataFromProject;
    
-   //super.initState();
    
-    //setState(() {
-      
-   // });
   }
 
   // Call this function when you want to move to the next page
