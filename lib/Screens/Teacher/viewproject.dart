@@ -4,8 +4,7 @@ import '../../models/project.dart';
 import '../../Services/getproject.dart';
 import 'textquestion.dart';
 import 'multiplechoicequestion.dart';
-import 'UserLocationInfo.dart';
-import 'shortanswerquestion.dart'; 
+//import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
 class ViewProject extends StatefulWidget {
   final String docIDref;
@@ -34,6 +33,7 @@ Widget build(BuildContext context) {
     setState(() {
       
     });
+    return build(context);
   }
   if(project.questions.length !=0){
     return mainScreen(context);
