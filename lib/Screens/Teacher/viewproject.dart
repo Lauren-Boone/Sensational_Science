@@ -19,26 +19,62 @@ class ViewProject extends StatefulWidget {
 class _ViewProjectState extends State<ViewProject> {
   GetProject project;
   int _currentQuestion = 0;
-
-  @override
-  Future<int> _getType(_currentQuestion) async{
+  Future projectFuture;
+  
+  
+  int _getType(_currentQuestion) {
      //project.getdataFromProject();
     //setState(() {});
     return project.getType(_currentQuestion);
     
   }
-   /*
+   
 Widget build(BuildContext context) {
-  if(project.questions.length == 0){
-    
-    return build(context);
-  }
-  if(project.questions.length !=0){
-    return mainScreen(context);
-  }
-}*/
-Widget build(BuildContext context){
-    return new MaterialApp(
+
+  return new MaterialApp(
+      
+      home: new Scaffold(
+          appBar: AppBar(title: Text("Random Widget")),
+          body: 
+          //project.questions.length == 0
+
+        //  ? Center(child: CircularProgressIndicator()
+          
+              
+         // )
+         // :
+          Center(child:
+      
+          FutureBuilder(
+              initialData: 0,
+              future: projectFuture,
+              builder: (context, snapshot) {
+              switch(snapshot.connectionState){
+                case ConnectionState.waiting: 
+                  return CircularProgressIndicator();
+                case ConnectionState.done:
+                  return getQuestionWidget();
+                default:
+
+              }
+
+                //if(snapshot.ConnectionState.waiting){
+           //       return mainScreen(context);
+             ///   }
+//else{
+                  
+               //   return CircularProgressIndicator();
+              //  }
+              }
+          )
+      )),
+    );
+}
+
+/*
+Widget mainScreen(BuildContext context){
+ 
+    /*return new MaterialApp(
       
       home: new Scaffold(
           appBar: AppBar(title: Text("Random Widget")),
@@ -48,7 +84,9 @@ Widget build(BuildContext context){
           
               
           )
-          :Center(child:
+          :
+      */
+      Center(child:
           FutureBuilder(
               initialData: 0,
               future: _getType(_currentQuestion),
@@ -60,14 +98,17 @@ Widget build(BuildContext context){
                   
                   return getQuestionWidget(-1);
                 }
-              }
-          )
-      )),
-    );
+              },
+          ),
+      );
+        //  )
+     // )),
+   // );
   }
+*/
+   Widget getQuestionWidget() {
 
-   Widget getQuestionWidget(int randomNumber) {
-    switch(randomNumber){
+    switch(_getType(_currentQuestion)){
       case 0:
         return Column(children: <Widget>[
           Text("TextInputItem",textScaleFactor: 4),
@@ -112,10 +153,15 @@ Widget getNextButton(){
           child: Text("NEXT"),
           color: Colors.red,
           onPressed: () {
-            setState(() {
-              _currentQuestion++;
-              _getType(_currentQuestion);
-            });
+            _currentQuestion++;
+            return getQuestionWidget();
+            //setState(() {
+              
+              //_currentQuestion++;
+              //return getQuestionWidget();
+
+              //_getType(_currentQuestion);
+           // });
 
           }
       );
@@ -126,21 +172,22 @@ Widget getNextButton(){
     void initState() {
     project = new GetProject(docID: widget.docIDref, title: widget.title);
     //project.getdataFromProject();
-    _getQuestions();
+    //_getQuestions();
     super.initState();
+    projectFuture=_getQuestions();
   }
 
 
   Future<void> _getQuestions() async {
     // you mentioned you use firebase for database, so 
     // you have to wait for the data to be loaded from the network
-    await project.getdataFromProject;
+    return await project.getdataFromProject;
    
    //super.initState();
    
-    setState(() {
+    //setState(() {
       
-    });
+   // });
   }
 
   // Call this function when you want to move to the next page

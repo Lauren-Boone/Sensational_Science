@@ -27,7 +27,7 @@ class GetProject {
       Firestore.instance.collection('Projects');
 
   Future<void> get getdataFromProject async {
-    await questionData();
+    return await questionData();
   }
 
   Future<void> questionData() async {
@@ -38,7 +38,8 @@ class GetProject {
   Future<DocumentSnapshot> snapshot =
         Firestore.instance.collection('Projects').document(this.docID).get();
 
-  //var snapshot = projectCollection.document(this.docID);
+ // var snapshot = projectCollection.document(this.docID).get();
+  //snapshot.asStream();
     snapshot.then((DocumentSnapshot questionSnap) => {
           questionSnap.data.forEach((key, value) {
             if ('$key' == 'count') {
@@ -67,7 +68,7 @@ class GetProject {
         //return 1;
   }
 
- Future<int> getType(int index) async{
+ int getType(int index) {
     switch (questions[index].type) {
       case 'TextInputItem':
         return 0;
