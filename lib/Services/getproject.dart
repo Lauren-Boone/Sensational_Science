@@ -3,8 +3,10 @@ import '../models/project.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'projectDB.dart';
 import '../models/project.dart';
+import '../Screens/Teacher/multiplechoicequestion.dart';
+import '../Screens/Teacher/textquestion.dart';
 
-class Questions{
+class Questions {
   final String question;
   final String number;
   final String type;
@@ -22,14 +24,14 @@ class GetProject {
   final CollectionReference projectCollection =
       Firestore.instance.collection('Projects');
 
-  Stream<GetProject> getdataFromProject() {
-    questionData();
+  Future<void> getdataFromProject() async {
+    await questionData();
   }
 
-  GetProject questionData() {
+  Future<void> questionData() async {
     //List<String> questiondata;
     int count = 0;
-  // int returncount=0;
+    // int returncount=0;
 
     Future<DocumentSnapshot> snapshot =
         Firestore.instance.collection('Projects').document(this.docID).get();
@@ -41,15 +43,14 @@ class GetProject {
               count--;
               //returncount=count;
             } else if ('$key' == ('Question' + count.toString())) {
-             print(value['Type']);
+              print(value['Type']);
               Questions question = new Questions(
-                
-               type: value['Type'],
+                type: value['Type'],
                 number: value['Number'],
                 question: value['Question'],
               );
               if (value['Type'] == 'MultipleChoice') {
-                value['Answers'].forEach((e){
+                value['Answers'].forEach((e) {
                   question.answers.add(e.toString());
                 });
                 //question.answers.addAll(value['Answers']);
@@ -60,13 +61,21 @@ class GetProject {
             }
           }),
         });
-
-       
   }
 
+  Future<int> getType(int index) async {
+    switch (questions[index].type) {
+      case 'TextInputItem':
+        return 0;
+      case 'MultipleChoice':
+        return 1;
+      case 'ShortAnswer':
+        return 2;
+    }
+    return -1;
+  }
 
-
-  printproj() {
+  Future<int> printproj() {
     questions.forEach((e) {
       print(e.question);
       print(e.number);
@@ -74,5 +83,4 @@ class GetProject {
       print(e.answers);
     });
   }
-
 }
