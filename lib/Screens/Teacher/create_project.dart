@@ -136,9 +136,10 @@ class _CreateProjectState extends State<CreateProject> {
                 padding: const EdgeInsets.all(8),
                 children: <Widget>[
                   SingleChildScrollView(
+                    // controller: ScrollController,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width / 2),
+                          maxHeight: MediaQuery.of(context).size.height*0.75, maxWidth: MediaQuery.of(context).size.width / 2),
                       child: DragTarget(
                         onWillAccept: (Widget addItem) {
                           if (addItem == null) {
@@ -150,49 +151,49 @@ class _CreateProjectState extends State<CreateProject> {
                           if (addItem.toString() ==
                               createTextInputHandler.toString()) {
                             controllers.add(new TextEditingController());
-                            acceptData.add(new TextInputItem(
+                            acceptData.add(Expanded(child: new TextInputItem(
                               controller: controllers[questionCount],
-                            ));
+                            )));
                             questionCount++;
                             acceptType.add(addItem.toString());
                           } else if (addItem.toString() ==
                               createShortAnswer.toString()) {
                             controllers.add(new TextEditingController());
-                            acceptData.add(new ShortAnswerItem(
+                            acceptData.add(Expanded(child: new ShortAnswerItem(
                               controller: controllers[questionCount],
-                            ));
+                            )));
                             questionCount++;
                             acceptType.add(addItem.toString());
                           } else if (addItem.toString() ==
                               createNumericalInput.toString()) {
                             controllers.add(new TextEditingController());
-                            acceptData.add(new NumericalInputItem(
+                            acceptData.add(Expanded(child: new NumericalInputItem(
                               controller: controllers[questionCount],
-                            ));
+                            )));
                             questionCount++;
                             acceptType.add(addItem.toString());
                           } else if (addItem.toString() ==
                               createImageCapture.toString()) {
                             controllers.add(new TextEditingController());
-                            acceptData.add(new AddImageInput(
-                                controller: controllers[questionCount]));
+                            acceptData.add(Expanded(child: new AddImageInput(
+                                controller: controllers[questionCount])));
                             questionCount++;
                             acceptType.add(addItem.toString());
                           } else if (addItem.toString() ==
                               createLocationHandler.toString()) {
                             controllers.add(new TextEditingController());
-                            acceptData.add(new UserLocation(
-                                controller: controllers[questionCount]));
+                            acceptData.add(Expanded(child: new UserLocation(
+                                controller: controllers[questionCount])));
                             questionCount++;
                             acceptType.add(addItem.toString());
                           } else if (addItem.toString() ==
                               createMultipleChoice.toString()) {
                             controllers.add(new TextEditingController());
                             answerControllers.add([]);
-                            acceptData.add(new MultipleChoice(
+                            acceptData.add(Expanded(child: new MultipleChoice(
                                 controller: controllers[questionCount],
                                 answers: answerControllers[
-                                    answerControllers.length - 1]));
+                                    answerControllers.length - 1])));
                             questionCount++;
                             acceptType.add(addItem.toString());
                           }
