@@ -213,9 +213,9 @@ Widget getNextButton(){
 
   // Call this function when you want to move to the next page
   void goToNextPage() {
-    setState(() {
+    //setState(() {
       _currentQuestion++;
-    });
+   // });
   }
 
 /*
