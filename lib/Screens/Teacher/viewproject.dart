@@ -27,19 +27,17 @@ class _ViewProjectState extends State<ViewProject> {
     return project.getType(_currentQuestion);
     
   }
-   
+   /*
 Widget build(BuildContext context) {
   if(project.questions.length == 0){
-    setState(() {
-      
-    });
+    
     return build(context);
   }
   if(project.questions.length !=0){
     return mainScreen(context);
   }
-}
-Widget mainScreen(BuildContext context){
+}*/
+Widget build(BuildContext context){
     return new MaterialApp(
       
       home: new Scaffold(
@@ -51,18 +49,6 @@ Widget mainScreen(BuildContext context){
               
           )
           :Center(child:
-          /*FutureBuilder(
-            initialData: 0,
-            future: _getQuestions(),
-            builder: (context, snapshot){
-              if(snapshot.hasData){
-                return getRandomWidget(_getType(_currentQuestion));
-              }
-              else{
-                return getRandomWidget(-1);
-              }
-            }
-          )*/
           FutureBuilder(
               initialData: 0,
               future: _getType(_currentQuestion),
@@ -148,7 +134,7 @@ Widget getNextButton(){
   Future<void> _getQuestions() async {
     // you mentioned you use firebase for database, so 
     // you have to wait for the data to be loaded from the network
-    await project.getdataFromProject();
+    await project.getdataFromProject;
    
    //super.initState();
    

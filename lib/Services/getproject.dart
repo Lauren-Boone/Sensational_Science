@@ -19,12 +19,14 @@ class GetProject {
   final String title;
   GetProject({this.docID, this.title});
 
+  
+
   List<Questions> questions = new List();
 
   final CollectionReference projectCollection =
       Firestore.instance.collection('Projects');
 
-  Future<void> getdataFromProject() async {
+  Future<void> get getdataFromProject async {
     await questionData();
   }
 
@@ -32,10 +34,11 @@ class GetProject {
     //List<String> questiondata;
     int count = 0;
     // int returncount=0;
-
-    Future<DocumentSnapshot> snapshot =
+  //DocumentReference docRef= document[this.docID];
+  Future<DocumentSnapshot> snapshot =
         Firestore.instance.collection('Projects').document(this.docID).get();
 
+  //var snapshot = projectCollection.document(this.docID);
     snapshot.then((DocumentSnapshot questionSnap) => {
           questionSnap.data.forEach((key, value) {
             if ('$key' == 'count') {
@@ -70,8 +73,9 @@ class GetProject {
         return 0;
       case 'MultipleChoice':
         return 1;
-      case 'ShortAnswer':
+      case 'ShortAnswerItem':
         return 2;
+
     }
     return -1;
   }
