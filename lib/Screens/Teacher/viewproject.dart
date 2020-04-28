@@ -46,7 +46,18 @@ class _ViewProjectState extends State<ViewProject> {
   int _getType(_currentQuestion) {
      //project.getdataFromProject();
     //setState(() {});
-    return project.getType(_currentQuestion);
+    //return project.getType(_currentQuestion);
+    switch(project.questions[_currentQuestion].type){
+      case 'TextInputItem':
+        return 0;
+      case 'MultipleChoice':
+        return 1;
+      case 'ShortAnswerItem':
+        return 2;
+      case 'UserLocation':
+        return 3; 
+    }
+    return -1;
   }
    
 Widget build(BuildContext context) {
@@ -69,22 +80,22 @@ Widget build(BuildContext context) {
               initialData: 0,
               future: projectFuture,
               builder: (context, snapshot) {
-              switch(snapshot.connectionState){
+              /*switch(snapshot.connectionState){
                 case ConnectionState.waiting: 
                   return CircularProgressIndicator();
                 case ConnectionState.done:
                   return getQuestionWidget();
                 default:
 
-              }
+              }*/
 
-                //if(snapshot.ConnectionState.waiting){
-           //       return mainScreen(context);
-             ///   }
-//else{
+                if(project.questions.length>0){
+                  return getQuestionWidget();
+               }
+              else{
                   
-               //   return CircularProgressIndicator();
-              //  }
+                  return CircularProgressIndicator();
+               }
               }
           )
       )),
@@ -218,17 +229,5 @@ Widget getNextButton(){
    // });
   }
 
-/*
-  Widget _question(Questions question) {
-    switch (question.type) {
-      case 'TextInputItem':
-        return TextQuestionWidget(question: question);
-      case 'MultipleChoice':
-        return MultQuestionWidget(question: question);
-      //case 'ShortAnswer':
-      //  return ShortAnswerQuestion(question: question);
-      //case 'UserLocation':
-      //  return UserLocationInfo(question: question);
-    }
-  }*/
+
 }
