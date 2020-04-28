@@ -76,7 +76,8 @@ class GetProject {
         return 1;
       case 'ShortAnswerItem':
         return 2;
-
+      case 'UserLocation':
+        return 3; 
     }
     return -1;
   }

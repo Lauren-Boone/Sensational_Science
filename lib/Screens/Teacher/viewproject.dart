@@ -4,7 +4,28 @@ import '../../models/project.dart';
 import '../../Services/getproject.dart';
 import 'textquestion.dart';
 import 'multiplechoicequestion.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/multiplechoice.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/textInputItem.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/shortAnswer.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/numericalInput.dart';
 //import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
+
+var createLocationHandler = new UserLocation();
+
+var locationResult = createLocationHandler.getUserLocation();
+
+var createTextInputHandler =
+    new TextInputItem(controller: new TextEditingController());
+
+var createMultipleChoice = new MultipleChoice();
+
+var createImageCapture = new AddImageInput();
+
+var createShortAnswer = new ShortAnswerItem();
+
+var createNumericalInput = new NumericalInputItem();
 
 class ViewProject extends StatefulWidget {
   final String docIDref;
@@ -26,7 +47,6 @@ class _ViewProjectState extends State<ViewProject> {
      //project.getdataFromProject();
     //setState(() {});
     return project.getType(_currentQuestion);
-    
   }
    
 Widget build(BuildContext context) {
@@ -111,40 +131,43 @@ Widget mainScreen(BuildContext context){
     switch(_getType(_currentQuestion)){
       case 0:
         return Column(children: <Widget>[
-          Text("TextInputItem",textScaleFactor: 4),
+          Text("TextInputItem", textScaleFactor: 4),
           getNextButton()
         ]);
         break;
       case 1:
         return Column(children: <Widget>[
-          Text("MultipleChoice",textScaleFactor: 4),
+          Text("MultipleChoice", textScaleFactor: 4),
           getNextButton()
         ]);
         break;
       case 2:
         return Column(children: <Widget>[
-          Text("ShortAnswer",textScaleFactor: 4),
+          Text("ShortAnswer", textScaleFactor: 4),
           getNextButton()
         ]);
         break;
       case 3:
         return Column(children: <Widget>[
-        Text("UserLocation",textScaleFactor: 4),
-        getNextButton()
+          Text("UserLocation", textScaleFactor: 4),
+          Container(
+            margin: EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width / 3,
+            child: Draggable<Widget>(
+              child: Text('User Location'),
+              data: createLocationHandler,
+              feedback: Text('Text'),
+            ),
+          ),
+          getNextButton()
         ]);
         break;
-        case -1:
+      case -1:
         return Column(children: <Widget>[
-        Text("Submit Page",textScaleFactor: 4),
-        //getNextButton()
+          Text("Submit Page", textScaleFactor: 4),
+          //getNextButton()
         ]);
-        
-
-      
     }
-    
-        
-    
   }
 
 
@@ -167,9 +190,8 @@ Widget getNextButton(){
       );
   }
 
-
   @override
-    void initState() {
+  void initState() {
     project = new GetProject(docID: widget.docIDref, title: widget.title);
     //project.getdataFromProject();
     //_getQuestions();
@@ -177,9 +199,8 @@ Widget getNextButton(){
     projectFuture=_getQuestions();
   }
 
-
   Future<void> _getQuestions() async {
-    // you mentioned you use firebase for database, so 
+    // you mentioned you use firebase for database, so
     // you have to wait for the data to be loaded from the network
     return await project.getdataFromProject;
    
