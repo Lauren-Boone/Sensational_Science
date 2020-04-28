@@ -28,10 +28,15 @@ var createShortAnswer = new ShortAnswerItem();
 var createNumericalInput = new NumericalInputItem();
 
 class ViewProject extends StatefulWidget {
-  final String docIDref;
-  final String title;
-
-  ViewProject({this.docIDref, this.title});
+   String docIDref;
+   String title;
+    GetProject project;
+  //ViewProject({this.docIDref, this.title});
+  ViewProject(String docIDref, String title){
+    this.docIDref = docIDref;
+    this.title=title;
+    project=new GetProject(this.title, this.docIDref);
+  }
 
   @override
   _ViewProjectState createState() => _ViewProjectState();
@@ -67,28 +72,20 @@ Widget build(BuildContext context) {
       home: new Scaffold(
           appBar: AppBar(title: Text("Random Widget")),
           body: 
-          //project.questions.length == 0
+          project.questions.length == 0
 
-        //  ? Center(child: CircularProgressIndicator()
+         ? Center(child: CircularProgressIndicator()
           
               
-         // )
-         // :
+         )
+         : 
           Center(child:
       
           FutureBuilder(
               initialData: 0,
               future: projectFuture,
               builder: (context, snapshot) {
-              /*switch(snapshot.connectionState){
-                case ConnectionState.waiting: 
-                  return CircularProgressIndicator();
-                case ConnectionState.done:
-                  return getQuestionWidget();
-                default:
-
-              }*/
-
+            
                 if(project.questions.length>0){
                   return getQuestionWidget();
                }
@@ -110,7 +107,6 @@ Widget mainScreen(BuildContext context){
       home: new Scaffold(
           appBar: AppBar(title: Text("Random Widget")),
           body: project.questions.length == 0
-
           ? Center(child: CircularProgressIndicator()
           
               
@@ -205,10 +201,10 @@ Widget getNextButton(){
 
   @override
   void initState() {
-    project = new GetProject(docID: widget.docIDref, title: widget.title);
+    //project = new GetProject(widget.title, widget.docIDref);
     //project.getdataFromProject();
     //_getQuestions();
-    projectFuture=_getQuestions();
+  //  projectFuture=_getQuestions();
     super.initState();
     
   }
@@ -216,7 +212,7 @@ Widget getNextButton(){
   Future<void> _getQuestions() async {
     // you mentioned you use firebase for database, so
     // you have to wait for the data to be loaded from the network
-     return await project.getdataFromProject;
+    return await project.getdataFromProject;
    
    
   }
