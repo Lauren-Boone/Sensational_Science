@@ -210,7 +210,7 @@ Widget getNextButton(){
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
             // child: Draggable<Widget>(
-              child: createTextInputHandler,
+              child: Center(child: createTextInputHandler),
             // ),
           ),
           getNextButton()
