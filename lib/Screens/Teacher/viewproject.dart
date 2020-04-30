@@ -136,11 +136,9 @@ Widget mainScreen(BuildContext context){
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('Text Input Field'),
-              data: createTextInputHandler,
-              feedback: Text('Text'),
-            ),
+            // child: Draggable<Widget>(
+              child: createTextInputHandler,
+            // ),
           ),
           getNextButton()
         ]);
@@ -151,11 +149,11 @@ Widget mainScreen(BuildContext context){
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('Multiple Choice'),
-              data: createMultipleChoice,
-              feedback: Text('Mult choice'),
-            ),
+            // child: Draggable<Widget>(
+            //   child: Text('Multiple Choice'),
+              child: createMultipleChoice,
+            //   feedback: Text('Mult choice'),
+            // ),
           ),
           getNextButton()
         ]);
@@ -166,11 +164,11 @@ Widget mainScreen(BuildContext context){
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('Short Answer'),
-              data: createShortAnswer,
-              feedback: Text('Short Answer'),
-            ),
+            // child: Draggable<Widget>(
+            //   child: Text('Short Answer'),
+              child: createShortAnswer,
+            //   feedback: Text('Short Answer'),
+            // ),
           ),
           getNextButton()
         ]);
@@ -181,11 +179,11 @@ Widget mainScreen(BuildContext context){
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('User Location'),
-              data: createLocationHandler,
-              feedback: Text('Text'),
-            ),
+            // child: Draggable<Widget>(
+              // child: Text('User Location'),
+              child: createLocationHandler,
+            //   feedback: Text('Text'),
+            // ),
           ),
           getNextButton()
         ]);
@@ -196,11 +194,11 @@ Widget mainScreen(BuildContext context){
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('Image Upload'),
-              data: createImageCapture,
-              feedback: Text('Image'),
-            ),
+            // child: Draggable<Widget>(
+            //   child: Text('Image Upload'),
+              child: createImageCapture,
+            //   feedback: Text('Image'),
+            // ),
           ),
           getNextButton()
         ]);
@@ -211,11 +209,11 @@ Widget mainScreen(BuildContext context){
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('Numerical Input'),
-              data: createNumericalInput,
-              feedback: Text('Numerical Input'),
-            ),
+            // child: Draggable<Widget>(
+            //   child: Text('Numerical Input'),
+              child: createNumericalInput,
+            //   feedback: Text('Numerical Input'),
+            // ),
           ),
           getNextButton()
         ]);
