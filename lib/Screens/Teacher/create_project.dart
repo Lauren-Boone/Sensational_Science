@@ -53,6 +53,7 @@ class TestScrollView extends StatefulWidget {
 }
 
 class TestScrollViewState extends State<TestScrollView> {
+  
   List<TextEditingController> controllers = [];
   List<List<TextEditingController>> answerControllers = [];
   List<Widget> acceptData = [];
@@ -110,12 +111,32 @@ class CreateProject extends StatefulWidget {
 }
 
 class _CreateProjectState extends State<CreateProject> {
+  bool hasMultchoice=false;
+  String error = "";
+  //final _formKey = GlobalKey<FormState>();
   List<TextEditingController> controllers = [];
   List<List<TextEditingController>> answerControllers = [];
   List<Widget> acceptData = [];
   List<String> acceptType = [];
   int questionCount = 0;
 
+
+bool _checkForMultAnswers(){
+  bool val = true;
+  acceptType.forEach((element) {
+    if(element == 'MultipleChoice'){
+      answerControllers.forEach((element) {
+        if(element.isEmpty){
+          val= false;     
+        }
+    
+  });
+ 
+    }
+  });
+   return val;
+  
+}
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -131,93 +152,103 @@ class _CreateProjectState extends State<CreateProject> {
             body: Row(children: <Widget>[
               Expanded(
                 child: ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(8),
-                children: <Widget>[
-                  SingleChildScrollView(
-                    // controller: ScrollController,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height*0.75, maxWidth: MediaQuery.of(context).size.width / 2),
-                      child: DragTarget(
-                        onWillAccept: (Widget addItem) {
-                          if (addItem == null) {
-                            return false;
-                          }
-                          return true;
-                        },
-                        onAccept: (Widget addItem) {
-                          if (addItem.toString() ==
-                              createTextInputHandler.toString()) {
-                            controllers.add(new TextEditingController());
-                            acceptData.add(Expanded(child: new TextInputItem(
-                              controller: controllers[questionCount],
-                            )));
-                            questionCount++;
-                            acceptType.add(addItem.toString());
-                          } else if (addItem.toString() ==
-                              createShortAnswer.toString()) {
-                            controllers.add(new TextEditingController());
-                            acceptData.add(Expanded(child: new ShortAnswerItem(
-                              controller: controllers[questionCount],
-                            )));
-                            questionCount++;
-                            acceptType.add(addItem.toString());
-                          } else if (addItem.toString() ==
-                              createNumericalInput.toString()) {
-                            controllers.add(new TextEditingController());
-                            acceptData.add(Expanded(child: new NumericalInputItem(
-                              controller: controllers[questionCount],
-                            )));
-                            questionCount++;
-                            acceptType.add(addItem.toString());
-                          } else if (addItem.toString() ==
-                              createImageCapture.toString()) {
-                            controllers.add(new TextEditingController());
-                            acceptData.add(Expanded(child: new AddImageInput(
-                                controller: controllers[questionCount])));
-                            questionCount++;
-                            acceptType.add(addItem.toString());
-                          } else if (addItem.toString() ==
-                              createLocationHandler.toString()) {
-                            controllers.add(new TextEditingController());
-                            acceptData.add(Expanded(child: new UserLocation(
-                                controller: controllers[questionCount])));
-                            questionCount++;
-                            acceptType.add(addItem.toString());
-                          } else if (addItem.toString() ==
-                              createMultipleChoice.toString()) {
-                            controllers.add(new TextEditingController());
-                            answerControllers.add([]);
-                            acceptData.add(Expanded(child: new MultipleChoice(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(8),
+                  children: <Widget>[
+                    SingleChildScrollView(
+                      // controller: ScrollController,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxHeight:
+                                MediaQuery.of(context).size.height * 0.75,
+                            maxWidth: MediaQuery.of(context).size.width / 2),
+                        child: DragTarget(
+                          onWillAccept: (Widget addItem) {
+                            if (addItem == null) {
+                              return false;
+                            }
+                            return true;
+                          },
+                          onAccept: (Widget addItem) {
+                            if (addItem.toString() ==
+                                createTextInputHandler.toString()) {
+                              controllers.add(new TextEditingController());
+                              acceptData.add(Expanded(
+                                  child: new TextInputItem(
                                 controller: controllers[questionCount],
-                                answers: answerControllers[
-                                    answerControllers.length - 1])));
-                            questionCount++;
-                            acceptType.add(addItem.toString());
-                          }
-                        },
-                        builder: (context, List<dynamic> candidateData,
-                            List<dynamic> rejectedData) {
-                          return Container(
-                            height: MediaQuery.of(context).size.height,
-                            color: Colors.lightBlue[50],
-                            child: acceptData.isEmpty
-                                ? Center(
-                                    child: Text('Add Form Fields Here'),
-                                  )
-                                : Column(children: acceptData),
-                          );
-                        },
+                              )));
+                              questionCount++;
+                              acceptType.add(addItem.toString());
+                            } else if (addItem.toString() ==
+                                createShortAnswer.toString()) {
+                              controllers.add(new TextEditingController());
+                              acceptData.add(Expanded(
+                                  child: new ShortAnswerItem(
+                                controller: controllers[questionCount],
+                              )));
+                              questionCount++;
+                              acceptType.add(addItem.toString());
+                            } else if (addItem.toString() ==
+                                createNumericalInput.toString()) {
+                              controllers.add(new TextEditingController());
+                              acceptData.add(Expanded(
+                                  child: new NumericalInputItem(
+                                controller: controllers[questionCount],
+                              )));
+                              questionCount++;
+                              acceptType.add(addItem.toString());
+                            } else if (addItem.toString() ==
+                                createImageCapture.toString()) {
+                              controllers.add(new TextEditingController());
+                              acceptData.add(Expanded(
+                                  child: new AddImageInput(
+                                      controller: controllers[questionCount])));
+                              questionCount++;
+                              acceptType.add(addItem.toString());
+                            } else if (addItem.toString() ==
+                                createLocationHandler.toString()) {
+                              controllers.add(new TextEditingController());
+                              acceptData.add(Expanded(
+                                  child: new UserLocation(
+                                      controller: controllers[questionCount])));
+                              questionCount++;
+                              acceptType.add(addItem.toString());
+                            } else if (addItem.toString() ==
+                                createMultipleChoice.toString()) {
+                              controllers.add(new TextEditingController());
+                              answerControllers.add([]);
+                              acceptData.add(Expanded(
+                                  child: new MultipleChoice(
+                                      controller: controllers[questionCount],
+                                      answers: answerControllers[
+                                          answerControllers.length - 1])));
+                              questionCount++;
+                              hasMultchoice=true;
+                              acceptType.add(addItem.toString());
+                            }
+                          },
+                          builder: (context, List<dynamic> candidateData,
+                              List<dynamic> rejectedData) {
+                            return Container(
+                              height: MediaQuery.of(context).size.height,
+                              color: Colors.lightBlue[50],
+                              child: acceptData.isEmpty
+                                  ? Center(
+                                      child: Text('Add Form Fields Here'),
+                                    )
+                                  : Column(children: acceptData),
+                            );
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: RaisedButton(
-                            child: Text('Submit Project'),
-                            onPressed: () async {
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: RaisedButton(
+                          child: Text('Submit Project'),
+                          onPressed: () async {
+                            if (_checkForMultAnswers()) {
                               widget.proj.addProjectDataToDoc(
                                   user.uid,
                                   controllers,
@@ -226,6 +257,7 @@ class _CreateProjectState extends State<CreateProject> {
                                   questionCount,
                                   widget.proj.getDocID());
                               widget.proj.addtodb(questionCount);
+
                               var answerCount = 0;
                               print('submit project onPressed');
                               for (var i = 0; i < questionCount; i++) {
@@ -242,10 +274,14 @@ class _CreateProjectState extends State<CreateProject> {
                               }
                               Navigator.of(context).pop();
                               Navigator.of(context).pop();
-                            },
-                          ))
-                ],
-              ),
+                            }
+                            else{
+                              setState(()=> error = 'please enter multple choice answers');
+                            }
+                          },
+                        ))
+                  ],
+                ),
               ),
               Column(
                 children: <Widget>[

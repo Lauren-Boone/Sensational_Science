@@ -22,6 +22,7 @@ class _DynamicWidgetState extends State<DynamicWidget> {
       child: Column(
         children: <Widget>[
           new TextField(
+            
             controller: widget.controller,
             decoration: new InputDecoration(hintText: 'Enter Answer'),
             //onChanged: (val) => setState(() => item = val),
@@ -36,6 +37,7 @@ class _DynamicWidgetState extends State<DynamicWidget> {
 class MultipleChoice extends StatefulWidget {
   final TextEditingController controller;
   final List<TextEditingController> answers;
+  
 
   MultipleChoice({this.controller, this.answers});
   
@@ -57,6 +59,7 @@ class _MultipleChoiceState extends State<MultipleChoice> {
   addField(List<TextEditingController> answers) {
     answers.add(new TextEditingController());
     add_items.add(new DynamicWidget(controller: answers[answers.length - 1]));
+    
     setState(() {
       //results=result;
     });
@@ -69,6 +72,7 @@ class _MultipleChoiceState extends State<MultipleChoice> {
         children: <Widget>[
           new Flexible(
             child: new TextFormField(
+              //validator: (val)=> add_items.length > 0 ? 'Must have Answers' : null,
               controller: widget.controller,
               decoration: new InputDecoration(
                 hintText: 'Enter Question Here',
@@ -90,6 +94,7 @@ class _MultipleChoiceState extends State<MultipleChoice> {
             child: new ListView.builder(
               itemCount: add_items.length,
               itemBuilder: (_, index) => add_items[index],
+              
             ),
           ),
         ],

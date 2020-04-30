@@ -26,25 +26,37 @@ var createShortAnswer = new ShortAnswerQuestion();
 var createNumericalInput = new NumericalQuestion(); 
 
 class ViewProject extends StatefulWidget {
-  final String docIDref;
-  final String title;
+  String docIDref;
+ String title;
+//GetProject project;
+  ViewProject(title, docID){
+    this.docIDref = docID;
+     this.title = title;
 
-  ViewProject({this.docIDref, this.title});
+
+  }
 
   @override
-  _ViewProjectState createState() => _ViewProjectState();
+  _ViewProjectState createState() => _ViewProjectState(this.title, this.docIDref);
 }
 
 class _ViewProjectState extends State<ViewProject> {
   GetProject project;
+  bool done= false;
+  _ViewProjectState(String title, String docID) {
+    project=new GetProject(title, docID);
+    //project.questionData();
+     //project.questionData();
+   
+  
+  }
   int _currentQuestion = 0;
-  Future projectFuture;
-
-  int _getType(_currentQuestion) {
-    //project.getdataFromProject();
-    //setState(() {});
-    //return project.getType(_currentQuestion);
-    switch (project.questions[_currentQuestion].type) {
+  Future questionFuture;
+  
+  
+  Future<int> _getType(_currentQuestion) async {
+    if(_currentQuestion < project.questions.length){
+    switch(project.questions[_currentQuestion].type){
       case 'TextInputItem':
         return 0;
       case 'MultipleChoice':
@@ -52,44 +64,87 @@ class _ViewProjectState extends State<ViewProject> {
       case 'ShortAnswerItem':
         return 2;
       case 'UserLocation':
-        return 3;
-    }
+        return 3; 
+      case 'NumericalInputItem':
+        return 4;
+      case 'AddImageInput':
+        return 5;
+    }}
+    else{
     return -1;
   }
+  }
+   
 
-  Widget build(BuildContext context) {
-    return new MaterialApp(
+   void renderPage()async {
+     if(project.questions.length > 0){
+     setState(() {
+       done=true;
+     });
+     }
+     setState(() {
+       
+     });
+   }
+  /* 
+   Widget build(BuildContext context){
+   
+     if(done){
+       
+       return mainScreen(context);
+     }
+     else{
+       renderPage();
+       
+       return CircularProgressIndicator();
+     }
+   }
+*/
+   
+Widget build(BuildContext context) {
+
+  return new MaterialApp(
+      
       home: new Scaffold(
           appBar: AppBar(title: Text("Random Widget")),
-          body:
-              //project.questions.length == 0
-
-              //  ? Center(child: CircularProgressIndicator()
-
-              // )
-              // :
-              Center(
-                  child: FutureBuilder(
-                      initialData: 0,
-                      future: projectFuture,
-                      builder: (context, snapshot) {
-                        /*switch(snapshot.connectionState){
+          body: 
+          project.questions.length == 0
+          
+         ? Center(child: CircularProgressIndicator()
+          
+              
+         )
+         :
+          Center(
+          
+            child:
+      
+          FutureBuilder(
+              initialData: 0,
+              future: _getType(_currentQuestion),
+              builder: (context, snapshot) {
+              /*switch(snapshot.connectionState){
                 case ConnectionState.waiting: 
                   return CircularProgressIndicator();
                 case ConnectionState.done:
                   return getQuestionWidget();
                 default:
-
               }*/
 
-                        if (project.questions.length > 0) {
-                          return getQuestionWidget();
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      }))),
-    );
-  }
+                if(project.questions.length>0){
+                  return getQuestionWidget(snapshot.data);
+               }
+              else{
+                  
+                  return CircularProgressIndicator();
+               }
+              }
+          )
+     // )
+      ),
+    ),
+  );
+}
 
 /*
 Widget mainScreen(BuildContext context){
@@ -99,7 +154,6 @@ Widget mainScreen(BuildContext context){
       home: new Scaffold(
           appBar: AppBar(title: Text("Random Widget")),
           body: project.questions.length == 0
-
           ? Center(child: CircularProgressIndicator()
           
               
@@ -126,11 +180,32 @@ Widget mainScreen(BuildContext context){
    // );
   }
 */
-  Widget getQuestionWidget() {
-    switch (_getType(_currentQuestion++)) {
+
+Widget getNextButton(){
+      return RaisedButton(
+          child: Text("NEXT"),
+          color: Colors.red,
+          onPressed: () {
+            if(_currentQuestion < project.questions.length){
+                
+                setState(() {
+                  _currentQuestion++;
+                  _getType(_currentQuestion);
+                });
+              
+                
+            }
+            
+        });
+  }
+
+
+   Widget getQuestionWidget(int number) {
+     
+    switch(number){
       case 0:
         return Column(children: <Widget>[
-          Text("TextInputItem", textScaleFactor: 4),
+          Text("TextInputItem"+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -143,7 +218,7 @@ Widget mainScreen(BuildContext context){
         break;
       case 1:
         return Column(children: <Widget>[
-          Text("MultipleChoice", textScaleFactor: 4),
+          Text("MultipleChoice"+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -158,7 +233,7 @@ Widget mainScreen(BuildContext context){
         break;
       case 2:
         return Column(children: <Widget>[
-          Text("ShortAnswer", textScaleFactor: 4),
+          Text("ShortAnswer"+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -173,7 +248,7 @@ Widget mainScreen(BuildContext context){
         break;
       case 3:
         return Column(children: <Widget>[
-          Text("UserLocation", textScaleFactor: 4),
+          Text("UserLocation"+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -183,12 +258,13 @@ Widget mainScreen(BuildContext context){
             //   feedback: Text('Text'),
             // ),
           ),
+
           getNextButton()
         ]);
         break;
       case 4:
         return Column(children: <Widget>[
-          Text("UserLocation", textScaleFactor: 4),
+          Text("Numerical" + _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -200,10 +276,9 @@ Widget mainScreen(BuildContext context){
           ),
           getNextButton()
         ]);
-        break;
       case 5:
         return Column(children: <Widget>[
-          Text("UserLocation", textScaleFactor: 4),
+          Text("Image"+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -215,6 +290,8 @@ Widget mainScreen(BuildContext context){
           ),
           getNextButton()
         ]);
+        break;
+        
       case -1:
         return Column(children: <Widget>[
           Text("Submit Page", textScaleFactor: 4),
@@ -223,38 +300,31 @@ Widget mainScreen(BuildContext context){
     }
   }
 
-  Widget getNextButton() {
-    return RaisedButton(
-        child: Text("NEXT"),
-        color: Colors.red,
-        onPressed: () {
-          if (_currentQuestion < project.questions.length) {
-            return getQuestionWidget();
-          }
-          return Text("All done!");
-          //setState(() {
+ 
 
-          //_currentQuestion++;
-          //return getQuestionWidget();
 
-          //_getType(_currentQuestion);
-          // });
-        });
-  }
+
 
   @override
   void initState() {
-    project = new GetProject(docID: widget.docIDref, title: widget.title);
-    //project.getdataFromProject();
-    //_getQuestions();
-    projectFuture = _getQuestions();
+    
+    setState(() {
+     _getQuestions();
+    });
+   // done=false;
     super.initState();
   }
 
   Future<void> _getQuestions() async {
     // you mentioned you use firebase for database, so
     // you have to wait for the data to be loaded from the network
-    return await project.getdataFromProject;
+    await project.questionData();
+    setState(() {
+      
+    });
+    
+   
+   
   }
 
   // Call this function when you want to move to the next page
@@ -263,4 +333,6 @@ Widget mainScreen(BuildContext context){
     _currentQuestion++;
     // });
   }
+
+
 }
