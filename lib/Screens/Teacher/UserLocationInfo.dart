@@ -65,7 +65,8 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                 print("Success!");
               },
             ),
-            if (results != null) new Text('$results'),
+            if (results != null) 
+            new Text('$results'),
           ],
         ));
   }

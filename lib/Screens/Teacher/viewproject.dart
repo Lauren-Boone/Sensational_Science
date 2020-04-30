@@ -217,12 +217,12 @@ Widget getNextButton(){
     switch(number){
       case 0:
         return Column(children: <Widget>[
-          Text("TextInputItem"+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("TextInputItem "+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
             // child: Draggable<Widget>(
-              child: createTextInputHandler,
+              child: Center(child: createTextInputHandler),
             // ),
           ),
           getNextButton()
@@ -230,7 +230,7 @@ Widget getNextButton(){
         break;
       case 1:
         return Column(children: <Widget>[
-          Text("MultipleChoice"+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("MultipleChoice "+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -245,7 +245,7 @@ Widget getNextButton(){
         break;
       case 2:
         return Column(children: <Widget>[
-          Text("ShortAnswer"+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("ShortAnswer "+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -260,7 +260,7 @@ Widget getNextButton(){
         break;
       case 3:
         return Column(children: <Widget>[
-          Text("UserLocation"+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("UserLocation "+ _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -276,7 +276,7 @@ Widget getNextButton(){
         break;
       case 4:
         return Column(children: <Widget>[
-          Text("Numerical" + _currentQuestion.toString(), textScaleFactor: 4),
+          Text("Numerical " + _currentQuestion.toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
