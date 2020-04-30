@@ -109,7 +109,24 @@ Widget build(BuildContext context) {
       
       home: new Scaffold(
           appBar: AppBar(title: Text("Random Widget")),
-          body: 
+          body: project.questions.length == 0
+          
+         ? Center(
+           child: RaisedButton(
+           onPressed: (){
+             //color: Colors.blue;
+            
+             setState(() {
+               
+             });
+           },
+           child:  Text('Click to View Questions'),
+           color: Colors.blue,
+           )
+          
+              
+         )
+         :
           
           Center(
           
