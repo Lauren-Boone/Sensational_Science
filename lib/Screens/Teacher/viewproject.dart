@@ -105,7 +105,7 @@ class _ViewProjectState extends State<ViewProject> {
 */
    
 Widget build(BuildContext context) {
-
+List<TextEditingController> answers = [];
   return new MaterialApp(
       
       home: new Scaffold(
@@ -132,9 +132,7 @@ Widget build(BuildContext context) {
          
             
            )
-          
-              
-         
+        
          :
           
           Center(
@@ -211,7 +209,7 @@ Widget getNextButton(){
                 
                 setState(() {
                   _currentQuestion++;
-                  //_getType(_currentQuestion);
+                  _getType(_currentQuestion);
                 });
               
                 
@@ -221,13 +219,17 @@ Widget getNextButton(){
   }
 
 
+
+
    Widget getQuestionWidget(int number) {
     
     switch(number){
       case 0:
         return Column(children: <Widget>[
           Text("TextInputItem "+ (_currentQuestion+1).toString(), textScaleFactor: 4),
+          Text("Question: " + project.questions[_currentQuestion].question),
           Container(
+            
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
             // child: Draggable<Widget>(
@@ -240,21 +242,45 @@ Widget getNextButton(){
       case 1:
         return Column(children: <Widget>[
           Text("MultipleChoice "+ (_currentQuestion+1).toString(), textScaleFactor: 4),
-          Container(
-            margin: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width / 3,
-            // child: Draggable<Widget>(
-            //   child: Text('Multiple Choice'),
-              child: createMultipleChoice,
-            //   feedback: Text('Mult choice'),
-            // ),
+          Text("Question: " + project.questions[_currentQuestion].question),
+          Center(
+            child: Flexible(
+              child: SizedBox(
+                height: 400.0,
+                child: ListView.builder(
+                itemCount: project.questions[_currentQuestion].answers.length,
+                itemBuilder: (context, index){
+                  //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
+                       return RadioListTile(
+                      title: Text(project.questions[_currentQuestion].answers[index]),
+                     // groupValue: selectedValue,
+                      value: project.questions[_currentQuestion].answers[index],
+                      onChanged: (value) {
+                        setState(() {
+                          
+                        });
+                     
+                      }, groupValue: null);      
+                 // }
+                          
+                     
+                }
+              ),
+
+              ),
+            ),
           ),
-          getNextButton()
+          
+
+          
+          
+        getNextButton()
         ]);
         break;
       case 2:
         return Column(children: <Widget>[
           Text("ShortAnswer "+ (_currentQuestion+1).toString(), textScaleFactor: 4),
+          Text("Question: " + project.questions[_currentQuestion].question),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -270,6 +296,7 @@ Widget getNextButton(){
       case 3:
         return Column(children: <Widget>[
           Text("UserLocation "+ (_currentQuestion+1).toString(), textScaleFactor: 4),
+          Text("Question: " + project.questions[_currentQuestion].question),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -286,6 +313,7 @@ Widget getNextButton(){
       case 4:
         return Column(children: <Widget>[
           Text("Numerical " + (_currentQuestion+1).toString(), textScaleFactor: 4),
+           Text("Question: " + project.questions[_currentQuestion].question),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -300,6 +328,7 @@ Widget getNextButton(){
       case 5:
         return Column(children: <Widget>[
           Text("Image"+ (_currentQuestion+1).toString(), textScaleFactor: 4),
+          Text("Question: " + project.questions[_currentQuestion].question),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
