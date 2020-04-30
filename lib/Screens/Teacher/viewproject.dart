@@ -28,30 +28,36 @@ var createShortAnswer = new ShortAnswerItem();
 var createNumericalInput = new NumericalInputItem();
 
 class ViewProject extends StatefulWidget {
-   String docIDref;
-   String title;
-    GetProject project;
-  //ViewProject({this.docIDref, this.title});
-  ViewProject(String docIDref, String title){
-    this.docIDref = docIDref;
-    this.title=title;
-    project=new GetProject(this.title, this.docIDref);
+  String docIDref;
+ String title;
+//GetProject project;
+  ViewProject(title, docID){
+    this.docIDref = docID;
+     this.title = title;
+
+
   }
 
   @override
-  _ViewProjectState createState() => _ViewProjectState();
+  _ViewProjectState createState() => _ViewProjectState(this.title, this.docIDref);
 }
 
 class _ViewProjectState extends State<ViewProject> {
   GetProject project;
+  bool done= false;
+  _ViewProjectState(String title, String docID) {
+    project=new GetProject(title, docID);
+    //project.questionData();
+     //project.questionData();
+   
+  
+  }
   int _currentQuestion = 0;
-  Future projectFuture;
+  Future questionFuture;
   
   
-  int _getType(_currentQuestion) {
-     //project.getdataFromProject();
-    //setState(() {});
-    //return project.getType(_currentQuestion);
+  Future<int> _getType(_currentQuestion) async {
+    if(_currentQuestion < project.questions.length){
     switch(project.questions[_currentQuestion].type){
       case 'TextInputItem':
         return 0;
@@ -61,9 +67,37 @@ class _ViewProjectState extends State<ViewProject> {
         return 2;
       case 'UserLocation':
         return 3; 
-    }
+    }}
+    else{
     return -1;
   }
+  }
+   
+
+   void renderPage()async {
+     if(project.questions.length > 0){
+     setState(() {
+       done=true;
+     });
+     }
+     setState(() {
+       
+     });
+   }
+  /* 
+   Widget build(BuildContext context){
+   
+     if(done){
+       
+       return mainScreen(context);
+     }
+     else{
+       renderPage();
+       
+       return CircularProgressIndicator();
+     }
+   }
+*/
    
 Widget build(BuildContext context) {
 
@@ -73,21 +107,30 @@ Widget build(BuildContext context) {
           appBar: AppBar(title: Text("Random Widget")),
           body: 
           project.questions.length == 0
-
+          
          ? Center(child: CircularProgressIndicator()
           
               
          )
-         : 
-          Center(child:
+         :
+          Center(
+          
+            child:
       
           FutureBuilder(
               initialData: 0,
-              future: projectFuture,
+              future: _getType(_currentQuestion),
               builder: (context, snapshot) {
-            
-                if(project.questions.length>0){
+              /*switch(snapshot.connectionState){
+                case ConnectionState.waiting: 
+                  return CircularProgressIndicator();
+                case ConnectionState.done:
                   return getQuestionWidget();
+                default:
+              }*/
+
+                if(project.questions.length>0){
+                  return getQuestionWidget(snapshot.data);
                }
               else{
                   
@@ -95,8 +138,10 @@ Widget build(BuildContext context) {
                }
               }
           )
-      )),
-    );
+     // )
+      ),
+    ),
+  );
 }
 
 /*
@@ -133,9 +178,9 @@ Widget mainScreen(BuildContext context){
    // );
   }
 */
-   Widget getQuestionWidget() {
-
-    switch(_getType(_currentQuestion++)){
+   Widget getQuestionWidget(int number) {
+     
+    switch(number){
       case 0:
         return Column(children: <Widget>[
           Text("TextInputItem", textScaleFactor: 4),
@@ -157,15 +202,6 @@ Widget mainScreen(BuildContext context){
       case 3:
         return Column(children: <Widget>[
           Text("UserLocation", textScaleFactor: 4),
-          Container(
-            margin: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('User Location'),
-              data: createLocationHandler,
-              feedback: Text('Text'),
-            ),
-          ),
           getNextButton()
         ]);
         break;
@@ -184,9 +220,15 @@ Widget getNextButton(){
           color: Colors.red,
           onPressed: () {
             if(_currentQuestion < project.questions.length){
-                return getQuestionWidget();
+                //return getQuestionWidget();
+                setState(() {
+                  _currentQuestion++;
+                  _getType(_currentQuestion);
+                });
+               // _currentQuestion++;
+                
             }
-            return Text("All done!"); 
+            return getQuestionWidget(-1); 
             //setState(() {
               
               //_currentQuestion++;
@@ -199,12 +241,14 @@ Widget getNextButton(){
       );
   }
 
+
   @override
   void initState() {
-    //project = new GetProject(widget.title, widget.docIDref);
-    //project.getdataFromProject();
-    //_getQuestions();
-  //  projectFuture=_getQuestions();
+    
+    setState(() {
+     _getQuestions();
+    });
+   // done=false;
     super.initState();
     
   }
@@ -212,7 +256,11 @@ Widget getNextButton(){
   Future<void> _getQuestions() async {
     // you mentioned you use firebase for database, so
     // you have to wait for the data to be loaded from the network
-    return await project.getdataFromProject;
+    await project.questionData();
+    setState(() {
+      
+    });
+    
    
    
   }
