@@ -8,7 +8,7 @@ import '../Screens/Teacher/textquestion.dart';
 
 class Questions {
   final String question;
-  final String number;
+  final int number;
   final String type;
   Questions({this.question, this.number, this.type});
   List<String> answers = new List();
@@ -43,7 +43,7 @@ class GetProject {
     questionSnap.data.forEach((key,value){
         if ('$key' == 'count') {
               count = value;
-              count--;
+              
               
               //returncount=count;
             } 
@@ -69,9 +69,26 @@ class GetProject {
               //count--;
             }
           }),
-          printproj()
+         orderProject(count),
         });
         
+        
+  }
+
+  orderProject(int count){
+   
+    //this.questions.sort((a,b)=> a.number.compareTo(b.number));
+    this.questions.forEach((element) {
+      this.questions.sort((a,b)=>a.number.compareTo(b.number));
+    });
+    //this.questions.sort((a,b)=> a.number.compareTo(b.number));
+    //for(int i = 0; i < count; ++i){
+      //if(this.questions[i].number != i.toString()){
+
+     // }
+   // }
+    printproj();
+
   }
 
  int getType(int index) {

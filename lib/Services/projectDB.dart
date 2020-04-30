@@ -9,7 +9,7 @@ import 'package:sensational_science/models/project.dart';
 class Question {
   final String type;
   final String question;
-  final String number;
+  final int number;
   Question({this.type, this.question, this.number});
   Map<String, dynamic> questionMap = Map();
   List<String> answers= new List();
@@ -72,7 +72,7 @@ docRef.setData({
   'count': numberQuestions,
 },merge: true);
     for (var i = 0; i < count; i++) {
-     questionNum = "Question" + questions[i].number;
+     questionNum = "Question" + questions[i].number.toString();
       questions[i].questionMap.forEach((key, value) {
         if (key == 'Answers') {
           value.forEach((e) {
@@ -82,7 +82,14 @@ docRef.setData({
               }
             }, merge: true);
           });
-        } else {
+        }else if(value == this.questions[i].number){
+          docRef.setData({
+            questionNum: {
+             'Number': value,
+            }
+          }, merge: true);
+        }        
+        else {
           docRef.setData({
             questionNum: {
               '$key': '$value',
@@ -106,7 +113,7 @@ docRef.setData({
     var answerCount = 0;
     for (var i = 0; i < numQuestions; i++) {
       this.questions.add(new Question(
-          number: i.toString(),
+          number: i,
           type: acceptType[i].toString(),
           question: acceptData[i].text));
       if (acceptType[i] == 'MultipleChoice') {

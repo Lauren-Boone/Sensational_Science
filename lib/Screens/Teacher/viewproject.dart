@@ -59,6 +59,7 @@ class _ViewProjectState extends State<ViewProject> {
   Future<int> _getType(_currentQuestion) async {
     if(_currentQuestion < project.questions.length){
     switch(project.questions[_currentQuestion].type){
+      
       case 'TextInputItem':
         return 0;
       case 'MultipleChoice':
@@ -111,21 +112,29 @@ Widget build(BuildContext context) {
           appBar: AppBar(title: Text("Random Widget")),
           body: project.questions.length == 0
           
-         ? Center(
-           child: RaisedButton(
-           onPressed: (){
-             //color: Colors.blue;
+         ? Column(
+           children: <Widget>[
+                RaisedButton(
+             onPressed: (){
+               //color: Colors.blue;
+              
+               setState(() {
+                 
+               });
+             },
+             child:  Text('Click to View Questions'),
+             color: Colors.blue,
+             ),
             
-             setState(() {
-               
-             });
-           },
-           child:  Text('Click to View Questions'),
-           color: Colors.blue,
+
+
+           ],
+         
+            
            )
           
               
-         )
+         
          :
           
           Center(
@@ -202,7 +211,7 @@ Widget getNextButton(){
                 
                 setState(() {
                   _currentQuestion++;
-                  _getType(_currentQuestion);
+                  //_getType(_currentQuestion);
                 });
               
                 
@@ -213,11 +222,11 @@ Widget getNextButton(){
 
 
    Widget getQuestionWidget(int number) {
-     
+    
     switch(number){
       case 0:
         return Column(children: <Widget>[
-          Text("TextInputItem "+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("TextInputItem "+ (_currentQuestion+1).toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -230,7 +239,7 @@ Widget getNextButton(){
         break;
       case 1:
         return Column(children: <Widget>[
-          Text("MultipleChoice "+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("MultipleChoice "+ (_currentQuestion+1).toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -245,7 +254,7 @@ Widget getNextButton(){
         break;
       case 2:
         return Column(children: <Widget>[
-          Text("ShortAnswer "+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("ShortAnswer "+ (_currentQuestion+1).toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -260,7 +269,7 @@ Widget getNextButton(){
         break;
       case 3:
         return Column(children: <Widget>[
-          Text("UserLocation "+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("UserLocation "+ (_currentQuestion+1).toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -276,7 +285,7 @@ Widget getNextButton(){
         break;
       case 4:
         return Column(children: <Widget>[
-          Text("Numerical " + _currentQuestion.toString(), textScaleFactor: 4),
+          Text("Numerical " + (_currentQuestion+1).toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -290,7 +299,7 @@ Widget getNextButton(){
         ]);
       case 5:
         return Column(children: <Widget>[
-          Text("Image"+ _currentQuestion.toString(), textScaleFactor: 4),
+          Text("Image"+ (_currentQuestion+1).toString(), textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
