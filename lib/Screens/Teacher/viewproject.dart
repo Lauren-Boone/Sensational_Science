@@ -27,26 +27,26 @@ var createNumericalInput = new NumericalQuestion();
 
 class ViewProject extends StatefulWidget {
   String docIDref;
-  String title;
+  //String title;
  
 //GetProject project;
-  ViewProject(title, docID) {
+  ViewProject( docID) {
     this.docIDref = docID;
-    this.title = title;
+    
     
   }
 
   @override
   _ViewProjectState createState() =>
-      _ViewProjectState(this.title, this.docIDref);
+      _ViewProjectState( this.docIDref);
 }
 
 class _ViewProjectState extends State<ViewProject> {
   GetProject project;
   bool done = false;
  List<TextEditingController> controllers = [];
-  _ViewProjectState(String title, String docID) {
-    project = new GetProject(title, docID);
+  _ViewProjectState( String docID) {
+    project = new GetProject( docID);
     this.controllers = new List();
     //project.questionData();
     //project.questionData();
@@ -103,7 +103,7 @@ class _ViewProjectState extends State<ViewProject> {
                 
                   Card(
                     
-                    child: Text(widget.title),
+                    child: Text(project.title),
                   ),
                   RaisedButton(
                     onPressed: () {
