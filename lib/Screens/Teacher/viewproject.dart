@@ -189,25 +189,15 @@ Widget getNextButton(){
           color: Colors.red,
           onPressed: () {
             if(_currentQuestion < project.questions.length){
-                //return getQuestionWidget();
+                
                 setState(() {
                   _currentQuestion++;
                   _getType(_currentQuestion);
                 });
-               // _currentQuestion++;
+              
                 
             }
-            //return getQuestionWidget(-1); 
-            //setState(() {
-              
-              //_currentQuestion++;
-              //return getQuestionWidget();
-
-              //_getType(_currentQuestion);
-           // });
-
-          //_getType(_currentQuestion);
-          // });
+            
         });
   }
 
