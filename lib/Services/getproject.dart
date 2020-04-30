@@ -15,20 +15,18 @@ class Questions {
 }
 
 class GetProject {
-  final String docID;
-  final String title;
-  GetProject({this.docID, this.title});
+  String docID;
+   String title;
+  GetProject(String title, String docID){
+    this.docID = docID;
+    this.title=title;
+  //squestionData();
+    
+  } 
+ List<Questions> questions = new List();
 
-  
 
-  List<Questions> questions = new List();
 
-  final CollectionReference projectCollection =
-      Firestore.instance.collection('Projects');
-
-  Future<void> get getdataFromProject async {
-    return await questionData();
-  }
 
   Future<void> questionData() async {
     //List<String> questiondata;
@@ -40,13 +38,19 @@ class GetProject {
 
  // var snapshot = projectCollection.document(this.docID).get();
   //snapshot.asStream();
-    return await snapshot.then((DocumentSnapshot questionSnap) => {
-          questionSnap.data.forEach((key, value) {
-            if ('$key' == 'count') {
+  
+    snapshot.then((DocumentSnapshot questionSnap) => {
+    questionSnap.data.forEach((key,value){
+        if ('$key' == 'count') {
               count = value;
               count--;
+              
               //returncount=count;
-            } else if ('$key' == ('Question' + count.toString())) {
+            } 
+    }),    
+          questionSnap.data.forEach((key, value) {
+           // print('$value');
+           if ('$key' == ('Question' + count.toString())) {
               print(value['Type']);
               Questions question = new Questions(
                 type: value['Type'],
@@ -59,11 +63,12 @@ class GetProject {
                 });
                 //question.answers.addAll(value['Answers']);
               }
-              questions.add(question);
-
+              print('adding');
+              this.questions.add(question);
               count--;
             }
           }),
+          printproj()
         });
         
   }
@@ -86,7 +91,7 @@ class GetProject {
     return -1;
   }
 
-  Future<int> printproj() {
+  printproj() {
     questions.forEach((e) {
       print(e.question);
       print(e.number);
