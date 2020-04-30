@@ -82,7 +82,9 @@ docRef.setData({
               }
             }, merge: true);
           });
-        }else if(value == this.questions[i].number){
+        }
+          
+        else if(value == this.questions[i].number){
           docRef.setData({
             questionNum: {
              'Number': value,
@@ -90,6 +92,14 @@ docRef.setData({
           }, merge: true);
         }        
         else {
+          if(key == 'Type' && value == 'AddImageInput' ){
+            docRef.setData({
+             
+              'hasImage': true,
+            
+          }, merge: true);
+          }
+
           docRef.setData({
             questionNum: {
               '$key': '$value',
