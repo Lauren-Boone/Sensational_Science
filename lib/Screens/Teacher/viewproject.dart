@@ -190,6 +190,35 @@ Widget mainScreen(BuildContext context){
           getNextButton()
         ]);
         break;
+      case 4:
+        return Column(children: <Widget>[
+          Text("UserLocation", textScaleFactor: 4),
+          Container(
+            margin: EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width / 3,
+            child: Draggable<Widget>(
+              child: Text('Image Upload'),
+              data: createImageCapture,
+              feedback: Text('Image'),
+            ),
+          ),
+          getNextButton()
+        ]);
+        break;
+      case 5:
+        return Column(children: <Widget>[
+          Text("UserLocation", textScaleFactor: 4),
+          Container(
+            margin: EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width / 3,
+            child: Draggable<Widget>(
+              child: Text('Numerical Input'),
+              data: createNumericalInput,
+              feedback: Text('Numerical Input'),
+            ),
+          ),
+          getNextButton()
+        ]);
       case -1:
         return Column(children: <Widget>[
           Text("Submit Page", textScaleFactor: 4),
