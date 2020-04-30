@@ -78,6 +78,10 @@ class GetProject {
         return 2;
       case 'UserLocation':
         return 3; 
+      case 'AddImageInput':
+        return 4; 
+      case 'NumericalInputItem':
+        return 5; 
     }
     return -1;
   }
