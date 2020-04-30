@@ -289,11 +289,11 @@ Widget getNextButton(){
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('Numerical Input'),
-              data: createNumericalInput,
-              feedback: Text('Numerical Input'),
-            ),
+            // child: Draggable<Widget>(
+            //   child: Text('Numerical Input'),
+              child: createNumericalInput,
+            //   feedback: Text('Numerical Input'),
+            // ),
           ),
           getNextButton()
         ]);
@@ -303,11 +303,11 @@ Widget getNextButton(){
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('Image Upload'),
-              data: createImageCapture,
-              feedback: Text('Image'),
-            ),
+            // child: Draggable<Widget>(
+            //   child: Text('Image Upload'),
+              child: createImageCapture,
+            //   feedback: Text('Image'),
+            // ),
           ),
           getNextButton()
         ]);
