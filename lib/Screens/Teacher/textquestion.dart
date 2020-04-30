@@ -9,10 +9,24 @@ class TextQuestionWidget extends StatefulWidget {
 }
 
 class _TextQuestionWidgetState extends State<TextQuestionWidget> {
+      final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Form(
+      key: _formKey, 
+        child: new TextFormField(
+      // controller: widget.controller,
+      decoration: new InputDecoration(
+        labelText: "Text Answer",
+        fillColor: Colors.white,
+        enabledBorder: new OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
+        ),
+      ),
+    )
     );
   }
 }

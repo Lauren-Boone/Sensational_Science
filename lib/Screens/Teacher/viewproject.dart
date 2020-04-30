@@ -4,24 +4,20 @@ import '../../models/project.dart';
 import '../../Services/getproject.dart';
 import 'textquestion.dart';
 import 'multiplechoicequestion.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/multiplechoice.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/textInputItem.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/shortAnswer.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/numericalInput.dart';
 import 'shortanswerquestion.dart'; 
 import 'numericalquestion.dart'; 
+import 'UserLocationInfo.dart'; 
+import 'multiplechoicequestion.dart'; 
 //import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
-var createLocationHandler = new UserLocation();
+var createLocationHandler = new UserLocationInfo(); 
 
 var locationResult = createLocationHandler.getUserLocation();
 
-var createTextInputHandler =
-    new TextInputItem(controller: new TextEditingController());
+var createTextInputHandler = new TextQuestionWidget(); 
 
-var createMultipleChoice = new MultipleChoice();
+var createMultipleChoice = new MultQuestionWidget(); 
 
 var createImageCapture = new AddImageInput();
 

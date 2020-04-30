@@ -9,10 +9,24 @@ class MultQuestionWidget extends StatefulWidget {
 }
 
 class _MultQuestionWidgetState extends State<MultQuestionWidget> {
+    final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('I am multiple choice'),
+    return Form(
+      key: _formKey, 
+        child: new TextFormField(
+      // controller: widget.controller,
+      decoration: new InputDecoration(
+        labelText: "Multiple Choice Answer",
+        fillColor: Colors.white,
+        enabledBorder: new OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(
+            color: Colors.black,
+          ),
+        ),
+      ),
+    )
     );
   }
 }
