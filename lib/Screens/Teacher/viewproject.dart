@@ -10,6 +10,8 @@ import 'package:sensational_science/Screens/Teacher/FormInputs/textInputItem.dar
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/shortAnswer.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/numericalInput.dart';
+import 'shortanswerquestion.dart'; 
+import 'numericalquestion.dart'; 
 //import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
 var createLocationHandler = new UserLocation();
@@ -23,9 +25,9 @@ var createMultipleChoice = new MultipleChoice();
 
 var createImageCapture = new AddImageInput();
 
-var createShortAnswer = new ShortAnswerItem();
+var createShortAnswer = new ShortAnswerQuestion();
 
-var createNumericalInput = new NumericalInputItem();
+var createNumericalInput = new NumericalQuestion(); 
 
 class ViewProject extends StatefulWidget {
   final String docIDref;
