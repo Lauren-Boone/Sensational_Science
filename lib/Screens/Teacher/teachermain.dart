@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
@@ -50,6 +51,21 @@ class TeacherHome extends StatelessWidget{
                       context,
                       MaterialPageRoute(
                         builder: (context) =>AddClassPage(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  title: Text('Assign Project to Class'),
+                  subtitle: Text('Assign an Existing Project to an Existing Class'),
+                  trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>AddProjectToClass(),
                       ),
                     );
                   },

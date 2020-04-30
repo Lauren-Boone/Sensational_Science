@@ -85,6 +85,8 @@ class StagePageState extends State<StagingPage> {
   @override
   Widget build(BuildContext context) {
    final user = Provider.of<User>(context);
+   final CollectionReference projectCollection = Firestore.instance.collection('Projects');
+   final TextEditingController projectTitleController = new TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Project Info"),
@@ -98,13 +100,13 @@ class StagePageState extends State<StagingPage> {
               children: <Widget>[
                 SizedBox(height: 20),
                 TextFormField(
-                  initialValue: '',
+                  controller: projectTitleController,
                   validator: (val) =>
                       val.isEmpty ? 'Enter Project Title' : null,
                   decoration: const InputDecoration(
                     hintText: 'Project Title',
                   ),
-                  onChanged: (val) => setState(() => _currentTitle = val),
+                  //onChanged: (val) => setState(() => _currentTitle = val),
                 ),
                 SizedBox(height: 20),
                 // TextFormField(
@@ -116,7 +118,7 @@ class StagePageState extends State<StagingPage> {
                 //   ),
                 //   onChanged: (val) => setState(() => _currentTitle = val),
                 // ),
-                BasicDateField(),
+                //BasicDateField(),
                 SizedBox(height: 24),
                 // RaisedButton(child: Text('Save Date'), 
                 //   onPressed: () => _formKey.currentState.validate(),
@@ -143,7 +145,35 @@ class StagePageState extends State<StagingPage> {
                     title: Text('Continue'),
                     subtitle: Text('Add Questions'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {
+                    onTap: () async{
+                      bool titleExists = false;
+                      final existingProjects = await projectCollection.getDocuments();
+                      for (var doc in existingProjects.documents) {
+                        if (doc.data['title'] == projectTitleController.text.trim()) {
+                          titleExists = true;
+                        }
+                      }
+                      if (titleExists) {
+                        return showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Project Title Exists"),
+                              content: Text("A project with the title you entered already exists, please enter a unique project title."),
+                              actions: <Widget>[
+                                RaisedButton(
+                                  child: Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ]
+                            );
+                          }
+                        );
+                      } else {
+                        _currentTitle = projectTitleController.text.trim();
+                      }
                       AddProject proj = new AddProject(title: _currentTitle, public: pub);
                       String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
                       
