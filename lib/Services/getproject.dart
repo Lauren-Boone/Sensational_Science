@@ -49,14 +49,15 @@ class GetProject {
             } 
     }),    
           questionSnap.data.forEach((key, value) {
-           // print('$value');
-           if ('$key' == ('Question' + count.toString())) {
+            if('$key' != 'count' && '$key' != 'public' && '$key' != 'title' && '$key' != 'docID'){
+             // count = value['Number']; 
               print(value['Type']);
               Questions question = new Questions(
                 type: value['Type'],
                 number: value['Number'],
                 question: value['Question'],
               );
+              
               if (value['Type'] == 'MultipleChoice') {
                 value['Answers'].forEach((e) {
                   question.answers.add(e.toString());
@@ -65,7 +66,7 @@ class GetProject {
               }
               print('adding');
               this.questions.add(question);
-              count--;
+              //count--;
             }
           }),
           printproj()

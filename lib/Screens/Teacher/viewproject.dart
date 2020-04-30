@@ -67,6 +67,10 @@ class _ViewProjectState extends State<ViewProject> {
         return 2;
       case 'UserLocation':
         return 3; 
+      case 'NumericalInputItem':
+        return 4;
+      case 'AddImageInput':
+        return 5;
     }}
     else{
     return -1;
@@ -193,7 +197,7 @@ Widget getNextButton(){
                // _currentQuestion++;
                 
             }
-            return getQuestionWidget(-1); 
+            //return getQuestionWidget(-1); 
             //setState(() {
               
               //_currentQuestion++;
@@ -264,7 +268,21 @@ Widget getNextButton(){
         break;
       case 4:
         return Column(children: <Widget>[
-          Text("UserLocation", textScaleFactor: 4),
+          Text("Numerical", textScaleFactor: 4),
+          Container(
+            margin: EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width / 3,
+            child: Draggable<Widget>(
+              child: Text('Numerical Input'),
+              data: createNumericalInput,
+              feedback: Text('Numerical Input'),
+            ),
+          ),
+          getNextButton()
+        ]);
+      case 5:
+        return Column(children: <Widget>[
+          Text("Image", textScaleFactor: 4),
           Container(
             margin: EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width / 3,
@@ -277,20 +295,7 @@ Widget getNextButton(){
           getNextButton()
         ]);
         break;
-      case 5:
-        return Column(children: <Widget>[
-          Text("UserLocation", textScaleFactor: 4),
-          Container(
-            margin: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width / 3,
-            child: Draggable<Widget>(
-              child: Text('Numerical Input'),
-              data: createNumericalInput,
-              feedback: Text('Numerical Input'),
-            ),
-          ),
-          getNextButton()
-        ]);
+        
       case -1:
         return Column(children: <Widget>[
           Text("Submit Page", textScaleFactor: 4),
