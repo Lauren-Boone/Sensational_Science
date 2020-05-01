@@ -71,9 +71,8 @@ class _ViewProjectState extends State<ViewProject> {
         case 'AddImageInput':
           return 5;
       }
-    } else {
-      return -1;
-    }
+    } 
+    
   }
 
  
@@ -132,7 +131,11 @@ class _ViewProjectState extends State<ViewProject> {
 
                       if (snapshot.data != null) {
                         return getQuestionWidget(snapshot.data);
-                      } else {
+                      } 
+                      else if(_currentQuestion >= project.questions.length){
+                        return getQuestionWidget(-1);
+                      }
+                      else {
                         return CircularProgressIndicator();
                       }
                     })
@@ -195,6 +198,7 @@ Widget mainScreen(BuildContext context){
   }
 
   Widget getQuestionWidget(int number) {
+    if(_currentQuestion < project.questions.length){
     switch (number) {
       case 0:
         return Column(children: <Widget>[
@@ -317,15 +321,16 @@ Widget mainScreen(BuildContext context){
           getNextButton()
         ]);
         break;
-
-      case -1:
+    }
+    }
+    else{
         return Column(children: <Widget>[
           Text("Submit Page", textScaleFactor: 4),
           //getNextButton()
         ]);
-    }
+    
   }
-
+  }
   @override
   void initState() {
     setState(() {
