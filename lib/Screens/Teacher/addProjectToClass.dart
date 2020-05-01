@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/user.dart';
+import 'package:sensational_science/Services/getproject.dart';
 
 class AddProjectToClass extends StatefulWidget{
   AddProjectToClass({Key key}) : super(key: key);
@@ -21,6 +23,39 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
   String _project;
   DateTime _date;
 
+  Future<void> assignProject (String uid, String className, String projectID, DateTime dueDate) async {
+    //create project under the class
+    DocumentReference classDoc = Firestore.instance.collection('Teachers').document(uid).collection('Classes').document(className);
+    final projectDoc = await Firestore.instance.collection('Projects').document(projectID).get();
+    final projRef = await classDoc.collection('Projects').add({
+      'projectID': projectID, //project doc id in top level project collection
+      'projectTitle': projectDoc.data['title'], //project title
+      'dueDate': dueDate, //due date
+    });
+    print("added project to class's projects");
+
+    //create a code for each student in the class, create code under the project, store under the student, store all codes
+    //under top level codes collection
+    final students = await classDoc.collection('Roster').getDocuments();
+    for (var student in students.documents) {
+      var codeRef = await classDoc.collection('Projects').document(projRef.documentID).collection('Students').add({
+        'student': student.documentID, //student doc id in roster
+        'completed': false, //has student submitted data
+      });
+      await classDoc.collection('Roster').document(student.documentID).setData({
+        'codes': FieldValue.arrayUnion([codeRef.documentID]) //list of codes for each student for all projects
+      }, merge: true);
+      await Firestore.instance.collection('codes').document(codeRef.documentID).setData({
+        'Teacher': uid, //teacher doc id
+        'Class': className, //class doc id
+        'Student': student.documentID, //student doc id in roster
+        'Name': student.data['name'], //student name in roster
+        'Project': projRef.documentID, //project doc id in class
+        'ProjectID': projectID, //project doc id in top level project collection
+      });
+    }
+  }
+
   @override
 
   Widget build(BuildContext context){
@@ -28,7 +63,7 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text("Add Project To Class"),
+          title: Text("Add Project To Class"),
         ),
         body: new Container(
           child: new Column(
@@ -37,8 +72,8 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
                 stream: Firestore.instance.collection('Teachers').document(user.uid)
                   .collection('Classes').snapshots(),
                 builder: (context, snapshot) {
-                  if(!snapshot.hasData) return const Center(
-                    child: Text('Loading . . .'),
+                  if(!snapshot.hasData) return Center(
+                    child: Text("Loading . . ."),
                   );
                   return new Container(
                     padding: EdgeInsets.only(bottom: 10.0),
@@ -49,7 +84,7 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
                           flex: 2,
                           child: new Container(
                             padding: EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                            child: new Text("Class to Assign Project For"),
+                            child: Text("Class to Assign Project For"),
                           ),
                         ),
                         new Expanded(
@@ -84,7 +119,7 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
                                     height: 32.0,
                                     width: MediaQuery.of(context).size.width*0.52,
                                     padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-                                    child: new Text(document.data['name']),
+                                    child: Text(document.data['name']),
                                   ),
                                 );
                               }).toList(),
@@ -99,7 +134,7 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
               new StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance.collection('Projects').snapshots(),
                 builder: (context, snapshot) {
-                  if(!snapshot.hasData) return const Center(
+                  if(!snapshot.hasData) return Center(
                     child: Text('Loading . . .'),
                   );
                   return new Container(
@@ -111,7 +146,7 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
                           flex: 2,
                           child: new Container(
                             padding: EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                            child: new Text("Project to Assign"),
+                            child: Text("Project to Assign"),
                           ),
                         ),
                         new Expanded(
@@ -146,7 +181,7 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
                                     height: 32.0,
                                     width: MediaQuery.of(context).size.width*0.52,
                                     padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-                                    child: new Text(document.documentID),
+                                    child: Text(document.data['title']),
                                   ),
                                 );
                               }).toList(),
@@ -158,86 +193,73 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
                   );
                 },
               ),
-              DateTimeField(
-                format: DateFormat("yyyy-MM-dd"),
-                decoration: const InputDecoration(
-                  hintText: 'Project Due Date',
+              Container(
+                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.1, bottom: 10.0),
+                width: MediaQuery.of(context).size.width*0.9,
+                child: DateTimeField(
+                  format: DateFormat("yyyy-MM-dd"),
+                  decoration: const InputDecoration(
+                    hintText: 'Project Due Date',
+                    hintStyle: TextStyle(color: Colors.green),
+                  ),
+                  onChanged: (dt) => setState(() => _date = dt),
+                  onShowPicker: (context, currentValue) {
+                    return showDatePicker(
+                        context: context,
+                        firstDate: DateTime.now(),
+                        initialDate: currentValue ?? DateTime.now(),
+                        lastDate: DateTime(2100));
+                  },
                 ),
-                onChanged: (dt) => setState(() => _date = dt),
-                onShowPicker: (context, currentValue) {
-                  return showDatePicker(
-                      context: context,
-                      firstDate: DateTime.now(),
-                      initialDate: currentValue ?? DateTime.now(),
-                      lastDate: DateTime(2100));
-                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      bool docExists = false;
-                      final existingClasses = await classCollection.getDocuments();
-                      for (var doc in existingClasses.documents) {
-                        print(doc.documentID);
-                        if (doc.documentID == classNameController.text.trim()) {
-                          docExists = true;
-                        }
-                      }
-                      if (docExists) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Class Exists"),
-                              content: Text(
-                                  "A class with the name you entered already exists, please enter a unique class name."),
-                              actions: <Widget>[
-                                RaisedButton(
-                                  child: Text("Close"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ]
-                            );
-                          }
-                        );
-                      } else {
-                        await classCollection.document(classNameController.text.trim()).setData({
-                          'name': classNameController.text,
-                          'subject': subjectController.text,
-                          'level': levelController.text,
-                          'school': schoolController.text,
-                          'students': 0,
-                          'projects': 0,
-                        });  
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Success!"),
-                              content: Text(
-                                  "A new class has been created! Go to View All Classes to see your new class."),
-                              actions: <Widget>[
-                                RaisedButton(
-                                  child: Text("Close"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ]
-                            );
-                          }
-                        );  
-                        Navigator.pop(context);               
-                      }
+                    if (_class != null && _project != null && _date != null) {
+                      await assignProject(user.uid, _class, _project, _date);
                     } else {
-                      return;
+                      return showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Missing Data"),
+                            content: Text(
+                                "You must make a selection for class, project and due date."),
+                            actions: <Widget>[
+                              RaisedButton(
+                                child: Text("Close"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Success!"),
+                          content: Text(
+                              "A project has been added to the class. View the class details to see the assigned project."),
+                          actions: <Widget>[
+                            RaisedButton(
+                              child: Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ]
+                        );
+                      }
+                    );  
+                    Navigator.pop(context);
+                    return;       
                   },
-                  child: Text('Register Class'),
+                  child: Text('Add Project'),
                 ),
               ),
             ],
