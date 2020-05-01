@@ -17,9 +17,9 @@ class Questions {
 class GetProject {
   String docID;
    String title;
-  GetProject(String docID){
+  GetProject(String title, String docID){
     this.docID = docID;
-   // this.title=title;
+    this.title=title;
   //squestionData();
     
   } 

@@ -27,26 +27,27 @@ var createNumericalInput = new NumericalQuestion();
 
 class ViewProject extends StatefulWidget {
   String docIDref;
-  //String title;
+  String title;
  
 //GetProject project;
-  ViewProject( docID) {
+  ViewProject(title, docID) {
     this.docIDref = docID;
+    this.title = title;
     
     
   }
 
   @override
   _ViewProjectState createState() =>
-      _ViewProjectState( this.docIDref);
+      _ViewProjectState(this.title, this.docIDref);
 }
 
 class _ViewProjectState extends State<ViewProject> {
   GetProject project;
   bool done = false;
  List<TextEditingController> controllers = [];
-  _ViewProjectState( String docID) {
-    project = new GetProject( docID);
+  _ViewProjectState(String title, String docID) {
+    project = new GetProject(title, docID);
     this.controllers = new List();
     //project.questionData();
     //project.questionData();
@@ -103,7 +104,7 @@ class _ViewProjectState extends State<ViewProject> {
                 
                   Card(
                     
-                    child: Text(project.title),
+                    child: Text(widget.title),
                   ),
                   RaisedButton(
                     onPressed: () {
@@ -118,7 +119,7 @@ class _ViewProjectState extends State<ViewProject> {
             )
             : Center(
                 child: FutureBuilder(
-                    initialData: 0,
+                   // initialData: 0,
                     future: _getType(_currentQuestion),
                     builder: (context, snapshot) {
                       /*switch(snapshot.connectionState){
@@ -129,7 +130,7 @@ class _ViewProjectState extends State<ViewProject> {
                 default:
               }*/
 
-                      if (project.questions.length > 0) {
+                      if (snapshot.data != null) {
                         return getQuestionWidget(snapshot.data);
                       } else {
                         return CircularProgressIndicator();
@@ -216,27 +217,25 @@ Widget mainScreen(BuildContext context){
               textScaleFactor: 4),
           Text("Question: " + project.questions[_currentQuestion].question),
           Center(
-            child: Flexible(
-              child: SizedBox(
-                height: 400.0,
-                child: ListView.builder(
-                    itemCount:
-                        project.questions[_currentQuestion].answers.length,
-                    itemBuilder: (context, index) {
-                      //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
-                      return RadioListTile(
-                          title: Text(project
-                              .questions[_currentQuestion].answers[index]),
-                          // groupValue: selectedValue,
-                          value: project
-                              .questions[_currentQuestion].answers[index],
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          groupValue: null);
-                      // }
-                    }),
-              ),
+            child: SizedBox(
+              height: 400.0,
+              child: ListView.builder(
+                  itemCount:
+                      project.questions[_currentQuestion].answers.length,
+                  itemBuilder: (context, index) {
+                    //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
+                    return RadioListTile(
+                        title: Text(project
+                            .questions[_currentQuestion].answers[index]),
+                        // groupValue: selectedValue,
+                        value: project
+                            .questions[_currentQuestion].answers[index],
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        groupValue: null);
+                    // }
+                  }),
             ),
           ),
           getNextButton()

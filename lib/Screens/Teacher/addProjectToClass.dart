@@ -52,6 +52,7 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
         'Name': student.data['name'], //student name in roster
         'Project': projRef.documentID, //project doc id in class
         'ProjectID': projectID, //project doc id in top level project collection
+        'ProjectTitle': projectDoc.data['title'], //project title
       });
     }
   }
