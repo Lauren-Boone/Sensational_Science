@@ -14,16 +14,25 @@ class _ShortAnswerItemState extends State<ShortAnswerItem> {
 
   @override
   Widget build(BuildContext context) {
-    return new TextFormField(
-      controller: widget.controller,
-      decoration: new InputDecoration(
-        labelText: "Short Answer",
-        fillColor: Colors.white,
-        enabledBorder: new OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(
-            color: Colors.black,
-          ),
+    return Container(
+      margin: EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        
+        //color: Colors.blue[100],
+    border: Border.all(color: Colors.black),
+   //backgroundBlendMode: BlendMode.darken
+  ),
+      child: new TextFormField(
+        controller: widget.controller,
+        decoration: new InputDecoration(
+          labelText: " Short Answer Question",
+          fillColor: Colors.white,
+         /* enabledBorder: new OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide(
+              color: Colors.black,
+            ),
+          ),*/
         ),
       ),
     );

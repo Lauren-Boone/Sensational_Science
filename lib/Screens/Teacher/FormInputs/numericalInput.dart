@@ -15,27 +15,22 @@ class _NumericalInputItemState extends State<NumericalInputItem> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      margin: EdgeInsets.all(3.0),
-      child: new Card(
-        child: new Container(
-        margin: EdgeInsets.all(3.0),
-        child: Column(
-          children: <Widget>[
-            new TextFormField(
-              controller: widget.controller,
-              decoration: new InputDecoration(
-                labelText: "Numerical Input",
-              ),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                WhitelistingTextInputFormatter.digitsOnly
-              ],
-            ),
-          ],
-        ),
+    return Container(
+      margin: EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        
+        //color: Colors.blue[100],
+    border: Border.all(color: Colors.black),
+   //backgroundBlendMode: BlendMode.darken
+  ),
+      child: new TextFormField(
+        controller: widget.controller,
+        decoration: new InputDecoration(
+          labelText: " Numerical Input Question",
+          fillColor: Colors.white,
         ),
       ),
     );
+   
   }
 }
