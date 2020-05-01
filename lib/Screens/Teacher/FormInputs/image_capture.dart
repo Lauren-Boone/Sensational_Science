@@ -19,23 +19,22 @@ class _AddImageInputState extends State<AddImageInput>{
   @override
   Widget build(BuildContext context) {
     return new Container(
-      margin: EdgeInsets.all(3.0),
-      child: new Card(
-        child: new Container(
-          margin: EdgeInsets.all(3.0),
-          child: new Column(
-            children: <Widget>[
-              new Text('Prompt for Image'),
-              new TextField(
-                controller: widget.controller,
-                decoration: new InputDecoration(
-                  hintText: 'Image Upload Prompt',
-                ),
-              ),
-            ],
+
+      margin: EdgeInsets.all(2.0),
+     decoration: BoxDecoration(
+        
+        //color: Colors.blue[100],
+    border: Border.all(color: Colors.black),
+   //backgroundBlendMode: BlendMode.darken
+  ),
+          
+         child: TextFormField(
+            controller: widget.controller,
+            decoration: new InputDecoration(
+              hintText: ' Image Upload Prompt',
+            ),
           ),
-        ),
-      ),
+       
     );
   }
 }

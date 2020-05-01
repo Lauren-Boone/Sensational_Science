@@ -14,25 +14,29 @@ class _TextInputItemState extends State<TextInputItem> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      margin: EdgeInsets.all(3.0),
-      child: new Card(
-        child: new Container(
-          height: 70.0,
-          margin: EdgeInsets.all(3.0),
-          child: new Column(
-            children: <Widget>[
-              new Text('Text Input Prompt'),
-              new TextField(
-                controller: widget.controller,
-                decoration: new InputDecoration(
-                  hintText: 'Text Input Prompt',
-                ),
-              ),
-            ],
-          ),
+    
+     return Container(
+       height: 2,
+       margin: EdgeInsets.all(2),
+
+       decoration: BoxDecoration(
+        
+        //color: Colors.blue[100],
+    border: Border.all(color: Colors.black),
+   //backgroundBlendMode: BlendMode.darken
+  ),
+            child: new TextFormField(
+            
+        controller: widget.controller,
+        decoration: new InputDecoration(
+          labelText: " Text Input Question",
+          fillColor: Colors.white,
+
+           
+              
         ),
-      ),
-    );
+        ),
+     );
+    
   }
 }
