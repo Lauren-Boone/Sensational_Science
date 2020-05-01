@@ -119,7 +119,7 @@ class _ViewProjectState extends State<ViewProject> {
             )
             : Center(
                 child: FutureBuilder(
-                    initialData: 0,
+                   // initialData: 0,
                     future: _getType(_currentQuestion),
                     builder: (context, snapshot) {
                       /*switch(snapshot.connectionState){
@@ -130,7 +130,7 @@ class _ViewProjectState extends State<ViewProject> {
                 default:
               }*/
 
-                      if (project.questions.length > 0) {
+                      if (snapshot.data != null) {
                         return getQuestionWidget(snapshot.data);
                       } else {
                         return CircularProgressIndicator();
