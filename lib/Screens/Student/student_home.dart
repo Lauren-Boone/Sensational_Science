@@ -13,17 +13,18 @@ class StudentHome extends StatelessWidget{
   }) :  assert(classData != null),
           super(key: key);
 
-  getStudentData() {
-    return Firestore.instance.collection('codes').document(classData).snapshots();
-  }
+//  getStudentData() {
+//    return Firestore.instance.collection('codes').document(classData).snapshots();
+//  }
   
-  DocumentReference _getDocument(){
-    return Firestore.instance.collection('Projects').document(this.classData);
-  }
+//  DocumentReference _getDocument(){
+//    return Firestore.instance.collection('Projects').document(this.classData);
+//  }
 
   @override
 
   Widget build(BuildContext context) {
+    final student = Student(code: classData);
     return Provider(
     create: (context) => new Student(code: classData), 
     child:  
@@ -38,11 +39,10 @@ class StudentHome extends StatelessWidget{
               RaisedButton(
                 child: Text('Collect Data For Project'),
                 onPressed: () {
-                  var docRef= _getDocument();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>ViewProject( docRef.documentID),
+                      builder: (context) =>ViewProject(student.projectID),
                     ),
                   );
                 },
