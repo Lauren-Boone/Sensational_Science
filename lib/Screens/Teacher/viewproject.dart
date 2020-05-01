@@ -9,6 +9,7 @@ import 'shortanswerquestion.dart';
 import 'numericalquestion.dart';
 import 'UserLocationInfo.dart';
 import 'multiplechoicequestion.dart';
+import '../../Services/projectDB.dart';
 //import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
 var createLocationHandler = new UserLocationInfo();
@@ -33,9 +34,9 @@ class ViewProject extends StatefulWidget {
   ViewProject(title, docID) {
     this.docIDref = docID;
     this.title = title;
-    
-    
   }
+
+    AddProject proj;
 
   @override
   _ViewProjectState createState() =>
@@ -95,7 +96,13 @@ class _ViewProjectState extends State<ViewProject> {
     List<TextEditingController> answers = [];
     return new MaterialApp(
       home: new Scaffold(
-        appBar: AppBar(title: Text("Random Widget")),
+        appBar: AppBar(
+          title: Text("Random Widget"), 
+                      leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context, false),
+            )
+          ), 
         body: project.questions.length == 0
             ? Center(
               
@@ -187,12 +194,18 @@ Widget mainScreen(BuildContext context){
         color: Colors.red,
         onPressed: () {
           if (_currentQuestion < project.questions.length) {
-            
             setState(() {
               //controllers.add(value);
               _currentQuestion++;
               _getType(_currentQuestion);
             });
+                                  //         this.proj.addProjectDataToDoc(
+                                  // user.uid,
+                                  // controllers,
+                                  // acceptType,
+                                  // answerControllers,
+                                  // questionCount,
+                                  // widget.proj.getDocID());
           }
         });
   }
