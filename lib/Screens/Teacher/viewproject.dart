@@ -217,27 +217,25 @@ Widget mainScreen(BuildContext context){
               textScaleFactor: 4),
           Text("Question: " + project.questions[_currentQuestion].question),
           Center(
-            child: Flexible(
-              child: SizedBox(
-                height: 400.0,
-                child: ListView.builder(
-                    itemCount:
-                        project.questions[_currentQuestion].answers.length,
-                    itemBuilder: (context, index) {
-                      //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
-                      return RadioListTile(
-                          title: Text(project
-                              .questions[_currentQuestion].answers[index]),
-                          // groupValue: selectedValue,
-                          value: project
-                              .questions[_currentQuestion].answers[index],
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          groupValue: null);
-                      // }
-                    }),
-              ),
+            child: SizedBox(
+              height: 400.0,
+              child: ListView.builder(
+                  itemCount:
+                      project.questions[_currentQuestion].answers.length,
+                  itemBuilder: (context, index) {
+                    //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
+                    return RadioListTile(
+                        title: Text(project
+                            .questions[_currentQuestion].answers[index]),
+                        // groupValue: selectedValue,
+                        value: project
+                            .questions[_currentQuestion].answers[index],
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        groupValue: null);
+                    // }
+                  }),
             ),
           ),
           getNextButton()
