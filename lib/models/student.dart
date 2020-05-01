@@ -8,6 +8,7 @@ class Student{
   String projectID;
   String studentID;
   String teacherID;
+  String projectTitle;
 
   Student({this.code}) {
     final codeDoc = Firestore.instance.collection('codes').document(code).get();
@@ -18,6 +19,7 @@ class Student{
       projectID = doc.data['ProjectID'];
       studentID = doc.data['Student'];
       teacherID = doc.data['Teacher'];
+      projectTitle = doc.data['ProjectTitle'];
     });
   }
 
