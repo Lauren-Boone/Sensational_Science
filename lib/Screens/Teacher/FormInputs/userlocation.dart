@@ -68,6 +68,9 @@ class UserLocationState extends State<UserLocation> {
                       });
                     });
                     print("Success!");
+                    print(results);
+                  // if(results != null)
+                  // new Text('$results');
                   },
                 ),
                 if(results != null)

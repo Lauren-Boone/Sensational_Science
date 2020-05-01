@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sensational_science/Screens/Teacher/viewproject.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,10 @@ class StudentHome extends StatelessWidget{
 
   getStudentData() {
     return Firestore.instance.collection('codes').document(classData).snapshots();
+  }
+  
+  DocumentReference _getDocument(){
+    return Firestore.instance.collection('Projects').document(this.classData);
   }
 
   @override
@@ -32,7 +37,15 @@ class StudentHome extends StatelessWidget{
             children: <Widget>[
               RaisedButton(
                 child: Text('Collect Data For Project'),
-                onPressed: () => print('going to collect data'),
+                onPressed: () {
+                  var docRef= _getDocument();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>ViewProject( docRef.documentID),
+                    ),
+                  );
+                },
               ),
               RaisedButton(
                 child: Text('View All Class Data'),
