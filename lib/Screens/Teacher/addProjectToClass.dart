@@ -111,7 +111,7 @@ class _AddProjectToClassState extends State<AddProjectToClass>{
                               },
                               items: snapshot.data.documents.map((DocumentSnapshot document) {
                                 return new DropdownMenuItem<String>(
-                                  value: document.data['name'],
+                                  value: document.documentID,
                                   child: new Container(
                                     decoration: new BoxDecoration(
                                       color: Colors.green,
