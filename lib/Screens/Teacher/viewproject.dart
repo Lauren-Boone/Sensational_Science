@@ -71,9 +71,8 @@ class _ViewProjectState extends State<ViewProject> {
         case 'AddImageInput':
           return 5;
       }
-    } else {
-      return -1;
-    }
+    } 
+    
   }
 
  
@@ -119,7 +118,7 @@ class _ViewProjectState extends State<ViewProject> {
             )
             : Center(
                 child: FutureBuilder(
-                    initialData: 0,
+                   // initialData: 0,
                     future: _getType(_currentQuestion),
                     builder: (context, snapshot) {
                       /*switch(snapshot.connectionState){
@@ -130,9 +129,13 @@ class _ViewProjectState extends State<ViewProject> {
                 default:
               }*/
 
-                      if (project.questions.length > 0) {
+                      if (snapshot.data != null) {
                         return getQuestionWidget(snapshot.data);
-                      } else {
+                      } 
+                      else if(_currentQuestion >= project.questions.length){
+                        return getQuestionWidget(-1);
+                      }
+                      else {
                         return CircularProgressIndicator();
                       }
                     })
@@ -195,6 +198,7 @@ Widget mainScreen(BuildContext context){
   }
 
   Widget getQuestionWidget(int number) {
+    if(_currentQuestion < project.questions.length){
     switch (number) {
       case 0:
         return Column(children: <Widget>[
@@ -217,27 +221,25 @@ Widget mainScreen(BuildContext context){
               textScaleFactor: 4),
           Text("Question: " + project.questions[_currentQuestion].question),
           Center(
-            child: Flexible(
-              child: SizedBox(
-                height: 400.0,
-                child: ListView.builder(
-                    itemCount:
-                        project.questions[_currentQuestion].answers.length,
-                    itemBuilder: (context, index) {
-                      //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
-                      return RadioListTile(
-                          title: Text(project
-                              .questions[_currentQuestion].answers[index]),
-                          // groupValue: selectedValue,
-                          value: project
-                              .questions[_currentQuestion].answers[index],
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          groupValue: null);
-                      // }
-                    }),
-              ),
+            child: SizedBox(
+              height: 400.0,
+              child: ListView.builder(
+                  itemCount:
+                      project.questions[_currentQuestion].answers.length,
+                  itemBuilder: (context, index) {
+                    //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
+                    return RadioListTile(
+                        title: Text(project
+                            .questions[_currentQuestion].answers[index]),
+                        // groupValue: selectedValue,
+                        value: project
+                            .questions[_currentQuestion].answers[index],
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        groupValue: null);
+                    // }
+                  }),
             ),
           ),
           getNextButton()
@@ -319,15 +321,16 @@ Widget mainScreen(BuildContext context){
           getNextButton()
         ]);
         break;
-
-      case -1:
+    }
+    }
+    else{
         return Column(children: <Widget>[
           Text("Submit Page", textScaleFactor: 4),
           //getNextButton()
         ]);
-    }
+    
   }
-
+  }
   @override
   void initState() {
     setState(() {
