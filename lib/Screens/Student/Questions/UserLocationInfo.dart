@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart';
 import '../../../Services/getproject.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,44 +7,40 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
-Future<Position> getUserLocation() async {
-  try {
-    Position currentUserPosition = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(currentUserPosition);
-    return currentUserPosition;
-  } catch (ex) {
-    Position currentUserPosition;
-    currentUserPosition = null;
-    print('Error getting user location');
-    return currentUserPosition;
-  }
-}
+import 'QuestionWidget.dart';
 
-class UserLocationInfo extends StatefulWidget {
+
+class UserLocationInfo extends StatefulQuestionWidget {
   final Questions question;
-  final TextEditingController userLocationController; 
-  UserLocationInfo({this.question, this.userLocationController});
+  final TextEditingController userLocationController;
+  Position currentUserPosition; 
+  Function(int, dynamic) locationCallback; 
+  UserLocationInfo({this.question, this.userLocationController, this.locationCallback});
   @override
   _UserLocationInfoState createState() => _UserLocationInfoState();
 
-  Future<Position> getUserLocation() async {
-    try {
-      Position currentUserPosition = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print(currentUserPosition);
-      return currentUserPosition;
-    } catch (ex) {
-      Position currentUserPosition;
-      currentUserPosition = null;
-      print('Error getting user location');
-      return currentUserPosition;
-    }
+  @override
+  getAnswer() {
   }
 }
 
 class _UserLocationInfoState extends State<UserLocationInfo> {
   var results;
+
+    getUserLocation(){
+    final Geolocator test = Geolocator()..forceAndroidLocationManager; 
+    test 
+    .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    .then((Position position){
+      print(position.toString()); 
+      widget.locationCallback(0, position.toString()); 
+      setState((){
+        widget.currentUserPosition = position; 
+      }); 
+    }).catchError((ex){
+      print(ex); 
+    }); 
+  }
 
   @override
   final _formKey = GlobalKey<FormState>();
@@ -58,17 +53,14 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
             RaisedButton(
               child: Text("Location"),
               onPressed: () {
-                controller: widget.userLocationController;
-                getUserLocation().then((result) {
-                  setState(() {
-                    results = result;
-                  });
-                });
-                print("Success!");
+                print("Test"); 
+                // controller: widget.userLocationController;
+                getUserLocation(); 
+
               },
             ),
-            if (results != null) 
-            new Text('$results'),
+            if (results != null) new Text('$results'),
+            if (results == null) new Text('Error')
           ],
         ));
   }

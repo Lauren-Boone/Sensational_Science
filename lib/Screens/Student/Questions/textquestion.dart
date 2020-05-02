@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import '../../../Services/getproject.dart';
+import 'QuestionWidget.dart';
 
-class TextQuestionWidget extends StatefulWidget {
+class TextQuestionWidget extends StatefulQuestionWidget {
   final Questions question;
-  final TextEditingController textAnswerController;
-  TextQuestionWidget({this.question, this.textAnswerController});
+  final TextEditingController textAnswerController = new TextEditingController();
+  TextQuestionWidget({this.question});
 
   @override
   _TextQuestionWidgetState createState() => _TextQuestionWidgetState();
+
+  @override
+  getAnswer() {
+    // TODO: implement getAnswer
+    return textAnswerController.text; 
+  }
 }
 
 class _TextQuestionWidgetState extends State<TextQuestionWidget> {

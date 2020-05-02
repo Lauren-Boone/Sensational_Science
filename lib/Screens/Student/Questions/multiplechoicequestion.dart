@@ -1,13 +1,20 @@
 
 import 'package:flutter/material.dart';
 import '../../../Services/getproject.dart';
+import 'QuestionWidget.dart';
 
-class MultQuestionWidget extends StatefulWidget {
+class MultQuestionWidget extends StatefulQuestionWidget {
   final Questions question;
     final TextEditingController multChoiceController; 
   MultQuestionWidget({this.question, this.multChoiceController});
   @override
   _MultQuestionWidgetState createState() => _MultQuestionWidgetState();
+
+  @override
+  getAnswer() {
+    // TODO: implement getAnswer
+    throw UnimplementedError();
+  }
 }
 
 class _MultQuestionWidgetState extends State<MultQuestionWidget> {

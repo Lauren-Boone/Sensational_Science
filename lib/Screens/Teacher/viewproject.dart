@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sensational_science/Screens/Student/Questions/QuestionWidget.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import '../../models/project.dart';
@@ -32,8 +33,9 @@ class ViewProject extends StatefulWidget {
   String title;
   GetProject project;
   bool done = false;
-  List<TextEditingController> controllers = [];
+  List<StatefulQuestionWidget> controllers = [];
   Observation studentObservations;
+
 //GetProject project;
   ViewProject(title, docID) {
     this.docIDref = docID;
@@ -41,10 +43,10 @@ class ViewProject extends StatefulWidget {
         project = new GetProject(title, docID);
     // this.controllers = new List();
     project.questionData().then((ignore) {
-      for (int i = 0; i < project.questions.length; i++) {
-        controllers.add( new TextEditingController());
-        print("Values of i " + i.toString()); 
-      }
+      // for (int i = 0; i < project.questions.length; i++) {
+      //   controllers.add( new TextEditingController());
+      //   print("Values of i " + i.toString()); 
+      // }
     });
 
     studentObservations = new Observation(docID);
@@ -77,6 +79,13 @@ class _ViewProjectState extends State<ViewProject> {
     //project.questionData();
   }
   int _currentQuestion = 0;
+
+  void callbackQuestion(int questionNum, dynamic value){
+    setState((){
+      widget.studentObservations.addAnswer(questionNum, value);
+      print(widget.studentObservations.toJson());
+    });
+  }
 
   Future<int> _getType(_currentQuestion) async {
     if (_currentQuestion < widget.project.questions.length) {
@@ -206,9 +215,9 @@ Widget mainScreen(BuildContext context){
         color: Colors.red,
         onPressed: () {
           setState(() {
-            widget.studentObservations.addAnswer(
-                widget.project.questions[_currentQuestion].number,
-                widget.controllers[_currentQuestion].value.text);
+            // widget.studentObservations.addAnswer(
+            //     widget.project.questions[_currentQuestion].number,
+                widget.controllers[_currentQuestion].getAnswer();
             print(widget.studentObservations.toJson());
           });
           if (_currentQuestion < widget.project.questions.length) {
@@ -225,6 +234,8 @@ Widget mainScreen(BuildContext context){
     if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
+        var questionWidget = new TextQuestionWidget(); 
+        widget.controllers.add(questionWidget); 
           return Column(children: <Widget>[
             Text("TextInputItem " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
@@ -233,9 +244,9 @@ Widget mainScreen(BuildContext context){
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
-              child: Center(child: new TextQuestionWidget(
-                textAnswerController: widget.controllers[_currentQuestion]
-              )),
+              child: Center(child: questionWidget
+                // textAnswerController: widget.controllers[_currentQuestion]
+              ),
               // ),
             ),
             getNextButton()
@@ -272,6 +283,8 @@ Widget mainScreen(BuildContext context){
           ]);
           break;
         case 2:
+        var questionWidget = new ShortAnswerQuestion(); 
+        widget.controllers.add(questionWidget); 
           return Column(children: <Widget>[
             Text("ShortAnswer " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
@@ -281,8 +294,9 @@ Widget mainScreen(BuildContext context){
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
               //   child: Text('Short Answer'),
-              child: new ShortAnswerQuestion(
-                  shortAnswerController: widget.controllers[_currentQuestion]),
+              child: questionWidget
+              // new ShortAnswerQuestion(
+              //     shortAnswerController: widget.controllers[_currentQuestion]),
               //   feedback: Text('Short Answer'),
               // ),
             ),
@@ -290,6 +304,8 @@ Widget mainScreen(BuildContext context){
           ]);
           break;
         case 3:
+        var questionWidget = new UserLocationInfo(locationCallback: callbackQuestion,); 
+        widget.controllers.add(questionWidget); 
           return Column(children: <Widget>[
             Text("UserLocation " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
@@ -299,9 +315,10 @@ Widget mainScreen(BuildContext context){
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
               // child: Text('User Location'),
-              child: new UserLocationInfo(
-                userLocationController: widget.controllers[_currentQuestion],
-              ),
+              child: questionWidget
+              // new UserLocationInfo(
+              //   userLocationController: widget.controllers[_currentQuestion],
+              // ),
               //   feedback: Text('Text'),
               // ),
             ),
@@ -309,6 +326,8 @@ Widget mainScreen(BuildContext context){
           ]);
           break;
         case 4:
+          var questionWidget = new NumericalQuestion(); 
+          widget.controllers.add(questionWidget); 
           return Column(children: <Widget>[
             Text("Numerical " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
@@ -318,8 +337,9 @@ Widget mainScreen(BuildContext context){
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
               //   child: Text('Numerical Input'),
-              child: new NumericalQuestion(
-                numAnswerController: widget.controllers[_currentQuestion]),
+              child: questionWidget
+              // new NumericalQuestion(
+              //   numAnswerController: widget.controllers[_currentQuestion]),
               //   feedback: Text('Numerical Input'),
               // ),
             ),
