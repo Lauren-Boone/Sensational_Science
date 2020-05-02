@@ -30,11 +30,24 @@ var createNumericalInput = new NumericalQuestion();
 class ViewProject extends StatefulWidget {
   String docIDref;
   String title;
-
+  GetProject project;
+  bool done = false;
+  List<TextEditingController> controllers = [new TextEditingController()];
+  Observation studentObservations;
 //GetProject project;
   ViewProject(title, docID) {
     this.docIDref = docID;
     this.title = title;
+        project = new GetProject(title, docID);
+    // this.controllers = new List();
+    project.questionData().then((ignore) {
+      for (int i = 1; i < project.questions.length; i++) {
+        controllers.add( new TextEditingController());
+        print("Values of i " + i.toString()); 
+      }
+    });
+
+    studentObservations = new Observation(docID);
   }
 
   AddProject proj;
@@ -45,28 +58,29 @@ class ViewProject extends StatefulWidget {
 }
 
 class _ViewProjectState extends State<ViewProject> {
-  GetProject project;
-  bool done = false;
-  List<TextEditingController> controllers = [];
-  Observation studentObservations;
+  // GetProject project;
+  // bool done = false;
+  // List<TextEditingController> controllers = [];
+  // Observation studentObservations;
   _ViewProjectState(String title, String docID) {
-    project = new GetProject(title, docID);
-    this.controllers = new List();
-    project.questionData().then((ignore) {
-      for (int i = 0; i < project.questions.length; i++) {
-        controllers[i] = new TextEditingController();
-      }
-    });
+    // project = new GetProject(title, docID);
+    // this.controllers = new List();
+    // project.questionData().then((ignore) {
+    //   for (int i = 0; i < project.questions.length; i++) {
+    //     controllers[i] = new TextEditingController();
+    //     print("Values of i " + i.toString()); 
+    //   }
+    // });
 
-    studentObservations = new Observation(docID);
+    // studentObservations = new Observation(docID);
     //project.questionData();
     //project.questionData();
   }
   int _currentQuestion = 0;
 
   Future<int> _getType(_currentQuestion) async {
-    if (_currentQuestion < project.questions.length) {
-      switch (project.questions[_currentQuestion].type) {
+    if (_currentQuestion < widget.project.questions.length) {
+      switch (widget.project.questions[_currentQuestion].type) {
         case 'TextInputItem':
           return 0;
         case 'MultipleChoice':
@@ -108,7 +122,7 @@ class _ViewProjectState extends State<ViewProject> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: project.questions.length == 0
+        body: widget.project.questions.length == 0
             ? Center(
                 child: Column(children: <Widget>[
                   Card(
@@ -138,7 +152,7 @@ class _ViewProjectState extends State<ViewProject> {
               }*/
                       if (snapshot.data != null) {
                         return getQuestionWidget(snapshot.data);
-                      } else if (_currentQuestion >= project.questions.length) {
+                      } else if (_currentQuestion >= widget.project.questions.length) {
                         return getQuestionWidget(-1);
                       } else {
                         return CircularProgressIndicator();
@@ -192,12 +206,12 @@ Widget mainScreen(BuildContext context){
         color: Colors.red,
         onPressed: () {
           setState(() {
-            studentObservations.addAnswer(
-                project.questions[_currentQuestion].number,
-                controllers[_currentQuestion].value.toString());
-            print(studentObservations.toString());
+            widget.studentObservations.addAnswer(
+                widget.project.questions[_currentQuestion].number,
+                widget.controllers[_currentQuestion].value.text);
+            print(widget.studentObservations.toJson());
           });
-          if (_currentQuestion < project.questions.length) {
+          if (_currentQuestion < widget.project.questions.length) {
             setState(() {
               //controllers.add(value);
               _currentQuestion++;
@@ -208,13 +222,13 @@ Widget mainScreen(BuildContext context){
   }
 
   Widget getQuestionWidget(int number) {
-    if (_currentQuestion < project.questions.length) {
+    if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
           return Column(children: <Widget>[
             Text("TextInputItem " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + project.questions[_currentQuestion].question),
+            Text("Question: " + widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -229,20 +243,20 @@ Widget mainScreen(BuildContext context){
           return Column(children: <Widget>[
             Text("MultipleChoice " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + project.questions[_currentQuestion].question),
+            Text("Question: " + widget.project.questions[_currentQuestion].question),
             Center(
               child: SizedBox(
                 height: 400.0,
                 child: ListView.builder(
                     itemCount:
-                        project.questions[_currentQuestion].answers.length,
+                        widget.project.questions[_currentQuestion].answers.length,
                     itemBuilder: (context, index) {
                       //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
                       return RadioListTile(
-                          title: Text(project
+                          title: Text(widget.project
                               .questions[_currentQuestion].answers[index]),
                           // groupValue: selectedValue,
-                          value: project
+                          value: widget.project
                               .questions[_currentQuestion].answers[index],
                           onChanged: (value) {
                             setState(() {});
@@ -259,14 +273,14 @@ Widget mainScreen(BuildContext context){
           return Column(children: <Widget>[
             Text("ShortAnswer " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + project.questions[_currentQuestion].question),
+            Text("Question: " + widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
               //   child: Text('Short Answer'),
               child: new ShortAnswerQuestion(
-                  shortAnswerController: controllers[_currentQuestion]),
+                  shortAnswerController: widget.controllers[_currentQuestion]),
               //   feedback: Text('Short Answer'),
               // ),
             ),
@@ -277,7 +291,7 @@ Widget mainScreen(BuildContext context){
           return Column(children: <Widget>[
             Text("UserLocation " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + project.questions[_currentQuestion].question),
+            Text("Question: " + widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -294,7 +308,7 @@ Widget mainScreen(BuildContext context){
           return Column(children: <Widget>[
             Text("Numerical " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + project.questions[_currentQuestion].question),
+            Text("Question: " + widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -310,7 +324,7 @@ Widget mainScreen(BuildContext context){
           return Column(children: <Widget>[
             Text("Image" + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + project.questions[_currentQuestion].question),
+            Text("Question: " + widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -343,9 +357,9 @@ Widget mainScreen(BuildContext context){
 
   @override
   void initState() {
-    setState(() {
-      _getQuestions();
-    });
+    // setState(() {
+    //   _getQuestions();
+    // });
     // done=false;
     super.initState();
   }
@@ -353,7 +367,7 @@ Widget mainScreen(BuildContext context){
   Future<void> _getQuestions() async {
     // you mentioned you use firebase for database, so
     // you have to wait for the data to be loaded from the network
-    await project.questionData();
+    await widget.project.questionData();
     setState(() {});
   }
 

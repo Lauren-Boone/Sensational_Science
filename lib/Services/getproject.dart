@@ -16,48 +16,46 @@ class Questions {
 
 class GetProject {
   String docID;
-   String title;
-  GetProject(String title, String docID){
+  String title;
+  GetProject(String title, String docID) {
     this.docID = docID;
-    this.title=title;
-  //squestionData();
-    
-  } 
- List<Questions> questions = new List();
-
-
-
+    this.title = title;
+    //squestionData();
+  }
+  List<Questions> questions = new List();
 
   Future<void> questionData() async {
     //List<String> questiondata;
     int count = 0;
     // int returncount=0;
-  //DocumentReference docRef= document[this.docID];
-  Future<DocumentSnapshot> snapshot =
+    //DocumentReference docRef= document[this.docID];
+    Future<DocumentSnapshot> snapshot =
         Firestore.instance.collection('Projects').document(this.docID).get();
 
- // var snapshot = projectCollection.document(this.docID).get();
-  //snapshot.asStream();
-  
-    snapshot.then((DocumentSnapshot questionSnap) => {
-    questionSnap.data.forEach((key,value){
-        if ('$key' == 'count') {
-              count = value;
-              
-              
-              //returncount=count;
-            } 
-    }),    
+    // var snapshot = projectCollection.document(this.docID).get();
+    //snapshot.asStream();
+
+    return snapshot.then((DocumentSnapshot questionSnap) => {
           questionSnap.data.forEach((key, value) {
-            if('$key' != 'count' && '$key' != 'public' && '$key' != 'title' && '$key' != 'docID'){
-             // count = value['Number']; 
+            if ('$key' == 'count') {
+              count = value;
+
+              //returncount=count;
+            }
+          }),
+          questionSnap.data.forEach((key, value) {
+            if ('$key' != 'count' &&
+                '$key' != 'public' &&
+                '$key' != 'title' &&
+                '$key' != 'docID') {
+              // count = value['Number'];
               print(value['Type']);
               Questions question = new Questions(
                 type: value['Type'],
                 number: value['Number'],
                 question: value['Question'],
               );
-              
+
               if (value['Type'] == 'MultipleChoice') {
                 value['Answers'].forEach((e) {
                   question.answers.add(e.toString());
@@ -69,29 +67,25 @@ class GetProject {
               //count--;
             }
           }),
-         orderProject(count),
+          orderProject(count),
         });
-        
-        
   }
 
-  orderProject(int count){
-   
+  orderProject(int count) {
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
     this.questions.forEach((element) {
-      this.questions.sort((a,b)=>a.number.compareTo(b.number));
+      this.questions.sort((a, b) => a.number.compareTo(b.number));
     });
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
     //for(int i = 0; i < count; ++i){
-      //if(this.questions[i].number != i.toString()){
+    //if(this.questions[i].number != i.toString()){
 
-     // }
-   // }
+    // }
+    // }
     printproj();
-
   }
 
- int getType(int index) {
+  int getType(int index) {
     switch (questions[index].type) {
       case 'TextInputItem':
         return 0;
@@ -100,11 +94,11 @@ class GetProject {
       case 'ShortAnswerItem':
         return 2;
       case 'UserLocation':
-        return 3; 
+        return 3;
       case 'AddImageInput':
-        return 4; 
+        return 4;
       case 'NumericalInputItem':
-        return 5; 
+        return 5;
     }
     return -1;
   }

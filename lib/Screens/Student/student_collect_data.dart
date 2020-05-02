@@ -11,6 +11,12 @@ class Observation {
     this.projectID = projectID; 
   }
   void addAnswer(int questionNum, String value){
-    answers.putIfAbsent(questionNum, value); 
+    answers[questionNum] = value; 
   }
+
+  Map<String, dynamic> toJson()=> 
+  {
+    'projectID': projectID, 
+    'answers' : answers
+  };
 }
