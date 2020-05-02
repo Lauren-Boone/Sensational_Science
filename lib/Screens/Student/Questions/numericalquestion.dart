@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-import '../../Services/getproject.dart';
+import '../../../Services/getproject.dart';
 
-class ShortAnswerQuestion extends StatefulWidget {
+class NumericalQuestion extends StatefulWidget {
   final Questions question;
-  final TextEditingController shortAnswerController; 
-  ShortAnswerQuestion({this.question, this.shortAnswerController});
+  final TextEditingController numAnswerController; 
+  NumericalQuestion({this.question, this.numAnswerController});
   @override
-  _ShortAnswerQuestionState createState() => _ShortAnswerQuestionState();
+  _NumericalQuestionState createState() => _NumericalQuestionState();
 }
 
-class _ShortAnswerQuestionState extends State<ShortAnswerQuestion> {
-
-  final _formKey = GlobalKey<FormState>();
+class _NumericalQuestionState extends State<NumericalQuestion> {
+    final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey, 
         child: new TextFormField(
-      controller: widget.shortAnswerController,
+      controller: widget.numAnswerController,
       decoration: new InputDecoration(
-        labelText: "Short Answer",
+        labelText: "Numerical Answer",
         fillColor: Colors.white,
         enabledBorder: new OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),

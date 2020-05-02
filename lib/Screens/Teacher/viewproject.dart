@@ -3,13 +3,13 @@ import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
-import 'textquestion.dart';
-import 'multiplechoicequestion.dart';
+import '../Student/Questions/textquestion.dart';
+import '../Student/Questions/multiplechoicequestion.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
-import 'shortanswerquestion.dart';
-import 'numericalquestion.dart';
-import 'UserLocationInfo.dart';
-import 'multiplechoicequestion.dart';
+import '../Student/Questions/shortanswerquestion.dart';
+import '../Student/Questions/numericalquestion.dart';
+import '../Student/Questions/UserLocationInfo.dart';
+import '../Student/Questions/multiplechoicequestion.dart';
 import '../../Services/projectDB.dart';
 //import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
@@ -32,7 +32,7 @@ class ViewProject extends StatefulWidget {
   String title;
   GetProject project;
   bool done = false;
-  List<TextEditingController> controllers = [new TextEditingController()];
+  List<TextEditingController> controllers = [];
   Observation studentObservations;
 //GetProject project;
   ViewProject(title, docID) {
@@ -41,7 +41,7 @@ class ViewProject extends StatefulWidget {
         project = new GetProject(title, docID);
     // this.controllers = new List();
     project.questionData().then((ignore) {
-      for (int i = 1; i < project.questions.length; i++) {
+      for (int i = 0; i < project.questions.length; i++) {
         controllers.add( new TextEditingController());
         print("Values of i " + i.toString()); 
       }

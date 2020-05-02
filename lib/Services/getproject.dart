@@ -3,8 +3,6 @@ import '../models/project.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'projectDB.dart';
 import '../models/project.dart';
-import '../Screens/Teacher/multiplechoicequestion.dart';
-import '../Screens/Teacher/textquestion.dart';
 
 class Questions {
   final String question;

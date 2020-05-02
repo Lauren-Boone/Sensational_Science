@@ -1,25 +1,25 @@
-
 import 'package:flutter/material.dart';
-import '../../Services/getproject.dart';
+import '../../../Services/getproject.dart';
 
-class MultQuestionWidget extends StatefulWidget {
+class ShortAnswerQuestion extends StatefulWidget {
   final Questions question;
-    final TextEditingController multChoiceController; 
-  MultQuestionWidget({this.question, this.multChoiceController});
+  final TextEditingController shortAnswerController; 
+  ShortAnswerQuestion({this.question, this.shortAnswerController});
   @override
-  _MultQuestionWidgetState createState() => _MultQuestionWidgetState();
+  _ShortAnswerQuestionState createState() => _ShortAnswerQuestionState();
 }
 
-class _MultQuestionWidgetState extends State<MultQuestionWidget> {
-    final _formKey = GlobalKey<FormState>();
+class _ShortAnswerQuestionState extends State<ShortAnswerQuestion> {
+
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey, 
         child: new TextFormField(
-      controller: widget.multChoiceController,
+      controller: widget.shortAnswerController,
       decoration: new InputDecoration(
-        labelText: "Multiple Choice Answer",
+        labelText: "Short Answer",
         fillColor: Colors.white,
         enabledBorder: new OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
