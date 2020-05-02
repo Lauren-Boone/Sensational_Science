@@ -27,13 +27,26 @@ var createImageCapture = new AddImageInput();
 
 // var createNumericalInput = new NumericalQuestion();
 
+class ViewProjectPage extends StatelessWidget{
+  final String projectID; 
+  final String title; 
+  ViewProjectPage(this.title, this.projectID); 
+
+  Widget build(BuildContext context){
+    return new Observation(
+      key: new Key(projectID), projectID: this.projectID, answers: new Map(), 
+      child: new ViewProject(this.title, this.projectID)
+    );
+  }
+}
+
 class ViewProject extends StatefulWidget {
   String docIDref;
   String title;
   GetProject project;
   bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
-  Observation studentObservations;
+  // Observation studentObservations;
 //GetProject project;
   ViewProject(title, docID) {
     this.docIDref = docID;
@@ -47,7 +60,7 @@ class ViewProject extends StatefulWidget {
       }
     });
 
-    studentObservations = new Observation(docID);
+    // studentObservations = new Observation(docID);
   }
 
   AddProject proj;
@@ -151,9 +164,9 @@ class _ViewProjectState extends State<ViewProject> {
                 default:
               }*/
                       if (snapshot.data != null) {
-                        return getQuestionWidget(snapshot.data);
+                        return getQuestionWidget(context, snapshot.data);
                       } else if (_currentQuestion >= widget.project.questions.length) {
-                        return getQuestionWidget(-1);
+                        return getQuestionWidget(context, -1);
                       } else {
                         return CircularProgressIndicator();
                       }
@@ -199,18 +212,28 @@ Widget mainScreen(BuildContext context){
   }
 */
 
-  Widget getNextButton() {
+  Widget getNextButton(BuildContext context) {
     //We need to add a var value as a parameter for this function to add to the controller
     return RaisedButton(
         child: Text("NEXT"),
         color: Colors.red,
         onPressed: () {
-          setState(() {
-            widget.studentObservations.addAnswer(
-                widget.project.questions[_currentQuestion].number,
-                widget.controllers[_currentQuestion].value.text);
-            print(widget.studentObservations.toJson());
-          });
+          var questionObservations = Observation.of(context);
+
+          if(!questionObservations.answers.containsKey(_currentQuestion)){
+            questionObservations.addAnswer(
+                  widget.project.questions[_currentQuestion].number,
+                  widget.controllers[_currentQuestion].value.text);
+          }
+
+          print(questionObservations.toJson());
+            
+          // setState(() {
+          //   widget.studentObservations.addAnswer(
+          //       widget.project.questions[_currentQuestion].number,
+          //       widget.controllers[_currentQuestion].value.text);
+          //   print(widget.studentObservations.toJson());
+          // });
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
               //controllers.add(value);
@@ -221,7 +244,7 @@ Widget mainScreen(BuildContext context){
         });
   }
 
-  Widget getQuestionWidget(int number) {
+  Widget getQuestionWidget(BuildContext context, int number) {
     if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
@@ -238,7 +261,7 @@ Widget mainScreen(BuildContext context){
               )),
               // ),
             ),
-            getNextButton()
+            getNextButton(context)
           ]);
           break;
         case 1:
@@ -268,7 +291,7 @@ Widget mainScreen(BuildContext context){
                     }),
               ),
             ),
-            getNextButton()
+            getNextButton(context)
           ]);
           break;
         case 2:
@@ -286,7 +309,7 @@ Widget mainScreen(BuildContext context){
               //   feedback: Text('Short Answer'),
               // ),
             ),
-            getNextButton()
+            getNextButton(context)
           ]);
           break;
         case 3:
@@ -305,7 +328,7 @@ Widget mainScreen(BuildContext context){
               //   feedback: Text('Text'),
               // ),
             ),
-            getNextButton()
+            getNextButton(context)
           ]);
           break;
         case 4:
@@ -323,7 +346,7 @@ Widget mainScreen(BuildContext context){
               //   feedback: Text('Numerical Input'),
               // ),
             ),
-            getNextButton()
+            getNextButton(context)
           ]);
         case 5:
           return Column(children: <Widget>[
@@ -348,7 +371,7 @@ Widget mainScreen(BuildContext context){
               //   feedback: Text('Image'),
               // ),
             ),
-            getNextButton()
+            getNextButton(context)
           ]);
           break;
       }

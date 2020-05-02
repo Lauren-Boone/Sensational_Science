@@ -3,20 +3,33 @@ import 'package:sensational_science/Services/projectDB.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
 
-class Observation {
-  var projectID; 
-  var answers;
-  Observation(String projectID) {
-    this.answers = new Map<int, String>(); 
-    this.projectID = projectID; 
-  }
+class Observation extends InheritedWidget {
+  final String projectID; 
+  final Map<int, String> answers;
+  const Observation({
+    Key key,
+    this.projectID, this.answers, child
+    }): super(key: key, child: child); 
+  // {
+  //   this.answers = new Map<int, String>(); 
+  //   this.projectID = projectID; 
+  // }
   void addAnswer(int questionNum, String value){
     answers[questionNum] = value; 
   }
+
+  static Observation of(BuildContext context) => 
+    context.inheritFromWidgetOfExactType(Observation); 
 
   Map<String, dynamic> toJson()=> 
   {
     'projectID': projectID, 
     'answers' : answers
   };
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    // TODO: implement updateShouldNotify
+    return true; 
+  }
 }

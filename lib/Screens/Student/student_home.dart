@@ -42,7 +42,7 @@ class StudentHome extends StatelessWidget{
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>ViewProject(student.projectTitle, student.projectID),
+                      builder: (context) =>ViewProjectPage(student.projectTitle, student.projectID),
                     ),
                   );
                 },
