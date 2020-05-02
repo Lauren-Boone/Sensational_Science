@@ -10,9 +10,9 @@ class ClassInfo extends StatefulWidget {
   //QuerySnapshot snapshot;
  //final String classID;
   final String name;
-  
+  final String uid;
 
-  ClassInfo({ this.name});
+  ClassInfo({ this.name,this.uid});
 
   @override
   _ClassInfoState createState() => _ClassInfoState();

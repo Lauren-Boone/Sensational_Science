@@ -46,39 +46,54 @@ class UserLocationState extends State<UserLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-        margin: EdgeInsets.all(3.0),
-        child: new Card(
-          child: new Container(
-            margin: EdgeInsets.all(3.0),
-            child: Column(
-              children: <Widget>[
-                new TextField(
-                  controller: widget.controller,
-                  decoration: new InputDecoration(
-                    hintText: 'Location Description',
-                  ),
-                ),
-                RaisedButton(
-                  child: Text("Location"),
-                  onPressed: () {
-                    getUserLocation().then((result) {
-                      setState(() {
-                        results = result;
-                      });
-                    });
-                    print("Success!");
-                    print(results);
-                  // if(results != null)
-                  // new Text('$results');
-                  },
-                ),
-                if(results != null)
-                  new Text('$results'),
-              ],
-            ),
-          ),
+    return Container(
+      margin: EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        
+        //color: Colors.blue[100],
+    border: Border.all(color: Colors.black),
+   //backgroundBlendMode: BlendMode.darken
+  ),
+      child: new TextFormField(
+        controller: widget.controller,
+        decoration: new InputDecoration(
+          labelText: " Location Answer Question",
+          fillColor: Colors.white,
         ),
-      );
+      /*return new Container(
+          margin: EdgeInsets.all(3.0),
+          child: new Card(
+            child: new Container(
+              margin: EdgeInsets.all(3.0),
+              child: Column(
+                children: <Widget>[
+                  new TextField(
+                    controller: widget.controller,
+                    decoration: new InputDecoration(
+                      hintText: 'Location Description',
+                    ),
+                  ),
+                  RaisedButton(
+                    child: Text("Location"),
+                    onPressed: () {
+                      getUserLocation().then((result) {
+                        setState(() {
+                          results = result;
+                        });
+                      });
+                      print("Success!");
+                      print(results);
+                    // if(results != null)
+                    // new Text('$results');
+                    },
+                  ),
+                  if(results != null)
+                    new Text('$results'),
+                ],
+              ),
+            ),
+          ),*/
+        ),
+    );
   }
 }
