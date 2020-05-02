@@ -3,7 +3,8 @@ import '../../Services/getproject.dart';
 
 class ShortAnswerQuestion extends StatefulWidget {
   final Questions question;
-  ShortAnswerQuestion({this.question});
+  final TextEditingController shortAnswerController; 
+  ShortAnswerQuestion({this.question, this.shortAnswerController});
   @override
   _ShortAnswerQuestionState createState() => _ShortAnswerQuestionState();
 }
@@ -16,7 +17,7 @@ class _ShortAnswerQuestionState extends State<ShortAnswerQuestion> {
     return Form(
       key: _formKey, 
         child: new TextFormField(
-      // controller: widget.controller,
+      controller: widget.shortAnswerController,
       decoration: new InputDecoration(
         labelText: "Short Answer",
         fillColor: Colors.white,

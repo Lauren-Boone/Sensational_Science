@@ -4,7 +4,8 @@ import '../../Services/getproject.dart';
 
 class MultQuestionWidget extends StatefulWidget {
   final Questions question;
-  MultQuestionWidget({this.question});
+    final TextEditingController multChoiceController; 
+  MultQuestionWidget({this.question, this.multChoiceController});
   @override
   _MultQuestionWidgetState createState() => _MultQuestionWidgetState();
 }
@@ -16,7 +17,7 @@ class _MultQuestionWidgetState extends State<MultQuestionWidget> {
     return Form(
       key: _formKey, 
         child: new TextFormField(
-      // controller: widget.controller,
+      controller: widget.multChoiceController,
       decoration: new InputDecoration(
         labelText: "Multiple Choice Answer",
         fillColor: Colors.white,
