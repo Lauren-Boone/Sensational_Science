@@ -7,10 +7,10 @@ class Observation {
   var projectID; 
   var answers;
   Observation(String projectID) {
-    this.answers = new Map<String, String>(); 
+    this.answers = new Map<int, String>(); 
     this.projectID = projectID; 
   }
-  void addAnswer(String questionID, String value){
-    answers.putIfAbsent(questionID, value); 
+  void addAnswer(int questionNum, String value){
+    answers.putIfAbsent(questionNum, value); 
   }
 }
