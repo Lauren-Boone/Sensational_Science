@@ -17,7 +17,7 @@ var createLocationHandler = new UserLocationInfo();
 
 var locationResult = createLocationHandler.getUserLocation();
 
-var createTextInputHandler = new TextQuestionWidget();
+// var createTextInputHandler = new TextQuestionWidget();
 
 var createMultipleChoice = new MultQuestionWidget();
 
@@ -25,7 +25,7 @@ var createImageCapture = new AddImageInput();
 
 // var createShortAnswer = new ShortAnswerQuestion();
 
-var createNumericalInput = new NumericalQuestion();
+// var createNumericalInput = new NumericalQuestion();
 
 class ViewProject extends StatefulWidget {
   String docIDref;
@@ -233,7 +233,9 @@ Widget mainScreen(BuildContext context){
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
-              child: Center(child: createTextInputHandler),
+              child: Center(child: new TextQuestionWidget(
+                textAnswerController: widget.controllers[_currentQuestion]
+              )),
               // ),
             ),
             getNextButton()
@@ -314,7 +316,8 @@ Widget mainScreen(BuildContext context){
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
               //   child: Text('Numerical Input'),
-              child: createNumericalInput,
+              child: new NumericalQuestion(
+                numAnswerController: widget.controllers[_currentQuestion]),
               //   feedback: Text('Numerical Input'),
               // ),
             ),
