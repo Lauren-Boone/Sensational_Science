@@ -24,7 +24,8 @@ Future<Position> getUserLocation() async {
 
 class UserLocationInfo extends StatefulWidget {
   final Questions question;
-  UserLocationInfo({this.question});
+  final TextEditingController userLocationController; 
+  UserLocationInfo({this.question, this.userLocationController});
   @override
   _UserLocationInfoState createState() => _UserLocationInfoState();
 
@@ -57,6 +58,7 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
             RaisedButton(
               child: Text("Location"),
               onPressed: () {
+                controller: widget.userLocationController;
                 getUserLocation().then((result) {
                   setState(() {
                     results = result;

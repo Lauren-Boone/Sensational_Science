@@ -13,9 +13,9 @@ import 'multiplechoicequestion.dart';
 import '../../Services/projectDB.dart';
 //import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
-var createLocationHandler = new UserLocationInfo();
+// var createLocationHandler = new UserLocationInfo();
 
-var locationResult = createLocationHandler.getUserLocation();
+// var locationResult = createLocationHandler.getUserLocation();
 
 // var createTextInputHandler = new TextQuestionWidget();
 
@@ -299,7 +299,9 @@ Widget mainScreen(BuildContext context){
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
               // child: Text('User Location'),
-              child: createLocationHandler,
+              child: new UserLocationInfo(
+                userLocationController: widget.controllers[_currentQuestion],
+              ),
               //   feedback: Text('Text'),
               // ),
             ),
