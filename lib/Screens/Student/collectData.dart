@@ -3,13 +3,12 @@ import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
-import 'textquestion.dart';
-import 'multiplechoicequestion.dart';
+import 'package:sensational_science/Screens/Teacher/textquestion.dart';
+import 'package:sensational_science/Screens/Teacher/multiplechoicequestion.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
-import 'shortanswerquestion.dart';
-import 'numericalquestion.dart';
-import 'UserLocationInfo.dart';
-import 'multiplechoicequestion.dart';
+import 'package:sensational_science/Screens/Teacher/shortanswerquestion.dart';
+import 'package:sensational_science/Screens/Teacher/numericalquestion.dart';
+import 'package:sensational_science/Screens/Teacher/UserLocationInfo.dart';
 import '../../Services/projectDB.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/student.dart';
@@ -30,20 +29,22 @@ import 'package:sensational_science/models/student.dart';
 
 // var createNumericalInput = new NumericalQuestion();
 
-class ViewProjectPage extends StatelessWidget{
+class CollectDataPage extends StatelessWidget{
   final String projectID; 
   final String title; 
-  ViewProjectPage(this.title, this.projectID); 
+  final String code;
+  CollectDataPage(this.title, this.projectID, this.code); 
 
   Widget build(BuildContext context){
+    final Student student = new Student(code: code);
     return new Observation(
       key: new Key(projectID), projectID: this.projectID, answers: new Map(), 
-      child: new ViewProject(this.title, this.projectID)
+      child: new CollectData(this.title, this.projectID, student)
     );
   }
 }
 
-class ViewProject extends StatefulWidget {
+class CollectData extends StatefulWidget {
   String docIDref;
   String title;
   Student student;
@@ -52,8 +53,9 @@ class ViewProject extends StatefulWidget {
   List<TextEditingController> controllers = [new TextEditingController()];
   // Observation studentObservations;
 //GetProject project;
-  ViewProject(title, docID) {
+  CollectData(title, docID, student) {
     this.docIDref = docID;
+    this.student = student;
     this.title = title;
         project = new GetProject(title, docID);
     // this.controllers = new List();
@@ -70,16 +72,16 @@ class ViewProject extends StatefulWidget {
   AddProject proj;
 
   @override
-  _ViewProjectState createState() =>
-      _ViewProjectState(this.title, this.docIDref);
+  _CollectDataState createState() =>
+      _CollectDataState(this.title, this.docIDref);
 }
 
-class _ViewProjectState extends State<ViewProject> {
+class _CollectDataState extends State<CollectData> {
   // GetProject project;
   // bool done = false;
   // List<TextEditingController> controllers = [];
   // Observation studentObservations;
-  _ViewProjectState(String title, String docID) {
+  _CollectDataState(String title, String docID) {
     // project = new GetProject(title, docID);
     // this.controllers = new List();
     // project.questionData().then((ignore) {
@@ -375,18 +377,17 @@ Widget mainScreen(BuildContext context){
               //   child: Text('Image Upload'),
               child: RaisedButton(
                 child: Text('Click to upload or take photo'),
-                onPressed: () => print('This will take the student to upload a photo'),
-                // onPressed: () => {
-                //   Navigator.of(context).push(
-                //     MaterialPageRoute(
-                //       builder: (context) => ImageCapture(
-                //         student: widget.student,
-                //         questionNum: _currentQuestion.toString(),
-                //         imgLocController: widget.controllers[_currentQuestion],
-                //       ),
-                //     ),
-                //   )
-                // },
+                onPressed: () => {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ImageCapture(
+                        student: widget.student,
+                        questionNum: _currentQuestion.toString(),
+                        imgLocController: widget.controllers[_currentQuestion],
+                      ),
+                    ),
+                  )
+                },
               ),
               //   feedback: Text('Image'),
               // ),
