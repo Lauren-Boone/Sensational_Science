@@ -54,6 +54,7 @@ class _MultQuestionWidgetState extends State<MultQuestionWidget> {
             title: Text(widget.question.answers[index]),
             value: index.toString(),
             activeColor: Colors.lightBlue,
+            selected: widget.multChoiceController.text == index.toString(),
             onChanged: (value) {
               setState(() {
                 widget.multChoiceController.text = value;

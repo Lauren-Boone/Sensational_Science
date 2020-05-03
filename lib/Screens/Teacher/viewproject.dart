@@ -271,7 +271,7 @@ Widget mainScreen(BuildContext context){
             Text("Question: " + widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 3 * 2,
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: new MultQuestionWidget(
