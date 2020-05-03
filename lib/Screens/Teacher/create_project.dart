@@ -123,19 +123,38 @@ class _CreateProjectState extends State<CreateProject> {
 
 bool _checkForMultAnswers(){
   bool val = true;
-  acceptType.forEach((element) {
-    if(element == 'MultipleChoice'){
-      answerControllers.forEach((element) {
-        if(element.isEmpty){
-          val= false;     
+  answerControllers.forEach((answers) {
+    if(answers.isEmpty){
+      val = false;
+    } else {
+      answers.forEach((element) {
+        if(element.text.isEmpty) {
+          val = false;
         }
-    
-  });
- 
+      });
     }
   });
+  // acceptType.forEach((element) {
+  //   if(element == 'MultipleChoice'){
+  //     answerControllers.forEach((element) {
+  //       if(element.isEmpty){
+  //         val= false;     
+  //       } 
+    
+  // });
+
    return val;
   
+}
+
+bool _checkForPrompts() {
+  bool val = true;
+  controllers.forEach((element) {
+    if(element.text.isEmpty) {
+      val = false;
+    }
+  });
+  return val;
 }
   @override
   Widget build(BuildContext context) {
@@ -242,7 +261,7 @@ bool _checkForMultAnswers(){
                         child: RaisedButton(
                           child: Text('Submit Project'),
                           onPressed: () async {
-                            if (_checkForMultAnswers()) {
+                            if (_checkForMultAnswers() && _checkForPrompts()) {
                               widget.proj.addProjectDataToDoc(
                                   user.uid,
                                   controllers,
@@ -265,12 +284,51 @@ bool _checkForMultAnswers(){
                                   }
                                   answerCount++;
                                 }
-                              }
+                              }                              
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Success!"),
+                                    content: Text(
+                                        "Your project has been submitted! To view the project go to 'View Projects You Created.'"),
+                                    actions: <Widget>[
+                                      RaisedButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          //Navigator.of(context).pop();
+                                          //Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                               Navigator.of(context).pop();
                               Navigator.of(context).pop();
+
                             }
                             else{
                               setState(()=> error = 'please enter multple choice answers');
+                              return showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Missing Data"),
+                                    content: Text(
+                                        "Make sure all fields have been filled in and all multiple choice questions have at least one answer."),
+                                    actions: <Widget>[
+                                      RaisedButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             }
                           },
                         ))

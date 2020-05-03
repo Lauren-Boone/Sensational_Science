@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:sensational_science/models/student.dart';
+//import 'package:provider/provider.dart';
 
 class AddImageInput extends StatefulWidget {
   final TextEditingController controller;
@@ -41,6 +43,12 @@ class _AddImageInputState extends State<AddImageInput>{
 
 
 class ImageCapture extends StatefulWidget {
+  final Student student;
+  final String questionNum;
+  final TextEditingController imgLocController;
+
+  ImageCapture({this.student, this.questionNum, this.imgLocController});
+
   @override
   _ImageCaptureState createState() => _ImageCaptureState();
 }
@@ -75,6 +83,7 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   @override
   Widget build(BuildContext context) {
+    //final student = Provider.of<Student>(context);
     return Scaffold (
       //select image from camera or gallery
       bottomNavigationBar: BottomAppBar(
@@ -110,12 +119,16 @@ class _ImageCaptureState extends State<ImageCapture> {
               ],
             ),
 
-            Uploader(file: _imageFile),
+            Uploader(file: _imageFile, 
+              location: '${widget.student.teacherID}/${widget.student.className}/${widget.student.projectCode}/${widget.questionNum}/${widget.student.studentID}.png',
+              controller: widget.imgLocController),
           ]
         ],
       ),
       floatingActionButton: RaisedButton(
         onPressed: (){
+          print('text of controller when leaving: ' + widget.imgLocController.text);
+          print('value.text of controller when leaving: ' + widget.imgLocController.value.text);
           Navigator.pop(context);
         },
         child: Text("Go Back"),
@@ -126,25 +139,19 @@ class _ImageCaptureState extends State<ImageCapture> {
 }
 
 class Uploader extends StatefulWidget {
-  File file;
-  Uploader({this.file});
+  final File file;
+  final String location;
+  final TextEditingController controller;
+  Uploader({this.file, this.location, this.controller});
   @override
   _UploaderState createState() => _UploaderState();
 }
 
 class _UploaderState extends State<Uploader> {
+  
   final FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://citizen-science-app.appspot.com');
 
   StorageUploadTask _uploadTask;
-
-  //start an upload task
-  void _startUpload() {
-    String filePath = 'test/${DateTime.now()}.png';
-
-    setState(() {
-      _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +192,13 @@ class _UploaderState extends State<Uploader> {
       return FlatButton.icon(
         label: Text('Upload to Firebase'),
         icon: Icon(Icons.cloud_upload),
-        onPressed: _startUpload,
+        onPressed:((){
+          setState(() {
+            _uploadTask = _storage.ref().child(widget.location).putFile(widget.file);
+            widget.controller.text = widget.location;
+            print('location in image_capture: ' + widget.controller.value.text);
+          });
+        }),
       );
     }
   }

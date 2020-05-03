@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sensational_science/Screens/Teacher/viewproject.dart';
+import 'package:sensational_science/Screens/Student/collectData.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:provider/provider.dart';
 
@@ -25,8 +25,8 @@ class StudentHome extends StatelessWidget{
 
   Widget build(BuildContext context) {
     final student = Student(code: classData);
-    return Provider(
-    create: (context) => new Student(code: classData), 
+    return Provider<Student>(
+    create: (_) => new Student(code: classData), 
     child:  
         Scaffold(
         appBar: AppBar(
@@ -42,7 +42,7 @@ class StudentHome extends StatelessWidget{
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>ViewProject(student.projectTitle, student.projectID),
+                      builder: (context) =>CollectDataPage(student.projectTitle, student.projectID, classData),
                     ),
                   );
                 },
