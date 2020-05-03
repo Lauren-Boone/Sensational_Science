@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Services/auth.dart';
+import 'package:sensational_science/Screens/Student/student_enter_code.dart';
 import 'create_account.dart';
 import 'register.dart';
 
@@ -43,69 +44,85 @@ class _SignInState extends State<SignIn> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 20),
-              TextFormField(  
-                validator: (val)=> val.isEmpty ? 'Enter an email' : null,
-                 decoration: const InputDecoration(
-                  hintText: 'Email',
-                ),            
-                onChanged: (val){
-                  setState(()=> email = val);
-
-                },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  validator: (val)=> val.length < 6 ? 'Must be 6 characters' : null,
-                   decoration: const InputDecoration(
-                  hintText: 'Password',
-                ),
-                  obscureText: true,
-                  onChanged: (val){
-                    setState(()=>password=val);
-                  }
-                  
-                ),
-                SizedBox(height: 20),
-                RaisedButton(
-                  color: Colors.blue[200],
-                  child: Text(
-                    'Sign In',
+        child: Column(
+          children: <Widget>[
+            RaisedButton(
+              color: Colors.blue[200],
+              child: Text('Access Project Using Student Code'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StudentEnterCode()
                   ),
-                  onPressed: () async{
-                    if(_formKey.currentState.validate()){
-                     // setState(() => loading = true);
-                      dynamic result = await _auth.signIn(email.toString().trim(), password);
-                      print(email);
-                      if(result == null){
-                         loading = false;
-                        setState(()=> error = 'please supply a valid email');
-                      }
+                );
+              },
+            ),
+            Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 20),
+                TextFormField(  
+                  validator: (val)=> val.isEmpty ? 'Enter an email' : null,
+                  decoration: const InputDecoration(
+                    hintText: 'Email',
+                  ),            
+                  onChanged: (val){
+                    setState(()=> email = val);
+
+                  },
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    validator: (val)=> val.length < 6 ? 'Must be 6 characters' : null,
+                    decoration: const InputDecoration(
+                    hintText: 'Password',
+                  ),
+                    obscureText: true,
+                    onChanged: (val){
+                      setState(()=>password=val);
                     }
+                    
+                  ),
+                  SizedBox(height: 20),
+                  RaisedButton(
+                    color: Colors.blue[200],
+                    child: Text(
+                      'Sign In',
+                    ),
+                    onPressed: () async{
+                      if(_formKey.currentState.validate()){
+                      // setState(() => loading = true);
+                        dynamic result = await _auth.signIn(email.toString().trim(), password);
+                        print(email);
+                        if(result == null){
+                          loading = false;
+                          setState(()=> error = 'please supply a valid email');
+                        }
+                      }
 
-                  }
-                ), 
-                // RaisedButton(
-                //   child: Text(
-                //     'Create Account',
-                //   ), onPressed: (){
-                //     Navigator.push(
-                //       context, MaterialPageRoute(
-                //         builder: (context) => CreateAccount()
-                //       )
-                //     ); 
-                //   }
+                    }
+                  ), 
+                  // RaisedButton(
+                  //   child: Text(
+                  //     'Create Account',
+                  //   ), onPressed: (){
+                  //     Navigator.push(
+                  //       context, MaterialPageRoute(
+                  //         builder: (context) => CreateAccount()
+                  //       )
+                  //     ); 
+                  //   }
 
-                //   )
-                
-                
-            ],
-          ),
-          ),
+                  //   )
+                  
+                  
+              ],
+            ),
+            ),
+          ],
+        ),
       ),
 
       
