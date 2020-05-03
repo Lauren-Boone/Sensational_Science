@@ -269,28 +269,39 @@ Widget mainScreen(BuildContext context){
             Text("MultipleChoice " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
             Text("Question: " + widget.project.questions[_currentQuestion].question),
-            Center(
+            Container(
+              margin: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width / 3,
               child: SizedBox(
-                height: 400.0,
-                child: ListView.builder(
-                    itemCount:
-                        widget.project.questions[_currentQuestion].answers.length,
-                    itemBuilder: (context, index) {
-                      //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
-                      return RadioListTile(
-                          title: Text(widget.project
-                              .questions[_currentQuestion].answers[index]),
-                          // groupValue: selectedValue,
-                          value: widget.project
-                              .questions[_currentQuestion].answers[index],
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          groupValue: null);
-                      // }
-                    }),
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: new MultQuestionWidget(
+                  question: widget.project.questions[_currentQuestion], 
+                  multChoiceController: widget.controllers[_currentQuestion]
+                ),
               ),
             ),
+            // Center(
+            //   child: SizedBox(
+            //     height: 400.0,
+            //     child: ListView.builder(
+            //         itemCount:
+            //             widget.project.questions[_currentQuestion].answers.length,
+            //         itemBuilder: (context, index) {
+            //           //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
+            //           return RadioListTile(
+            //               title: Text(widget.project
+            //                   .questions[_currentQuestion].answers[index]),
+            //               // groupValue: selectedValue,
+            //               value: widget.project
+            //                   .questions[_currentQuestion].answers[index],
+            //               onChanged: (value) {
+            //                 setState(() {});
+            //               },
+            //               groupValue: null);
+            //           // }
+            //         }),
+            //   ),
+            // ),
             getNextButton(context)
           ]);
           break;
