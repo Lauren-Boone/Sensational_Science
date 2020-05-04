@@ -97,7 +97,7 @@ Widget build(BuildContext context){
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.8,
+        //height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
             new Text('Current Roster'),
@@ -130,9 +130,12 @@ Widget build(BuildContext context){
             ),
             new Text('Students to add:'),
             new Expanded(
-              child: new ListView.builder(
-                itemCount: roster.length,
-                itemBuilder: (_, index)=>roster[index]
+              child: new SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: new ListView.builder(
+                  itemCount: roster.length,
+                  itemBuilder: (_, index)=>roster[index]
+                ),
               ),
             ),
               new Container(
