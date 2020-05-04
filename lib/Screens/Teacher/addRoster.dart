@@ -89,70 +89,64 @@ class _AddRosterState extends State<AddRoster>{
 String success = '';
 @override
 
-  Widget build(BuildContext context){
+Widget build(BuildContext context){
   final user = Provider.of<User>(context);
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text("View & Add To Roster"),
-        ),
-        body: new Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: Column(
-            children: [
-              new Text('Current Roster'),
-              new StreamBuilder(
-                stream: Firestore.instance.collection('Teachers').
-                  document(user.uid)
-                  .collection('Classes')
-                  .document(widget.name)
-                  .collection('Roster')
-                  .snapshots(),
-                builder: (BuildContext context, snapshot) {
-                  if(!snapshot.hasData) return new Text('...Loading');
-                  return new Expanded(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: new ListView(
-                        children: snapshot.data.documents.map<Widget>((doc){
-                          return new ListTile(
-                            title: new Text(doc['name']),
-                          );
-                        }).toList(),
-                      ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("View & Add To Roster"),
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: Column(
+          children: [
+            new Text('Current Roster'),
+            new StreamBuilder(
+              stream: Firestore.instance.collection('Teachers').
+                document(user.uid)
+                .collection('Classes')
+                .document(widget.name)
+                .collection('Roster')
+                .snapshots(),
+              builder: (BuildContext context, snapshot) {
+                if(!snapshot.hasData) return new Text('...Loading');
+                return new Expanded(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: new ListView(
+                      children: snapshot.data.documents.map<Widget>((doc){
+                        return new ListTile(
+                          title: new Text(doc['name']),
+                        );
+                      }).toList(),
                     ),
-                  );
-                },
+                  ),
+                );
+              },
+            ),
+            new Divider(
+              color: Colors.blue,
+              height: 10.0,
+            ),
+            new Text('Students to add:'),
+            new Expanded(
+              child: new ListView.builder(
+                itemCount: roster.length,
+                itemBuilder: (_, index)=>roster[index]
               ),
-              new Divider(
-                color: Colors.blue,
-                height: 10.0,
-              ),
-              new Text('Students to add:'),
-              new Expanded(
-                child: new ListView.builder(
-                  itemCount: roster.length,
-                  itemBuilder: (_, index)=>roster[index]
-                ),
-              ),
-                new Container(
-                child: Text(success),
-              ),
-              new RaisedButton(
-                child: new Text('Submit Students'),
-                onPressed: ()=> submitData(user.uid),
-              ),
-              new RaisedButton(
-                child: new Text('Add Another Student'),
-                onPressed: addStudent,
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: new RaisedButton(
-          onPressed: () { Navigator.pop(context);},
-          child: Text('Go Back'),
+            ),
+              new Container(
+              child: Text(success),
+            ),
+            new RaisedButton(
+              child: new Text('Submit Students'),
+              onPressed: ()=> submitData(user.uid),
+            ),
+            new RaisedButton(
+              child: new Text('Add Another Student'),
+              onPressed: addStudent,
+            ),
+          ],
         ),
       ),
     );
