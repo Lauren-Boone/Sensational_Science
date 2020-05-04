@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sensational_science/Screens/Teacher/classProjects.dart';
 import 'dart:async';
 import 'roster.dart';
 import 'addRoster.dart';
@@ -66,11 +67,11 @@ class _ClassInfoState extends State<ClassInfo>{
                     title: Text("Projects"),
                     subtitle: Text("View all projects currently assigned to the class"),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    // onTap: () =>{
-                    //   Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) =>AddRoster( name: widget.name),
-                    //   ))
-                    // },
+                    onTap: () =>{
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>ViewClassProjects( name: widget.name),
+                      ))
+                    },
                   ),
                 ],
               ),
