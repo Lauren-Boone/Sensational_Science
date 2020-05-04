@@ -33,36 +33,38 @@ import 'package:sensational_science/models/student.dart';
 class ViewProjectPage extends StatelessWidget{
   final String projectID; 
   final String title; 
-  ViewProjectPage(this.title, this.projectID); 
+  GetProject project;
+  ViewProjectPage(this.title, this.projectID, this.project); 
 
   Widget build(BuildContext context){
     return new Observation(
       key: new Key(projectID), projectID: this.projectID, answers: new Map(), 
-      child: new ViewProject(this.title, this.projectID)
+      child: new ViewProject(this.title, this.projectID, this.project)
     );
   }
 }
 
 class ViewProject extends StatefulWidget {
-  String docIDref;
-  String title;
+  final String docIDref;
+  final String title;
   Student student;
-  GetProject project;
+  final GetProject project;
   bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
   // Observation studentObservations;
 //GetProject project;
-  ViewProject(title, docID) {
-    this.docIDref = docID;
-    this.title = title;
-        project = new GetProject(title, docID);
+  ViewProject(this.title,this.docIDref, this.project) {
+   //this.docIDref = docID;
+    
+     // this.project = project;
+    
     // this.controllers = new List();
-    project.questionData().then((ignore) {
-      for (int i = 1; i < project.questions.length; i++) {
+    //project.questionData().then((ignore) {
+      for (int i = 1; i < this.project.questions.length; i++) {
         controllers.add( new TextEditingController());
         print("Values of i " + i.toString()); 
       }
-    });
+   // });
 
     // studentObservations = new Observation(docID);
   }
@@ -114,20 +116,7 @@ class _ViewProjectState extends State<ViewProject> {
     }
   }
 
-  /* 
-   Widget build(BuildContext context){
-   
-     if(done){
-       
-       return mainScreen(context);
-     }
-     else{
-       renderPage();
-       
-       return CircularProgressIndicator();
-     }
-   }
-*/
+
 
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
@@ -139,7 +128,7 @@ class _ViewProjectState extends State<ViewProject> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: widget.project.questions.length == 0
+        body: /*widget.project.questions.length == 0
             ? Center(
                 child: Column(children: <Widget>[
                   Card(
@@ -155,18 +144,12 @@ class _ViewProjectState extends State<ViewProject> {
                   ),
                 ]),
               )
-            : Center(
+            : */Center(
                 child: FutureBuilder(
                     // initialData: 0,
                     future: _getType(_currentQuestion),
                     builder: (context, snapshot) {
-                      /*switch(snapshot.connectionState){
-                case ConnectionState.waiting: 
-                  return CircularProgressIndicator();
-                case ConnectionState.done:
-                  return getQuestionWidget();
-                default:
-              }*/
+                     
                       if (snapshot.data != null) {
                         return getQuestionWidget(context, snapshot.data);
                       } else if (_currentQuestion >= widget.project.questions.length) {
@@ -187,40 +170,7 @@ class _ViewProjectState extends State<ViewProject> {
     );
   }
 
-/*
-Widget mainScreen(BuildContext context){
- 
-    /*return new MaterialApp(
-      
-      home: new Scaffold(
-          appBar: AppBar(title: Text("Random Widget")),
-          body: project.questions.length == 0
-          ? Center(child: CircularProgressIndicator()
-          
-              
-          )
-          :
-      */
-      Center(child:
-          FutureBuilder(
-              initialData: 0,
-              future: _getType(_currentQuestion),
-              builder: (context, snapshot) {
-                if(snapshot.hasData){
-                  return getQuestionWidget(snapshot.data);
-                }
-                else{
-                  
-                  return getQuestionWidget(-1);
-                }
-              },
-          ),
-      );
-        //  )
-     // )),
-   // );
-  }
-*/
+
 
   Widget getNextButton(BuildContext context) {
     //We need to add a var value as a parameter for this function to add to the controller
@@ -417,14 +367,14 @@ Widget mainScreen(BuildContext context){
     // done=false;
     super.initState();
   }
-
+/*
   Future<void> _getQuestions() async {
     // you mentioned you use firebase for database, so
     // you have to wait for the data to be loaded from the network
     await widget.project.questionData();
     setState(() {});
   }
-
+*/
   // Call this function when you want to move to the next page
   void goToNextPage() {
     //setState(() {

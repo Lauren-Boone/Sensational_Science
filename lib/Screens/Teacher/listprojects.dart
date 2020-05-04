@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/viewprojectstaging.dart';
 import 'package:sensational_science/models/user.dart';
 import 'viewproject.dart';
 import 'dart:async';
@@ -13,7 +14,7 @@ class ListProjects extends StatefulWidget {
 }
 
 class _ListProjectsState extends State<ListProjects> {
-  
+  String projInfo = 'Need to add project info field to create a project staging page';
   
   getProjectList(String teachID)async{
   
@@ -54,7 +55,7 @@ class _ListProjectsState extends State<ListProjects> {
                   
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>ViewProjectPage(document['title'], document['docIDref'] ),
+                      builder: (context) =>ViewProjectStaging(projInfo, document['title'], document['docIDref'] ),
                     ),
                   )
                 },

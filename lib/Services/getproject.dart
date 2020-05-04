@@ -24,16 +24,16 @@ class GetProject {
   }
   List<Questions> questions = new List();
 
+
+
   Future<void> questionData() async {
-    //List<String> questiondata;
+ 
     int count = 0;
-    // int returncount=0;
-    //DocumentReference docRef= document[this.docID];
+  
     Future<DocumentSnapshot> snapshot =
         Firestore.instance.collection('Projects').document(this.docID).get();
 
-    // var snapshot = projectCollection.document(this.docID).get();
-    //snapshot.asStream();
+  
 
     return snapshot.then((DocumentSnapshot questionSnap) => {
           questionSnap.data.forEach((key, value) {
