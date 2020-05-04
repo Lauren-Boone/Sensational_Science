@@ -29,7 +29,9 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green[100],
       appBar: AppBar(
+        backgroundColor: Colors.green[300],
         title: Text("Access Project"),
       ),
       body: Form(
@@ -39,6 +41,7 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 20,),
               TextFormField(
                 controller: codeController,
                 decoration: const InputDecoration(
@@ -46,9 +49,9 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                 ),
                 validator: (value) => value.isEmpty ? 'Please enter your project code' : null,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: RaisedButton(
+              SizedBox(height: 20,),
+              RaisedButton(
+                color: Colors.blue[200],
                   onPressed: () async {
                     if (!_formKey.currentState.validate()) {
                       return;
@@ -82,7 +85,6 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                   },
                   child: Text('Go to Project'),
                 ),
-              ),
             ],
           ),
         ),

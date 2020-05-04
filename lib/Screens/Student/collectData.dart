@@ -179,6 +179,12 @@ class _CollectDataState extends State<CollectData> {
                     })
                 // )
                 ),
+        floatingActionButton: RaisedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Go back'),
+        ),
       ),
     );
   }
