@@ -17,6 +17,7 @@ class Questions {
 class GetProject {
   String docID;
   String title;
+  String info;
   GetProject(String title, String docID) {
     this.docID = docID;
     this.title = title;
@@ -48,7 +49,8 @@ class GetProject {
                 '$key' != 'public' &&
                 '$key' != 'title' &&
                 '$key' != 'docID'&&
-                '$key' != 'hasImage') {
+                '$key' != 'hasImage'&&
+                '$key' != 'info') {
               // count = value['Number'];
               print(value['Type']);
               Questions question = new Questions(
@@ -62,6 +64,9 @@ class GetProject {
                   question.answers.add(e.toString());
                 });
                 //question.answers.addAll(value['Answers']);
+              }
+              if('$key' == 'info'){
+                this.info = '$value';
               }
               print('adding');
               this.questions.add(question);

@@ -25,6 +25,8 @@ class _ListProjectsState extends State<ListProjects> {
           );
   }
 
+
+
   
 @override
   Widget build(BuildContext context) {
@@ -52,10 +54,10 @@ class _ListProjectsState extends State<ListProjects> {
                       subtitle: new Text('Click to View Project'),
                       trailing: Icon(Icons.arrow_forward_ios), 
                 onTap: () =>{
-                  
+                  //projInfo= _getInfo(document['docID']),
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>ViewProjectStaging(document['title'], document['docIDref'] ),
+                      builder: (context) =>ViewProjectStaging(document['title'], document['docIDref'], document['info'] ),
                     ),
                   )
                 },

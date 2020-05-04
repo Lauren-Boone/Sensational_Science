@@ -5,22 +5,22 @@ import '../../Services/getproject.dart';
 class ViewProjectStaging extends StatefulWidget {
   final String projectID; 
   final String title; 
-  //final String projInfo;
-  ViewProjectStaging( this.title, this.projectID); 
+  final String projInfo;
+  ViewProjectStaging( this.title, this.projectID,this.projInfo); 
 
   @override
-  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID);
+  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID, this.projInfo);
 }
 
 class _ViewProjectStagingState extends State<ViewProjectStaging> {
  GetProject project;
 String docIDref;
   String title;
- String projInfo= "We need to create a form to add project info still";
-   _ViewProjectStagingState(title, docID,) {
+  String projInfo;
+   _ViewProjectStagingState(title, docID, projInfo) {
     this.docIDref = docID;
     this.title = title;
-    
+    this.projInfo=projInfo;
         project = new GetProject(title, docID);
         //_getQuestions();
         project.questionData();
@@ -53,7 +53,7 @@ String docIDref;
                         ),),
                     ),
                     Card(
-                      child: Text(this.projInfo,
+                      child: Text(widget.projInfo,
                         style: TextStyle(
                           fontSize: 20,
                         )),

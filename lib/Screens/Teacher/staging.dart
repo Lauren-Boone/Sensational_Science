@@ -56,6 +56,7 @@ class StagingPage extends StatefulWidget {
 class StagePageState extends State<StagingPage> {
 
   String _currentTitle = '';
+  String _currentInfo = '';
   bool pub = true;
   String pubpriv = 'Current Setting: Public';
   final _formKey = GlobalKey<FormState>();
@@ -87,6 +88,7 @@ class StagePageState extends State<StagingPage> {
    final user = Provider.of<User>(context);
    final CollectionReference projectCollection = Firestore.instance.collection('Projects');
    final TextEditingController projectTitleController = new TextEditingController();
+   final TextEditingController projectInfo = new TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Project Info"),
@@ -108,31 +110,21 @@ class StagePageState extends State<StagingPage> {
                   ),
                   //onChanged: (val) => setState(() => _currentTitle = val),
                 ),
+
+
                  SizedBox(height: 20),
                 TextFormField(
-                  controller: projectTitleController,
+                  //initialValue: _currentInfo,
+                  controller: projectInfo,
                   validator: (val) =>
                       val.isEmpty ? 'Enter Project Description' : null,
                   decoration: const InputDecoration(
                     hintText: 'Project Description',
                   ),
-                  //onChanged: (val) => setState(() => _currentTitle = val),
+                 //onChanged: (value) => setState(() => _currentInfo = value),
                 ),
                 SizedBox(height: 20),
-                // TextFormField(
-                //   initialValue: '',
-                //   validator: (val) =>
-                //       val.isEmpty ? 'Enter Project Due Date' : null,
-                //   decoration: const InputDecoration(
-                //     hintText: 'Project Due Date',
-                //   ),
-                //   onChanged: (val) => setState(() => _currentTitle = val),
-                // ),
-                //BasicDateField(),
-                SizedBox(height: 24),
-                // RaisedButton(child: Text('Save Date'), 
-                //   onPressed: () => _formKey.currentState.validate(),
-                // ),
+              
                 SwitchListTile(
                   value: pub,
                   title:
@@ -183,8 +175,9 @@ class StagePageState extends State<StagingPage> {
                         );
                       } else {
                         _currentTitle = projectTitleController.text.trim();
+                        _currentInfo = projectInfo.text.trim();
                       }
-                      AddProject proj = new AddProject(title: _currentTitle, public: pub);
+                      AddProject proj = new AddProject(title: _currentTitle, public: pub, info: _currentInfo);
                       String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
                       
                       Navigator.push(
