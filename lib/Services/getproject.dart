@@ -47,7 +47,8 @@ class GetProject {
             if ('$key' != 'count' &&
                 '$key' != 'public' &&
                 '$key' != 'title' &&
-                '$key' != 'docID') {
+                '$key' != 'docID'&&
+                '$key' != 'hasImage') {
               // count = value['Number'];
               print(value['Type']);
               Questions question = new Questions(
