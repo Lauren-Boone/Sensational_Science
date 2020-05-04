@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
-import 'viewproject.dart';
+import 'package:sensational_science/models/student.dart';
+import 'collectData.dart';
 import '../../Services/getproject.dart';
 
-class ViewProjectStaging extends StatefulWidget {
+class CollectDataStaging extends StatefulWidget {
   final String projectID; 
   final String title; 
-  //final String projInfo;
-  ViewProjectStaging( this.title, this.projectID); 
+  final String student;
+  CollectDataStaging( this.title, this.projectID, this.student); 
 
   @override
-  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID);
+  _CollectDataStagingState createState() => _CollectDataStagingState(this.title, this.projectID, this.student);
 }
 
-class _ViewProjectStagingState extends State<ViewProjectStaging> {
+class _CollectDataStagingState extends State<CollectDataStaging> {
  GetProject project;
 String docIDref;
   String title;
+  String student;
  String projInfo= "We need to create a form to add project info still";
-   _ViewProjectStagingState(title, docID,) {
+   _CollectDataStagingState(title, docID, student) {
     this.docIDref = docID;
     this.title = title;
-    
+    this.student = student;
         project = new GetProject(title, docID);
         //_getQuestions();
         project.questionData();
@@ -67,7 +69,7 @@ String docIDref;
                         });
                         Navigator.of(context).push(
                       MaterialPageRoute(
-                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project ),
+                       builder: (context) =>CollectDataPage(this.title, this.docIDref, this.student, this.project ),
                       ),
                   
                     );

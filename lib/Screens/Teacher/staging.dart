@@ -108,6 +108,16 @@ class StagePageState extends State<StagingPage> {
                   ),
                   //onChanged: (val) => setState(() => _currentTitle = val),
                 ),
+                 SizedBox(height: 20),
+                TextFormField(
+                  controller: projectTitleController,
+                  validator: (val) =>
+                      val.isEmpty ? 'Enter Project Description' : null,
+                  decoration: const InputDecoration(
+                    hintText: 'Project Description',
+                  ),
+                  //onChanged: (val) => setState(() => _currentTitle = val),
+                ),
                 SizedBox(height: 20),
                 // TextFormField(
                 //   initialValue: '',

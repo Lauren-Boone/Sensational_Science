@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/collectData.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:provider/provider.dart';
+import 'collectDataStaging.dart';
 
 class StudentHome extends StatelessWidget{
   final String classData;
@@ -42,7 +43,7 @@ class StudentHome extends StatelessWidget{
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>CollectDataPage(student.projectTitle, student.projectID, classData),
+                      builder: (context) =>CollectDataStaging(student.projectTitle, student.projectID, classData),
                     ),
                   );
                 },

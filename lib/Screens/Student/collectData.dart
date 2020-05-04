@@ -33,38 +33,40 @@ class CollectDataPage extends StatelessWidget{
   final String projectID; 
   final String title; 
   final String code;
-  CollectDataPage(this.title, this.projectID, this.code); 
+  final GetProject project;
+  CollectDataPage(this.title, this.projectID, this.code, this.project); 
 
   Widget build(BuildContext context){
     final Student student = new Student(code: code);
     return new Observation(
       key: new Key(projectID), projectID: this.projectID, answers: new Map(), 
-      child: new CollectData(this.title, this.projectID, student)
+      child: new CollectData(student, this.project)
     );
   }
 }
 
 class CollectData extends StatefulWidget {
-  String docIDref;
-  String title;
-  Student student;
-  GetProject project;
-  bool done = false;
+  
+ 
+  final Student student;
+  final GetProject project;
+    //bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
   // Observation studentObservations;
 //GetProject project;
-  CollectData(title, docID, student) {
-    this.docIDref = docID;
-    this.student = student;
-    this.title = title;
-        project = new GetProject(title, docID);
+  CollectData(this.student, this.project) {
+  
+    //this.student = student;
+   
+    //this.project=project;
+        //project = new GetProject(title, docID);
     // this.controllers = new List();
-    project.questionData().then((ignore) {
+   // project.questionData().then((ignore) {
       for (int i = 1; i < project.questions.length; i++) {
         controllers.add( new TextEditingController());
         print("Values of i " + i.toString()); 
       }
-    });
+    //});
 
     // studentObservations = new Observation(docID);
   }
@@ -73,7 +75,7 @@ class CollectData extends StatefulWidget {
 
   @override
   _CollectDataState createState() =>
-      _CollectDataState(this.title, this.docIDref);
+      _CollectDataState();
 }
 
 class _CollectDataState extends State<CollectData> {
@@ -81,7 +83,7 @@ class _CollectDataState extends State<CollectData> {
   // bool done = false;
   // List<TextEditingController> controllers = [];
   // Observation studentObservations;
-  _CollectDataState(String title, String docID) {
+  _CollectDataState() {
     // project = new GetProject(title, docID);
     // this.controllers = new List();
     // project.questionData().then((ignore) {
@@ -145,7 +147,7 @@ class _CollectDataState extends State<CollectData> {
             ? Center(
                 child: Column(children: <Widget>[
                   Card(
-                    child: Text(widget.title),
+                    child: Text(widget.project.title),
                   ),
                   RaisedButton(
                     onPressed: () {
