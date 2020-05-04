@@ -7,6 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sensational_science/models/student.dart';
 //import 'package:provider/provider.dart';
 
+//code based off of https://fireship.io/lessons/flutter-file-uploads-cloud-storage/
+
 class AddImageInput extends StatefulWidget {
   final TextEditingController controller;
 
