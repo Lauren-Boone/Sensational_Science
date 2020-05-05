@@ -23,7 +23,7 @@ class BasicDateField extends StatefulWidget {
 class BasicDateFieldState extends State<BasicDateField> {
   final format = DateFormat("yyyy-MM-dd");
   DateTime date; 
-  @override
+   @override
   Widget build(BuildContext context) {
   
     return Column(children: <Widget>[
@@ -61,6 +61,8 @@ class StagePageState extends State<StagingPage> {
   String pubpriv = 'Current Setting: Public';
   final _formKey = GlobalKey<FormState>();
   AddProject proj;
+   List<String> subjects =["Physics", "Biology", "Chemistry", "Astronomy",  "Geography", "Geology" ];
+
 
 /*
  String createProjectDoc(String title, bool public ){
@@ -89,38 +91,58 @@ class StagePageState extends State<StagingPage> {
    final CollectionReference projectCollection = Firestore.instance.collection('Projects');
    final TextEditingController projectTitleController = new TextEditingController();
    final TextEditingController projectInfo = new TextEditingController();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Add Project Info"),
-      ),
-      backgroundColor: Colors.grey[100],
-      body: Container(
-        margin: EdgeInsets.all(10),
-        child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 20),
-                TextFormField(
-                  controller: projectTitleController,
-                  validator: (val) =>
-                      val.isEmpty ? 'Enter Project Title' : null,
-                  decoration: const InputDecoration(
-                    hintText: 'Project Title',
-                  ),
-                  //onChanged: (val) => setState(() => _currentTitle = val),
-                ),
-
-
-                 SizedBox(height: 20),
-                TextFormField(
-                  //initialValue: _currentInfo,
-                  controller: projectInfo,
-                  validator: (val) =>
-                      val.isEmpty ? 'Enter Project Description' : null,
-                  decoration: const InputDecoration(
-                    hintText: 'Project Description',
-                  ),
+    var subjectVal = "";
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Add Project Info"),
+          ),
+          backgroundColor: Colors.grey[100],
+          body: Container(
+            margin: EdgeInsets.all(10),
+            child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 20),
+                    TextFormField(
+                      controller: projectTitleController,
+                      validator: (val) =>
+                          val.isEmpty ? 'Enter Project Title' : null,
+                      decoration: const InputDecoration(
+                        hintText: 'Project Title',
+                      ),
+                      //onChanged: (val) => setState(() => _currentTitle = val),
+                    ),
+    
+    
+                     SizedBox(height: 20),
+                    TextFormField(
+                      //initialValue: _currentInfo,
+                      controller: projectInfo,
+                      validator: (val) =>
+                          val.isEmpty ? 'Enter Project Description' : null,
+                      decoration: const InputDecoration(
+                        hintText: 'Project Description',
+                      ),
+                     //onChanged: (value) => setState(() => _currentInfo = value),
+                    ),
+                      SizedBox(height: 20),
+                   DropdownButton(
+                                  value: subjectVal = "",
+                              items: subjects.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                         value: value,
+                              child: Text(value),
+                             );
+                                })
+                                      .toList(),
+                              isDense: true,
+                              onChanged: (String newValue) {
+                                setState(() {
+                                 subjectVal = newValue;
+                                  
+                                });
+                              },
                  //onChanged: (value) => setState(() => _currentInfo = value),
                 ),
                 SizedBox(height: 20),
@@ -173,11 +195,49 @@ class StagePageState extends State<StagingPage> {
                             );
                           }
                         );
-                      } else {
+                      }
+                        if (projectInfo.text == " ") {
+                        return showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Project Description Missing"),
+                              content: Text("A project must have a description."),
+                              actions: <Widget>[
+                                RaisedButton(
+                                  child: Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ]
+                            );
+                          }
+                        );
+                      } 
+                      if (subjectVal == ""){
+                        return showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Project Subject Missing"),
+                              content: Text("A project must have a subject."),
+                              actions: <Widget>[
+                                RaisedButton(
+                                  child: Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ]
+                            );
+                          }
+                        );
+                      } {
                         _currentTitle = projectTitleController.text.trim();
                         _currentInfo = projectInfo.text.trim();
                       }
-                      AddProject proj = new AddProject(title: _currentTitle, public: pub, info: _currentInfo);
+                      AddProject proj = new AddProject(title: _currentTitle, public: pub, info: _currentInfo, subject: subjectVal);
                       String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
                       
                       Navigator.push(

@@ -50,7 +50,8 @@ class GetProject {
                 '$key' != 'title' &&
                 '$key' != 'docID'&&
                 '$key' != 'hasImage'&&
-                '$key' != 'info') {
+                '$key' != 'info'&&
+                '$key' != 'subject') {
               // count = value['Number'];
               print(value['Type']);
               Questions question = new Questions(

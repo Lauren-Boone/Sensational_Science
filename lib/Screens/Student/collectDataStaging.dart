@@ -7,6 +7,7 @@ class CollectDataStaging extends StatefulWidget {
   final String projectID; 
   final String title; 
   final String student;
+  
   CollectDataStaging( this.title, this.projectID, this.student); 
 
   @override

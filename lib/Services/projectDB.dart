@@ -43,7 +43,8 @@ class AddProject {
   final String title;
   final bool public;
   final String info;
-  AddProject({this.title, this.public, this.info});
+  final String subject;
+  AddProject({this.title, this.public, this.info, this.subject});
   List<Question> questions = new List();
   String docID;
   int numberQuestions;
@@ -147,6 +148,7 @@ docRef.setData({
       'public': public,
       'docID': docRef.documentID,
       'info': this.info,
+      'subject': this.subject,
     });
 
     Firestore.instance.runTransaction((transaction) async {
@@ -160,6 +162,7 @@ docRef.setData({
             'docIDref': docRef.documentID,
             'title': title,
             'info': this.info,
+            'subject': this.subject,
           });
     });
     docID = docRef.documentID;
