@@ -22,7 +22,6 @@ class _SubmittedPageState extends State<SubmittedPage> {
       body: Container(
         margin: EdgeInsets.all(10),
         child: Text('You have submitted your project!')
-,
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sensational_science/Screens/Student/saveStudentAnswers.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Services/projectDB.dart';
+import 'package:sensational_science/models/user.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
 import 'textquestion.dart';
@@ -361,12 +363,14 @@ class _ViewProjectState extends State<ViewProject> {
     } else {
       return Column(children: <Widget>[
         Text("Would you like to submit your answers?", textScaleFactor: 2),
-        RaisedButton(onPressed: () {
+        RaisedButton(onPressed: () async {
+          final user = Provider.of<User>(context, listen:false);
+          var results = Observation.of(context);
+          await saveAnswers(widget.project.teacherID, results.className, results.projectID, user.uid, results);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SubmittedPage()),
-          );
-          //getNextButton()
+            MaterialPageRoute(builder: (context) => saveStudentAnswers(results: Observation.of(context))),
+          ); //getNextButton()
         },
         child: Text('Submit Form'),
         )

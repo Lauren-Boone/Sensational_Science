@@ -8,6 +8,7 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/models/user.dart';
 
 //references: https://medium.com/47billion/how-to-use-firebase-with-flutter-e4a47a7470ce
@@ -16,8 +17,8 @@ import 'package:sensational_science/models/user.dart';
 // var databaseReference = FirebaseDatabase.instance.reference().child("Teachers").child("WIWJTyjBw9WwfUfNQ69D6ABVOx93")
 // .child("Classes").child("AbbiTest").child("Projects").child("MMxdCXvncfz8VFNPlc5q").child("Students"); 
 
-Future<void> assignProject(
-      String uid, String className, String projectID, String docID) async {
+Future<void> saveAnswers(
+      String uid, String className, String projectID, String docID, Observation input) async {
     return Firestore.instance
         .collection('Teachers')
         .document(uid)
@@ -28,8 +29,7 @@ Future<void> assignProject(
         .collection('Students')
         .document(docID)
         .setData({
-          
-          
+          'Answers': input.answers.values.toList()
         });
       }
 
@@ -40,8 +40,8 @@ Future<void> assignProject(
 // }
 
 class saveStudentAnswers extends StatefulWidget{
-    saveStudentAnswers({Key key}) : super(key: key);
-
+  final Observation results; 
+  saveStudentAnswers({this.results});
   @override
   saveStudentAnswersState createState() => saveStudentAnswersState();
 }
@@ -49,9 +49,18 @@ class saveStudentAnswers extends StatefulWidget{
 class saveStudentAnswersState extends State<saveStudentAnswers>{
   @override
 
-  Widget build(BuildContext context){
-    return Scaffold(
-
+  Widget build(BuildContext context) {
+        final user = Provider.of<User>(context);
+    
+        return Scaffold(
+      appBar: AppBar(
+        title: Text("Submitted Page"),
+      ),
+      backgroundColor: Colors.grey[100],
+      body: Container(
+        margin: EdgeInsets.all(10),
+        child: Text('You have submitted your project!')
+      ),
     );
   }
 }

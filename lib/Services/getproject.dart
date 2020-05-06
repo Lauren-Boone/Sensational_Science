@@ -18,14 +18,13 @@ class GetProject {
   String docID;
   String title;
   String info;
+  String teacherID; 
   GetProject(String title, String docID) {
     this.docID = docID;
     this.title = title;
     //squestionData();
   }
   List<Questions> questions = new List();
-
-
 
   Future<void> questionData() async {
  
@@ -34,14 +33,15 @@ class GetProject {
     Future<DocumentSnapshot> snapshot =
         Firestore.instance.collection('Projects').document(this.docID).get();
 
-  
-
     return snapshot.then((DocumentSnapshot questionSnap) => {
           questionSnap.data.forEach((key, value) {
             if ('$key' == 'count') {
               count = value;
 
               //returncount=count;
+            }
+            if('$key' == 'teacherID'){
+              teacherID = value; 
             }
           }),
           questionSnap.data.forEach((key, value) {
@@ -50,7 +50,9 @@ class GetProject {
                 '$key' != 'title' &&
                 '$key' != 'docID'&&
                 '$key' != 'hasImage'&&
-                '$key' != 'info') {
+                '$key' != 'info' && 
+                '$key' != 'teacherID'
+                ) {
               // count = value['Number'];
               print(value['Type']);
               Questions question = new Questions(
