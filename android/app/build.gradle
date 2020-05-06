@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+    flutterVersionCode = '2.0'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '2.0'
 }
 
 apply plugin: 'com.android.application'
@@ -50,23 +50,24 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode = flutterVersionCode.toInteger()
+        versionCode = 1.2
         versionName flutterVersionName
     }
 
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['scienceKey']
-            keyPassword keystoreProperties['science']
-            storeFile keystoreProperties['C:\\Keystore\\science'] ? file(keystoreProperties['newaabkey.jks']) : null
-            storePassword keystoreProperties['science']
-        }
-    }
+  signingConfigs {
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+       }
+   }
     buildTypes {
         release {
             signingConfig signingConfigs.release
         }
     
+   
         debug {
 
             // Signing with the debug keys for now, so `flutter run --release` works.

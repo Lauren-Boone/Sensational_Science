@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/testingNEWcreateproj.dart';
 import 'package:sensational_science/models/project.dart';
 import '../../Services/projectDB.dart';
 import 'package:sensational_science/Screens/Login/login_auth.dart';
@@ -245,7 +246,7 @@ class StagePageState extends State<StagingPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              CreateProject(proj: proj, title: _currentTitle),
+                              AddQuestionsToProject(title: _currentTitle, proj: proj),
                         ),
                       );
                     },

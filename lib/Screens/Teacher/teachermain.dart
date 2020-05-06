@@ -66,7 +66,7 @@ class TeacherHome extends StatelessWidget{
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>ExpansionTileSample(),
+                        builder: (context) =>AddQuestionsToProject(),
                       ),
                     );
                   },

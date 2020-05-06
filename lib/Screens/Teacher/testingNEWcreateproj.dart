@@ -1,97 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/addRoster.dart';
+import 'package:sensational_science/Services/projectDB.dart';
+import 'package:sensational_science/models/user.dart';
 
 
-
-
-
-
-class ExpansionTileSample extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('ExpansionTile'),
-        ),
-        body: ListView.builder(
-          itemBuilder: (BuildContext context, int index) =>
-              EntryItem(data[index]),
-          itemCount: data.length,
-        ),
-      ),
-    );
-  }
-}
-
-// One entry in the multilevel list displayed by this app.
-class Entry {
-  Entry(this.title, [this.children = const <Entry>[]]);
-
-  final String title;
-  
-  final List<Entry> children;
-}
-
-// The entire multilevel list displayed by this app.
-final List<Entry> data = <Entry>[
-  Entry(
-    'Question',
-    <Entry>[
-      Entry(
-        'Question',
-        <Entry>[
-          Entry('Item A0.1'),
-          Entry('Item A0.2'),
-          Entry('Item A0.3'),
-        ],
-      ),
-      Entry('Section A1'),
-      Entry('Section A2'),
-    ],
-  ),
-  
-  
-];
 
 // Displays one Entry. If the entry has children then it's displayed
 // with an ExpansionTile.
-class EntryItem extends StatelessWidget {
-  const EntryItem(this.entry);
 
-  final Entry entry;
 
-  Widget _buildTiles(Entry root) {
-    if (root.children.isEmpty) return ListTile(title: Text(root.title));
-    return ExpansionTile(
-      key: PageStorageKey<Entry>(root),
-      title: Text(root.title),
-      children: root.children.map(_buildTiles).toList(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildTiles(entry);
-  }
-}
-/*
 class AddQuestionsToProject extends StatefulWidget {
-
+  final String title;
+  final AddProject proj;
+  AddQuestionsToProject({this.title, this.proj});
   @override
   _AddQuestionsToProjectState createState() => _AddQuestionsToProjectState();
 }
 
-class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
-  
-  //List<DynamicWidget> addQuestiontoAccordion = new List();
+//List<TextEditingController> questions = new List<TextEditingController>();
 
-addQuestion(){
-  //addQuestiontoAccordion.add(new DynamicWidget());
-   
-  }
+class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
+  //List<DynamicWidget> addQuestiontoAccordion = new List();
+  List<DynamicWidget> questionwidgets = [];
+  List<String> typecontroller=[];
+  List<TextEditingController> questions=[];
+  List<List<TextEditingController>> answers = [];
+  List<String> types = ["MultipleChoice", "TextInputItem", "ShortAnswerItem", "UserLocation", "NumericalInputItem", "AddImageInput"];
+
+
+  String selected;
+  int numQuestions = 0;
 
   @override
   Widget build(BuildContext context) {
+     final user = Provider.of<User>(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -99,15 +42,99 @@ addQuestion(){
         ),
         body: Column(
           children: <Widget>[
-            ListView.builder(
-              itemBuilder: (BuildContext context, int index) =>
-                  QuestionItem(data[index]),
-              itemCount: data.length,
+            new Expanded(
+              child: new ListView.builder(
+                  itemCount: questionwidgets.length,
+                  itemBuilder: (_, index) => questionwidgets[index]),
             ),
             new RaisedButton(
-              child: new Text('Add a Question'),
-              onPressed: addQuestion,
+              child: new Text('Add Another Student'),
+              onPressed: () => {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      //addQuestiontoAccordion.add(new DynamicWidget());
+                      return AlertDialog(
+                          title: Text("Select a type of questions"),
+                          actions: <Widget>[
+                            DropdownButton(
+                              value: selected,
+                              items: types.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String value) {
+                                selected = value;
+                                setState(() {
+                                  selected = value;
+                                });
+                              },
+                            ),
+                            RaisedButton(
+                              child: Text('continue'),
+                              onPressed: () {
+                                if (selected == "") {
+                                } else {
+                                  numQuestions++;
+                                  questionwidgets.add(new DynamicWidget(
+                                      type: selected, numq: numQuestions));
+                                      typecontroller.add(selected);
+                                  setState(() {});
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                            ),
+                            
+                          ]);
+                    }),
+              },
             ),
+            RaisedButton(
+                              child: Text('Create Project'),
+                              onPressed: (){
+                                
+     
+
+                                int i = 0;
+                                questionwidgets.forEach((element) {
+                                  questions.add(element.controller);
+                                  if(element.answers.length>0){
+                                     answers.add([]);
+                                    element.answers.forEach((a) {
+                                       
+                                        answers[i].add(a.answercontroller);
+                                    
+                                    });
+                                    i++;
+                                  }
+                                  questions.forEach((element) {
+                                    print(element.value.text);
+                                  });
+                                  typecontroller.forEach((element) {
+                                    print(element);
+                                  });
+                                  answers.forEach((element) {
+                                    element.forEach((e) {
+                                      print(e.value.text);
+                                    });
+                                  });
+
+                                });
+                              
+            widget.proj.addProjectDataToDoc(
+                                  user.uid,
+                                  questions,
+                                  typecontroller,
+                                  answers,
+                                  numQuestions,
+                                  widget.proj.getDocID());
+  widget.proj.addtodb(numQuestions);
+                              },
+                            
+                            )
           ],
         ),
       ),
@@ -115,61 +142,93 @@ addQuestion(){
   }
 }
 
-class Question{
- 
-
-  Question(this.number, this.question, this.type);
-  final int number;
-  final String question;
+class DynamicWidget extends StatefulWidget {
+  final controller = new TextEditingController();
+  // final answercontroller = new List<TextEditingController>();
+  final answers = new List<DynamicAnswers>();
+  int numAnswers = 0;
   final String type;
-  
+  final int numq;
+
+  DynamicWidget({this.type, this.numq});
+  @override
+  _DynamicWidgetState createState() => _DynamicWidgetState();
 }
 
-// The entire multilevel list displayed by this app.
-List<Question> data = <Question>[
-  Question(
-    
-    4,
-    'asdf',
-    'Chapter A',
-   
-  ),
-];
-
-// Displays one Question. If the Question has children then it's displayed
-// with an ExpansionTile.
-class QuestionItem extends StatelessWidget {
-  const QuestionItem(this.entry);
-
-  final Question entry;
-
-  Widget _buildTiles(Question root) {
-    //if (root.children.isEmpty) return ListTile(title: Text("Question " + entry.number.toString()));
-    return ExpansionTile(
-      key: PageStorageKey<Question>(root),
-      title: Text(root.question),
-     // children: root.children.map(_buildTiles).toList(),
-    );
-  }
-
+class _DynamicWidgetState extends State<DynamicWidget> {
   @override
   Widget build(BuildContext context) {
-    return _buildTiles(entry);
+    if (widget.type == "MultipleChoice") {
+      return Container(
+        // constraints: BoxConstraints(minWidth: 230.0, minHeight: 25.0),
+        margin: new EdgeInsets.all(8.0),
+        child: Expanded(
+                  child: Column(
+            children: <Widget>[
+              new Text("Question: " + widget.numq.toString(),
+                  style: TextStyle(fontSize: 20)),
+              new Text("Type: " + widget.type),
+              new TextField(
+                controller: widget.controller,
+                decoration: new InputDecoration(hintText: 'Enter Question Here'),
+                //onChanged: ((val) {}),
+              ),
+              new RaisedButton(
+                child: Text('Add Answers'),
+                onPressed: () => {
+                  //widget.numAnswers++,
+                  widget.answers
+                      .add(new DynamicAnswers(numAnswers: widget.numAnswers)),
+                  setState(() {}),
+                },
+                
+              ),
+              new ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: widget.answers.length,
+                  itemBuilder: (_, index) => widget.answers[index]),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        margin: new EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            new Text("Question: " + widget.numq.toString(),
+                style: TextStyle(fontSize: 20)),
+            new Text("Type: " + widget.type),
+            new TextField(
+              controller: widget.controller,
+              decoration: new InputDecoration(hintText: 'Enter Question Here'),
+              onChanged: ((val) {
+                //questions.add(controller);
+              }),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
 
-*/
-
-/*
-class DynamicWidget extends StatelessWidget{
-  final controller = new TextEditingController();
+class DynamicAnswers extends StatelessWidget {
+  final answercontroller = new TextEditingController();
+  final int numAnswers;
+  DynamicAnswers({this.numAnswers});
   @override
-  Widget build(BuildContext context){
-    if (root.children.isEmpty) return ListTile(title: Text(root.title));
-    return ExpansionTile(
-      key: PageStorageKey<Question>(root),
-      title: Text(root.title),
-      children: root.children.map(_buildTiles).toList(),
-    );
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(minWidth: 20.0, maxWidth: 50, minHeight: 25.0),
+      width: MediaQuery.of(context).size.width / 2,
+        child: SizedBox(
+      width: 50,
+      child: new TextField(
+        controller: answercontroller,
+        decoration:
+            new InputDecoration(hintText: 'Enter A Multiple Choice Answer'),
+      ),
+    ));
+  }
 }
-}*/

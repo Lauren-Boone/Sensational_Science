@@ -129,7 +129,7 @@ docRef.setData({
           type: acceptType[i].toString(),
           question: acceptData[i].text));
       if (acceptType[i] == 'MultipleChoice') {
-        print(multAnswers[answerCount]);
+        //print(multAnswers[answerCount]);
         questions[i].toJsonMult(multAnswers[answerCount]);
         answerCount++;
         //this.questions.add(question);
