@@ -13,13 +13,31 @@ import 'package:sensational_science/models/user.dart';
 //references: https://medium.com/47billion/how-to-use-firebase-with-flutter-e4a47a7470ce
 //https://stackoverflow.com/questions/52072948/flutter-get-firebase-database-reference-child-all-data/52073274
 
-var databaseReference = FirebaseDatabase.instance.reference().child("Teachers").child("WIWJTyjBw9WwfUfNQ69D6ABVOx93")
-.child("Classes").child("AbbiTest").child("Projects").child("MMxdCXvncfz8VFNPlc5q").child("Students"); 
-void saveAnswers(){
-  databaseReference.child("Answers").set({
-    'example': 'test'
-  });
-}
+// var databaseReference = FirebaseDatabase.instance.reference().child("Teachers").child("WIWJTyjBw9WwfUfNQ69D6ABVOx93")
+// .child("Classes").child("AbbiTest").child("Projects").child("MMxdCXvncfz8VFNPlc5q").child("Students"); 
+
+Future<void> assignProject(
+      String uid, String className, String projectID, String docID) async {
+    return Firestore.instance
+        .collection('Teachers')
+        .document(uid)
+        .collection('Classes')
+        .document(className)
+        .collection('Projects')
+        .document(projectID)
+        .collection('Students')
+        .document(docID)
+        .setData({
+          
+          
+        });
+      }
+
+// void saveAnswers(){
+//   databaseReference.child("Answers").set({
+//     'example': 'test'
+//   });
+// }
 
 class saveStudentAnswers extends StatefulWidget{
     saveStudentAnswers({Key key}) : super(key: key);

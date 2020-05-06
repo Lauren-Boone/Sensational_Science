@@ -13,6 +13,7 @@ import 'multiplechoicequestion.dart';
 import '../../Services/projectDB.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/student.dart';
+import 'submittedPage.dart';
 
 //import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
@@ -30,17 +31,18 @@ import 'package:sensational_science/models/student.dart';
 
 // var createNumericalInput = new NumericalQuestion();
 
-class ViewProjectPage extends StatelessWidget{
-  final String projectID; 
-  final String title; 
+class ViewProjectPage extends StatelessWidget {
+  final String projectID;
+  final String title;
   GetProject project;
-  ViewProjectPage(this.title, this.projectID, this.project); 
+  ViewProjectPage(this.title, this.projectID, this.project);
 
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return new Observation(
-      key: new Key(projectID), projectID: this.projectID, answers: new Map(), 
-      child: new ViewProject(this.title, this.projectID, this.project)
-    );
+        key: new Key(projectID),
+        projectID: this.projectID,
+        answers: new Map(),
+        child: new ViewProject(this.title, this.projectID, this.project));
   }
 }
 
@@ -53,18 +55,18 @@ class ViewProject extends StatefulWidget {
   List<TextEditingController> controllers = [new TextEditingController()];
   // Observation studentObservations;
 //GetProject project;
-  ViewProject(this.title,this.docIDref, this.project) {
-   //this.docIDref = docID;
-    
-     // this.project = project;
-    
+  ViewProject(this.title, this.docIDref, this.project) {
+    //this.docIDref = docID;
+
+    // this.project = project;
+
     // this.controllers = new List();
     //project.questionData().then((ignore) {
-      for (int i = 1; i < this.project.questions.length; i++) {
-        controllers.add( new TextEditingController());
-        print("Values of i " + i.toString()); 
-      }
-   // });
+    for (int i = 1; i < this.project.questions.length; i++) {
+      controllers.add(new TextEditingController());
+      print("Values of i " + i.toString());
+    }
+    // });
 
     // studentObservations = new Observation(docID);
   }
@@ -87,7 +89,7 @@ class _ViewProjectState extends State<ViewProject> {
     // project.questionData().then((ignore) {
     //   for (int i = 0; i < project.questions.length; i++) {
     //     controllers[i] = new TextEditingController();
-    //     print("Values of i " + i.toString()); 
+    //     print("Values of i " + i.toString());
     //   }
     // });
 
@@ -116,8 +118,6 @@ class _ViewProjectState extends State<ViewProject> {
     }
   }
 
-
-
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
     return new MaterialApp(
@@ -128,7 +128,8 @@ class _ViewProjectState extends State<ViewProject> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: /*widget.project.questions.length == 0
+        body:
+            /*widget.project.questions.length == 0
             ? Center(
                 child: Column(children: <Widget>[
                   Card(
@@ -144,15 +145,16 @@ class _ViewProjectState extends State<ViewProject> {
                   ),
                 ]),
               )
-            : */Center(
+            : */
+            Center(
                 child: FutureBuilder(
                     // initialData: 0,
                     future: _getType(_currentQuestion),
                     builder: (context, snapshot) {
-                     
                       if (snapshot.data != null) {
                         return getQuestionWidget(context, snapshot.data);
-                      } else if (_currentQuestion >= widget.project.questions.length) {
+                      } else if (_currentQuestion >=
+                          widget.project.questions.length) {
                         return getQuestionWidget(context, -1);
                       } else {
                         return CircularProgressIndicator();
@@ -170,8 +172,6 @@ class _ViewProjectState extends State<ViewProject> {
     );
   }
 
-
-
   Widget getNextButton(BuildContext context) {
     //We need to add a var value as a parameter for this function to add to the controller
     return RaisedButton(
@@ -180,14 +180,14 @@ class _ViewProjectState extends State<ViewProject> {
         onPressed: () {
           var questionObservations = Observation.of(context);
 
-          if(!questionObservations.answers.containsKey(_currentQuestion)){
+          if (!questionObservations.answers.containsKey(_currentQuestion)) {
             questionObservations.addAnswer(
-                  widget.project.questions[_currentQuestion].number,
-                  widget.controllers[_currentQuestion].value.text);
+                widget.project.questions[_currentQuestion].number,
+                widget.controllers[_currentQuestion].value.text);
           }
 
           print(questionObservations.toJson());
-            
+
           // setState(() {
           //   widget.studentObservations.addAnswer(
           //       widget.project.questions[_currentQuestion].number,
@@ -211,14 +211,16 @@ class _ViewProjectState extends State<ViewProject> {
           return Column(children: <Widget>[
             Text("TextInputItem " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
+            Text("Question: " +
+                widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
-              child: Center(child: new TextQuestionWidget(
-                textAnswerController: widget.controllers[_currentQuestion]
-              )),
+              child: Center(
+                  child: new TextQuestionWidget(
+                      textAnswerController:
+                          widget.controllers[_currentQuestion])),
               // ),
             ),
             getNextButton(context)
@@ -228,16 +230,16 @@ class _ViewProjectState extends State<ViewProject> {
           return Column(children: <Widget>[
             Text("MultipleChoice " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
+            Text("Question: " +
+                widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3 * 2,
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: new MultQuestionWidget(
-                  question: widget.project.questions[_currentQuestion], 
-                  multChoiceController: widget.controllers[_currentQuestion]
-                ),
+                    question: widget.project.questions[_currentQuestion],
+                    multChoiceController: widget.controllers[_currentQuestion]),
               ),
             ),
             // Center(
@@ -269,7 +271,8 @@ class _ViewProjectState extends State<ViewProject> {
           return Column(children: <Widget>[
             Text("ShortAnswer " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
+            Text("Question: " +
+                widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -287,7 +290,8 @@ class _ViewProjectState extends State<ViewProject> {
           return Column(children: <Widget>[
             Text("UserLocation " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
+            Text("Question: " +
+                widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -306,14 +310,15 @@ class _ViewProjectState extends State<ViewProject> {
           return Column(children: <Widget>[
             Text("Numerical " + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
+            Text("Question: " +
+                widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
               // child: Draggable<Widget>(
               //   child: Text('Numerical Input'),
               child: new NumericalQuestion(
-                numAnswerController: widget.controllers[_currentQuestion]),
+                  numAnswerController: widget.controllers[_currentQuestion]),
               //   feedback: Text('Numerical Input'),
               // ),
             ),
@@ -323,7 +328,8 @@ class _ViewProjectState extends State<ViewProject> {
           return Column(children: <Widget>[
             Text("Image" + (_currentQuestion + 1).toString(),
                 textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
+            Text("Question: " +
+                widget.project.questions[_currentQuestion].question),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -331,7 +337,8 @@ class _ViewProjectState extends State<ViewProject> {
               //   child: Text('Image Upload'),
               child: RaisedButton(
                 child: Text('Click to upload or take photo'),
-                onPressed: () => print('This will take the student to upload a photo'),
+                onPressed: () =>
+                    print('This will take the student to upload a photo'),
                 // onPressed: () => {
                 //   Navigator.of(context).push(
                 //     MaterialPageRoute(
@@ -353,8 +360,16 @@ class _ViewProjectState extends State<ViewProject> {
       }
     } else {
       return Column(children: <Widget>[
-        Text("Submit Page", textScaleFactor: 4),
-        //getNextButton()
+        Text("Would you like to submit your answers?", textScaleFactor: 2),
+        RaisedButton(onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SubmittedPage()),
+          );
+          //getNextButton()
+        },
+        child: Text('Submit Form'),
+        )
       ]);
     }
   }
@@ -367,6 +382,7 @@ class _ViewProjectState extends State<ViewProject> {
     // done=false;
     super.initState();
   }
+
 /*
   Future<void> _getQuestions() async {
     // you mentioned you use firebase for database, so
