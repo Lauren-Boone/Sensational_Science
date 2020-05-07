@@ -12,6 +12,7 @@ class Questions {
   final String type;
   Questions({this.question, this.number, this.type});
   List<String> answers = new List();
+  List<dynamic> compAnswers= new List();
 }
 
 class GetProject {
@@ -82,9 +83,9 @@ class GetProject {
 
   orderProject(int count) {
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
-    this.questions.forEach((element) {
+    //this.questions.forEach((element) {
       this.questions.sort((a, b) => a.number.compareTo(b.number));
-    });
+    //});
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
     //for(int i = 0; i < count; ++i){
     //if(this.questions[i].number != i.toString()){
@@ -121,3 +122,45 @@ class GetProject {
     });
   }
 }
+
+
+
+class CompiledProject{
+  final GetProject proj;
+ CompiledProject({this.proj});
+List<Questions> answers = new List();
+
+
+ Future getStudentsAnswers(String className, String classProjectID) async {
+QuerySnapshot snap =  await Firestore.instance
+  .collection('codes')
+  .where('Project', isEqualTo: classProjectID)
+  .where('Class', isEqualTo: className).getDocuments();
+  int j=0;
+  for(int i =0; i< snap.documents.length; ++i){
+    snap.documents[i].data.forEach((key, value) {
+      if('$key' == "Answers"){
+        j=0;
+        value.forEach((e) {
+          
+                   this.proj.questions[j].compAnswers.add(e);
+                   j++;
+                });
+         
+      }
+    });
+  }
+  proj.questions.forEach((element){
+ print(element.compAnswers);
+  });
+   
+
+ 
+ 
+ }
+}
+  
+
+
+
+

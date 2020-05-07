@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
-
+import '../Student/student_view_class_data.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/user.dart';
+import '../../Services/getproject.dart';
+
 
 
 
@@ -17,7 +19,7 @@ class ViewClassProjects extends StatefulWidget{
 
 
 class _ViewClassProjectsState extends State<ViewClassProjects>{
-
+ GetProject proj;
   @override
 
   Widget build(BuildContext context){
@@ -30,8 +32,9 @@ class _ViewClassProjectsState extends State<ViewClassProjects>{
           width: MediaQuery.of(context).size.width,
           //height: MediaQuery.of(context).size.height * 0.8,
           child: Column(
-            children: [
-              new StreamBuilder(
+            children: <Widget> [
+              
+              StreamBuilder(
                 stream: Firestore.instance.collection('Teachers').
                   document(user.uid)
                   .collection('Classes')
@@ -48,6 +51,19 @@ class _ViewClassProjectsState extends State<ViewClassProjects>{
                           return new ListTile(
                             title: new Text(doc['projectTitle']),
                             subtitle: new Text('Due Date: ' + doc['dueDate'].toDate().toString()),
+                            
+                             trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                    
+                   proj = new GetProject(doc['projectTitle'], doc['projectID']);
+                   //proj.questionData();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>ViewClassData(user: user.uid, className: widget.name, classProjDocID: doc.documentID, proj: proj),
+                      ),
+                    );
+                  },
                           );
                         }).toList(),
                       ),
@@ -55,6 +71,8 @@ class _ViewClassProjectsState extends State<ViewClassProjects>{
                   );
                 },
               ),
+             
+              
             ],
           ),
         ),
@@ -63,3 +81,5 @@ class _ViewClassProjectsState extends State<ViewClassProjects>{
     
   }
 }
+
+
