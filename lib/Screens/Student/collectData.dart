@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Services/projectDB.dart';
@@ -79,10 +80,21 @@ class CollectData extends StatefulWidget {
 }
 
 class _CollectDataState extends State<CollectData> {
-  // GetProject project;
-  // bool done = false;
-  // List<TextEditingController> controllers = [];
-  // Observation studentObservations;
+  List<dynamic> answers = new List();
+  _submitProj(String code) async {
+    DocumentReference docRef = Firestore.instance.collection('codes').document(code);
+    DocumentSnapshot doc = await docRef.get();
+   
+    answers.forEach((element) {
+    
+       docRef.updateData({
+            'Answers': FieldValue.arrayUnion([element]),
+       });
+      
+  
+    });
+    
+  }
   _CollectDataState() {
     // project = new GetProject(title, docID);
     // this.controllers = new List();
@@ -118,20 +130,7 @@ class _CollectDataState extends State<CollectData> {
     }
   }
 
-  /* 
-   Widget build(BuildContext context){
-   
-     if(done){
-       
-       return mainScreen(context);
-     }
-     else{
-       renderPage();
-       
-       return CircularProgressIndicator();
-     }
-   }
-*/
+ 
 
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
@@ -191,40 +190,7 @@ class _CollectDataState extends State<CollectData> {
     );
   }
 
-/*
-Widget mainScreen(BuildContext context){
- 
-    /*return new MaterialApp(
-      
-      home: new Scaffold(
-          appBar: AppBar(title: Text("Random Widget")),
-          body: project.questions.length == 0
-          ? Center(child: CircularProgressIndicator()
-          
-              
-          )
-          :
-      */
-      Center(child:
-          FutureBuilder(
-              initialData: 0,
-              future: _getType(_currentQuestion),
-              builder: (context, snapshot) {
-                if(snapshot.hasData){
-                  return getQuestionWidget(snapshot.data);
-                }
-                else{
-                  
-                  return getQuestionWidget(-1);
-                }
-              },
-          ),
-      );
-        //  )
-     // )),
-   // );
-  }
-*/
+
 
   Widget getNextButton(BuildContext context) {
     //We need to add a var value as a parameter for this function to add to the controller
@@ -233,7 +199,7 @@ Widget mainScreen(BuildContext context){
         color: Colors.red,
         onPressed: () {
           var questionObservations = Observation.of(context);
-
+          //answers.add(context);
           if(!questionObservations.answers.containsKey(_currentQuestion)){
             questionObservations.addAnswer(
                   widget.project.questions[_currentQuestion].number,
@@ -241,13 +207,12 @@ Widget mainScreen(BuildContext context){
           }
 
           print(questionObservations.toJson());
-            
-          // setState(() {
-          //   widget.studentObservations.addAnswer(
-          //       widget.project.questions[_currentQuestion].number,
-          //       widget.controllers[_currentQuestion].value.text);
-          //   print(widget.studentObservations.toJson());
-          // });
+          
+        answers.add(widget.controllers[_currentQuestion].value.text);
+        answers.forEach((element) {
+          print(element);
+        });
+        
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
               //controllers.add(value);
@@ -294,28 +259,7 @@ Widget mainScreen(BuildContext context){
                 ),
               ),
             ),
-            // Center(
-            //   child: SizedBox(
-            //     height: 400.0,
-            //     child: ListView.builder(
-            //         itemCount:
-            //             widget.project.questions[_currentQuestion].answers.length,
-            //         itemBuilder: (context, index) {
-            //           //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
-            //           return RadioListTile(
-            //               title: Text(widget.project
-            //                   .questions[_currentQuestion].answers[index]),
-            //               // groupValue: selectedValue,
-            //               value: widget.project
-            //                   .questions[_currentQuestion].answers[index],
-            //               onChanged: (value) {
-            //                 setState(() {});
-            //               },
-            //               groupValue: null);
-            //           // }
-            //         }),
-            //   ),
-            // ),
+            
             getNextButton(context)
           ]);
           break;
@@ -407,7 +351,10 @@ Widget mainScreen(BuildContext context){
     } else {
       return Column(children: <Widget>[
         Text("Submit Page", textScaleFactor: 4),
-        //getNextButton()
+        RaisedButton(
+          child: Text('Submit Project'),
+          onPressed: ()=>_submitProj(widget.student.code),
+        )
       ]);
     }
   }
@@ -435,3 +382,4 @@ Widget mainScreen(BuildContext context){
     // });
   }
 }
+

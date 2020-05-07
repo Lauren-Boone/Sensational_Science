@@ -18,6 +18,7 @@ class Observation extends InheritedWidget {
   // }
   void addAnswer(int questionNum, String value){
     answers[questionNum] = value; 
+    print("Answers: " + answers[questionNum]);
   }
 
   static Observation of(BuildContext context) => 
