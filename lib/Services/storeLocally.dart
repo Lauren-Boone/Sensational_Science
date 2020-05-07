@@ -9,16 +9,18 @@ Future<String> get _localPath async {
   return(directory.path);
 }
 
+//create reference to file location folder so all files can be deleted
+//upon uploading to cloud storage
 Future<File> _localFolder(String code) async {
   final path = await _localPath;
-  return new File('$path/$code');
+  return new File('$path/codes/$code');
 }
 
 //create a reference to the file location
 //provide the student code to make a unique file path for the data
 Future<File> _localFile(String code, String name) async {
   final path = await _localPath;
-  return new File('$path/$code/$name').create(recursive: true);
+  return new File('$path/codes/$code/$name').create(recursive: true);
 }
 
 //Write text data into a student's file
@@ -26,8 +28,19 @@ Future<File> writeString(String code, String content) async {
   final file = await _localFile(code, 'data.txt');
   return file.writeAsString(content);
 }
-//save an image into a student's file
 
+//save an image into a student's file
+Future<File> writeImage(String code, String qNum, File copyImage) async {
+  final toFile = await _localFile(code, '$qNum.img');
+  final file = await copyImage.copy(toFile.path);
+  return file;
+}
+
+//get image from the student's file
+Future<File> getImage(String code, String qNum) async {
+  final file = await _localFile(code, '$qNum.img');
+  return file;
+}
 
 //read content from the student's file
 Future<String> readString(String code) async {
