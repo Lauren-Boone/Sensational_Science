@@ -51,7 +51,8 @@ class GetProject {
                 '$key' != 'docID'&&
                 '$key' != 'hasImage'&&
                 '$key' != 'info' && 
-                '$key' != 'teacherID'
+                '$key' != 'teacherID'&&
+                '$key' != 'subject' 
                 ) {
               // count = value['Number'];
               print(value['Type']);
