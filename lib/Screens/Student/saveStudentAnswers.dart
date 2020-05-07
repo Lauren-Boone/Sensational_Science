@@ -30,7 +30,7 @@ Future<void> saveAnswers(
         .document(docID)
         .setData({
           'Answers': input.answers.values.toList()
-        });
+        }, merge: true);
       }
 
 // void saveAnswers(){
