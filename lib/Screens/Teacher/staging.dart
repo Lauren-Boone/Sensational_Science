@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/testingNEWcreateproj.dart';
 import 'package:sensational_science/models/project.dart';
 import '../../Services/projectDB.dart';
 import 'package:sensational_science/Screens/Login/login_auth.dart';
@@ -22,10 +23,9 @@ class BasicDateField extends StatefulWidget {
 
 class BasicDateFieldState extends State<BasicDateField> {
   final format = DateFormat("yyyy-MM-dd");
-  DateTime date; 
+  DateTime date;
   @override
   Widget build(BuildContext context) {
-  
     return Column(children: <Widget>[
       // Text('Basic Date Field (${format.pattern})'),
       DateTimeField(
@@ -54,12 +54,20 @@ class StagingPage extends StatefulWidget {
 }
 
 class StagePageState extends State<StagingPage> {
-
   String _currentTitle = '';
+  String _currentInfo = '';
   bool pub = true;
   String pubpriv = 'Current Setting: Public';
   final _formKey = GlobalKey<FormState>();
   AddProject proj;
+  List<String> subjects = [
+    "Physics",
+    "Biology",
+    "Chemistry",
+    "Astronomy",
+    "Geography",
+    "Geology"
+  ];
 
 /*
  String createProjectDoc(String title, bool public ){
@@ -78,15 +86,15 @@ class StagePageState extends State<StagingPage> {
 }
 */
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
-   final user = Provider.of<User>(context);
-   final CollectionReference projectCollection = Firestore.instance.collection('Projects');
-   final TextEditingController projectTitleController = new TextEditingController();
+    final user = Provider.of<User>(context);
+    final CollectionReference projectCollection =
+        Firestore.instance.collection('Projects');
+    final TextEditingController projectTitleController =
+        new TextEditingController();
+    final TextEditingController projectInfo = new TextEditingController();
+    var subjectVal = subjects[0];
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Project Info"),
@@ -108,31 +116,34 @@ class StagePageState extends State<StagingPage> {
                   ),
                   //onChanged: (val) => setState(() => _currentTitle = val),
                 ),
-                 SizedBox(height: 20),
+                SizedBox(height: 20),
                 TextFormField(
-                  controller: projectTitleController,
+                  //initialValue: _currentInfo,
+                  controller: projectInfo,
                   validator: (val) =>
                       val.isEmpty ? 'Enter Project Description' : null,
                   decoration: const InputDecoration(
                     hintText: 'Project Description',
                   ),
-                  //onChanged: (val) => setState(() => _currentTitle = val),
+                  //onChanged: (value) => setState(() => _currentInfo = value),
                 ),
                 SizedBox(height: 20),
-                // TextFormField(
-                //   initialValue: '',
-                //   validator: (val) =>
-                //       val.isEmpty ? 'Enter Project Due Date' : null,
-                //   decoration: const InputDecoration(
-                //     hintText: 'Project Due Date',
-                //   ),
-                //   onChanged: (val) => setState(() => _currentTitle = val),
-                // ),
-                //BasicDateField(),
-                SizedBox(height: 24),
-                // RaisedButton(child: Text('Save Date'), 
-                //   onPressed: () => _formKey.currentState.validate(),
-                // ),
+                DropdownButton(
+                  value: subjectVal,
+                  items: subjects.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+
+                  onChanged: (String newValue) {
+                    subjectVal = newValue;
+                    print(subjectVal);
+                  },
+                  //onChanged: (value) => setState(() => _currentInfo = value),
+                ),
+                SizedBox(height: 20),
                 SwitchListTile(
                   value: pub,
                   title:
@@ -155,47 +166,84 @@ class StagePageState extends State<StagingPage> {
                     title: Text('Continue'),
                     subtitle: Text('Add Questions'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () async{
+                    onTap: () async {
                       bool titleExists = false;
-                      final existingProjects = await projectCollection.getDocuments();
+                      final existingProjects =
+                          await projectCollection.getDocuments();
                       for (var doc in existingProjects.documents) {
-                        if (doc.data['title'] == projectTitleController.text.trim()) {
+                        if (doc.data['title'] ==
+                            projectTitleController.text.trim()) {
                           titleExists = true;
                         }
                       }
                       if (titleExists) {
                         return showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Project Title Exists"),
-                              content: Text("A project with the title you entered already exists, please enter a unique project title."),
-                              actions: <Widget>[
-                                RaisedButton(
-                                  child: Text('Close'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ]
-                            );
-                          }
-                        );
-                      } else {
-                        _currentTitle = projectTitleController.text.trim();
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: Text("Project Title Exists"),
+                                  content: Text(
+                                      "A project with the title you entered already exists, please enter a unique project title."),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ]);
+                            });
                       }
-                      AddProject proj = new AddProject(title: _currentTitle, public: pub);
+                      if (projectInfo.text == " ") {
+                        return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: Text("Project Description Missing"),
+                                  content: Text(
+                                      "A project must have a description."),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ]);
+                            });
+                      }
+                      if (subjectVal == " ") {
+                        return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: Text("Project Subject Missing"),
+                                  content:
+                                      Text("A project must have a subject."),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ]);
+                            });
+                      }
+                      {
+                        _currentTitle = projectTitleController.text.trim();
+                        _currentInfo = projectInfo.text.trim();
+                      }
+                      AddProject proj = new AddProject(title: _currentTitle, public: pub, info: _currentInfo, teacherID: user.uid, subject: subjectVal);
                       String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
                       
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              CreateProject(proj: proj, title: _currentTitle),
+                              AddQuestionsToProject(title: _currentTitle, proj: proj),
                         ),
-                      
                       );
-                      
                     },
                   ),
                 ),

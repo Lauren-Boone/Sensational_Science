@@ -42,7 +42,10 @@ class Question {
 class AddProject {
   final String title;
   final bool public;
-  AddProject({this.title, this.public});
+  final String info;
+  final String teacherID; 
+   final String subject;
+  AddProject({this.title, this.public, this.info, this.teacherID, this.subject});
   List<Question> questions = new List();
   String docID;
   int numberQuestions;
@@ -70,6 +73,8 @@ class AddProject {
         Firestore.instance.collection('Projects').document(docID);
 docRef.setData({
   'count': numberQuestions,
+  'teacherID': teacherID
+
 },merge: true);
     for (var i = 0; i < count; i++) {
      questionNum = "Question" + questions[i].number.toString();
@@ -110,7 +115,7 @@ docRef.setData({
     }
   }
 
-//Addds the data to the project calls variables
+//Adds the data to the project calls variables
   addProjectDataToDoc(
       String uid,
       List<TextEditingController> acceptData,
@@ -127,7 +132,7 @@ docRef.setData({
           type: acceptType[i].toString(),
           question: acceptData[i].text));
       if (acceptType[i] == 'MultipleChoice') {
-        print(multAnswers[answerCount]);
+        //print(multAnswers[answerCount]);
         questions[i].toJsonMult(multAnswers[answerCount]);
         answerCount++;
         //this.questions.add(question);
@@ -145,6 +150,8 @@ docRef.setData({
       'title': title,
       'public': public,
       'docID': docRef.documentID,
+      'info': this.info,
+      'subject': this.subject,
     });
 
     Firestore.instance.runTransaction((transaction) async {
@@ -157,6 +164,8 @@ docRef.setData({
           {
             'docIDref': docRef.documentID,
             'title': title,
+            'info': this.info,
+            'subject': this.subject,
           });
     });
     docID = docRef.documentID;

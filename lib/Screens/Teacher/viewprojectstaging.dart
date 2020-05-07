@@ -1,26 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sensational_science/models/user.dart';
 import 'viewproject.dart';
 import '../../Services/getproject.dart';
 
 class ViewProjectStaging extends StatefulWidget {
   final String projectID; 
   final String title; 
-  //final String projInfo;
-  ViewProjectStaging( this.title, this.projectID); 
+  final String projInfo;
+  final String createdProjID;
+  ViewProjectStaging( this.title, this.projectID,this.projInfo, this.createdProjID); 
 
   @override
-  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID);
+  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID, this.projInfo, this.createdProjID);
 }
 
 class _ViewProjectStagingState extends State<ViewProjectStaging> {
  GetProject project;
 String docIDref;
   String title;
- String projInfo= "We need to create a form to add project info still";
-   _ViewProjectStagingState(title, docID,) {
+  String projInfo;
+  String createdProjID;
+   _ViewProjectStagingState(title, docID, projInfo, createdProjID) {
     this.docIDref = docID;
     this.title = title;
-    
+    this.projInfo=projInfo;
         project = new GetProject(title, docID);
         //_getQuestions();
         project.questionData();
@@ -30,9 +35,10 @@ String docIDref;
 
     // studentObservations = new Observation(docID);
   }
+
   @override
   Widget build(BuildContext context) {
-
+final user = Provider.of<User>(context);
        return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
@@ -53,7 +59,7 @@ String docIDref;
                         ),),
                     ),
                     Card(
-                      child: Text(this.projInfo,
+                      child: Text(widget.projInfo,
                         style: TextStyle(
                           fontSize: 20,
                         )),
@@ -75,12 +81,44 @@ String docIDref;
                       child: Text('Click to View Questions'),
                       color: Colors.blue,
                     ),
-                  ]),
+                    RaisedButton(
+                      child: Text('Click to delete project'),
+                      color: Colors.red,
+                      onPressed: (){
+                         showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      //addQuestiontoAccordion.add(new DynamicWidget());
+                      return AlertDialog(
+                        
+                          title: Text("Are you sure you want to remove this project?"),
+                          content: Text('This will action will permantly delete this project and you will no longer have access to it.'),
+                  
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('continue'),
+                                      onPressed: () {
+                                        
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                            
+                          ]);
+                      },
+                    );
+                    
+                    
+                    Navigator.of(context).pop();
+                      },
                 ),
-           )
+                  ]),
+             ),
+           ),
+      ),
+           
       
-    ),
-       );
+    );
+       
   }
 
 

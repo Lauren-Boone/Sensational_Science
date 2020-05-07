@@ -3,6 +3,7 @@ import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
+import 'package:sensational_science/Screens/Teacher/testingNEWcreateproj.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
 import '../home/user_list.dart';
@@ -11,7 +12,7 @@ import '../../models/user.dart';
 import 'popup.dart';
 import 'staging.dart';
 import 'listprojects.dart';
-
+import 'viewallprojects.dart';
 
 class TeacherHome extends StatelessWidget{
   
@@ -51,6 +52,22 @@ class TeacherHome extends StatelessWidget{
                       context,
                       MaterialPageRoute(
                         builder: (context) =>AddClassPage(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+               
+               Card(
+                child: ListTile(
+                  title: Text('View All projects'),
+                  subtitle: Text('Public Projects'),
+                  trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>PublicProjectsList(),
                       ),
                     );
                   },
