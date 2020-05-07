@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Services/projectDB.dart';
@@ -51,9 +52,17 @@ class CollectData extends StatefulWidget {
 }
 
 class _CollectDataState extends State<CollectData> {
-
-  _CollectDataState() {
+  List<dynamic> answers = new List();
+  _submitProj(String code) async {
+    DocumentReference docRef = Firestore.instance.collection('codes').document(code);
+    DocumentSnapshot doc = await docRef.get();
+    answers.forEach((element) {
+       docRef.updateData({
+            'Answers': FieldValue.arrayUnion([element]),
+       });
+    });
   }
+  
   int _currentQuestion = 0;
 
   Future<int> _getType(_currentQuestion) async {
@@ -74,6 +83,8 @@ class _CollectDataState extends State<CollectData> {
       }
     }
   }
+
+ 
 
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
@@ -124,6 +135,8 @@ class _CollectDataState extends State<CollectData> {
     );
   }
 
+
+
   Widget getNextButton(BuildContext context) {
     //We need to add a var value as a parameter for this function to add to the controller
     return RaisedButton(
@@ -131,7 +144,7 @@ class _CollectDataState extends State<CollectData> {
         color: Colors.red,
         onPressed: () {
           var questionObservations = Observation.of(context);
-
+          //answers.add(context);
           if(!questionObservations.answers.containsKey(_currentQuestion)){
             questionObservations.addAnswer(
                   widget.project.questions[_currentQuestion].number,
@@ -141,7 +154,12 @@ class _CollectDataState extends State<CollectData> {
           writeString(widget.student.code, questionObservations.toJson().toString());
 
           print(questionObservations.toJson());
-
+          
+        answers.add(widget.controllers[_currentQuestion].value.text);
+        answers.forEach((element) {
+          print(element);
+        });
+        
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
               _currentQuestion++;
@@ -190,8 +208,8 @@ class _CollectDataState extends State<CollectData> {
                   ),
                 ),
               ),
-              getNextButton(context)
-            ]
+              getNextButton(context),
+            ],
           );
           break;
         case 2:
@@ -273,21 +291,13 @@ class _CollectDataState extends State<CollectData> {
           break;
       }
     } else {
-      return Column(
-        children: <Widget>[
-          Text("Submit Page", textScaleFactor: 4),
-          RaisedButton(
-            child: Text('Submit Data (make sure connection is available)'),
-            onPressed: () async {
-              final data = await readString(widget.student.code);
-              print(data);
-              if (data != 'Error'){
-                deleteFiles(widget.student.code);
-              }
-            }
-          ),
-        ]
-      );
+      return Column(children: <Widget>[
+        Text("Submit Page", textScaleFactor: 4),
+        RaisedButton(
+          child: Text('Submit Project'),
+          onPressed: ()=>_submitProj(widget.student.code),
+        )
+      ]);
     }
   }
 
@@ -306,3 +316,4 @@ class _CollectDataState extends State<CollectData> {
     _currentQuestion++;
   }
 }
+
