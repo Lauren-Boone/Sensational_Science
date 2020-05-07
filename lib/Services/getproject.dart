@@ -142,9 +142,10 @@ QuerySnapshot snap =  await Firestore.instance
       if('$key' == "Answers"){
         j=0;
         value.forEach((e) {
-          
+          if(j<proj.questions.length){
                    this.proj.questions[j].compAnswers.add(e);
                    j++;
+          }
                 });
          
       }
