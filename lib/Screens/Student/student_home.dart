@@ -4,6 +4,7 @@ import 'package:sensational_science/Screens/Student/collectData.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:provider/provider.dart';
 import 'collectDataStaging.dart';
+import 'package:sensational_science/Services/storeLocally.dart';
 
 class StudentHome extends StatelessWidget{
   final String classData;
@@ -49,9 +50,23 @@ class StudentHome extends StatelessWidget{
                 },
               ),
               RaisedButton(
+                child: Text('Save Data'),
+                onPressed: () async {
+                  await writeString(student.code, 'practice data');
+                  print('going to all class data');
+                }
+              ),
+              RaisedButton(
                 child: Text('View All Class Data'),
-                onPressed: () => print('going to all class data'),
-              )
+                onPressed: () async {
+                  String toPrint = await readString(student.code);
+                  print("File contents: " + toPrint);
+                  deleteFiles(student.code);
+                  String printAgain = await readString(student.code);
+                  print("Second file contents: " + printAgain);
+                  deleteFiles(student.code);
+                },
+              ),
             ],
           )
         ),
