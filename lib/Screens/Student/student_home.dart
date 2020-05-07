@@ -50,21 +50,9 @@ class StudentHome extends StatelessWidget{
                 },
               ),
               RaisedButton(
-                child: Text('Save Data'),
-                onPressed: () async {
-                  await writeString(student.code, 'practice data');
-                  print('going to all class data');
-                }
-              ),
-              RaisedButton(
                 child: Text('View All Class Data'),
-                onPressed: () async {
-                  String toPrint = await readString(student.code);
-                  print("File contents: " + toPrint);
-                  deleteFiles(student.code);
-                  String printAgain = await readString(student.code);
-                  print("Second file contents: " + printAgain);
-                  deleteFiles(student.code);
+                onPressed: () {
+                  print('going to view all class data');
                 },
               ),
             ],

@@ -2,6 +2,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:async';
 
+
 //function to get where app files will be stored
 Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();
@@ -24,8 +25,8 @@ Future<File> _localFile(String code, String name) async {
 }
 
 //Write text data into a student's file
-Future<File> writeString(String code, String content) async {
-  final file = await _localFile(code, 'data.txt');
+Future<File> writeString(String code, String content, String qNum) async {
+  final file = await _localFile(code, '$qNum.txt');
   return file.writeAsString(content);
 }
 
@@ -43,9 +44,9 @@ Future<File> getImage(String code, String qNum) async {
 }
 
 //read content from the student's file
-Future<String> readString(String code) async {
+Future<String> readString(String code, String qNum) async {
   try{
-    final file = await _localFile(code, 'data.txt');
+    final file = await _localFile(code, '$qNum.txt');
     String contents = await file.readAsString();
     return contents;
   } catch (e) {
@@ -64,3 +65,4 @@ Future<bool> deleteFiles(String code) async {
     return false;
   }
 }
+

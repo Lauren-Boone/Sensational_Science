@@ -14,6 +14,8 @@ import '../../Services/projectDB.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/storeLocally.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class CollectDataPage extends StatelessWidget{
   final String projectID; 
@@ -53,14 +55,30 @@ class CollectData extends StatefulWidget {
 
 class _CollectDataState extends State<CollectData> {
   List<dynamic> answers = new List();
+  List<dynamic> answerType = new List();
   _submitProj(String code) async {
     DocumentReference docRef = Firestore.instance.collection('codes').document(code);
     DocumentSnapshot doc = await docRef.get();
-    answers.forEach((element) {
-       docRef.updateData({
-            'Answers': FieldValue.arrayUnion([element]),
-       });
-    });
+    FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://citizen-science-app.appspot.com');
+    String data;
+    File image;
+    for(var i=0; i< answers.length; i++) {
+      data = await readString(code, i.toString());
+      docRef.updateData({
+        'Answers': FieldValue.arrayUnion([data]),
+      });
+      if (answerType[i] == 5) {
+        image = await getImage(code, i.toString());
+        _storage.ref().child(data).putFile(image);
+      }
+    }
+
+    //await deleteFiles(code);
+    // answers.forEach((element) {
+    //    docRef.updateData({
+    //         'Answers': FieldValue.arrayUnion([element]),
+    //    });
+    // });
   }
   
   int _currentQuestion = 0;
@@ -87,7 +105,7 @@ class _CollectDataState extends State<CollectData> {
  
 
   Widget build(BuildContext context) {
-    List<TextEditingController> answers = [];
+    //List<TextEditingController> answers = [];
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
@@ -116,6 +134,7 @@ class _CollectDataState extends State<CollectData> {
                 future: _getType(_currentQuestion),
                 builder: (context, snapshot) {
                   if (snapshot.data != null) {
+                    answerType.add(snapshot.data);
                     return getQuestionWidget(context, snapshot.data);
                   } else if (_currentQuestion >= widget.project.questions.length) {
                     return getQuestionWidget(context, -1);
@@ -150,15 +169,15 @@ class _CollectDataState extends State<CollectData> {
                   widget.project.questions[_currentQuestion].number,
                   widget.controllers[_currentQuestion].value.text);
           }
-
-          writeString(widget.student.code, questionObservations.toJson().toString());
-
           print(questionObservations.toJson());
           
         answers.add(widget.controllers[_currentQuestion].value.text);
         answers.forEach((element) {
           print(element);
         });
+
+        //store data locally
+        writeString(widget.student.code, widget.controllers[_currentQuestion].value.text, _currentQuestion.toString());
         
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
