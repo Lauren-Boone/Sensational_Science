@@ -31,7 +31,7 @@ Future<File> writeString(String code, String content) async {
 
 //save an image into a student's file
 Future<File> writeImage(String code, String qNum, File copyImage) async {
-  final toFile = await _localFile(code, '$qNum.img');
+  final toFile = await _localFile(code, '$qNum.png');
   final file = await copyImage.copy(toFile.path);
   return file;
 }
