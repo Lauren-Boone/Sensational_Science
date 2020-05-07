@@ -57,21 +57,7 @@ class TeacherHome extends StatelessWidget{
                   },
                 ),
               ),
-               Card(
-                child: ListTile(
-                  title: Text('New Create Project TEst'),
-                  subtitle: Text('Create project'),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>AddQuestionsToProject(),
-                      ),
-                    );
-                  },
-                ),
-              ),
+               
                Card(
                 child: ListTile(
                   title: Text('View All projects'),
