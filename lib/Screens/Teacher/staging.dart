@@ -234,14 +234,9 @@ class StagePageState extends State<StagingPage> {
                         _currentTitle = projectTitleController.text.trim();
                         _currentInfo = projectInfo.text.trim();
                       }
-                      AddProject proj = new AddProject(
-                          title: _currentTitle,
-                          public: pub,
-                          info: _currentInfo,
-                          subject: subjectVal);
-                      String docID =
-                          proj.createProjectDoc(_currentTitle, pub, user.uid);
-
+                      AddProject proj = new AddProject(title: _currentTitle, public: pub, info: _currentInfo, teacherID: user.uid, subject: subjectVal);
+                      String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
+                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(

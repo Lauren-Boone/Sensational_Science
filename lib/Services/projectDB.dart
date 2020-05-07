@@ -43,8 +43,9 @@ class AddProject {
   final String title;
   final bool public;
   final String info;
-  final String subject;
-  AddProject({this.title, this.public, this.info, this.subject});
+  final String teacherID; 
+   final String subject;
+  AddProject({this.title, this.public, this.info, this.teacherID, this.subject});
   List<Question> questions = new List();
   String docID;
   int numberQuestions;
@@ -72,6 +73,8 @@ class AddProject {
         Firestore.instance.collection('Projects').document(docID);
 docRef.setData({
   'count': numberQuestions,
+  'teacherID': teacherID
+
 },merge: true);
     for (var i = 0; i < count; i++) {
      questionNum = "Question" + questions[i].number.toString();
@@ -112,7 +115,7 @@ docRef.setData({
     }
   }
 
-//Addds the data to the project calls variables
+//Adds the data to the project calls variables
   addProjectDataToDoc(
       String uid,
       List<TextEditingController> acceptData,
