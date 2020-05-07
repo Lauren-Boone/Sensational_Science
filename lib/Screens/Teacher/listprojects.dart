@@ -57,7 +57,7 @@ class _ListProjectsState extends State<ListProjects> {
                   //projInfo= _getInfo(document['docID']),
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>ViewProjectStaging(document['title'], document['docIDref'], document['info'] ),
+                      builder: (context) =>ViewProjectStaging(document['title'], document['docIDref'], document['info'], document.documentID ),
                     ),
                   )
                 },

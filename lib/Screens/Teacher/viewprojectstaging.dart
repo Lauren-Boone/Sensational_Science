@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sensational_science/models/user.dart';
 import 'viewproject.dart';
 import '../../Services/getproject.dart';
 
@@ -6,10 +9,11 @@ class ViewProjectStaging extends StatefulWidget {
   final String projectID; 
   final String title; 
   final String projInfo;
-  ViewProjectStaging( this.title, this.projectID,this.projInfo); 
+  final String createdProjID;
+  ViewProjectStaging( this.title, this.projectID,this.projInfo, this.createdProjID); 
 
   @override
-  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID, this.projInfo);
+  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID, this.projInfo, this.createdProjID);
 }
 
 class _ViewProjectStagingState extends State<ViewProjectStaging> {
@@ -17,7 +21,8 @@ class _ViewProjectStagingState extends State<ViewProjectStaging> {
 String docIDref;
   String title;
   String projInfo;
-   _ViewProjectStagingState(title, docID, projInfo) {
+  String createdProjID;
+   _ViewProjectStagingState(title, docID, projInfo, createdProjID) {
     this.docIDref = docID;
     this.title = title;
     this.projInfo=projInfo;
@@ -30,9 +35,10 @@ String docIDref;
 
     // studentObservations = new Observation(docID);
   }
+
   @override
   Widget build(BuildContext context) {
-
+final user = Provider.of<User>(context);
        return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
@@ -75,12 +81,44 @@ String docIDref;
                       child: Text('Click to View Questions'),
                       color: Colors.blue,
                     ),
-                  ]),
+                    RaisedButton(
+                      child: Text('Click to delete project'),
+                      color: Colors.red,
+                      onPressed: (){
+                         showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      //addQuestiontoAccordion.add(new DynamicWidget());
+                      return AlertDialog(
+                        
+                          title: Text("Are you sure you want to remove this project?"),
+                          content: Text('This will action will permantly delete this project and you will no longer have access to it.'),
+                  
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('continue'),
+                                      onPressed: () {
+                                        
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                            
+                          ]);
+                      },
+                    );
+                    
+                    
+                    Navigator.of(context).pop();
+                      },
                 ),
-           )
+                  ]),
+             ),
+           ),
+      ),
+           
       
-    ),
-       );
+    );
+       
   }
 
 

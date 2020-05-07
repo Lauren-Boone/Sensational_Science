@@ -9,11 +9,25 @@ import 'package:sensational_science/models/user.dart';
 // Displays one Entry. If the entry has children then it's displayed
 // with an ExpansionTile.
 
+class ItemData {
+  ItemData(this.title, this.key);
+
+  final String title;
+
+  // Each item in reorderable list needs stable and unique key
+  final Key key;
+}
+
+enum DraggingMode {
+  iOS,
+  Android,
+}
 
 class AddQuestionsToProject extends StatefulWidget {
   final String title;
   final AddProject proj;
-  AddQuestionsToProject({this.title, this.proj});
+  AddQuestionsToProject({Key key, this.title, this.proj}) : super(key: key);
+  
   @override
   _AddQuestionsToProjectState createState() => _AddQuestionsToProjectState();
 }
@@ -23,6 +37,7 @@ class AddQuestionsToProject extends StatefulWidget {
 class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
   //List<DynamicWidget> addQuestiontoAccordion = new List();
   List<DynamicWidget> questionwidgets = [];
+  List<ItemData> items = [];
   List<String> typecontroller=[];
   List<TextEditingController> questions=[];
   List<List<TextEditingController>> answers = [];
@@ -38,7 +53,7 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('ExpansionTile'),
+          title: const Text('Add Questions To the Project'),
         ),
         body: Column(
           children: <Widget>[
@@ -48,7 +63,7 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
                   itemBuilder: (_, index) => questionwidgets[index]),
             ),
             new RaisedButton(
-              child: new Text('Add Another Student'),
+              child: new Text('Add a Questions'),
               onPressed: () => {
                 showDialog(
                     context: context,
