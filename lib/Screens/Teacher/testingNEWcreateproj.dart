@@ -54,6 +54,10 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Add Questions To the Project'),
+                          leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context, false),
+                )
         ),
         body: Column(
           children: <Widget>[
