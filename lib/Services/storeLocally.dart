@@ -6,7 +6,6 @@ import 'dart:async';
 //function to get where app files will be stored
 Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();
-  print(directory.path);
   return(directory.path);
 }
 
@@ -42,8 +41,6 @@ Future<File> writeImage(String code, String qNum, File copyImage) async {
 //get image from the student's file
 Future<File> getImage(String code, String qNum) async {
   final file = await _localFile(code, '$qNum.png');
-  print(file);
-  print(file.path);
   return file;
 }
 
