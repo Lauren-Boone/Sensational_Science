@@ -30,7 +30,7 @@ class _AddRosterState extends State<AddRoster>{
   //String val='Success!';
   CollectionReference classRoster = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name).collection('Roster');
   CollectionReference classProjects = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name).collection('Projects');
-  int count = 0;
+  DocumentReference classInfo = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name);
   //add students and project codes for existing projects
   roster.forEach((e) async{
     DocumentReference newStudent = await classRoster.add({'name':e.controller.text});
@@ -46,16 +46,13 @@ class _AddRosterState extends State<AddRoster>{
         ]) //list of codes for each student for all projects, {projectCode : studentCode}
       }, merge: true);
     });
-    count++;
+    classInfo.get().then((doc) {
+      classInfo.updateData({'students': doc.data['students'] + 1 });
+    });
   }); 
 
   //increment the count of students in the class
-  DocumentReference classInfo = Firestore.instance.collection("Teachers").document(teachID).collection('Classes').document(widget.name);
-  classInfo.get().then((doc) {
-    count = count + doc.data['students'];
-    print("class student count: " + count.toString());
-    classInfo.updateData({'students': count});
-  });
+
 
   showDialog(
     context: context,
