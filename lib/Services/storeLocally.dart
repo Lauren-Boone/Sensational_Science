@@ -24,6 +24,8 @@ Future<File> _localFile(String code, String name) async {
   return new File('$path/codes/$code/$name').create(recursive: true);
 }
 
+//get an existing image file
+
 //Write text data into a student's file
 Future<File> writeString(String code, String content, String qNum) async {
   final file = await _localFile(code, '$qNum.txt');
@@ -39,7 +41,9 @@ Future<File> writeImage(String code, String qNum, File copyImage) async {
 
 //get image from the student's file
 Future<File> getImage(String code, String qNum) async {
-  final file = await _localFile(code, '$qNum.img');
+  final file = await _localFile(code, '$qNum.png');
+  print(file);
+  print(file.path);
   return file;
 }
 

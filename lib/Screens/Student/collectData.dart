@@ -62,14 +62,15 @@ class _CollectDataState extends State<CollectData> {
     FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://citizen-science-app.appspot.com');
     String data;
     File image;
+    StorageUploadTask _uploadTask;
     for(var i=0; i< answers.length; i++) {
       data = await readString(code, i.toString());
       docRef.updateData({
         'Answers': FieldValue.arrayUnion([data]),
       });
-      if (answerType[i] == 5) {
+      if (answerType[i*2] == 5) {
         image = await getImage(code, i.toString());
-        _storage.ref().child(data).putFile(image);
+        _uploadTask = _storage.ref().child(data).putFile(image);
       }
     }
 
@@ -134,7 +135,6 @@ class _CollectDataState extends State<CollectData> {
                 future: _getType(_currentQuestion),
                 builder: (context, snapshot) {
                   if (snapshot.data != null) {
-                    answerType.add(snapshot.data);
                     return getQuestionWidget(context, snapshot.data);
                   } else if (_currentQuestion >= widget.project.questions.length) {
                     return getQuestionWidget(context, -1);
@@ -189,6 +189,7 @@ class _CollectDataState extends State<CollectData> {
   }
 
   Widget getQuestionWidget(BuildContext context, int number) {
+    answerType.add(number);
     if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
