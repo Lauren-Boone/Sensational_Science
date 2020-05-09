@@ -56,7 +56,7 @@ class _ViewClassProjectsState extends State<ViewClassProjects>{
                   onTap: (){
                     
                    proj = new GetProject(doc['projectTitle'], doc['projectID']);
-                   //proj.questionData();
+                   proj.questionData();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

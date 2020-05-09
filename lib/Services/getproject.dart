@@ -135,7 +135,8 @@ List<Questions> answers = new List();
 QuerySnapshot snap =  await Firestore.instance
   .collection('codes')
   .where('Project', isEqualTo: classProjectID)
-  .where('Class', isEqualTo: className).getDocuments();
+  .where('Class', isEqualTo: className)
+  .getDocuments();
   int j=0;
   for(int i =0; i< snap.documents.length; ++i){
     snap.documents[i].data.forEach((key, value) {
@@ -143,10 +144,11 @@ QuerySnapshot snap =  await Firestore.instance
         j=0;
         value.forEach((e) {
           if(j<proj.questions.length){
-                   this.proj.questions[j].compAnswers.add(e);
+                   this.proj.questions[j].compAnswers.add(e.toString());
                    j++;
           }
                 });
+     
          
       }
     });
