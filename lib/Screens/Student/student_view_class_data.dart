@@ -139,11 +139,7 @@ class _CompileDataState extends State<CompileData> {
            else{
              title = element.toString();
            }
-          // if(colorKey[element] == element){
-             //   graphData.add(new GraphVals(title,int.parse(element), Color(colorKey[element].alpha)));
-              
-           // }
-           // else{
+         
               RandomColor _randColor = RandomColor();
               
               while (colorKey.containsValue(_randColor.randomColor())){
@@ -412,6 +408,7 @@ return RaisedButton(
           break;
         case 'AddImageInput':
           return new Container(
+            color: Colors.white,
             child: Column(
               children: <Widget>[
                 Expanded(

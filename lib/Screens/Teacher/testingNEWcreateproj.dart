@@ -151,6 +151,9 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
                                   numQuestions,
                                   widget.proj.getDocID());
   widget.proj.addtodb(numQuestions);
+
+  Navigator.of(context).pop();
+  Navigator.of(context).pop();
                               },
                             
                             )
