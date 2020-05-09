@@ -117,30 +117,44 @@ class _CompileDataState extends State<CompileData> {
  
 
   _getGraph(List<charts.Series<GraphVals, String>> multGraph){
+    
     Map<String, Color> colorKey = new Map();
     List<GraphVals> graphData = [];
+    Map<String, int> elementCount = new Map();
     proj.questions[_currentQuestion].compAnswers.forEach((element) {
-      String title;
-           if(proj.questions[_currentQuestion].type=='Multiplechoice'){
+     
+          
+          if(elementCount.containsKey(element)){
+            elementCount[element] +=1;
+          }
+          else{
+            elementCount[element] =1;
+          }
+    });
+    proj.questions[_currentQuestion].compAnswers.forEach((element) {
+       String title ="";
+       if(proj.questions[_currentQuestion].type=='MultipleChoice'){
              title=proj.questions[_currentQuestion].answers[int.parse(element)];
            }
            else{
              title = element.toString();
            }
-      if(colorKey[element] == element){
-                graphData.add(new GraphVals(title,int.parse(element), Color(colorKey[element].alpha)));
+          // if(colorKey[element] == element){
+             //   graphData.add(new GraphVals(title,int.parse(element), Color(colorKey[element].alpha)));
               
-            }
-            else{
+           // }
+           // else{
               RandomColor _randColor = RandomColor();
               
               while (colorKey.containsValue(_randColor.randomColor())){
                 _randColor=RandomColor();
               }
               colorKey[element]=_randColor.randomColor();
-           graphData.add(new GraphVals(title, int.parse(element), _randColor.randomColor() ));
-            }
+           graphData.add(new GraphVals(title, elementCount[element], _randColor.randomColor() ));
+           // }
     });
+      
+    
     multGraph.add(
             charts.Series(
               data: graphData, 
@@ -148,7 +162,7 @@ class _CompileDataState extends State<CompileData> {
               measureFn: (GraphVals vals, _)=> vals.value, 
               colorFn: (GraphVals vals, _)=> charts.ColorUtil.fromDartColor(vals.colorval),
               id: 'Class Data',
-              labelAccessorFn: (GraphVals vals, _)=>'${vals.title}',
+              labelAccessorFn: (GraphVals vals, _)=>'${vals.value}',
 
             ),
           );
@@ -173,6 +187,7 @@ return RaisedButton(
         });
 }
 Widget getPrevButton(BuildContext context){
+  
 return RaisedButton(
         child: Text("Prev"),
         color: Colors.red,
@@ -191,6 +206,11 @@ return RaisedButton(
 
 }
   Widget build(BuildContext context){
+    while(proj.questions[_currentQuestion].compAnswers.length ==0){
+    setState(() {
+      
+    });
+  }
     if(_currentQuestion >= widget.proj.questions.length){
       return Container(
         child: Text("End PAge"),
