@@ -15,28 +15,21 @@ class CollectDataStaging extends StatefulWidget {
 }
 
 class _CollectDataStagingState extends State<CollectDataStaging> {
- GetProject project;
-String docIDref;
+  GetProject project;
+  String docIDref;
   String title;
   String student;
- String projInfo= "We need to create a form to add project info still";
-   _CollectDataStagingState(title, docID, student) {
+  String projInfo= "We need to create a form to add project info still";
+  _CollectDataStagingState(title, docID, student) {
     this.docIDref = docID;
     this.title = title;
     this.student = student;
-        project = new GetProject(title, docID);
-        //_getQuestions();
-        project.questionData();
-        //project.questionData();
-    // this.controllers = new List();
-   
-
-    // studentObservations = new Observation(docID);
+    project = new GetProject(title, docID);
+    project.questionData();
   }
   @override
   Widget build(BuildContext context) {
-
-       return new MaterialApp(
+    return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
             title: Text("Random Widget"),
@@ -89,16 +82,10 @@ String docIDref;
 
    @override
   void initState() {
-    
-     // _getQuestions();
-     
-    // done=false;
     super.initState();
   }
 
   Future<void> _getQuestions() async {
-    // you mentioned you use firebase for database, so
-    // you have to wait for the data to be loaded from the network
     await project.questionData();
     setState(() {});
   }

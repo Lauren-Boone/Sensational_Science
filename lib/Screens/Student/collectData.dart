@@ -13,22 +13,9 @@ import 'package:sensational_science/Screens/Teacher/UserLocationInfo.dart';
 import '../../Services/projectDB.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/student.dart';
-
-//import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
-
-// var createLocationHandler = new UserLocationInfo();
-
-// var locationResult = createLocationHandler.getUserLocation();
-
-// var createTextInputHandler = new TextQuestionWidget();
-
-// var createMultipleChoice = new MultQuestionWidget();
-
-//var createImageCapture = new AddImageInput();
-
-// var createShortAnswer = new ShortAnswerQuestion();
-
-// var createNumericalInput = new NumericalQuestion();
+import 'package:sensational_science/Services/storeLocally.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class CollectDataPage extends StatelessWidget{
   final String projectID; 
@@ -48,28 +35,15 @@ class CollectDataPage extends StatelessWidget{
 
 class CollectData extends StatefulWidget {
   
- 
   final Student student;
   final GetProject project;
-    //bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
-  // Observation studentObservations;
-//GetProject project;
-  CollectData(this.student, this.project) {
-  
-    //this.student = student;
-   
-    //this.project=project;
-        //project = new GetProject(title, docID);
-    // this.controllers = new List();
-   // project.questionData().then((ignore) {
-      for (int i = 1; i < project.questions.length; i++) {
-        controllers.add( new TextEditingController());
-        print("Values of i " + i.toString()); 
-      }
-    //});
 
-    // studentObservations = new Observation(docID);
+  CollectData(this.student, this.project) {
+    for (int i = 1; i < project.questions.length; i++) {
+      controllers.add( new TextEditingController());
+      print("Values of i " + i.toString()); 
+    }
   }
 
   AddProject proj;
@@ -81,34 +55,33 @@ class CollectData extends StatefulWidget {
 
 class _CollectDataState extends State<CollectData> {
   List<dynamic> answers = new List();
+  List<dynamic> answerType = new List();
   _submitProj(String code) async {
     DocumentReference docRef = Firestore.instance.collection('codes').document(code);
     DocumentSnapshot doc = await docRef.get();
-   
-    answers.forEach((element) {
-    
-       docRef.updateData({
-            'Answers': FieldValue.arrayUnion([element]),
-       });
-      
-  
-    });
-    
-  }
-  _CollectDataState() {
-    // project = new GetProject(title, docID);
-    // this.controllers = new List();
-    // project.questionData().then((ignore) {
-    //   for (int i = 0; i < project.questions.length; i++) {
-    //     controllers[i] = new TextEditingController();
-    //     print("Values of i " + i.toString()); 
-    //   }
-    // });
+    FirebaseStorage _storage = FirebaseStorage(storageBucket: 'gs://citizen-science-app.appspot.com');
+    String data;
+    File image;
+    StorageUploadTask _uploadTask;
+    for(var i=0; i< answers.length; i++) {
+      data = await readString(code, i.toString());
+      docRef.updateData({
+        'Answers': FieldValue.arrayUnion([data]),
+      });
+      if (answerType[i*2] == 5) {
+        image = await getImage(code, i.toString());
+        _uploadTask = _storage.ref().child(data).putFile(image);
+      }
+    }
 
-    // studentObservations = new Observation(docID);
-    //project.questionData();
-    //project.questionData();
+    //await deleteFiles(code);
+    // answers.forEach((element) {
+    //    docRef.updateData({
+    //         'Answers': FieldValue.arrayUnion([element]),
+    //    });
+    // });
   }
+  
   int _currentQuestion = 0;
 
   Future<int> _getType(_currentQuestion) async {
@@ -133,7 +106,7 @@ class _CollectDataState extends State<CollectData> {
  
 
   Widget build(BuildContext context) {
-    List<TextEditingController> answers = [];
+    //List<TextEditingController> answers = [];
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
@@ -143,43 +116,34 @@ class _CollectDataState extends State<CollectData> {
               onPressed: () => Navigator.pop(context, false),
             )),
         body: widget.project.questions.length == 0
-            ? Center(
-                child: Column(children: <Widget>[
-                  Card(
-                    child: Text(widget.project.title),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      //color: Colors.blue;
-                      setState(() {});
-                    },
-                    child: Text('Click to View Questions'),
-                    color: Colors.blue,
-                  ),
-                ]),
-              )
-            : Center(
-                child: FutureBuilder(
-                    // initialData: 0,
-                    future: _getType(_currentQuestion),
-                    builder: (context, snapshot) {
-                      /*switch(snapshot.connectionState){
-                case ConnectionState.waiting: 
-                  return CircularProgressIndicator();
-                case ConnectionState.done:
-                  return getQuestionWidget();
-                default:
-              }*/
-                      if (snapshot.data != null) {
-                        return getQuestionWidget(context, snapshot.data);
-                      } else if (_currentQuestion >= widget.project.questions.length) {
-                        return getQuestionWidget(context, -1);
-                      } else {
-                        return CircularProgressIndicator();
-                      }
-                    })
-                // )
+          ? Center(
+              child: Column(children: <Widget>[
+                Card(
+                  child: Text(widget.project.title),
                 ),
+                RaisedButton(
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  child: Text('Click to View Questions'),
+                  color: Colors.blue,
+                ),
+              ]),
+            )
+          : Center(
+              child: FutureBuilder(
+                future: _getType(_currentQuestion),
+                builder: (context, snapshot) {
+                  if (snapshot.data != null) {
+                    return getQuestionWidget(context, snapshot.data);
+                  } else if (_currentQuestion >= widget.project.questions.length) {
+                    return getQuestionWidget(context, -1);
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                }
+              )
+            ),
         floatingActionButton: RaisedButton(
           onPressed: () {
             Navigator.pop(context);
@@ -205,17 +169,18 @@ class _CollectDataState extends State<CollectData> {
                   widget.project.questions[_currentQuestion].number,
                   widget.controllers[_currentQuestion].value.text);
           }
-
           print(questionObservations.toJson());
           
         answers.add(widget.controllers[_currentQuestion].value.text);
         answers.forEach((element) {
           print(element);
         });
+
+        //store data locally
+        writeString(widget.student.code, widget.controllers[_currentQuestion].value.text, _currentQuestion.toString());
         
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
-              //controllers.add(value);
               _currentQuestion++;
               _getType(_currentQuestion);
             });
@@ -224,128 +189,125 @@ class _CollectDataState extends State<CollectData> {
   }
 
   Widget getQuestionWidget(BuildContext context, int number) {
+    answerType.add(number);
     if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
-          return Column(children: <Widget>[
-            Text("TextInputItem " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              child: Center(child: new TextQuestionWidget(
-                textAnswerController: widget.controllers[_currentQuestion]
-              )),
-              // ),
-            ),
-            getNextButton(context)
-          ]);
-          break;
-        case 1:
-          return Column(children: <Widget>[
-            Text("MultipleChoice " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3 * 2,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: new MultQuestionWidget(
-                  question: widget.project.questions[_currentQuestion], 
-                  multChoiceController: widget.controllers[_currentQuestion]
+          return Column(
+            children: <Widget>[
+              Text("TextInputItem " + (_currentQuestion + 1).toString(),
+                  textScaleFactor: 4),
+              Text("Question: " + widget.project.questions[_currentQuestion].question),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width / 3,
+                child: Center(
+                  child: new TextQuestionWidget(
+                    textAnswerController: widget.controllers[_currentQuestion]
+                  )
                 ),
               ),
-            ),
-            
-            getNextButton(context)
-          ]);
+              getNextButton(context)
+            ]
+          );
+          break;
+        case 1:
+          return Column(
+            children: <Widget>[
+              Text("MultipleChoice " + (_currentQuestion + 1).toString(),
+                  textScaleFactor: 4),
+              Text("Question: " + widget.project.questions[_currentQuestion].question),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width / 3 * 2,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: new MultQuestionWidget(
+                    question: widget.project.questions[_currentQuestion], 
+                    multChoiceController: widget.controllers[_currentQuestion]
+                  ),
+                ),
+              ),
+              getNextButton(context),
+            ],
+          );
           break;
         case 2:
-          return Column(children: <Widget>[
-            Text("ShortAnswer " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              //   child: Text('Short Answer'),
-              child: new ShortAnswerQuestion(
-                  shortAnswerController: widget.controllers[_currentQuestion]),
-              //   feedback: Text('Short Answer'),
-              // ),
-            ),
-            getNextButton(context)
-          ]);
+          return Column(
+            children: <Widget>[
+              Text("ShortAnswer " + (_currentQuestion + 1).toString(),
+                  textScaleFactor: 4),
+              Text("Question: " + widget.project.questions[_currentQuestion].question),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width / 3,
+                child: new ShortAnswerQuestion(
+                    shortAnswerController: widget.controllers[_currentQuestion]),
+              ),
+              getNextButton(context)
+            ]
+          );
           break;
         case 3:
-          return Column(children: <Widget>[
-            Text("UserLocation " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              // child: Text('User Location'),
-              child: new UserLocationInfo(
-                userLocationController: widget.controllers[_currentQuestion],
+          return Column(
+            children: <Widget>[
+              Text("UserLocation " + (_currentQuestion + 1).toString(),
+                  textScaleFactor: 4),
+              Text("Question: " + widget.project.questions[_currentQuestion].question),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width / 3,
+                child: new UserLocationInfo(
+                  userLocationController: widget.controllers[_currentQuestion],
+                ),
               ),
-              //   feedback: Text('Text'),
-              // ),
-            ),
-            getNextButton(context)
-          ]);
+              getNextButton(context)
+            ]
+          );
           break;
         case 4:
-          return Column(children: <Widget>[
-            Text("Numerical " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              //   child: Text('Numerical Input'),
-              child: new NumericalQuestion(
-                numAnswerController: widget.controllers[_currentQuestion]),
-              //   feedback: Text('Numerical Input'),
-              // ),
-            ),
-            getNextButton(context)
-          ]);
-        case 5:
-          return Column(children: <Widget>[
-            Text("Image" + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
-            Text("Question: " + widget.project.questions[_currentQuestion].question),
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              //   child: Text('Image Upload'),
-              child: RaisedButton(
-                child: Text('Click to upload or take photo'),
-                onPressed: () => {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ImageCapture(
-                        student: widget.student,
-                        questionNum: _currentQuestion.toString(),
-                        imgLocController: widget.controllers[_currentQuestion],
-                      ),
-                    ),
-                  )
-                },
+          return Column(
+            children: <Widget>[
+              Text("Numerical " + (_currentQuestion + 1).toString(),
+                  textScaleFactor: 4),
+              Text("Question: " + widget.project.questions[_currentQuestion].question),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width / 3,
+                child: new NumericalQuestion(
+                  numAnswerController: widget.controllers[_currentQuestion]),
               ),
-              //   feedback: Text('Image'),
-              // ),
-            ),
-            getNextButton(context)
-          ]);
+              getNextButton(context)
+            ]
+          );
+          break;
+        case 5:
+          return Column(
+            children: <Widget>[
+              Text("Image" + (_currentQuestion + 1).toString(),
+                  textScaleFactor: 4),
+              Text("Question: " + widget.project.questions[_currentQuestion].question),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width / 3,
+                child: RaisedButton(
+                  child: Text('Click to upload or take photo'),
+                  onPressed: () => {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ImageCapture(
+                          student: widget.student,
+                          questionNum: _currentQuestion.toString(),
+                          imgLocController: widget.controllers[_currentQuestion],
+                        ),
+                      ),
+                    )
+                  },
+                ),
+              ),
+              getNextButton(context)
+            ]
+          );
           break;
       }
     } else {
@@ -361,25 +323,17 @@ class _CollectDataState extends State<CollectData> {
 
   @override
   void initState() {
-    // setState(() {
-    //   _getQuestions();
-    // });
-    // done=false;
     super.initState();
   }
 
   Future<void> _getQuestions() async {
-    // you mentioned you use firebase for database, so
-    // you have to wait for the data to be loaded from the network
     await widget.project.questionData();
     setState(() {});
   }
 
   // Call this function when you want to move to the next page
   void goToNextPage() {
-    //setState(() {
     _currentQuestion++;
-    // });
   }
 }
 

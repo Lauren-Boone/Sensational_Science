@@ -23,7 +23,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   DateTime _date;
 
   Future<void> assignProject(
-      String uid, String className, String projectID, DateTime dueDate) async {
+    String uid, String className, String projectID, DateTime dueDate) async {
     //create project under the class
     DocumentReference classDoc = Firestore.instance
         .collection('Teachers')
@@ -39,7 +39,13 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
       'projectTitle': projectDoc.data['title'], //project title
       'dueDate': dueDate, //due date
     });
-    print("added project to class's projects");
+
+    //increment project count for class
+    classDoc.get().then((doc) {
+      int projCount = doc['projects'];
+      projCount++;
+      classDoc.updateData({'projects': projCount});
+    });
 
     //create a code for each student in the class, create code under the project, store under the student, store all codes
     //under top level codes collection
@@ -55,8 +61,8 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
       });
       await classDoc.collection('Roster').document(student.documentID).setData({
         'codes': FieldValue.arrayUnion([
-          codeRef.documentID
-        ]) //list of codes for each student for all projects
+          {projRef.documentID: codeRef.documentID}
+        ]) //list of codes for each student for all projects, {projectCode : studentCode}
       }, merge: true);
       await Firestore.instance
           .collection('codes')

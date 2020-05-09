@@ -4,6 +4,7 @@ import 'package:sensational_science/Screens/Student/collectData.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:provider/provider.dart';
 import 'collectDataStaging.dart';
+import 'package:sensational_science/Services/storeLocally.dart';
 
 class StudentHome extends StatelessWidget{
   final String classData;
@@ -50,8 +51,10 @@ class StudentHome extends StatelessWidget{
               ),
               RaisedButton(
                 child: Text('View All Class Data'),
-                onPressed: () => print('going to all class data'),
-              )
+                onPressed: () {
+                  print('going to view all class data');
+                },
+              ),
             ],
           )
         ),

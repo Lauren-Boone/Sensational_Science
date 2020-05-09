@@ -12,10 +12,6 @@ class Observation extends InheritedWidget {
     Key key,
     this.projectID, this.answers, this.className, this.teacherID, child
     }): super(key: key, child: child); 
-  // {
-  //   this.answers = new Map<int, String>(); 
-  //   this.projectID = projectID; 
-  // }
   void addAnswer(int questionNum, String value){
     answers[questionNum] = value; 
     print("Answers: " + answers[questionNum]);
