@@ -30,7 +30,7 @@ class LocationMapState extends State<LocationMap> {
             body: GoogleMap(
               mapType: MapType.hybrid,
               initialCameraPosition:
-                  CameraPosition(target: LatLng(43.6591, 70.2568), zoom: 11),
+                  CameraPosition(target: LatLng(43.6591, -70.2568), zoom: 11),
             )));
   }
 }
