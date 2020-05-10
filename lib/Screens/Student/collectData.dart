@@ -13,22 +13,9 @@ import 'package:sensational_science/Screens/Teacher/UserLocationInfo.dart';
 import '../../Services/projectDB.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/student.dart';
-
-//import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
-
-// var createLocationHandler = new UserLocationInfo();
-
-// var locationResult = createLocationHandler.getUserLocation();
-
-// var createTextInputHandler = new TextQuestionWidget();
-
-// var createMultipleChoice = new MultQuestionWidget();
-
-//var createImageCapture = new AddImageInput();
-
-// var createShortAnswer = new ShortAnswerQuestion();
-
-// var createNumericalInput = new NumericalQuestion();
+import 'package:sensational_science/Services/storeLocally.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class CollectDataPage extends StatelessWidget{
   final String projectID; 
@@ -81,6 +68,8 @@ class CollectData extends StatefulWidget {
 
 class _CollectDataState extends State<CollectData> {
   List<dynamic> answers = new List();
+
+  
   _submitProj(String code) async {
     DocumentReference docRef = Firestore.instance.collection('codes').document(code);
     DocumentSnapshot doc = await docRef.get();

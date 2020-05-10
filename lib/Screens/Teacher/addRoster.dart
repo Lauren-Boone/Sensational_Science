@@ -28,23 +28,32 @@ class _AddRosterState extends State<AddRoster>{
 
  submitData(teachID) async {
   //String val='Success!';
-  roster.forEach((e){
-    Firestore.instance
-      .runTransaction((transaction) async{
-        await transaction.set(Firestore.instance
-          .collection("Teachers")
-          .document(teachID)
-          .collection('Classes')
-          .document(widget.name)
-          .collection('Roster')
-          .document(),
-          {
-            'name': e.controller.text,
-          }
-        );
-      }
-    ); 
-  });
+  CollectionReference classRoster = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name).collection('Roster');
+  CollectionReference classProjects = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name).collection('Projects');
+  DocumentReference classInfo = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name);
+  //add students and project codes for existing projects
+  roster.forEach((e) async{
+    DocumentReference newStudent = await classRoster.add({'name':e.controller.text});
+    QuerySnapshot eachProject = await classProjects.getDocuments();
+    eachProject.documents.forEach((project) async {
+      var codeRef = await classProjects.document(project.documentID).collection('Students').add({
+        'student': newStudent.documentID, //student doc id in roster
+        'completed': false, //has student submitted data
+      });
+      await newStudent.setData({
+        'codes': FieldValue.arrayUnion([
+          {project.documentID: codeRef.documentID}
+        ]) //list of codes for each student for all projects, {projectCode : studentCode}
+      }, merge: true);
+    });
+    classInfo.get().then((doc) {
+      classInfo.updateData({'students': doc.data['students'] + 1 });
+    });
+  }); 
+
+  //increment the count of students in the class
+
+
   showDialog(
     context: context,
     builder: (BuildContext context) {

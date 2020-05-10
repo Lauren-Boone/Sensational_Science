@@ -83,6 +83,7 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                   // setState(() {
                   //   results = result;
                   // });
+                  widget.userLocationController.text = result.toString();
                   questionObservations.addAnswer(0, result.toString()); 
                 });
                 print("Success!");
