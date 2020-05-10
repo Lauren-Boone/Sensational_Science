@@ -73,7 +73,7 @@ final user = Provider.of<User>(context);
                         });
                         Navigator.of(context).push(
                       MaterialPageRoute(
-                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project ),
+                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, this.createdProjID ),
                       ),
                   
                     );

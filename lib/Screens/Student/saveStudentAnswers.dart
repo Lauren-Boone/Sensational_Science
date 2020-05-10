@@ -18,16 +18,16 @@ import 'package:sensational_science/models/user.dart';
 // .child("Classes").child("AbbiTest").child("Projects").child("MMxdCXvncfz8VFNPlc5q").child("Students"); 
 
 Future<void> saveAnswers(
-      String uid, String className, String projectID, String docID, Observation input) async {
+      String uid, String projectID, Observation input) async {
     return Firestore.instance
         .collection('Teachers')
         .document(uid)
-        .collection('Classes')
-        .document(className)
-        .collection('Projects')
+        // .collection('Classes')
+        // .document(className)
+        .collection('Created Projects')
         .document(projectID)
-        .collection('Students')
-        .document(docID)
+        // .collection('Students')
+        // .document(docID)
         .setData({
           'Answers': input.answers.values.toList()
         }, merge: true);
