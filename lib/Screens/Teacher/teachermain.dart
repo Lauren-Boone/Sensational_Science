@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sensational_science/Screens/Student/locationtest.dart';
 import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
@@ -134,6 +135,21 @@ class TeacherHome extends StatelessWidget{
                   },
                 ),
               ), 
+                             Card(
+                child: ListTile(
+                  title: Text('Location'),
+                  subtitle: Text('Location Test'),
+                  trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LocationMap(),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
           floatingActionButton: RaisedButton(
