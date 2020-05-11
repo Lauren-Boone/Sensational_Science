@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/addRoster.dart';
+import 'package:sensational_science/models/classInfo.dart';
 import 'package:sensational_science/models/user.dart';
 
 
 class AddClassPage extends StatefulWidget{
-  AddClassPage({Key key}) : super(key: key);
+ final ClassSetup setup;
+  AddClassPage({ this.setup, Key key}) : super(key: key);
+ 
 
   @override
   _AddClassPageState createState() => _AddClassPageState();
