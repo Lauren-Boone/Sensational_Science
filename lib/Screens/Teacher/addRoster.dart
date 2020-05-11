@@ -45,6 +45,18 @@ class _AddRosterState extends State<AddRoster>{
           {project.documentID: codeRef.documentID}
         ]) //list of codes for each student for all projects, {projectCode : studentCode}
       }, merge: true);
+      await Firestore.instance
+        .collection('codes')
+        .document(codeRef.documentID)
+        .setData({
+          'Teacher': teachID, //teacher doc id
+          'Class': widget.name, //class doc id
+          'Student': newStudent.documentID, //student doc id in roster
+          'Name': e.controller.text, //student name in roster
+          'Project': project.documentID, //project doc id in class
+          'ProjectID': project.data['projectID'], //project doc id in top level project collection
+          'ProjectTitle': project.data['projectTitle'], //project title
+      });
     });
     classInfo.get().then((doc) {
       classInfo.updateData({'students': doc.data['students'] + 1 });

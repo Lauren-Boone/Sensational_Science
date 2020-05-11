@@ -49,39 +49,43 @@ class ImageCapture extends StatefulWidget {
   final Student student;
   final String questionNum;
   final TextEditingController imgLocController;
+  final File imageFile;
 
-  ImageCapture({this.student, this.questionNum, this.imgLocController});
+  ImageCapture({this.student, this.questionNum, this.imgLocController, this.imageFile});
 
   @override
-  _ImageCaptureState createState() => _ImageCaptureState();
+  _ImageCaptureState createState() => _ImageCaptureState(imageFile: imageFile);
 }
 
 class _ImageCaptureState extends State<ImageCapture> {
-  File _imageFile;
+  File imageFile;
+  _ImageCaptureState({this.imageFile});
 
   // Select image via gallery or camera
   Future<void> _pickImage(ImageSource source) async {
     File selected = await ImagePicker.pickImage(source: source);
 
     setState(() {
-      _imageFile = selected;
+      if (selected != null) {
+        imageFile = selected;
+      }
     });
   }
 
   //crop the image
   Future<void> _cropImage() async {
     File cropped = await ImageCropper.cropImage(
-      sourcePath: _imageFile.path,
+      sourcePath: imageFile.path,
     );
 
     setState(() {
-      _imageFile = cropped ?? _imageFile;
+      imageFile = cropped ?? imageFile;
     });
   }
 
   // Remove image
   void _clear() {
-    setState(() => _imageFile = null);
+    setState(() => imageFile = null);
   }
 
   @override
@@ -92,7 +96,10 @@ class _ImageCaptureState extends State<ImageCapture> {
             title: Text(widget.student.projectTitle + " Question " + widget.questionNum),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
-              onPressed: () => Navigator.pop(context, false),
+              onPressed: (){
+                print(widget.imgLocController.text);
+                Navigator.pop(context, false);
+              },
             )),
         //select image from camera or gallery
         bottomNavigationBar: BottomAppBar(
@@ -113,8 +120,8 @@ class _ImageCaptureState extends State<ImageCapture> {
         //preview the image and crop it
         body: ListView(
           children: <Widget>[
-            if (_imageFile != null) ...[
-              Image.file(_imageFile),
+            if (imageFile != null) ...[
+              Image.file(imageFile),
               Row(
                 children: <Widget>[
                   FlatButton(
@@ -128,7 +135,7 @@ class _ImageCaptureState extends State<ImageCapture> {
                 ],
               ),
 
-              Uploader(file: _imageFile, 
+              Uploader(file: imageFile, 
                 student: widget.student,
                 qNum: widget.questionNum,
                 controller: widget.imgLocController),
