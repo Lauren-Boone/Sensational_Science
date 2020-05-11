@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sensational_science/models/classData.dart';
 import 'dart:async';
 import 'addRoster.dart';
 
@@ -93,7 +94,7 @@ Stream<DocumentSnapshot> getRosterList() {
           onPressed: (){
              Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context)=> AddRoster(name: widget.name))
+                        MaterialPageRoute(builder: (context)=> AddRoster(classData: new ClassData(classID: widget.name, teachID: 'Dr.Who')))
                       );
                            
           }

@@ -5,13 +5,15 @@ import 'dart:async';
 
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/user.dart';
+import 'package:sensational_science/models/classData.dart';
 
 
 
 class AddRoster extends StatefulWidget{
-  final String name;
-  AddRoster({this.name});
- @override
+  final ClassData classData;
+//  final String name;
+  AddRoster({this.classData});
+  @override
   _AddRosterState createState() => _AddRosterState();
 }
 
@@ -26,11 +28,11 @@ class _AddRosterState extends State<AddRoster>{
     });
   }
 
- submitData(teachID) async {
+ submitData(ClassData classData) async {
   //String val='Success!';
-  CollectionReference classRoster = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name).collection('Roster');
-  CollectionReference classProjects = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name).collection('Projects');
-  DocumentReference classInfo = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name);
+  CollectionReference classRoster = Firestore.instance.collection('Teachers').document(classData.teachID).collection('Classes').document(classData.classID).collection('Roster');
+  CollectionReference classProjects = Firestore.instance.collection('Teachers').document(classData.teachID).collection('Classes').document(classData.classID).collection('Projects');
+  DocumentReference classInfo = Firestore.instance.collection('Teachers').document(classData.teachID).collection('Classes').document(classData.classID);
   //add students and project codes for existing projects
   roster.forEach((e) async{
     DocumentReference newStudent = await classRoster.add({'name':e.controller.text});
@@ -49,6 +51,7 @@ class _AddRosterState extends State<AddRoster>{
     classInfo.get().then((doc) {
       classInfo.updateData({'students': doc.data['students'] + 1 });
     });
+    classData.studentCount++;
   }); 
 
   //increment the count of students in the class
@@ -72,29 +75,6 @@ class _AddRosterState extends State<AddRoster>{
   setState(() {});
 }
 
-  /*
-  List<String> tags = List.from(doc.data['name']);
-  
-    if(tags.contains(element.controller.text)==true){
-    
-    docRef.addData({
-      'Name' : FieldValue.arrayRemove([element.controller.text])
-    });
-    
-  }
-  else{
-    docRef.updateData(
-      {
-      'Name' : FieldValue.arrayUnion([element.controller.text])
-      });
-  }
-  });
-  
-  roster.forEach(
-    (widget)=>print(widget.controller.text)
-  );
-}
-*/
 String success = '';
 @override
 
@@ -114,7 +94,7 @@ Widget build(BuildContext context){
               stream: Firestore.instance.collection('Teachers').
                 document(user.uid)
                 .collection('Classes')
-                .document(widget.name)
+                .document(widget.classData.classID)
                 .collection('Roster')
                 .snapshots(),
               builder: (BuildContext context, snapshot) {
@@ -147,12 +127,12 @@ Widget build(BuildContext context){
                 ),
               ),
             ),
-              new Container(
+            new Container(
               child: Text(success),
             ),
             new RaisedButton(
               child: new Text('Submit Students'),
-              onPressed: ()=> submitData(user.uid),
+              onPressed: ()=> submitData(widget.classData),
             ),
             new RaisedButton(
               child: new Text('Add Another Student'),

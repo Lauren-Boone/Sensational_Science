@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/user.dart';
+import 'package:sensational_science/models/classData.dart';
 import 'dart:async';
 import 'classInfo.dart';
 
@@ -39,29 +40,23 @@ class _ClassListState extends State<ClassListPage>{
           builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
             if(!snapshot.hasData)return new Text('..Loading');
             return Card(
-                          child: new ListView(
+              child: new ListView(
                 children: snapshot.data.documents.map((document){
                   return new ListTile( 
-  
-                      title: new Text(document['name']),
-                      subtitle: new Text('Click to View Class Info'),
-                      trailing: Icon(Icons.arrow_forward_ios), 
-                onTap: () =>{
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>ClassInfo(name: document.documentID, uid: user.uid),
-                    ),
-                  )
-                },
-                    
-                    
+                    title: new Text(document['name']),
+                    subtitle: new Text('Click to View Class Info'),
+                    trailing: Icon(Icons.arrow_forward_ios), 
+                    onTap: () async {
+                      ClassData nextClass = new ClassData(classID: document.documentID, teachID: user.uid);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) =>ClassInfo(classData: nextClass),),
+                      );
+                    },
                   );
-                  
                 }).toList(),
-                ),
+              ),
             );
           }
-
         ),
       ),
     );

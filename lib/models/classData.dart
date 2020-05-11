@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ClassInfo{
+class ClassData{
   final String classID;
   final String teachID;
   String className;
@@ -10,7 +10,7 @@ class ClassInfo{
   int studentCount;
   String subject;
 
-  ClassInfo({this.classID, this.teachID}) {
+  ClassData({this.classID, this.teachID}) {
     final classDoc = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(classID).get();
     classDoc.then( (doc) {
       className = doc.data['name'];
