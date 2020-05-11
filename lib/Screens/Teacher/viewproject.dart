@@ -36,28 +36,30 @@ import 'submittedPage.dart';
 class ViewProjectPage extends StatelessWidget {
   final String projectID;
   final String title;
+  final String createdProjectID; 
   GetProject project;
-  ViewProjectPage(this.title, this.projectID, this.project);
+  ViewProjectPage(this.title, this.projectID, this.project, this.createdProjectID);
 
   Widget build(BuildContext context) {
     return new Observation(
         key: new Key(projectID),
         projectID: this.projectID,
         answers: new Map(),
-        child: new ViewProject(this.title, this.projectID, this.project));
+        child: new ViewProject(this.title, this.projectID, this.project, this.createdProjectID));
   }
 }
 
 class ViewProject extends StatefulWidget {
   final String docIDref;
   final String title;
+  final String createdProjectID; 
   Student student;
   final GetProject project;
   bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
   // Observation studentObservations;
 //GetProject project;
-  ViewProject(this.title, this.docIDref, this.project) {
+  ViewProject(this.title, this.docIDref, this.project, this.createdProjectID) {
     //this.docIDref = docID;
 
     // this.project = project;
@@ -362,11 +364,11 @@ class _ViewProjectState extends State<ViewProject> {
       }
     } else {
       return Column(children: <Widget>[
-        Text("Would you like to submit your answers?", textScaleFactor: 2),
+        Text("Would you like to save your answers as an answer key/example project?", textScaleFactor: 2),
         RaisedButton(onPressed: () async {
           final user = Provider.of<User>(context, listen:false);
           var results = Observation.of(context);
-          await saveAnswers(widget.project.teacherID, results.className, results.projectID, user.uid, results);
+          await saveAnswers(user.uid, widget.createdProjectID, results);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => saveStudentAnswers(results: Observation.of(context))),
