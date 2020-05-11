@@ -52,7 +52,7 @@ Future<String> readString(String code, String qNum) async {
     return contents;
   } catch (e) {
     //return a default string, Error, if the file cannot be read
-    return 'Error';
+    return '!ERROR!';
   }
 }
 

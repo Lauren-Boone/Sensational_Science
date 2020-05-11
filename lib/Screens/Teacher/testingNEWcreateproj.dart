@@ -61,7 +61,7 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
         ),
         body: Column(
           children: <Widget>[
-            new Expanded(
+             Expanded(
               child: new ListView.builder(
                   itemCount: questionwidgets.length,
                   itemBuilder: (_, index) => questionwidgets[index]),
@@ -182,37 +182,35 @@ class _DynamicWidgetState extends State<DynamicWidget> {
   Widget build(BuildContext context) {
     if (widget.type == "MultipleChoice") {
       return Container(
-        // constraints: BoxConstraints(minWidth: 230.0, minHeight: 25.0),
-        margin: new EdgeInsets.all(8.0),
-        child: Expanded(
-                  child: Column(
-            children: <Widget>[
-              new Text("Question: " + widget.numq.toString(),
-                  style: TextStyle(fontSize: 20)),
-              new Text("Type: " + widget.type),
-              new TextField(
-                controller: widget.controller,
-                decoration: new InputDecoration(hintText: 'Enter Question Here'),
-                //onChanged: ((val) {}),
-              ),
-              new RaisedButton(
-                child: Text('Add Answers'),
-                onPressed: () => {
-                  //widget.numAnswers++,
-                  widget.answers
-                      .add(new DynamicAnswers(numAnswers: widget.numAnswers)),
-                  setState(() {}),
-                },
-                
-              ),
-              new ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: widget.answers.length,
-                  itemBuilder: (_, index) => widget.answers[index]),
-            ],
-          ),
+          // constraints: BoxConstraints(minWidth: 230.0, minHeight: 25.0),
+          margin: new EdgeInsets.all(8.0),
+          child: Column(
+      children: <Widget>[
+        new Text("Question: " + widget.numq.toString(),
+          style: TextStyle(fontSize: 20)),
+        new Text("Type: " + widget.type),
+        new TextField(
+          controller: widget.controller,
+          decoration: new InputDecoration(hintText: 'Enter Question Here'),
+          //onChanged: ((val) {}),
         ),
-      );
+        new RaisedButton(
+          child: Text('Add Answers'),
+          onPressed: () => {
+          //widget.numAnswers++,
+          widget.answers
+      .add(new DynamicAnswers(numAnswers: widget.numAnswers)),
+          setState(() {}),
+          },
+          
+        ),
+        new ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.answers.length,
+            itemBuilder: (_, index) => widget.answers[index]),
+      ],
+            ),
+        );
     } else {
       return Container(
         margin: new EdgeInsets.all(8.0),
@@ -242,7 +240,7 @@ class DynamicAnswers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minWidth: 20.0, maxWidth: 50, minHeight: 25.0),
+     
       width: MediaQuery.of(context).size.width / 2,
         child: SizedBox(
       width: 50,

@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/addRoster.dart';
 import 'package:sensational_science/models/user.dart';
 import 'package:sensational_science/Services/getproject.dart';
 
@@ -21,6 +22,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   String _class;
   String _project;
   DateTime _date;
+  bool hasRoster;
 
   Future<void> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
@@ -79,6 +81,27 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
     }
   }
 
+ _checkForRoster(String uid){
+  
+     Future<QuerySnapshot> snap=  Firestore.instance.collection('Teachers')
+      .document(uid)
+      .collection('Classes')
+      .document(_class)
+      .collection('Roster')
+      .getDocuments();
+      snap.then((value) => {
+        if(value.documents.length == 0){
+          this.hasRoster = false,
+        }
+      });
+      setState(() {
+        
+      });
+  
+   
+      
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -135,6 +158,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                               onChanged: (String newValue) {
                                 setState(() {
                                   _class = newValue;
+                                  _checkForRoster(user.uid);
                                   print(_class);
                                 });
                               },
@@ -258,8 +282,41 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
                   onPressed: () async {
-                    if (_class != null && _project != null && _date != null) {
-                      await assignProject(user.uid, _class, _project, _date);
+                    if (_class != null && _project != null && _date != null ) {
+                      if(hasRoster){
+                         await assignProject(user.uid, _class, _project, _date);
+                      }
+                      else{
+                        return showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Error: Your Selected Class does not have a roster yet"),
+                            content: Text(
+                                "You must add a roster to a class first."),
+                            actions: <Widget>[
+                               RaisedButton(
+                                child: Text("Click here to add a roster now"),
+                                onPressed: () {
+                                   Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>AddRoster(name: _class),
+                      ));
+                                },
+                              ),
+                              RaisedButton(
+                                child: Text("Close"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+
+                      
+                     
                     } else {
                       return showDialog(
                         context: context,
