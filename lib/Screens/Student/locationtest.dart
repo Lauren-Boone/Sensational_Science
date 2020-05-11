@@ -7,15 +7,14 @@ import '../../Services/getproject.dart';
 
 Map<MarkerId, Marker> marker = <MarkerId, Marker>{};
 
-var createLocationHandler = new UserLocation();
-
 void add(){
   final String markerIdValue = "1"; 
   final MarkerId markerId = MarkerId(markerIdValue); 
   final Marker marker = Marker(
     markerId: markerId, 
-    position: LatLng() 
+    position: LatLng(43.65, -70.25) 
     );
+    
 }
 class LocationMap extends StatefulWidget {
   final TextEditingController controller;
@@ -24,6 +23,8 @@ class LocationMap extends StatefulWidget {
 
   @override
   LocationMapState createState() => LocationMapState();
+
+  
 }
 
 class LocationMapState extends State<LocationMap> {

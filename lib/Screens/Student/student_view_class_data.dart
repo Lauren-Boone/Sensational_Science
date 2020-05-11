@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sensational_science/Screens/Student/locationtest.dart';
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+var createLocationMap = LocationMap(); 
 
 class ViewClassData extends StatefulWidget {
   final String user;
@@ -337,6 +339,11 @@ return RaisedButton(
                 children: <Widget>[
                   Expanded(
                     child: Text('Location')),
+                    Container(
+                      height: MediaQuery.of(context).size.height/3,
+                      width: MediaQuery.of(context).size.width/3, 
+                      child: createLocationMap
+                    ),
                    getNextButton(context),
                     getPrevButton(context),
                 ],
