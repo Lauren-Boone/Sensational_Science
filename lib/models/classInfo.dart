@@ -21,4 +21,16 @@ class ClassInfo{
       subject = doc.data['subject'];
     });
   }
+
+  
+}
+
+class ClassSetup{
+
+  final String classID;
+ ClassSetup({this.classID});
+
+  String getClassId(){
+    return this.classID;
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/locationtest.dart';
 import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
+import 'package:sensational_science/Screens/Teacher/setupclasswithprojects.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
@@ -31,7 +32,7 @@ class TeacherHome extends StatelessWidget{
             children:  <Widget>[
               Card(child: ListTile(
                 title: Text('Classes'),
-                subtitle: Text('View All Classes'),
+                subtitle: Text('View All Classes, view class info, add roster, and view compiled data'),
                 trailing: Icon(Icons.arrow_forward_ios), 
                 onTap: (){
                   Navigator.push(
@@ -99,6 +100,21 @@ class TeacherHome extends StatelessWidget{
                       context,
                       MaterialPageRoute(
                         builder: (context) => StagingPage(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+                Card(
+                child: ListTile(
+                  title: Text('Class Setup'),
+                  subtitle: Text('Create and setup a class'),
+                  trailing: Icon(Icons.arrow_forward_ios), 
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SetUpClassSteps(),
                       ),
                     );
                   },
