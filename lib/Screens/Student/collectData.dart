@@ -359,7 +359,9 @@ class _CollectDataState extends State<CollectData> {
         Text("Submit Page", textScaleFactor: 4),
         RaisedButton(
           child: Text('Submit Project'),
-          onPressed: ()=>_submitProj(widget.student.code),
+          onPressed: ()=>{_submitProj(widget.student.code),
+           Navigator.of(context).pop(),
+          },
         )
       ]);
     }

@@ -78,39 +78,14 @@ final user = Provider.of<User>(context);
                   
                     );
                       },
-                      child: Text('Click to View Questions'),
+                      child: Text('Click to Create Answer Key'),
                       color: Colors.blue,
                     ),
                     RaisedButton(
-                      child: Text('Click to delete project'),
-                      color: Colors.red,
-                      onPressed: (){
-                         showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      //addQuestiontoAccordion.add(new DynamicWidget());
-                      return AlertDialog(
-                        
-                          title: Text("Are you sure you want to remove this project?"),
-                          content: Text('This will action will permantly delete this project and you will no longer have access to it.'),
+                      child: Text("Click to Preview Questions"),
+                      onPressed: ()=>{},
+                    )
                   
-                                  actions: <Widget>[
-                                    RaisedButton(
-                                      child: Text('continue'),
-                                      onPressed: () {
-                                        
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                            
-                          ]);
-                      },
-                    );
-                    
-                    
-                    Navigator.of(context).pop();
-                      },
-                ),
                   ]),
              ),
            ),
