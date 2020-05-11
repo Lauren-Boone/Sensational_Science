@@ -228,10 +228,18 @@ class _CollectDataState extends State<CollectData> {
                 width: MediaQuery.of(context).size.width / 3 * 2,
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.5,
-                  child: new MultQuestionWidget(
-                    question: widget.project.questions[_currentQuestion], 
-                    multChoiceController: widget.controllers[_currentQuestion]
-                  ),
+                  child: FutureBuilder(
+                    future: readString(widget.student.code, _currentQuestion.toString()),
+                    builder: (context, AsyncSnapshot<String> answer) {
+                      if (answer.hasData) {
+                        widget.controllers[_currentQuestion].text = answer.data;
+                      }
+                      return new MultQuestionWidget(
+                        question: widget.project.questions[_currentQuestion], 
+                        multChoiceController: widget.controllers[_currentQuestion]
+                      );
+                    }
+                  )
                 ),
               ),
               getNextButton(context),
@@ -247,8 +255,17 @@ class _CollectDataState extends State<CollectData> {
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
-                child: new ShortAnswerQuestion(
-                    shortAnswerController: widget.controllers[_currentQuestion]),
+                child: FutureBuilder(
+                    future: readString(widget.student.code, _currentQuestion.toString()),
+                    builder: (context, AsyncSnapshot<String> answer) {
+                      if (answer.hasData) {
+                        widget.controllers[_currentQuestion].text = answer.data;
+                      }
+                      return new ShortAnswerQuestion(
+                        shortAnswerController: widget.controllers[_currentQuestion]
+                      );
+                    }
+                  )
               ),
               getNextButton(context)
             ]
@@ -263,9 +280,17 @@ class _CollectDataState extends State<CollectData> {
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
-                child: new UserLocationInfo(
-                  userLocationController: widget.controllers[_currentQuestion],
-                ),
+                child: FutureBuilder(
+                    future: readString(widget.student.code, _currentQuestion.toString()),
+                    builder: (context, AsyncSnapshot<String> answer) {
+                      if (answer.hasData) {
+                        widget.controllers[_currentQuestion].text = answer.data;
+                      }
+                      return new UserLocationInfo(
+                        userLocationController: widget.controllers[_currentQuestion],
+                      );
+                    }
+                  )
               ),
               getNextButton(context)
             ]
@@ -280,8 +305,17 @@ class _CollectDataState extends State<CollectData> {
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
-                child: new NumericalQuestion(
-                  numAnswerController: widget.controllers[_currentQuestion]),
+                child: FutureBuilder(
+                    future: readString(widget.student.code, _currentQuestion.toString()),
+                    builder: (context, AsyncSnapshot<String> answer) {
+                      if (answer.hasData) {
+                        widget.controllers[_currentQuestion].text = answer.data;
+                      }
+                      return new NumericalQuestion(
+                        numAnswerController: widget.controllers[_currentQuestion]
+                      );
+                    }
+                  )
               ),
               getNextButton(context)
             ]

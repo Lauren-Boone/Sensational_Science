@@ -31,37 +31,3 @@ class _TextQuestionWidgetState extends State<TextQuestionWidget> {
         ));
   }
 }
-
-class TextQuestionPreFilledWidget extends StatefulWidget {
-  final Questions question;
-  final TextEditingController textAnswerController;
-  final String answer;
-  TextQuestionPreFilledWidget({this.question, this.textAnswerController, this.answer});
-
-  @override
-  _TextQuestionPreFilledWidgetState createState() => _TextQuestionPreFilledWidgetState();
-}
-
-class _TextQuestionPreFilledWidgetState extends State<TextQuestionPreFilledWidget> {
-  final _formKey = GlobalKey<FormState>();
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: new TextFormField(
-          controller: widget.textAnswerController,
-          initialValue: widget.answer,
-          decoration: new InputDecoration(
-            labelText: "Text Answer",
-            fillColor: Colors.white,
-            enabledBorder: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
-      );
-  }
-}
