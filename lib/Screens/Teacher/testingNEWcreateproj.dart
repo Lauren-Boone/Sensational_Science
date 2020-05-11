@@ -61,7 +61,7 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
         ),
         body: Column(
           children: <Widget>[
-            new Expanded(
+             Expanded(
               child: new ListView.builder(
                   itemCount: questionwidgets.length,
                   itemBuilder: (_, index) => questionwidgets[index]),
@@ -205,10 +205,12 @@ class _DynamicWidgetState extends State<DynamicWidget> {
                 },
                 
               ),
-              new ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: widget.answers.length,
-                  itemBuilder: (_, index) => widget.answers[index]),
+              Expanded(
+                              child: new ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.answers.length,
+                    itemBuilder: (_, index) => widget.answers[index]),
+              ),
             ],
           ),
         ),
@@ -242,7 +244,7 @@ class DynamicAnswers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minWidth: 20.0, maxWidth: 50, minHeight: 25.0),
+     
       width: MediaQuery.of(context).size.width / 2,
         child: SizedBox(
       width: 50,
