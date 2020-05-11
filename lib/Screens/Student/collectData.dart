@@ -61,16 +61,20 @@ class _CollectDataState extends State<CollectData> {
     String data;
     File image;
     StorageUploadTask _uploadTask;
+    List<String> answerList = new List();
+
     for(var i=0; i< answers.length; i++) {
       data = await readString(code, i.toString());
-      docRef.updateData({
-        'Answers': FieldValue.arrayUnion([data]),
-      });
+      answerList.add(data);
+      // docRef.updateData({
+      //   'Answers': FieldValue.arrayUnion([data]),
+      // });
       if (answerType[i*2] == 5) {
         image = await getImage(code, i.toString());
         _uploadTask = _storage.ref().child(data).putFile(image);
       }
     }
+    docRef.setData({'Answers': answerList}, merge: true);
 
     //await deleteFiles(code);
     // answers.forEach((element) {
