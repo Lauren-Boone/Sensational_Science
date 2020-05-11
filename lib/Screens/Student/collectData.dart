@@ -36,10 +36,12 @@ class CollectData extends StatefulWidget {
   final Student student;
   final GetProject project;
   List<TextEditingController> controllers = [new TextEditingController()];
+  List<int> questionType = [6];
 
   CollectData(this.student, this.project) {
     for (int i = 1; i < project.questions.length; i++) {
       controllers.add( new TextEditingController());
+      questionType.add(6);
       print("Values of i " + i.toString()); 
     }
   }
@@ -54,6 +56,7 @@ class CollectData extends StatefulWidget {
 class _CollectDataState extends State<CollectData> {
   List<dynamic> answers = new List();
   List<dynamic> answerType = new List();
+
   _submitProj(String code) async {
     DocumentReference docRef = Firestore.instance.collection('codes').document(code);
     DocumentSnapshot doc = await docRef.get();
@@ -63,13 +66,13 @@ class _CollectDataState extends State<CollectData> {
     StorageUploadTask _uploadTask;
     List<String> answerList = new List();
 
-    for(var i=0; i< answers.length; i++) {
+    for(var i=0; i< widget.controllers.length - 1; i++) {
       data = await readString(code, i.toString());
       answerList.add(data);
       // docRef.updateData({
       //   'Answers': FieldValue.arrayUnion([data]),
       // });
-      if (answerType[i*2] == 5) {
+      if (widget.questionType[i] == 5) {
         image = await getImage(code, i.toString());
         _uploadTask = _storage.ref().child(data).putFile(image);
       }
@@ -195,6 +198,8 @@ class _CollectDataState extends State<CollectData> {
     if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
+          widget.questionType[_currentQuestion] = 0;
+          print(widget.questionType.toString());
           return Column(
             children: <Widget>[
               Text("TextInputItem " + (_currentQuestion + 1).toString(),
@@ -222,6 +227,8 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 1:
+          widget.questionType[_currentQuestion] = 1;
+          print(widget.questionType.toString());
           return Column(
             children: <Widget>[
               Text("MultipleChoice " + (_currentQuestion + 1).toString(),
@@ -251,6 +258,8 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 2:
+          widget.questionType[_currentQuestion] = 2;
+          print(widget.questionType.toString());
           return Column(
             children: <Widget>[
               Text("ShortAnswer " + (_currentQuestion + 1).toString(),
@@ -276,6 +285,8 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 3:
+          widget.questionType[_currentQuestion] = 3;
+          print(widget.questionType.toString());
           return Column(
             children: <Widget>[
               Text("UserLocation " + (_currentQuestion + 1).toString(),
@@ -301,6 +312,8 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 4:
+          widget.questionType[_currentQuestion] = 4;
+          print(widget.questionType.toString());
           return Column(
             children: <Widget>[
               Text("Numerical " + (_currentQuestion + 1).toString(),
@@ -326,6 +339,8 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 5:
+          widget.questionType[_currentQuestion] = 5;
+          print(widget.questionType.toString());
           return Column(
             children: <Widget>[
               Text("Image" + (_currentQuestion + 1).toString(),
@@ -336,16 +351,24 @@ class _CollectDataState extends State<CollectData> {
                 width: MediaQuery.of(context).size.width / 3,
                 child: RaisedButton(
                   child: Text('Click to upload or take photo'),
-                  onPressed: () => {
+                  onPressed: () async {
+                    File preFilledFile;
+                    String data = await readString(widget.student.code, _currentQuestion.toString());
+                    if (data != null) {
+                      widget.controllers[_currentQuestion].text = data;
+                      print(widget.controllers[_currentQuestion].text);
+                      preFilledFile = await getImage(widget.student.code, _currentQuestion.toString());
+                    }
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ImageCapture(
                           student: widget.student,
                           questionNum: _currentQuestion.toString(),
                           imgLocController: widget.controllers[_currentQuestion],
+                          imageFile: preFilledFile,
                         ),
                       ),
-                    )
+                    );
                   },
                 ),
               ),
