@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/projectPreview.dart';
 import 'package:sensational_science/models/user.dart';
 import 'viewproject.dart';
 import '../../Services/getproject.dart';
@@ -83,7 +84,21 @@ final user = Provider.of<User>(context);
                     ),
                     RaisedButton(
                       child: Text("Click to Preview Questions"),
-                      onPressed: ()=>{},
+                      onPressed: ()=>{
+                        setState((){
+                        project.questions.forEach((element) {
+                          print(element.question);
+                        });
+                        }),
+                        Navigator.of(context).push(
+                      MaterialPageRoute(
+                       builder: (context) =>PreviewProject(title: this.title, proj: this.project),
+                      ),
+                  
+                    ),
+
+                      
+                      },
                     )
                   
                   ]),
