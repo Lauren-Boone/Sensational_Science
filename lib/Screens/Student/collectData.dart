@@ -349,27 +349,33 @@ class _CollectDataState extends State<CollectData> {
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
-                child: RaisedButton(
-                  child: Text('Click to upload or take photo'),
-                  onPressed: () async {
-                    File preFilledFile;
-                    String data = await readString(widget.student.code, _currentQuestion.toString());
-                    if (data != null) {
-                      widget.controllers[_currentQuestion].text = data;
-                      print(widget.controllers[_currentQuestion].text);
-                      preFilledFile = await getImage(widget.student.code, _currentQuestion.toString());
+                child: FutureBuilder(
+                  future: readString(widget.student.code, _currentQuestion.toString()),
+                  builder: (context, answer) {
+                    if (answer.hasData) {
+                      widget.controllers[_currentQuestion].text = answer.data;
                     }
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ImageCapture(
-                          student: widget.student,
-                          questionNum: _currentQuestion.toString(),
-                          imgLocController: widget.controllers[_currentQuestion],
-                          imageFile: preFilledFile,
-                        ),
-                      ),
+                    return RaisedButton(
+                      child: Text('Click to upload or take photo'),
+                      onPressed: () async {
+                        File preFilledFile;
+                        if (widget.controllers[_currentQuestion].text != null) {
+                          print(widget.controllers[_currentQuestion].text);
+                          preFilledFile = await getImage(widget.student.code, _currentQuestion.toString());
+                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ImageCapture(
+                              student: widget.student,
+                              questionNum: _currentQuestion.toString(),
+                              imgLocController: widget.controllers[_currentQuestion],
+                              imageFile: preFilledFile,
+                            ),
+                          ),
+                        );
+                      },
                     );
-                  },
+                  }
                 ),
               ),
               getNextButton(context)
