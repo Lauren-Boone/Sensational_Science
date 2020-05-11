@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
 
+Map<MarkerId, Marker> marker = <MarkerId, Marker>{};
+
+var createLocationHandler = new UserLocation();
+
+void add(){
+  final String markerIdValue = "1"; 
+  final MarkerId markerId = MarkerId(markerIdValue); 
+  final Marker marker = Marker(
+    markerId: markerId, 
+    position: LatLng() 
+    );
+}
 class LocationMap extends StatefulWidget {
   final TextEditingController controller;
 
