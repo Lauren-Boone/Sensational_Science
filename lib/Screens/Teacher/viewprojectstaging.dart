@@ -11,10 +11,11 @@ class ViewProjectStaging extends StatefulWidget {
   final String title; 
   final String projInfo;
   final String createdProjID;
-  ViewProjectStaging( this.title, this.projectID,this.projInfo, this.createdProjID); 
+  final String uid;
+  ViewProjectStaging( this.title, this.projectID,this.projInfo, this.createdProjID, this.uid); 
 
   @override
-  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID, this.projInfo, this.createdProjID);
+  _ViewProjectStagingState createState() => _ViewProjectStagingState(this.title, this.projectID, this.projInfo, this.createdProjID, this.uid);
 }
 
 class _ViewProjectStagingState extends State<ViewProjectStaging> {
@@ -23,20 +24,46 @@ String docIDref;
   String title;
   String projInfo;
   String createdProjID;
-   _ViewProjectStagingState(title, docID, projInfo, createdProjID) {
+  bool hasKey = false;
+  String uid;
+  List<dynamic> answers = new List();
+   _ViewProjectStagingState(title, docID, projInfo, createdProjID, uid) {
     this.docIDref = docID;
     this.title = title;
     this.projInfo=projInfo;
+    this.createdProjID=createdProjID;
+    this.uid=uid;
+    
         project = new GetProject(title, docID);
         //_getQuestions();
+        
         project.questionData();
+        getAnswers(uid);
         //project.questionData();
     // this.controllers = new List();
    
 
     // studentObservations = new Observation(docID);
   }
-
+getAnswers(String user)async{
+  DocumentSnapshot docRef = await Firestore.instance
+  .collection('Teachers')
+  .document(user)
+  .collection('Created Projects')
+  .document(this.createdProjID)
+  .get();
+  if(docRef.data.containsKey('Answers')){
+    docRef.data.forEach((key, value) {
+      if('$key' == 'Answers'){
+        answers.addAll(value);
+        hasKey=true;
+      }
+    });
+  }
+  setState(() {
+    
+  });
+}
   @override
   Widget build(BuildContext context) {
 final user = Provider.of<User>(context);
@@ -74,7 +101,7 @@ final user = Provider.of<User>(context);
                         });
                         Navigator.of(context).push(
                       MaterialPageRoute(
-                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, this.createdProjID ),
+                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, widget.createdProjID),
                       ),
                   
                     );
@@ -85,14 +112,15 @@ final user = Provider.of<User>(context);
                     RaisedButton(
                       child: Text("Click to Preview Questions"),
                       onPressed: ()=>{
+                        //getAnswers(user.uid),
                         setState((){
-                        project.questions.forEach((element) {
-                          print(element.question);
-                        });
+                      
+                       
                         }),
+                        
                         Navigator.of(context).push(
                       MaterialPageRoute(
-                       builder: (context) =>PreviewProject(title: this.title, proj: this.project),
+                       builder: (context) =>PreviewProject(title: this.title, proj: this.project, answers: this.answers, hasKey: hasKey),
                       ),
                   
                     ),
