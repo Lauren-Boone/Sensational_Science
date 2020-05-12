@@ -16,15 +16,23 @@ class _PreviewProjectState extends State<PreviewProject> {
   GetProject proj;
   List<DynamicWidget> questions = new List();
   List<dynamic> answers;
-  bool hasKey;
+   bool hasKey;
   _PreviewProjectState(GetProject proj, List<dynamic> answers, bool hasKey){
     this.proj=proj;
     this.answers=answers;
   this.hasKey=hasKey;
     int j=0;
+    String temp = "";
+    
     proj.questions.forEach((element) {
+      if(hasKey){
       questions.add(new DynamicWidget(type: element.type, numq: element.number, question: element.question, answers: element.answers, keyAnswers: answers[j].toString(), hasKey: hasKey));
       j++;
+      }
+      else{
+         questions.add(new DynamicWidget(type: element.type, numq: element.number, question: element.question, answers: element.answers, keyAnswers: "", hasKey: hasKey));
+    
+      }
     });
 
   }
