@@ -26,9 +26,9 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[100],
+      backgroundColor: Colors.yellow[100],
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor: Colors.deepPurple,
         title: Text('Log In'),
         actions: <Widget>[
           FlatButton.icon(
@@ -47,7 +47,7 @@ class _SignInState extends State<SignIn> {
         child: Column(
           children: <Widget>[
             RaisedButton(
-              color: Colors.blue[200],
+              color: Colors.blue[400],
               child: Text('Access Project Using Student Code'),
               onPressed: () {
                 Navigator.push(
@@ -87,7 +87,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   SizedBox(height: 20),
                   RaisedButton(
-                    color: Colors.blue[200],
+                    color: Colors.blue[400],
                     child: Text(
                       'Sign In',
                     ),
