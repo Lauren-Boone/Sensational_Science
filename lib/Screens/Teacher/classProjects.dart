@@ -56,13 +56,18 @@ class _ViewClassProjectsState extends State<ViewClassProjects>{
                   onTap: (){
                     
                    proj = new GetProject(doc['projectTitle'], doc['projectID']);
-                   proj.questionData();
-                    Navigator.push(
+                   proj.questionData().whenComplete(()=> {                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>ViewClassData(user: user.uid, className: widget.name, classProjDocID: doc.documentID, proj: proj),
                       ),
-                    );
+                    )});
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) =>ViewClassData(user: user.uid, className: widget.name, classProjDocID: doc.documentID, proj: proj),
+                    //   ),
+                    // );
                   },
                           );
                         }).toList(),

@@ -83,7 +83,7 @@ final user = Provider.of<User>(context);
                     Card(
                       child:  Text(
                         widget.title,style: TextStyle(
-                          fontSize: 40,
+                          fontSize: 30,
                         ),),
                     ),
                     Card(
