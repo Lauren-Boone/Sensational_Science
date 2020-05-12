@@ -36,10 +36,12 @@ class CollectData extends StatefulWidget {
   final Student student;
   final GetProject project;
   List<TextEditingController> controllers = [new TextEditingController()];
+  List<int> questionType = [6];
 
   CollectData(this.student, this.project) {
     for (int i = 1; i < project.questions.length; i++) {
       controllers.add( new TextEditingController());
+      questionType.add(6);
       print("Values of i " + i.toString()); 
     }
   }
@@ -53,7 +55,7 @@ class CollectData extends StatefulWidget {
 
 class _CollectDataState extends State<CollectData> {
   List<dynamic> answers = new List();
-  List<dynamic> answerType = new List();
+
   _submitProj(String code) async {
     DocumentReference docRef = Firestore.instance.collection('codes').document(code);
     DocumentSnapshot doc = await docRef.get();
@@ -63,13 +65,10 @@ class _CollectDataState extends State<CollectData> {
     StorageUploadTask _uploadTask;
     List<String> answerList = new List();
 
-    for(var i=0; i< answers.length; i++) {
+    for(var i=0; i< widget.controllers.length; i++) {
       data = await readString(code, i.toString());
       answerList.add(data);
-      // docRef.updateData({
-      //   'Answers': FieldValue.arrayUnion([data]),
-      // });
-      if (answerType[i*2] == 5) {
+      if (widget.questionType[i] == 5) {
         image = await getImage(code, i.toString());
         _uploadTask = _storage.ref().child(data).putFile(image);
       }
@@ -108,7 +107,6 @@ class _CollectDataState extends State<CollectData> {
  
 
   Widget build(BuildContext context) {
-    //List<TextEditingController> answers = [];
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
@@ -159,42 +157,41 @@ class _CollectDataState extends State<CollectData> {
 
 
   Widget getNextButton(BuildContext context) {
-    //We need to add a var value as a parameter for this function to add to the controller
     return RaisedButton(
-        child: Text("NEXT"),
-        color: Colors.red,
-        onPressed: () {
-          var questionObservations = Observation.of(context);
-          //answers.add(context);
-          if(!questionObservations.answers.containsKey(_currentQuestion)){
-            questionObservations.addAnswer(
-                  widget.project.questions[_currentQuestion].number,
-                  widget.controllers[_currentQuestion].value.text);
-          }
-          print(questionObservations.toJson());
-          
-        answers.add(widget.controllers[_currentQuestion].value.text);
-        answers.forEach((element) {
-          print(element);
-        });
+      child: Text("NEXT"),
+      color: Colors.red,
+      onPressed: () {
+        // var questionObservations = Observation.of(context);
+      //   if(!questionObservations.answers.containsKey(_currentQuestion)){
+      //     questionObservations.addAnswer(
+      //           widget.project.questions[_currentQuestion].number,
+      //           widget.controllers[_currentQuestion].value.text);
+      //   }
+      //   print(questionObservations.toJson());
+        
+      // answers.add(widget.controllers[_currentQuestion].value.text);
+      // answers.forEach((element) {
+      //   print(element);
+      // });
 
         //store data locally
         writeString(widget.student.code, widget.controllers[_currentQuestion].value.text, _currentQuestion.toString());
-        
-          if (_currentQuestion < widget.project.questions.length) {
-            setState(() {
-              _currentQuestion++;
-              _getType(_currentQuestion);
-            });
-          }
-        });
+      
+        if (_currentQuestion < widget.project.questions.length) {
+          setState(() {
+            _currentQuestion++;
+            _getType(_currentQuestion);
+          });
+        }
+      }
+    );
   }
 
   Widget getQuestionWidget(BuildContext context, int number) {
-    answerType.add(number);
     if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
+          widget.questionType[_currentQuestion] = 0;
           return Column(
             children: <Widget>[
               Text("TextInputItem " + (_currentQuestion + 1).toString(),
@@ -207,7 +204,7 @@ class _CollectDataState extends State<CollectData> {
                   child: FutureBuilder(
                     future: readString(widget.student.code, _currentQuestion.toString()),
                     builder: (context, AsyncSnapshot<String> answer) {
-                      if (answer.hasData) {
+                      if (answer.hasData && answer.data != '!ERROR!') {
                         widget.controllers[_currentQuestion].text = answer.data;
                       }
                       return new TextQuestionWidget(
@@ -222,6 +219,7 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 1:
+          widget.questionType[_currentQuestion] = 1;
           return Column(
             children: <Widget>[
               Text("MultipleChoice " + (_currentQuestion + 1).toString(),
@@ -235,7 +233,7 @@ class _CollectDataState extends State<CollectData> {
                   child: FutureBuilder(
                     future: readString(widget.student.code, _currentQuestion.toString()),
                     builder: (context, AsyncSnapshot<String> answer) {
-                      if (answer.hasData) {
+                      if (answer.hasData && answer.data != '!ERROR!') {
                         widget.controllers[_currentQuestion].text = answer.data;
                       }
                       return new MultQuestionWidget(
@@ -251,6 +249,7 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 2:
+          widget.questionType[_currentQuestion] = 2;
           return Column(
             children: <Widget>[
               Text("ShortAnswer " + (_currentQuestion + 1).toString(),
@@ -262,7 +261,7 @@ class _CollectDataState extends State<CollectData> {
                 child: FutureBuilder(
                     future: readString(widget.student.code, _currentQuestion.toString()),
                     builder: (context, AsyncSnapshot<String> answer) {
-                      if (answer.hasData) {
+                      if (answer.hasData && answer.data != '!ERROR!') {
                         widget.controllers[_currentQuestion].text = answer.data;
                       }
                       return new ShortAnswerQuestion(
@@ -276,6 +275,7 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 3:
+          widget.questionType[_currentQuestion] = 3;
           return Column(
             children: <Widget>[
               Text("UserLocation " + (_currentQuestion + 1).toString(),
@@ -287,7 +287,7 @@ class _CollectDataState extends State<CollectData> {
                 child: FutureBuilder(
                     future: readString(widget.student.code, _currentQuestion.toString()),
                     builder: (context, AsyncSnapshot<String> answer) {
-                      if (answer.hasData) {
+                      if (answer.hasData && answer.data != '!ERROR!') {
                         widget.controllers[_currentQuestion].text = answer.data;
                       }
                       return new UserLocationInfo(
@@ -301,6 +301,7 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 4:
+          widget.questionType[_currentQuestion] = 4;
           return Column(
             children: <Widget>[
               Text("Numerical " + (_currentQuestion + 1).toString(),
@@ -312,7 +313,7 @@ class _CollectDataState extends State<CollectData> {
                 child: FutureBuilder(
                     future: readString(widget.student.code, _currentQuestion.toString()),
                     builder: (context, AsyncSnapshot<String> answer) {
-                      if (answer.hasData) {
+                      if (answer.hasData && answer.data != '!ERROR!') {
                         widget.controllers[_currentQuestion].text = answer.data;
                       }
                       return new NumericalQuestion(
@@ -326,6 +327,7 @@ class _CollectDataState extends State<CollectData> {
           );
           break;
         case 5:
+          widget.questionType[_currentQuestion] = 5;
           return Column(
             children: <Widget>[
               Text("Image" + (_currentQuestion + 1).toString(),
@@ -334,19 +336,33 @@ class _CollectDataState extends State<CollectData> {
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
-                child: RaisedButton(
-                  child: Text('Click to upload or take photo'),
-                  onPressed: () => {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ImageCapture(
-                          student: widget.student,
-                          questionNum: _currentQuestion.toString(),
-                          imgLocController: widget.controllers[_currentQuestion],
-                        ),
-                      ),
-                    )
-                  },
+                child: FutureBuilder(
+                  future: readString(widget.student.code, _currentQuestion.toString()),
+                  builder: (context, answer) {
+                    if (answer.hasData && answer.data != '!ERROR!') {
+                      widget.controllers[_currentQuestion].text = answer.data;
+                    }
+                    return RaisedButton(
+                      child: Text('Click to upload or take photo'),
+                      onPressed: () async {
+                        File preFilledFile;
+                        if (widget.controllers[_currentQuestion].text != null) {
+                          print(widget.controllers[_currentQuestion].text);
+                          preFilledFile = await getImage(widget.student.code, _currentQuestion.toString());
+                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ImageCapture(
+                              student: widget.student,
+                              questionNum: _currentQuestion.toString(),
+                              imgLocController: widget.controllers[_currentQuestion],
+                              imageFile: preFilledFile,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
                 ),
               ),
               getNextButton(context)
@@ -360,7 +376,6 @@ class _CollectDataState extends State<CollectData> {
         RaisedButton(
           child: Text('Submit Project'),
           onPressed: ()=>{_submitProj(widget.student.code),
-           Navigator.of(context).pop(),
           },
         )
       ]);
