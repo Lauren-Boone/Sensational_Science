@@ -14,7 +14,6 @@ void add(){
     markerId: markerId, 
     position: LatLng(43.65, -70.25) 
     );
-    
 }
 class LocationMap extends StatefulWidget {
   final TextEditingController controller;
@@ -23,8 +22,6 @@ class LocationMap extends StatefulWidget {
 
   @override
   LocationMapState createState() => LocationMapState();
-
-  
 }
 
 class LocationMapState extends State<LocationMap> {
