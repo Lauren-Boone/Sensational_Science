@@ -27,6 +27,7 @@ String docIDref;
     this.docIDref = docID;
     this.title = title;
     this.projInfo=projInfo;
+    this.createdProjID=createdProjID;
         project = new GetProject(title, docID);
         //_getQuestions();
         project.questionData();
@@ -74,7 +75,7 @@ final user = Provider.of<User>(context);
                         });
                         Navigator.of(context).push(
                       MaterialPageRoute(
-                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, this.createdProjID ),
+                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, widget.createdProjID),
                       ),
                   
                     );

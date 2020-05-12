@@ -101,6 +101,7 @@ class _DynamicWidgetState extends State<DynamicWidget> {
                 style: TextStyle(fontSize: 20)),
             new Text("Type: " + widget.type),
             new Text("Question: " + widget.question, style: TextStyle(fontSize: 30)),
+            new Text("Answers: "),
           ],
         ),
       );
