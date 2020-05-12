@@ -26,7 +26,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[100],
+      backgroundColor: Colors.green[200],
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: Text('Log In'),
