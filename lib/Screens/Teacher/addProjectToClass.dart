@@ -22,7 +22,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   String _class;
   String _project;
   DateTime _date;
-  bool hasRoster;
+  bool hasRoster = true;
 
   Future<void> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
@@ -91,7 +91,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
       .getDocuments();
       snap.then((value) => {
         if(value.documents.length == 0){
-          this.hasRoster = false,
+          this.hasRoster = hasRoster ?? false,
         }
       });
       setState(() {
@@ -287,6 +287,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                          await assignProject(user.uid, _class, _project, _date);
                       }
                       else{
+                        print("No Roster exists"); 
                         return showDialog(
                         context: context,
                         builder: (BuildContext context) {
