@@ -39,7 +39,7 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
         child: Padding(
           padding:  EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start, 
             children: <Widget>[
               SizedBox(height: 20,),
               TextFormField(
@@ -50,7 +50,7 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                 validator: (value) => value.isEmpty ? 'Please enter your project code' : null,
               ),
               SizedBox(height: 20,),
-              RaisedButton(
+              Center(child: RaisedButton(
                 color: Colors.blue[200],
                   onPressed: () async {
                     if (!_formKey.currentState.validate()) {
@@ -84,7 +84,7 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                     }
                   },
                   child: Text('Go to Project'),
-                ),
+                ),)
             ],
           ),
         ),
