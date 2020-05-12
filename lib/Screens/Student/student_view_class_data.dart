@@ -30,13 +30,13 @@ class _ViewClassDataState extends State<ViewClassData> {
   
     data = new CompiledProject(proj: proj);
     this.className=classname;
-    this.classDocProjID;
+    this.classDocProjID = classDocProjID;
     
   }
   @override
   void initState(){
     super.initState();
-   data.getStudentsAnswers(this.className, this.classDocProjID);
+   data.getStudentsAnswers(this.className, this.classDocProjID).whenComplete(() => print("Got answers!"));
   }
 
   Widget build(BuildContext context) {
@@ -204,7 +204,7 @@ return RaisedButton(
 
 }
   Widget build(BuildContext context){
-    while(proj.questions[_currentQuestion].compAnswers.length ==0){
+    while(proj.questions[_currentQuestion].compAnswers.length == 0){
     setState(() {
       
     });
