@@ -5,19 +5,26 @@ import 'package:sensational_science/Services/getproject.dart';
 class PreviewProject extends StatefulWidget {
   final String title;
   final GetProject proj;
-  PreviewProject({this.proj, this.title});
+  final List<dynamic> answers;
+  final bool hasKey;
+  PreviewProject({this.proj, this.title, this.answers, this.hasKey});
   @override
-  _PreviewProjectState createState() => _PreviewProjectState(this.proj);
+  _PreviewProjectState createState() => _PreviewProjectState(this.proj, this.answers, this.hasKey);
 }
 
 class _PreviewProjectState extends State<PreviewProject> {
   GetProject proj;
   List<DynamicWidget> questions = new List();
-  _PreviewProjectState(GetProject proj){
+  List<dynamic> answers;
+  bool hasKey;
+  _PreviewProjectState(GetProject proj, List<dynamic> answers, bool hasKey){
     this.proj=proj;
+    this.answers=answers;
+  this.hasKey=hasKey;
+    int j=0;
     proj.questions.forEach((element) {
-      questions.add(new DynamicWidget(type: element.type, numq: element.number, question: element.question, answers: element.answers));
-   
+      questions.add(new DynamicWidget(type: element.type, numq: element.number, question: element.question, answers: element.answers, keyAnswers: answers[j].toString(), hasKey: hasKey));
+      j++;
     });
 
   }
@@ -58,11 +65,13 @@ class DynamicWidget extends StatefulWidget {
   // final answercontroller = new List<TextEditingController>();
   final answerWidget = new List<DynamicAnswers>();
   final List<String> answers;
+  String keyAnswers;
+  final bool hasKey;
   int numAnswers = 0;
   final String type;
   final int numq;
 
-  DynamicWidget({this.type, this.numq, this.question, this.answers});
+  DynamicWidget({this.type, this.numq, this.question, this.answers, this.keyAnswers, this.hasKey});
   @override
   _DynamicWidgetState createState() => _DynamicWidgetState();
 }
@@ -70,6 +79,9 @@ class DynamicWidget extends StatefulWidget {
 class _DynamicWidgetState extends State<DynamicWidget> {
   @override
   Widget build(BuildContext context) {
+    if(!widget.hasKey){
+      widget.keyAnswers = 'No answer key created yet';
+    }
     if (widget.type == "MultipleChoice") {
       int ansNum=0;
       widget.answers.forEach((element) {
@@ -101,7 +113,7 @@ class _DynamicWidgetState extends State<DynamicWidget> {
                 style: TextStyle(fontSize: 20)),
             new Text("Type: " + widget.type),
             new Text("Question: " + widget.question, style: TextStyle(fontSize: 30)),
-            new Text("Answers: "),
+            new Text("Answers: " + widget.keyAnswers),
           ],
         ),
       );
