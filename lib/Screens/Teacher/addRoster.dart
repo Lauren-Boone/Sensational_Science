@@ -68,6 +68,7 @@ class _AddRosterState extends State<AddRoster>{
           'Project': project.documentID, //project doc id in class
           'ProjectID': project.data['projectID'], //project doc id in top level project collection
           'ProjectTitle': project.data['projectTitle'], //project title
+          'DueDate': project.data['dueDate'], //project due date
       });
     });
     classInfo.get().then((doc) {
