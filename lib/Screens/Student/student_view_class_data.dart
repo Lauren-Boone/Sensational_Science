@@ -30,7 +30,7 @@ class _ViewClassDataState extends State<ViewClassData> {
   
     data = new CompiledProject(proj: proj);
     this.className=classname;
-    this.classDocProjID = classDocProjID;
+    this.classDocProjID=classDocProjID;
     
   }
   @override
