@@ -307,19 +307,19 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           .collection('Teachers')
           .document(teachID)
           .collection('Classes')
-          .document(classNameController.text)
+          .document(classNameController.text.trim())
           .collection('Roster');
       CollectionReference classProjects = Firestore.instance
           .collection('Teachers')
           .document(teachID)
           .collection('Classes')
-          .document(classNameController.text)
+          .document(classNameController.text.trim())
           .collection('Projects');
       DocumentReference classInfo = Firestore.instance
           .collection('Teachers')
           .document(teachID)
           .collection('Classes')
-          .document(classNameController.text);
+          .document(classNameController.text.trim());
       //add students and project codes for existing projects
       roster.forEach((e) async {
         DocumentReference newStudent =
@@ -609,7 +609,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               child: RaisedButton(
                 onPressed: () async {
                   if (_project != null && _date != null) {
-                    await assignProject(user.uid, _class, _project, _date);
+                    await assignProject(user.uid, classNameController.text.trim(), _project, _date);
                   } else {
                     return showDialog(
                       context: context,
