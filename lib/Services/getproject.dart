@@ -12,14 +12,14 @@ class Questions {
   final String type;
   Questions({this.question, this.number, this.type});
   List<String> answers = new List();
-  List<dynamic> compAnswers= new List();
+  List<dynamic> compAnswers = new List();
 }
 
 class GetProject {
   String docID;
   String title;
   String info;
-  String teacherID; 
+  String teacherID;
   GetProject(String title, String docID) {
     this.docID = docID;
     this.title = title;
@@ -28,9 +28,8 @@ class GetProject {
   List<Questions> questions = new List();
 
   Future<void> questionData() async {
- 
     int count = 0;
-  
+
     Future<DocumentSnapshot> snapshot =
         Firestore.instance.collection('Projects').document(this.docID).get();
 
@@ -41,20 +40,19 @@ class GetProject {
 
               //returncount=count;
             }
-            if('$key' == 'teacherID'){
-              teacherID = value; 
+            if ('$key' == 'teacherID') {
+              teacherID = value;
             }
           }),
           questionSnap.data.forEach((key, value) {
             if ('$key' != 'count' &&
                 '$key' != 'public' &&
                 '$key' != 'title' &&
-                '$key' != 'docID'&&
-                '$key' != 'hasImage'&&
-                '$key' != 'info' && 
-                '$key' != 'teacherID'&&
-                '$key' != 'subject' 
-                ) {
+                '$key' != 'docID' &&
+                '$key' != 'hasImage' &&
+                '$key' != 'info' &&
+                '$key' != 'teacherID' &&
+                '$key' != 'subject') {
               // count = value['Number'];
               print(value['Type']);
               Questions question = new Questions(
@@ -69,7 +67,7 @@ class GetProject {
                 });
                 //question.answers.addAll(value['Answers']);
               }
-              if('$key' == 'info'){
+              if ('$key' == 'info') {
                 this.info = '$value';
               }
               print('adding');
@@ -84,7 +82,7 @@ class GetProject {
   orderProject(int count) {
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
     //this.questions.forEach((element) {
-      this.questions.sort((a, b) => a.number.compareTo(b.number));
+    this.questions.sort((a, b) => a.number.compareTo(b.number));
     //});
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
     //for(int i = 0; i < count; ++i){
@@ -123,47 +121,37 @@ class GetProject {
   }
 }
 
-
-
-class CompiledProject{
+class CompiledProject {
   final GetProject proj;
- CompiledProject({this.proj});
-List<Questions> answers = new List();
+  CompiledProject({this.proj});
+  List<Questions> answers = new List();
 
-
- Future getStudentsAnswers(String className, String classProjectID) async {
-QuerySnapshot snap =  await Firestore.instance
-  .collection('codes')
-  .where('Project', isEqualTo: classProjectID)
-  .where('Class', isEqualTo: className)
-  .getDocuments();
-  int j=0;
-  for(int i =0; i< snap.documents.length; ++i){
-    snap.documents[i].data.forEach((key, value) {
-      if('$key' == "Answers"){
-        j=0;
-        value.forEach((e) {
-          if(j<proj.questions.length){
-                   this.proj.questions[j].compAnswers.add(e.toString());
-                   j++;
-          }
-                });
-     
-         
-      }
+  Future getStudentsAnswers(String className, String classProjectID) async {
+    print(proj.toString()); 
+    QuerySnapshot snap = await Firestore.instance
+        .collection('codes')
+        .where('Project', isEqualTo: classProjectID)
+        .where('Class', isEqualTo: className)
+        .getDocuments();
+    int j = 0;
+    for (int i = 0; i < snap.documents.length; ++i) {
+      print(snap.documents[i].data.toString()); 
+      snap.documents[i].data.forEach((key, value) {
+        if ("$key" == "Answers") {
+          j = 0;
+          print("J = $j"); 
+          value.forEach((e) {
+            if (j < proj.questions.length) {
+              print("Project Questions J = $j"); 
+              this.proj.questions[j].compAnswers.add(e.toString());
+              j++;
+            }
+          });
+        }
+      });
+    }
+    proj.questions.forEach((element) {
+      print(element.compAnswers);
     });
   }
-  proj.questions.forEach((element){
- print(element.compAnswers);
-  });
-   
-
- 
- 
- }
 }
-  
-
-
-
-

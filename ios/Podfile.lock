@@ -269,6 +269,9 @@ PODS:
   - firebase_database (0.0.1):
     - Firebase/Database
     - Flutter
+  - firebase_remote_config (0.0.1):
+    - Firebase/RemoteConfig
+    - Flutter
   - firebase_storage (0.0.1):
     - Firebase/Storage
     - Flutter
@@ -460,6 +463,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
+  - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
@@ -527,6 +531,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core_web/ios"
   firebase_database:
     :path: ".symlinks/plugins/firebase_database/ios"
+  firebase_remote_config:
+    :path: ".symlinks/plugins/firebase_remote_config/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
@@ -569,6 +575,7 @@ SPEC CHECKSUMS:
   firebase_core: 0d8be0e0d14c4902953aeb5ac5d7316d1fe4b978
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
   firebase_database: 8724d18445b3f77073e71237ca2048261e9d588f
+  firebase_remote_config: f3581c5addecc691a968f2a7f2bcdf0878509bfd
   firebase_storage: 5e931af5cdef32331676c659bdd1ebcaba9dc78a
   FirebaseABTesting: 821a3a3e4a145987e80fee3657c4de1cb9adf693
   FirebaseAnalytics: 7386fc2176e3f93ad8ef34b5b1f2b33a891e4962

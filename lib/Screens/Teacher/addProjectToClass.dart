@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +9,6 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/addRoster.dart';
 import 'package:sensational_science/models/user.dart';
-import 'package:sensational_science/Services/getproject.dart';
 
 class AddProjectToClass extends StatefulWidget {
   AddProjectToClass({Key key}) : super(key: key);
@@ -22,7 +21,8 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   String _class;
   String _project;
   DateTime _date;
-  bool hasRoster=true;
+  bool hasRoster = true;
+  Random numberGenerator = new Random();
 
   Future<void> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
@@ -49,26 +49,37 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
       classDoc.updateData({'projects': projCount});
     });
 
-    //create a code for each student in the class, create code under the project, store under the student, store all codes
-    //under top level codes collection
+    //create a unique 7 digit code for the student, create the code under the project, store the code in the roster
+    //under the student, then store the code under the top level codes collection
     final students = await classDoc.collection('Roster').getDocuments();
     for (var student in students.documents) {
-      var codeRef = await classDoc
-          .collection('Projects')
-          .document(projRef.documentID)
-          .collection('Students')
-          .add({
-        'student': student.documentID, //student doc id in roster
-        'completed': false, //has student submitted data
-      });
+      bool exists = false;
+      int newCode;
+      do {
+        newCode = numberGenerator.nextInt(10000000);
+        newCode = newCode<1000000?newCode+999999:newCode;        
+        await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
+          exists = doc.exists?true:false;
+        });
+        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+      } while (exists);
+      await classDoc
+        .collection('Projects')
+        .document(projRef.documentID)
+        .collection('Students')
+        .document(newCode.toString())
+        .setData({
+          'student': student.documentID, //student doc id in roster
+          'completed': false, //has student submitted data
+        });
       await classDoc.collection('Roster').document(student.documentID).setData({
         'codes': FieldValue.arrayUnion([
-          {projRef.documentID: codeRef.documentID}
+          {projRef.documentID: newCode.toString()}
         ]) //list of codes for each student for all projects, {projectCode : studentCode}
       }, merge: true);
       await Firestore.instance
           .collection('codes')
-          .document(codeRef.documentID)
+          .document(newCode.toString())
           .setData({
         'Teacher': uid, //teacher doc id
         'Class': className, //class doc id
@@ -91,7 +102,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
       .getDocuments();
       snap.then((value) => {
         if(value.documents.length == 0){
-          this.hasRoster = false,
+          this.hasRoster = hasRoster ?? false,
         }
       });
      
@@ -285,6 +296,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                          await assignProject(user.uid, _class, _project, _date);
                       }
                       else{
+                        print("No Roster exists"); 
                         return showDialog(
                         context: context,
                         builder: (BuildContext context) {
