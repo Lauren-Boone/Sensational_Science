@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:async';
-
+import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/user.dart';
 
@@ -19,6 +18,7 @@ class AddRoster extends StatefulWidget{
 class _AddRosterState extends State<AddRoster>{
   String name;
   List<DynamicWidget> roster=[];
+  Random numberGenerator = new Random();
 
   addStudent(){
     roster.add(new DynamicWidget());
@@ -36,18 +36,30 @@ class _AddRosterState extends State<AddRoster>{
     DocumentReference newStudent = await classRoster.add({'name':e.controller.text});
     QuerySnapshot eachProject = await classProjects.getDocuments();
     eachProject.documents.forEach((project) async {
-      var codeRef = await classProjects.document(project.documentID).collection('Students').add({
-        'student': newStudent.documentID, //student doc id in roster
-        'completed': false, //has student submitted data
-      });
+      bool exists = false;
+      int newCode;
+      do {
+        newCode = numberGenerator.nextInt(10000000);
+        newCode = newCode<1000000?newCode+999999:newCode;        
+        await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
+          exists = doc.exists?true:false;
+        });
+        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+      } while (exists);
+      await classProjects.document(project.documentID).collection('Students')
+        .document(newCode.toString())
+        .setData({
+          'student': newStudent.documentID, //student doc id in roster
+          'completed': false, //has student submitted data
+        });
       await newStudent.setData({
         'codes': FieldValue.arrayUnion([
-          {project.documentID: codeRef.documentID}
+          {project.documentID: newCode.toString()}
         ]) //list of codes for each student for all projects, {projectCode : studentCode}
       }, merge: true);
       await Firestore.instance
         .collection('codes')
-        .document(codeRef.documentID)
+        .document(newCode.toString())
         .setData({
           'Teacher': teachID, //teacher doc id
           'Class': widget.name, //class doc id
