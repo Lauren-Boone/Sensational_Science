@@ -21,12 +21,7 @@ class _ShortAnswerQuestionState extends State<ShortAnswerQuestion> {
       decoration: new InputDecoration(
         labelText: "Short Answer",
         fillColor: Colors.white,
-        enabledBorder: new OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(
-            color: Colors.black,
-          ),
-        ),
+      
       ),
     )
     );
