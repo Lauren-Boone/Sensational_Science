@@ -194,12 +194,14 @@ class _CompileDataState extends State<CompileData> {
         child: Text("Prev"),
         color: Colors.red,
         onPressed: () {
-          if (_currentQuestion < widget.proj.questions.length) {
+          if (_currentQuestion > 1) {
             setState(() {
               //controllers.add(value);
               _currentQuestion--;
             });
-          } else {}
+          } else {
+            Navigator.of(context).pop();
+          }
         });
   }
 
