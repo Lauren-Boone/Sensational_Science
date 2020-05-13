@@ -122,7 +122,7 @@ class TeacherHome extends StatelessWidget{
               ),
               Card(
                 child: ListTile(
-                  title: Text('View Projects You Created'),
+                  title: Text('View Projects You Created or Added to Your List'),
                   subtitle: Text(''),
                   trailing: Icon(Icons.arrow_forward_ios), 
                   onTap: (){

@@ -19,6 +19,7 @@ class GetProject {
   String docID;
   String title;
   String info;
+  String subject;
   String teacherID;
   GetProject(String title, String docID) {
     this.docID = docID;
@@ -43,7 +44,11 @@ class GetProject {
             if ('$key' == 'teacherID') {
               teacherID = value;
             }
+            if('$key'== 'subject'){
+            this.subject = value;
+          }
           }),
+          
           questionSnap.data.forEach((key, value) {
             if ('$key' != 'count' &&
                 '$key' != 'public' &&
