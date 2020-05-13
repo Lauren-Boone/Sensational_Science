@@ -46,7 +46,29 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
 
   String selected;
   int numQuestions = 0;
-
+bool _checkforInput(){
+  bool retVal = true;
+  if(questionwidgets.length==0){
+    retVal=false;
+  }
+  questionwidgets.forEach((element) {
+    if(element.controller.text == ""){
+      retVal = false;
+      
+    }
+    if(element.type== "MultipleChoice"){
+      if(element.answers.length == 0){
+         retVal = false;
+      }
+      element.answers.forEach((e){
+        if(e.answercontroller.text==""){
+           retVal = false;
+        }
+      });
+    }
+  });
+  return retVal;
+}
   @override
   Widget build(BuildContext context) {
      final user = Provider.of<User>(context);
@@ -115,8 +137,43 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
                               child: Text('Create Project'),
                               onPressed: (){
                                 
-     
-
+                                if(questionwidgets.length == 0){
+                                  return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: Text("A project must has questions!"),
+                                  content: Text(
+                                      "A project must questions."),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ]);
+                            });
+                                }
+                                else if(!_checkforInput()){
+                                  return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: Text("All Questions Must have input and all multiple choice questions must have answers!"),
+                                  content: Text(
+                                      "Please check that each field is has input."),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ]);
+                            });
+                                }
+                                else{
                                 int i = 0;
                                 questionwidgets.forEach((element) {
                                   questions.add(element.controller);
@@ -151,9 +208,25 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
                                   numQuestions,
                                   widget.proj.getDocID());
   widget.proj.addtodb(numQuestions);
-
+    Navigator.of(context).pop();
   Navigator.of(context).pop();
-  Navigator.of(context).pop();
+          return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: Text("Project Successfully Created"),
+                                  content: Text(
+                                      "You can view this project is projects you've created. Try create a key to sampe the project!"),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ]);
+                            });
+}
                               },
                             
                             )

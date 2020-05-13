@@ -22,7 +22,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   String _class;
   String _project;
   DateTime _date;
-  bool hasRoster;
+  bool hasRoster=true;
 
   Future<void> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
@@ -94,9 +94,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
           this.hasRoster = false,
         }
       });
-      setState(() {
-        
-      });
+     
   
    
       

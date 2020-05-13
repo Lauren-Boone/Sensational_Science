@@ -363,7 +363,7 @@ return RaisedButton(
                             child: new Text(widget.proj.questions[_currentQuestion].question)
                             ),
                           new Expanded(
-                            child: charts.PieChart(
+                            child: charts.BarChart(
                             multGraph,
                               animate: true,
                               animationDuration: Duration(seconds: 2),
@@ -383,7 +383,7 @@ return RaisedButton(
                                   ),
                                 
                               ],
-                              defaultRenderer: new charts.ArcRendererConfig(
+                           /*   defaultRenderer: new charts.ArcRendererConfig(
                                 arcWidth: 100,
                                 arcRendererDecorators: [
                                   new charts.ArcLabelDecorator(
@@ -391,7 +391,7 @@ return RaisedButton(
                                   ),
                                   
                                 ],
-                              ),
+                              ),*/
                             ),
 
                           ),
