@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sensational_science/Screens/Student/locationtest.dart';
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
@@ -121,10 +119,12 @@ class _CompileDataState extends State<CompileData> {
       print("I'm processing a photo");
       Image nextImage;
       await FireStorageService.loadImage(context, imgLoc).then((downloadURL) {
+        print("I got the download URL, now getting it and saving it");
         nextImage = Image.network(
           downloadURL.toString(),
           fit: BoxFit.scaleDown,
         );
+        print("got the image");
       });
       print("I got the image");
       images.add(new Container(
