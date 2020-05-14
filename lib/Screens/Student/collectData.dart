@@ -13,6 +13,7 @@ import '../../Services/projectDB.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/storeLocally.dart';
 import 'dart:io';
+import 'student_home.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class CollectDataPage extends StatelessWidget{
@@ -161,18 +162,7 @@ class _CollectDataState extends State<CollectData> {
       child: Text("NEXT"),
       color: Colors.red,
       onPressed: () {
-        // var questionObservations = Observation.of(context);
-      //   if(!questionObservations.answers.containsKey(_currentQuestion)){
-      //     questionObservations.addAnswer(
-      //           widget.project.questions[_currentQuestion].number,
-      //           widget.controllers[_currentQuestion].value.text);
-      //   }
-      //   print(questionObservations.toJson());
-        
-      // answers.add(widget.controllers[_currentQuestion].value.text);
-      // answers.forEach((element) {
-      //   print(element);
-      // });
+     
 
         //store data locally
         writeString(widget.student.code, widget.controllers[_currentQuestion].value.text, _currentQuestion.toString());
@@ -180,6 +170,24 @@ class _CollectDataState extends State<CollectData> {
         if (_currentQuestion < widget.project.questions.length) {
           setState(() {
             _currentQuestion++;
+            _getType(_currentQuestion);
+          });
+        }
+      }
+    );
+  }
+ 
+   Widget getPrevButton(BuildContext context) {
+    return RaisedButton(
+      child: Text("Prev"),
+      color: Colors.red,
+      onPressed: () {
+      
+       //writeString(widget.student.code, widget.controllers[_currentQuestion].value.text, _currentQuestion.toString());
+      
+        if (_currentQuestion  >0) {
+          setState(() {
+            _currentQuestion--;
             _getType(_currentQuestion);
           });
         }
@@ -214,7 +222,8 @@ class _CollectDataState extends State<CollectData> {
                   )
                 ),
               ),
-              getNextButton(context)
+              getNextButton(context),
+             getPrevButton(context)
             ]
           );
           break;
@@ -245,6 +254,7 @@ class _CollectDataState extends State<CollectData> {
                 ),
               ),
               getNextButton(context),
+              getPrevButton(context)
             ],
           );
           break;
@@ -270,7 +280,8 @@ class _CollectDataState extends State<CollectData> {
                     }
                   )
               ),
-              getNextButton(context)
+              getNextButton(context),
+              getPrevButton(context)
             ]
           );
           break;
@@ -296,7 +307,8 @@ class _CollectDataState extends State<CollectData> {
                     }
                   )
               ),
-              getNextButton(context)
+              getNextButton(context),
+              getPrevButton(context)
             ]
           );
           break;
@@ -322,7 +334,8 @@ class _CollectDataState extends State<CollectData> {
                     }
                   )
               ),
-              getNextButton(context)
+             getNextButton(context),
+              getPrevButton(context)
             ]
           );
           break;
@@ -365,7 +378,8 @@ class _CollectDataState extends State<CollectData> {
                   }
                 ),
               ),
-              getNextButton(context)
+              getNextButton(context),
+              getPrevButton(context)
             ]
           );
           break;
@@ -374,8 +388,44 @@ class _CollectDataState extends State<CollectData> {
       return Column(children: <Widget>[
         Text("Submit Page", textScaleFactor: 4),
         RaisedButton(
+          child: Text('Go back and review answers'),
+          onPressed: () => {
+            setState((){
+                _currentQuestion=0;
+            }),
+            //getQuestionWidget(),
+          },
+        ),
+        RaisedButton(
           child: Text('Submit Project'),
           onPressed: ()=>{_submitProj(widget.student.code),
+          Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=> StudentHome(classData: widget.student.code))
+                      ),
+          
+           showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Success!"),
+                                    content: Text(
+                                        "Your project has been submitted! After the due date you can view the compiled answers!'"),
+                                    actions: <Widget>[
+                                      RaisedButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          //Navigator.of(context).pop();
+                                          //Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                              
+                             
           },
         )
       ]);

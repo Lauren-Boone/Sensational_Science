@@ -105,9 +105,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
           this.hasRoster = hasRoster ?? false,
         }
       });
-      setState(() {
-        
-      });
+     
   
    
       
