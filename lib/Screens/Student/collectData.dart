@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/web_imageCapture.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import '../../Services/getproject.dart';
 import 'package:sensational_science/Screens/Teacher/textquestion.dart';
@@ -368,18 +369,25 @@ class _CollectDataState extends State<CollectData> {
                           print(widget.controllers[_currentQuestion].text);
                           preFilledFile = await getImage(
                               widget.student.code, _currentQuestion.toString());
-                        } 
-                        Navigator.of(context).push(
+                        }
+                        if (kIsWeb) {
+                          Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => ImageCapture(
-                              student: widget.student,
-                              questionNum: _currentQuestion.toString(),
-                              imgLocController:
-                                  widget.controllers[_currentQuestion],
-                              imageFile: preFilledFile,
+                            builder: (context) => WebImageCapture())
+                          );
+                        } else {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ImageCapture(
+                                student: widget.student,
+                                questionNum: _currentQuestion.toString(),
+                                imgLocController:
+                                    widget.controllers[_currentQuestion],
+                                imageFile: preFilledFile,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       },
                     );
                   }),

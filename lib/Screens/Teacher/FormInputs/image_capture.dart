@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/storeLocally.dart';
-//import 'package:provider/provider.dart';
 
 //code based off of https://fireship.io/lessons/flutter-file-uploads-cloud-storage/
 
