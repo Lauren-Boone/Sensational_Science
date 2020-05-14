@@ -1,4 +1,5 @@
 import 'package:firebase/firebase.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class FireStorageService extends ChangeNotifier {
@@ -15,10 +16,18 @@ class FireStorageService extends ChangeNotifier {
 
   static Future<dynamic> loadImage(BuildContext context, dynamic image) async {
     print("I made it to the load image in webStorage");
-    StorageReference storedImg = storage().ref(image);
+    print("Image path is: " + image.toString());
+    if(image.toString() == '') {
+      return null;
+    }
+    var storage = FirebaseStorage(storageBucket: 'gs://citizen-science-app.appspot.com');
+    print("Initalized a storage variable");
+    var url = await storage.ref().child(image.toString()).getDownloadURL();
+    //print(storage().toString());
+    //StorageReference storedImg = storage().ref(image);
     //var fullPath = 'gs://citizen-science-app.appspot.com/' + image.toString();
-    print(storedImg.toString());
-    var url = await storedImg.getDownloadURL();
+    //print(storedImg.toString());
+    //var url = await storedImg.getDownloadURL();
     //var url = await storage().ref(fullPath).getDownloadURL();
     print("I got the url and am returning it");
     return url;

@@ -117,22 +117,25 @@ class _CompileDataState extends State<CompileData> {
     List<Widget> images = [];
     for (var imgLoc in imageLocs) {
       print("I'm processing a photo");
-      Image nextImage;
-      await FireStorageService.loadImage(context, imgLoc).then((downloadURL) {
-        print("I got the download URL, now getting it and saving it");
-        nextImage = Image.network(
-          downloadURL.toString(),
-          fit: BoxFit.scaleDown,
-        );
-        print("got the image");
-      });
-      print("I got the image");
-      images.add(new Container(
-        height: MediaQuery.of(context).size.height / 1.25,
-        width: MediaQuery.of(context).size.width / 1.25,
-        child: nextImage,
-      ));
-      print("I added the image to the list");
+      print("This is the image location: " + imgLoc.toString());
+      if (imgLoc.toString().length > 0) {
+        Image nextImage;
+        await FireStorageService.loadImage(context, imgLoc).then((downloadURL) {
+          print("I got the download URL, now getting it and saving it");
+          nextImage = Image.network(
+            downloadURL.toString(),
+            fit: BoxFit.scaleDown,
+          );
+          print("got the image");
+        });
+        print("I got the image");
+        images.add(new Container(
+          height: MediaQuery.of(context).size.height / 1.25,
+          width: MediaQuery.of(context).size.width / 1.25,
+          child: nextImage,
+        ));
+        print("I added the image to the list");
+      }
     }
     if (images.length < 1) {
       print("I have no images, so I am adding a text widget");
