@@ -25,9 +25,58 @@ class _ListProjectsState extends State<ListProjects> {
           );
   }
 
+List<String> subjects = [
+    "All",
+    "Physics",
+    "Biology",
+    "Chemistry",
+    "Astronomy",
+    "Geography",
+    "Geology"
+  ];
+  String filter = "All";
+  String filterId="";
+  bool hasfilter = false;
+  bool subjectFilter=false;
+  bool hasownedfilter=false;
+  bool ownedfilter=false;
+  List<dynamic> filters= new List();
 
+  String toggleview = "View project you have created and added";
 
-  
+  _getStream(String uid){
+    
+    
+      if(subjectFilter && hasownedfilter){
+        return Firestore.instance.collection('Teachers')
+          .document(uid)
+          .collection('Created Projects')
+          .where(filterId, isEqualTo: filter)
+          .where('owned', isEqualTo: ownedfilter )
+          .snapshots();
+      }
+      else if(subjectFilter){
+     return Firestore.instance.collection('Teachers')
+          .document(uid)
+          .collection('Created Projects')
+          .where(filterId, isEqualTo: filter)
+          .snapshots();
+      }
+      else if(hasownedfilter){
+        return Firestore.instance.collection('Teachers')
+          .document(uid)
+          .collection('Created Projects')
+          .where('owned', isEqualTo: ownedfilter )
+          .snapshots();
+      }
+    
+    else{
+      return Firestore.instance.collection('Teachers')
+          .document(uid)
+          .collection('Created Projects')
+          .snapshots();
+    }
+  }
 @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -36,45 +85,95 @@ class _ListProjectsState extends State<ListProjects> {
         title: Text("Projects You've Created")
       ),
           body: Material(
-            child: new StreamBuilder<QuerySnapshot>(
-          stream: (Firestore.instance.collection('Teachers')
-          .document(user.uid)
-          .collection('Created Projects')
-          .snapshots()
+            child: Column(
+              children: <Widget>[
+                new DropdownButton(
+            items: subjects.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String newValue) {
+              if(newValue == 'All'){
+                setState(() {
+                  subjectFilter=false;
+                  hasfilter=false;
+                  _getStream(user.uid);
+                });
+              }
+              else{
+              
+              setState(() { 
+                
+                 hasfilter = true;
+                filter = newValue;
+                filterId='subject';
+                subjectFilter=true;
+                _getStream(user.uid);
+              });
+              }
+               
+              print(filter);
+            },
           ),
-          
-          builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-            if(!snapshot.hasData)return new Text('..Loading');
-            return Card(
-                          child: new ListView(
-                children: snapshot.data.documents.map((document){
-                  return new ListTile( 
-  
-                      title: new Text(document['title']),
-                      subtitle: new Text('Click to View Project'),
-                      trailing: Icon(Icons.arrow_forward_ios), 
-                onTap: () =>{
-                  //projInfo= _getInfo(document['docID']),
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>ViewProjectStaging(document['title'], document['docIDref'], document['info'], document.documentID, user.uid ),
-                    ),
-                  )
-                },
-                    
-                    
-                  );
-                  
-                }).toList(),
+           SwitchListTile(
+                  value: hasownedfilter,
+                  title:
+                      const Text('Toggle to view projects you created or all'),
+                  onChanged: (value) {
+                    setState(() {
+                       hasownedfilter = value;
+                      
+                      print( hasownedfilter);
+                      if ( hasownedfilter.toString() == 'true') {
+                        toggleview = 'Current Setting: Viewing project you have created';
+                      } else {
+                        toggleview = 'Current Setting: Viewing project you have created and added';
+                      }
+                    });
+                  },
+                  subtitle: Text(toggleview),
                 ),
-            );
+                new StreamBuilder<QuerySnapshot>(
+          stream: _getStream(user.uid),
+          builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                if(!snapshot.hasData)return new Text('..Loading');
+                
+                return Expanded(
+                                  child: new ListView(
+                      children: snapshot.data.documents.map((document){
+                        
+                        return new ListTile( 
+  
+                            title: new Text(document['title']),
+                            subtitle: new Text('Click to View Project'),
+                            trailing: Icon(Icons.arrow_forward_ios), 
+                      onTap: () =>{
+                        //projInfo= _getInfo(document['docID']),
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>ViewProjectStaging(document['title'], document['docIDref'], document['info'], document.documentID, user.uid ),
+                          ),
+                        )
+                      },
+                          
+                          
+                        );
+                        
+                      }).toList(),
+                      ),
+                );
           }
 
         ),
+              ],
+            ),
       ),
     );
     
   }
+
 
 }
 

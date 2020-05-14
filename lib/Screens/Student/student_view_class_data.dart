@@ -49,23 +49,33 @@ class _ViewClassDataState extends State<ViewClassData> {
         title: Text("View Data"),
       ),
       body: Container(
-        child: Column(children: <Widget>[
-          RaisedButton(
-              child: Text('Click to view compiled data for each question'),
-              onPressed: () {
-                //print(data.proj.questions[0].compAnswers[0]);
-                //CompiledProject data = new CompiledProject(proj: proj);
-                //data.getStudentsAnswers(widget.className, widget.classProjDocID);
+        margin: EdgeInsets.all(40),
+        child: Center(
+          child: Column(children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(20),
+            ),
+            Text("All of the students' answers have been commpiled. ", style: TextStyle(color: Colors.black, fontSize: 20) ),
+            Padding(
+              padding: EdgeInsets.all(20),
+            ),
+            RaisedButton(
+                child: Text('Click to view compiled data for each question'),
+                onPressed: () {
+                  //print(data.proj.questions[0].compAnswers[0]);
+                  //CompiledProject data = new CompiledProject(proj: proj);
+                  //data.getStudentsAnswers(widget.className, widget.classProjDocID);
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        CompileData(proj: proj, compData: data),
-                  ),
-                );
-              })
-        ]),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          CompileData(proj: proj, compData: data),
+                    ),
+                  );
+                })
+          ]),
+        ),
       ),
     );
   }
@@ -137,13 +147,6 @@ class _CompileDataState extends State<CompileData> {
     List<GraphVals> graphData = [];
     Map<String, int> elementCount = new Map();
     proj.questions[_currentQuestion].compAnswers.forEach((element) {
-      if (elementCount.containsKey(element)) {
-        elementCount[element] += 1;
-      } else {
-        elementCount[element] = 1;
-      }
-    });
-    proj.questions[_currentQuestion].compAnswers.forEach((element) {
       String title = "";
       if (proj.questions[_currentQuestion].type == 'MultipleChoice') {
         title = proj.questions[_currentQuestion].answers[int.parse(element)];
@@ -151,16 +154,41 @@ class _CompileDataState extends State<CompileData> {
         title = element.toString();
       }
 
+      if (elementCount.containsKey(title)) {
+        elementCount[title] += 1;
+      } else {
+        elementCount[title] = 1;
+      }
+    });
+    elementCount.forEach((key, value) {
       RandomColor _randColor = RandomColor();
 
       while (colorKey.containsValue(_randColor.randomColor())) {
         _randColor = RandomColor();
       }
-      colorKey[element] = _randColor.randomColor();
-      graphData.add(new GraphVals(
-          title, elementCount[element], _randColor.randomColor()));
-      // }
+      colorKey['$key'] = _randColor.randomColor();
+      graphData
+          .add(new GraphVals(key.toString(), value, _randColor.randomColor()));
     });
+    /*
+   proj.questions[_currentQuestion].compAnswers.forEach((element) {
+       String title="";
+       if(proj.questions[_currentQuestion].type=='MultipleChoice'){
+             title=proj.questions[_currentQuestion].answers[int.parse(element)];
+           }
+           else{
+             title = element.toString();
+           }
+         
+              RandomColor _randColor = RandomColor();
+              
+              while (colorKey.containsValue(_randColor.randomColor())){
+                _randColor=RandomColor();
+              }
+              colorKey[element]=_randColor.randomColor();
+           graphData.add(new GraphVals(title, elementCount[element], _randColor.randomColor() ));
+           // }
+    });*/
 
     multGraph.add(
       charts.Series(
@@ -206,13 +234,29 @@ class _CompileDataState extends State<CompileData> {
   }
 
   Widget build(BuildContext context) {
-    while (proj.questions[_currentQuestion].compAnswers.length == 0) {
-      setState(() {});
-    }
+   
     if (_currentQuestion >= widget.proj.questions.length) {
-      return Container(
-        child: Text("End Page"),
+      return Material(
+        child: Container(
+          margin: EdgeInsets.all(30),
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              Text('End of Compiled Answers'),
+              RaisedButton(
+                child: Text('Click to Go back'),
+                onPressed: ()=>
+                  Navigator.of(context).pop(),
+                  
+              )
+            ],
+          )
+        ),
+        
       );
+    }
+     while (proj.questions[_currentQuestion].compAnswers.length == 0) {
+      setState(() {});
     }
     switch (widget.proj.questions[_currentQuestion].type.toString()) {
       case 'TextInputItem':
@@ -366,10 +410,12 @@ class _CompileDataState extends State<CompileData> {
                     child: new Text(
                         widget.proj.questions[_currentQuestion].question)),
                 new Expanded(
-                  child: charts.PieChart(
+                  child: charts.OrdinalComboChart(
                     multGraph,
                     animate: true,
                     animationDuration: Duration(seconds: 2),
+                    // barRendererDecorator: new charts.BarLabelDecorator<String>(),
+      domainAxis: new charts.OrdinalAxisSpec(),
                     behaviors: [
                       new charts.DatumLegend(
                         outsideJustification:
@@ -379,19 +425,16 @@ class _CompileDataState extends State<CompileData> {
                         cellPadding:
                             new EdgeInsets.only(right: 4.0, bottom: 4.0),
                         entryTextStyle: charts.TextStyleSpec(
-                          color: charts.MaterialPalette.purple.shadeDefault,
+                          //color: charts.MaterialPalette.purple.shadeDefault,
                           fontFamily: 'Georgia',
                           fontSize: 11,
                         ),
                       ),
                     ],
-                    defaultRenderer: new charts.ArcRendererConfig(
-                      arcWidth: 100,
-                      arcRendererDecorators: [
-                        new charts.ArcLabelDecorator(
-                          labelPosition: charts.ArcLabelPosition.inside,
-                        ),
-                      ],
+                    
+                    defaultRenderer: new charts.BarRendererConfig(
+                      groupingType: charts.BarGroupingType.groupedStacked,
+                      
                     ),
                   ),
                 ),

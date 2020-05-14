@@ -38,8 +38,12 @@ String docIDref;
         //_getQuestions();
         
         project.questionData();
+        if(createdProjID == ""){
+
+        }
+        else{
         getAnswers(uid);
-        //project.questionData();
+        }//project.questionData();
     // this.controllers = new List();
    
 
@@ -92,6 +96,7 @@ final user = Provider.of<User>(context);
                           fontSize: 20,
                         )),
                     ),
+                    
                     RaisedButton(
                       onPressed: () {
                         //color: Colors.blue;

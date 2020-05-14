@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../Services/getproject.dart';
+import 'package:flutter/services.dart';
 
 class NumericalQuestion extends StatefulWidget {
   final Questions question;
@@ -17,16 +18,14 @@ class _NumericalQuestionState extends State<NumericalQuestion> {
       key: _formKey, 
         child: new TextFormField(
       controller: widget.numAnswerController,
+      
       decoration: new InputDecoration(
         labelText: "Numerical Answer",
-        fillColor: Colors.white,
-        enabledBorder: new OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-          borderSide: BorderSide(
-            color: Colors.black,
-          ),
-        ),
+        
       ),
+       inputFormatters: <TextInputFormatter>[
+    WhitelistingTextInputFormatter.digitsOnly
+], // Only numbers can be entered
     )
     );
   }

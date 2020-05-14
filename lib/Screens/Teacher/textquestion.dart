@@ -20,13 +20,7 @@ class _TextQuestionWidgetState extends State<TextQuestionWidget> {
           controller: widget.textAnswerController,
           decoration: new InputDecoration(
             labelText: "Text Answer",
-            fillColor: Colors.white,
-            enabledBorder: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25.0),
-              borderSide: BorderSide(
-                color: Colors.black,
-              ),
-            ),
+          
           ),
         ));
   }
