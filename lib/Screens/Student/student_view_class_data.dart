@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/locationtest.dart';
 import '../../Services/getproject.dart';
@@ -60,10 +61,6 @@ class _ViewClassDataState extends State<ViewClassData> {
             RaisedButton(
                 child: Text('Click to view compiled data for each question'),
                 onPressed: () {
-                  //print(data.proj.questions[0].compAnswers[0]);
-                  //CompiledProject data = new CompiledProject(proj: proj);
-                  //data.getStudentsAnswers(widget.className, widget.classProjDocID);
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -113,35 +110,26 @@ class _CompileDataState extends State<CompileData> {
   }
 
   _getImages(BuildContext context, List<dynamic> imageLocs) async {
-    print("I am in getImages");
     List<Widget> images = [];
     for (var imgLoc in imageLocs) {
-      print("I'm processing a photo");
-      print("This is the image location: " + imgLoc.toString());
       if (imgLoc.toString().length > 0) {
         Image nextImage;
         await FireStorageService.loadImage(context, imgLoc).then((downloadURL) {
-          print("I got the download URL, now getting it and saving it");
           nextImage = Image.network(
             downloadURL.toString(),
             fit: BoxFit.scaleDown,
           );
-          print("got the image");
         });
-        print("I got the image");
         images.add(new Container(
           height: MediaQuery.of(context).size.height / 1.25,
           width: MediaQuery.of(context).size.width / 1.25,
           child: nextImage,
         ));
-        print("I added the image to the list");
       }
     }
     if (images.length < 1) {
-      print("I have no images, so I am adding a text widget");
       images.add(Text("No photos have been submitted for this project"));
     }
-    print("I'm returning the list of images");
     return images;
   }
 
@@ -468,16 +456,12 @@ class _CompileDataState extends State<CompileData> {
                     future: _getImages(context,
                         widget.proj.questions[_currentQuestion].compAnswers),
                     builder: (context, snapshot) {
-                      print("I started the builder");
                       if (snapshot.hasData) {
-                        print("Data is here, returning the listview");
                         return ListView(
                           children: snapshot.data,
                         );
                       }
                       if (!snapshot.hasData) {
-                        print(
-                            "snapshot does not have data, rmaking circular progress indicators");
                         List<Widget> waitList = [];
                         for (var i = 0;
                             i <
@@ -487,19 +471,16 @@ class _CompileDataState extends State<CompileData> {
                           waitList.add(Container(
                             height: MediaQuery.of(context).size.height / 10,
                             width: MediaQuery.of(context).size.width / 10,
-                            child: CircularProgressIndicator(),
+                            child: CupertinoActivityIndicator(),
                           ));
                         }
                         if (waitList.length < 1) {
-                          print(
-                              "There are no images, adding one for list length");
                           waitList.add(Container(
                             height: MediaQuery.of(context).size.height / 10,
                             width: MediaQuery.of(context).size.width / 10,
-                            child: CircularProgressIndicator(),
+                            child: CupertinoActivityIndicator(),
                           ));
                         }
-                        print("returning circular progress indicators");
                         return ListView(
                           children: waitList,
                         );
