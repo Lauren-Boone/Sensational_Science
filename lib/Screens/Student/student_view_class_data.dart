@@ -213,6 +213,7 @@ class _CompileDataState extends State<CompileData> {
   Widget build(BuildContext context) {
    
     if (_currentQuestion >= widget.proj.questions.length) {
+      
       return Material(
         child: Container(
           margin: EdgeInsets.all(30),
@@ -353,7 +354,11 @@ class _CompileDataState extends State<CompileData> {
         break;
       case 'UserLocation':
       print('${widget.proj.questions[_currentQuestion].compAnswers[0]}');
+      var locationInfoMap = widget
+                           .proj.questions[_currentQuestion].compAnswers[0];
+                           final lms = locationInfo(latlonInfo: '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
+          
           child: new Container(
             child: Column(
               children: <Widget>[
@@ -363,26 +368,26 @@ class _CompileDataState extends State<CompileData> {
                 Container(
                   height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width / 3,
-                  // child: createLocationMap,
-                  child: RaisedButton(
-                    child: Text('Click to load map'),
+                  child: new LocationMap(lms: lms),
+                  // child: RaisedButton(
+                  //   child: Text('Click to load map'),
                     
-                    onPressed: () {
-                      // var locationInfoMap = createLocationMap;
-                      var locationInfoMap = widget
-                          .proj.questions[_currentQuestion].compAnswers[0];
-                          final lms = locationInfo(latlonInfo: '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
-                      // locationInfoMap.longitude = widget
-                      //     .proj.questions[_currentQuestion].compAnswers[0][1];
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationMap(
-                                  lms: lms,
-                                )),
-                      );
-                    },
-                  ),
+                  //   onPressed: () {
+                  //     // var locationInfoMap = createLocationMap;
+                  //     var locationInfoMap = widget
+                  //         .proj.questions[_currentQuestion].compAnswers[0];
+                  //         final lms = locationInfo(latlonInfo: '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
+                  //     // locationInfoMap.longitude = widget
+                  //     //     .proj.questions[_currentQuestion].compAnswers[0][1];
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => LocationMap(
+                  //                 lms: lms,
+                  //               )),
+                  //     );
+                  //   },
+                  // ),
                 ),
                 getNextButton(context),
                 getPrevButton(context),

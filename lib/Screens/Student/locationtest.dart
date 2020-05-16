@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sensational_science/Screens/Student/student_view_class_data.dart';
-import 'package:sensational_science/Screens/Student/student_view_class_data.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import '../../models/project.dart';
@@ -56,7 +55,7 @@ class LocationMapState extends State<LocationMap> {
     var lms_test = widget.lms.latlonInfo; 
     print(lms_actual); 
     Iterable<RegExpMatch> matches = exp.allMatches(lms_test);
-        print(matches.toList());
+    
     double lat = double.parse(matches.toList()[0].group(1));
     double lon = double.parse(matches.toList()[0].group(2));
 
