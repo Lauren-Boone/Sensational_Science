@@ -62,7 +62,7 @@ class _ViewClassDataState extends State<ViewClassData> {
             Padding(
               padding: EdgeInsets.all(20),
             ),
-            Text("All of the students' answers have been commpiled. ", style: TextStyle(color: Colors.black, fontSize: 20) ),
+            Text("All of the students' answers have been compiled. ", style: TextStyle(color: Colors.black, fontSize: 20) ),
             Padding(
               padding: EdgeInsets.all(20),
             ),
