@@ -162,7 +162,7 @@ class _CollectDataState extends State<CollectData> {
       child: Text("NEXT"),
       color: Colors.red,
       onPressed: () {
-     
+        print(widget.controllers[_currentQuestion].value.text);
 
         //store data locally
         writeString(widget.student.code, widget.controllers[_currentQuestion].value.text, _currentQuestion.toString());
@@ -287,6 +287,8 @@ class _CollectDataState extends State<CollectData> {
           break;
         case 3:
           widget.questionType[_currentQuestion] = 3;
+          var questionNum = _currentQuestion; 
+          var code = widget.student.code; 
           return Column(
             children: <Widget>[
               Text("UserLocation " + (_currentQuestion + 1).toString(),
@@ -303,6 +305,8 @@ class _CollectDataState extends State<CollectData> {
                       }
                       return new UserLocationInfo(
                         userLocationController: widget.controllers[_currentQuestion],
+                        code : widget.student.code,
+                        questionNum: questionNum
                       );
                     }
                   )
