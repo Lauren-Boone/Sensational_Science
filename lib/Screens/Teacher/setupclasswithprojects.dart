@@ -408,7 +408,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               },
             ),
             new Divider(
-              color: Colors.blue,
+              color: Colors.deepPurple,
               height: 10.0,
             ),
             new Text('Students to add:'),

@@ -127,11 +127,13 @@ class _ViewProjectState extends State<ViewProject> {
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Random Widget"),
+            title: Text("Your Project"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+            backgroundColor: Colors.deepPurple,
+            ),
         body:
             /*widget.project.questions.length == 0
             ? Center(

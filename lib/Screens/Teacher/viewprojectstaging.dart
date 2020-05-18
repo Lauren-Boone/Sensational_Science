@@ -74,11 +74,13 @@ final user = Provider.of<User>(context);
        return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Random Widget"),
+            title: Text("View Your Project"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+            backgroundColor: Colors.deepPurple,
+            ),
         body:
            Container(
              padding: EdgeInsets.all(20),

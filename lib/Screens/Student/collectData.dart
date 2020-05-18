@@ -114,11 +114,13 @@ class _CollectDataState extends State<CollectData> {
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Random Widget"),
+            title: Text("Collect Data For Your Project"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+            backgroundColor: Colors.deepPurple,
+            ),
         body: widget.project.questions.length == 0
             ? Center(
                 child: Column(children: <Widget>[

@@ -32,7 +32,7 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Random Widget"),
+            title: Text("Collect Data"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
