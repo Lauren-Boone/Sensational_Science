@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   String _class;
   String _project;
   DateTime _date;
+  Random numberGenerator = new Random();
   bool hasRoster = false;
   final _formKey = GlobalKey<FormState>();
   final classNameController = TextEditingController();
@@ -462,39 +465,47 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
 
       //create a code for each student in the class, create code under the project, store under the student, store all codes
       //under top level codes collection
-      final students = await classDoc.collection('Roster').getDocuments();
-      for (var student in students.documents) {
-        var codeRef = await classDoc
-            .collection('Projects')
-            .document(projRef.documentID)
-            .collection('Students')
-            .add({
+ final students = await classDoc.collection('Roster').getDocuments();
+    for (var student in students.documents) {
+      bool exists = false;
+      int newCode;
+      do {
+        newCode = numberGenerator.nextInt(10000000);
+        newCode = newCode<1000000?newCode+999999:newCode;        
+        await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
+          exists = doc.exists?true:false;
+        });
+        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+      } while (exists);
+      await classDoc
+        .collection('Projects')
+        .document(projRef.documentID)
+        .collection('Students')
+        .document(newCode.toString())
+        .setData({
           'student': student.documentID, //student doc id in roster
           'completed': false, //has student submitted data
-          'name': student.data['name'], //add student name for reference
+          'name': student.data['name'], //student's name for reference
         });
-        await classDoc
-            .collection('Roster')
-            .document(student.documentID)
-            .setData({
-          'codes': FieldValue.arrayUnion([
-            {projRef.documentID: codeRef.documentID}
-          ]) //list of codes for each student for all projects, {projectCode : studentCode}
-        }, merge: true);
-        await Firestore.instance
-            .collection('codes')
-            .document(codeRef.documentID)
-            .setData({
-          'Teacher': uid, //teacher doc id
-          'Class': className, //class doc id
-          'Student': student.documentID, //student doc id in roster
-          'Name': student.data['name'], //student name in roster
-          'Project': projRef.documentID, //project doc id in class
-          'ProjectID':
-              projectID, //project doc id in top level project collection
-          'ProjectTitle': projectDoc.data['title'], //project title
-          'DueDate': projectDoc.data['dueDate'],
-        });
+      await classDoc.collection('Roster').document(student.documentID).setData({
+        'codes': FieldValue.arrayUnion([
+          {projRef.documentID: newCode.toString()}
+        ]) //list of codes for each student for all projects, {projectCode : studentCode}
+      }, merge: true);
+       await Firestore.instance
+          .collection('codes')
+          .document(newCode.toString())
+          .setData({
+        'Teacher': uid, //teacher doc id
+        'Class': className, //class doc id
+        'Student': student.documentID, //student doc id in roster
+        'Name': student.data['name'], //student name in roster
+        'Project': projRef.documentID, //project doc id in class
+        'ProjectID': projectID, //project doc id in top level project collection
+        'ProjectTitle': projectDoc.data['title'], //project title
+        'DueDate': dueDate, //project due date
+        'Subject': projectDoc.data['subject'], //project subject
+      });
       }
     }
 
