@@ -58,26 +58,22 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
 
   Future<dynamic> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
-    print("I am in assignProject.");
     //create project under the class
     DocumentReference classDoc = Firestore.instance
         .collection('Teachers')
         .document(uid)
         .collection('Classes')
         .document(className);
-    print("I made classDoc.");
     final projectDoc = await Firestore.instance
         .collection('Projects')
         .document(projectID)
         .get();
-    print("I made projectDoc.");
     final projRef = await classDoc.collection('Projects').add({
       'projectID': projectID, //project doc id in top level project collection
       'projectTitle': projectDoc.data['title'], //project title
       'projectSubject': projectDoc.data['subject'], //project subject
       'dueDate': dueDate, //due date
     });
-    print("I made projRef for the new project in the class.");
 
     //increment project count for class
     classDoc.get().then((doc) {
@@ -85,13 +81,10 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
       projCount++;
       classDoc.updateData({'projects': projCount});
     });
-    print("I incremented the project count.");
 
     //create a unique 7 digit code for the student, create the code under the project, store the code in the roster
     //under the student, then store the code under the top level codes collection
     final students = await classDoc.collection('Roster').getDocuments();
-    print("I got all the students on the roster.");
-    print("I have this many students: " + students.documents.length.toString());
     for (var student in students.documents) {
       bool exists = false;
       int newCode;
