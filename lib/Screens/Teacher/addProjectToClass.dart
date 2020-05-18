@@ -56,7 +56,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
     return menuList;
   }
 
-  Future<void> assignProject(
+  Future<dynamic> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
     print("I am in assignProject.");
     //create project under the class
@@ -408,7 +408,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                   onPressed: () async {
                     if (_class != null && _project != null && _date != null ) {
                       if(hasRoster){
-                         await assignProject(user.uid, _class, _project, _date);
+                         await assignProject(user.uid, _class.trim(), _project, _date);
                       }
                       else{
                         print("No Roster exists"); 

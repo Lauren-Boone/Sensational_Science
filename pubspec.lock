@@ -50,13 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0"
-  clock:
-    dependency: transitive
-    description:
-      name: clock
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -134,13 +127,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
-  fake_async:
-    dependency: transitive
-    description:
-      name: fake_async
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   firebase:
     dependency: "direct main"
     description:
@@ -470,7 +456,7 @@ packages:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
+    version: "1.6.4"
   path_provider:
     dependency: "direct main"
     description:
@@ -505,7 +491,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "2.4.0"
   phone_number:
     dependency: transitive
     description:
@@ -650,7 +636,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.7.0"
+    version: "3.6.1"
   yaml:
     dependency: transitive
     description:

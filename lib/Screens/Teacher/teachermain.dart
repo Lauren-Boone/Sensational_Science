@@ -10,14 +10,19 @@ import '../../Services/database.dart';
 import 'package:provider/provider.dart';
 import '../home/user_list.dart';
 import '../../models/teacher.dart';
-import '../../models/user.dart';
-import 'popup.dart';
+
 import 'staging.dart';
 import 'listprojects.dart';
 import 'viewallprojects.dart';
+class TeacherHome extends StatefulWidget {
+  @override
+  _TeacherHomeState createState() => _TeacherHomeState();
+}
 
-class TeacherHome extends StatelessWidget{
-  
+class _TeacherHomeState extends State<TeacherHome> {
+bool selected= false;  
+
+
   @override
 
   Widget build(BuildContext context){
@@ -27,43 +32,58 @@ class TeacherHome extends StatelessWidget{
         appBar: AppBar(
           title: Text("Home")
         ),
-        backgroundColor: Colors.blue[100],
+        backgroundColor: Colors.blueGrey[50],
         body: ListView(
             children:  <Widget>[
-              Card(child: ListTile(
-                title: Text('Classes'),
-                subtitle: Text('View All Classes, view class info, add roster, and view compiled data'),
-                trailing: Icon(Icons.arrow_forward_ios), 
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>ClassListPage(),
-                    ),
-                  );
-                },
+              
+              Card(
+                              child: Ink(
+                  color: Colors.white,
+                                child: ListTile(
+                    
+                     title: Text('Classes', style: TextStyle(fontSize: 20)),
+                     subtitle: Text('View All Classes, view class info, add roster, and view compiled data', style: TextStyle(fontSize: 17)),
+                     trailing: Icon(Icons.arrow_forward_ios), 
+                     
+                     onTap: ()=>{
+                       setState((){
+                         
+                       }),
+                       
+                     
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) =>ClassListPage(),
+                         ),
+                       ),
+                     },
+                     ),
                 ),
               ),
               Card(
-                child: ListTile(
-                  title: Text('Add Class'),
-                  subtitle: Text('Add A New Class'),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>AddClassPage(),
-                      ),
-                    );
-                  },
+                              child: Ink(
+                 color: Colors.white,
+                  child: ListTile(
+                    title: Text('Add Class', style: TextStyle(fontSize: 20)),
+                    subtitle: Text('Add A New Class', style: TextStyle(fontSize: 17)),
+                    trailing: Icon(Icons.arrow_forward_ios), 
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>AddClassPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
                
                Card(
                 child: ListTile(
-                  title: Text('View All projects'),
-                  subtitle: Text('Public Projects'),
+                  title: Text('View All projects', style: TextStyle(fontSize: 20)),
+                  subtitle: Text('Public Projects', style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios), 
                   onTap: (){
                     Navigator.push(
@@ -77,8 +97,8 @@ class TeacherHome extends StatelessWidget{
               ),
               Card(
                 child: ListTile(
-                  title: Text('Assign Project to Class'),
-                  subtitle: Text('Assign an Existing Project to an Existing Class'),
+                  title: Text('Assign Project to Class', style: TextStyle(fontSize: 20)),
+                  subtitle: Text('Assign an Existing Project to an Existing Class', style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios), 
                   onTap: (){
                     Navigator.push(
@@ -92,8 +112,8 @@ class TeacherHome extends StatelessWidget{
               ),
               Card(
                 child: ListTile(
-                  title: Text('Create Project'),
-                  subtitle: Text('Create A New Project From Scratch'),
+                  title: Text('Create Project', style: TextStyle(fontSize: 20)),
+                  subtitle: Text('Create A New Project From Scratch', style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios), 
                   onTap: (){
                     Navigator.push(
@@ -107,8 +127,8 @@ class TeacherHome extends StatelessWidget{
               ),
                 Card(
                 child: ListTile(
-                  title: Text('Class Setup'),
-                  subtitle: Text('Create and setup a class'),
+                  title: Text('Class Setup', style: TextStyle(fontSize: 20)),
+                  subtitle: Text('Create and setup a class', style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios), 
                   onTap: (){
                     Navigator.push(
@@ -122,8 +142,8 @@ class TeacherHome extends StatelessWidget{
               ),
               Card(
                 child: ListTile(
-                  title: Text('View Projects You Created or Added to Your List'),
-                  subtitle: Text(''),
+                  title: Text('View Projects You Created or Added to Your List', style: TextStyle(fontSize: 20)),
+                  subtitle: Text('', style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios), 
                   onTap: (){
                     Navigator.push(
