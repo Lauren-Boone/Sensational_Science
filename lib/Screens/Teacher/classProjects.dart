@@ -39,6 +39,20 @@ class _ViewClassProjectsState extends State<ViewClassProjects> {
                   .snapshots(),
               builder: (BuildContext context, snapshot) {
                 if (!snapshot.hasData) return new Text('...Loading');
+                if (snapshot.data.documents.length < 1) {
+                  return new Expanded(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: new ListView(
+                        children: [
+                          new ListTile(
+                            title: Text('This class does not have any projects assigned'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
                 return new Expanded(
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
