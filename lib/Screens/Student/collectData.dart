@@ -294,12 +294,14 @@ class _CollectDataState extends State<CollectData> {
           break;
         case 3:
           widget.questionType[_currentQuestion] = 3;
-          return Column(children: <Widget>[
-            Text("UserLocation " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
-            Container(
+          var questionNum = _currentQuestion; 
+          var code = widget.student.code; 
+          return Column(
+            children: <Widget>[
+              Text("UserLocation " + (_currentQuestion + 1).toString(),
+                  textScaleFactor: 4),
+              Text("Question: " + widget.project.questions[_currentQuestion].question),
+              Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
                 child: FutureBuilder(
@@ -310,8 +312,9 @@ class _CollectDataState extends State<CollectData> {
                         widget.controllers[_currentQuestion].text = answer.data;
                       }
                       return new UserLocationInfo(
-                        userLocationController:
-                            widget.controllers[_currentQuestion],
+                        userLocationController: widget.controllers[_currentQuestion],
+                        code : widget.student.code,
+                        questionNum: questionNum
                       );
                     })),
             getNextButton(context),
