@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sensational_science/Screens/Student/locationtest.dart';
+import 'package:sensational_science/Screens/Student/locationmap.dart';
 import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
 import 'package:sensational_science/Screens/Teacher/setupclasswithprojects.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';

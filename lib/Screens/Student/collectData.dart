@@ -301,7 +301,7 @@ class _CollectDataState extends State<CollectData> {
           return Column(
             children: <Widget>[
               Text("UserLocation " + (_currentQuestion + 1).toString(),
-                  textScaleFactor: 4),
+                  textScaleFactor: 3),
               Text("Question: " + widget.project.questions[_currentQuestion].question),
               Container(
                 margin: EdgeInsets.all(10),

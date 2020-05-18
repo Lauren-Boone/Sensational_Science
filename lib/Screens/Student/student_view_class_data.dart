@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sensational_science/Screens/Student/locationtest.dart';
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:sensational_science/Services/firebaseStorage/fireStorageService.dart';
-import 'locationtest.dart';
+import 'locationmap.dart';
 
 var createLocationMap = LocationMap();
 
@@ -387,8 +386,8 @@ class _CompileDataState extends State<CompileData> {
               children: <Widget>[
                 Expanded(child: Text('')),
                 Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width / 3,
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width / 2,
                   child: new LocationMap(lms: lms),
                   // child: RaisedButton(
                   //   child: Text('Click to load map'),

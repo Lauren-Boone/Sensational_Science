@@ -15,6 +15,14 @@ import '../../Services/projectDB.dart';
 
 var createLocationHandler = new UserLocation();
 
+class locationInfo {
+  // double latitude = 0.0;
+  // double longitude = 0.0;
+  String latlonInfo;
+
+  locationInfo({this.latlonInfo});
+}
+
 var locationResult = createLocationHandler.getUserLocation();
 
 var createTextInputHandler =
@@ -361,7 +369,7 @@ bool _checkForPrompts() {
                           ),
                           Container(
                             margin: EdgeInsets.all(8),
-                            width: MediaQuery.of(context).size.width / 3,
+                            width: MediaQuery.of(context).size.width / 2,
                             child: Draggable<Widget>(
                               child: Text('User Location'),
                               data: createLocationHandler,

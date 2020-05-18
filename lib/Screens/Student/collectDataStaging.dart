@@ -36,7 +36,9 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+            backgroundColor: Colors.deepPurple,
+            ),
         body:
            Container(
              padding: EdgeInsets.all(20),

@@ -33,6 +33,7 @@ class StudentHome extends StatelessWidget{
         Scaffold(
         appBar: AppBar(
           title: Text('Project Home Page'),
+          backgroundColor: Colors.deepPurple,
         ),
         body: Center(
           child: Column(
