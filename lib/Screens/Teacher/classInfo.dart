@@ -46,7 +46,11 @@ class _ClassInfoState extends State<ClassInfo>{
     final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Classes")
+        title: Text(widget.name),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context, false),
+        ),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -57,11 +61,11 @@ class _ClassInfoState extends State<ClassInfo>{
                 children: [
                   ListTile(
                     title: Text("Roster"),
-                    subtitle: Text("View and add to class roster"),
+                    subtitle: Text("View students, codes, and add to class roster"),
                     trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () =>{
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>AddRoster( name: widget.name),
+                      Navigator.push(context, new MaterialPageRoute(
+                        builder: (context) => new AddRoster( name: widget.name),
                       ))
                     },
                   ),
@@ -70,14 +74,40 @@ class _ClassInfoState extends State<ClassInfo>{
                     subtitle: Text("View all projects currently assigned to the class"),
                     trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () =>{
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>ViewClassProjects( name: widget.name),
+                      Navigator.of(context).push( new MaterialPageRoute(
+                        builder: (context) => new ViewClassProjects( name: widget.name),
                       ))
                     },
                   ),
                 ],
               ),
             ),
+            new Divider(
+              color: Colors.blue,
+              height: 10.0,
+            ),
+            Text("Class Information",
+              style: TextStyle(fontWeight: FontWeight.bold,),
+            ),
+            FutureBuilder(
+              future: Firestore.instance.collection('Teachers').document(user.uid).collection("Classes").document(widget.name).get(),
+              builder: (context, document) {
+                if (!document.hasData) {return Text("...Loading");}
+                List<String> fields = ['school', 'subject', 'level', 'students', 'projects'];
+                List<String> headings = ['', '', 'Class Level: ', 'Count of Student Roster: ', 'Count of Class Projects: '];
+                List<ListTile> tiles = [];
+                for(var index=0; index<fields.length; index++) {
+                  tiles.add(ListTile(
+                    title: Text( headings[index] + document.data[fields[index]].toString()),
+                  ));
+                }
+                return Expanded(
+                  child: ListView(
+                    children: tiles,
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),

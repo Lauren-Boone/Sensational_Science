@@ -88,7 +88,7 @@ class _AddRosterState extends State<AddRoster>{
         content: Text('Students have been added to the class'),
         actions: <Widget>[
           RaisedButton(child: Text("Close"),
-            onPressed: () {Navigator.of(context).pop();},
+            onPressed: () {Navigator.pop(context);},
           ),
         ]
       );
@@ -106,6 +106,10 @@ Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: Text("View & Add To Roster"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

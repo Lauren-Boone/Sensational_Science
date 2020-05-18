@@ -72,6 +72,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
         .setData({
           'student': student.documentID, //student doc id in roster
           'completed': false, //has student submitted data
+          'name': student.data['name'], //student's name for reference
         });
       await classDoc.collection('Roster').document(student.documentID).setData({
         'codes': FieldValue.arrayUnion([
