@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +11,7 @@ import 'package:sensational_science/models/user.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
+import 'package:fa_stepper/fa_stepper.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class SetUpClassSteps extends StatefulWidget {
@@ -28,7 +27,6 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   String _class;
   String _project;
   DateTime _date;
-  Random numberGenerator = new Random();
   bool hasRoster = false;
   final _formKey = GlobalKey<FormState>();
   final classNameController = TextEditingController();
@@ -40,20 +38,20 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   List<DynamicWidget> roster = [];
   @override
   Widget build(BuildContext context) {
-    List<Step> steps = [
-      Step(
+    List<FAStep> steps = [
+      FAStep(
         title: Text("Step 1"),
         subtitle: Text("Create a Class"),
         //content: Text("here"),
         content: createClass(),
       ),
-      Step(
+      FAStep(
         title: Text("Step 2"),
         subtitle: Text("Add Roster to Class"),
         //content: Text("here"),
         content: addRoster(),
       ),
-      Step(
+      FAStep(
         title: Text("Step 3"),
         subtitle: Text("Add Project to Class"),
         //content: Text("here"),
@@ -67,84 +65,90 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: Stepper(
-          type: StepperType.horizontal,
-          currentStep: _currentStep,
-          steps: steps,
-          onStepCancel: () => {
-            Navigator.of(context).pop(),
-          },
-         
-          onStepContinue: () {
-            
-            if (_currentStep == 0 && hasClass == false) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text("You must create and submit a class first!"),
-                      content: Text("Please be sure to submit your data."),
-                      actions: <Widget>[
-                        RaisedButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ]);
-                },
-              );
-            }
-            if (_currentStep == 1 && hasRoster == false) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text(
-                          "You must create and submit a class Roster first!"),
-                      content:
-                          Text("Please be sure to submit your roster data."),
-                      actions: <Widget>[
-                        RaisedButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ]);
-                },
-              );
-            } if(_currentStep != 2) {
-              setState(() {
-                _currentStep++;
-              });
-            }
-           else {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=> TeacherHome())
+        body: Container(
+           
+          child: FAStepper(
+            type: FAStepperType.horizontal,
+             titleIconArrange: FAStepperTitleIconArrange.column,
+            //stepNumberColor: Colors.pinkAccent,
+            currentStep: _currentStep,
+            titleHeight: 100,
+            steps: steps,
+            onStepCancel: () => {
+              Navigator.of(context).pop(),
+            },
+           
+            onStepContinue: () {
+              
+              if (_currentStep == 0 && hasClass == false) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text("You must create and submit a class first!"),
+                        content: Text("Please be sure to submit your data."),
+                        actions: <Widget>[
+                          RaisedButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ]);
+                  },
                 );
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text("Success! You have set up a class"),
-                      content: Text(
-                          "You can add more projects to this class in the add project to class section and add more student to the roster under the class info"),
-                      actions: <Widget>[
-                        RaisedButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            
-                            Navigator.of(context).pop();
-                            
-                          },
-                        )
-                      ]);
-                },
-              );
-            }
-          },
+              }
+              if (_currentStep == 1 && hasRoster == false) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text(
+                            "You must create and submit a class Roster first!"),
+                        content:
+                            Text("Please be sure to submit your roster data."),
+                        actions: <Widget>[
+                          RaisedButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ]);
+                  },
+                );
+              } if(_currentStep != 2) {
+                setState(() {
+                  _currentStep++;
+                });
+              }
+             else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context)=> TeacherHome())
+                  );
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text("Success! You have set up a class"),
+                        content: Text(
+                            "You can add more projects to this class in the add project to class section and add more student to the roster under the class info"),
+                        actions: <Widget>[
+                          RaisedButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              
+                              Navigator.of(context).pop();
+                              
+                            },
+                          )
+                        ]);
+                  },
+                );
+              }
+            },
+          ),
         ));
   }
 
@@ -379,7 +383,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
     return Material(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.8,
+        height: MediaQuery.of(context).size.height * .6,
         child: Column(
           children: <Widget>[
             new Text('Current Roster'),
@@ -465,51 +469,43 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
 
       //create a code for each student in the class, create code under the project, store under the student, store all codes
       //under top level codes collection
- final students = await classDoc.collection('Roster').getDocuments();
-    for (var student in students.documents) {
-      bool exists = false;
-      int newCode;
-      do {
-        newCode = numberGenerator.nextInt(10000000);
-        newCode = newCode<1000000?newCode+999999:newCode;        
-        await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
-          exists = doc.exists?true:false;
-        });
-        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
-      } while (exists);
-      await classDoc
-        .collection('Projects')
-        .document(projRef.documentID)
-        .collection('Students')
-        .document(newCode.toString())
-        .setData({
+      final students = await classDoc.collection('Roster').getDocuments();
+      for (var student in students.documents) {
+        var codeRef = await classDoc
+            .collection('Projects')
+            .document(projRef.documentID)
+            .collection('Students')
+            .add({
           'student': student.documentID, //student doc id in roster
           'completed': false, //has student submitted data
-          'name': student.data['name'], //student's name for reference
+          'name': student.data['name'], //add student name for reference
         });
-      await classDoc.collection('Roster').document(student.documentID).setData({
-        'codes': FieldValue.arrayUnion([
-          {projRef.documentID: newCode.toString()}
-        ]) //list of codes for each student for all projects, {projectCode : studentCode}
-      }, merge: true);
-       await Firestore.instance
-          .collection('codes')
-          .document(newCode.toString())
-          .setData({
-        'Teacher': uid, //teacher doc id
-        'Class': className, //class doc id
-        'Student': student.documentID, //student doc id in roster
-        'Name': student.data['name'], //student name in roster
-        'Project': projRef.documentID, //project doc id in class
-        'ProjectID': projectID, //project doc id in top level project collection
-        'ProjectTitle': projectDoc.data['title'], //project title
-        'DueDate': dueDate, //project due date
-        'Subject': projectDoc.data['subject'], //project subject
-      });
+        await classDoc
+            .collection('Roster')
+            .document(student.documentID)
+            .setData({
+          'codes': FieldValue.arrayUnion([
+            {projRef.documentID: codeRef.documentID}
+          ]) //list of codes for each student for all projects, {projectCode : studentCode}
+        }, merge: true);
+        await Firestore.instance
+            .collection('codes')
+            .document(codeRef.documentID)
+            .setData({
+          'Teacher': uid, //teacher doc id
+          'Class': className, //class doc id
+          'Student': student.documentID, //student doc id in roster
+          'Name': student.data['name'], //student name in roster
+          'Project': projRef.documentID, //project doc id in class
+          'ProjectID':
+              projectID, //project doc id in top level project collection
+          'ProjectTitle': projectDoc.data['title'], //project title
+          'DueDate': projectDoc.data['dueDate'],
+        });
       }
     }
 
-  Future<void>  _checkForRoster(String uid) {
+    _checkForRoster(String uid) {
       Future<QuerySnapshot> snap = Firestore.instance
           .collection('Teachers')
           .document(uid)
@@ -546,7 +542,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                       new Expanded(
                         flex: 2,
                         child: new Container(
-                          padding: EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                          //padding: EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
                           child: Text("Project to Assign"),
                         ),
                       ),

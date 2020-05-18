@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/addRoster.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/models/user.dart';
 
 class AddProjectToClass extends StatefulWidget {
@@ -122,7 +123,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
         'Project': projRef.documentID, //project doc id in class
         'ProjectID': projectID, //project doc id in top level project collection
         'ProjectTitle': projectDoc.data['title'], //project title
-        'DueDate': projRef.get().then((doc) {return doc.data['dueDate'];}), //project due date
+        'DueDate': dueDate, //project due date
         'Subject': projectDoc.data['subject'], //project subject
       });
     }
@@ -157,7 +158,22 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+             actions: <Widget>[
+          FlatButton.icon(
+             icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+              onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
+            ),
         body: new Container(
           child: new Column(
             children: <Widget>[

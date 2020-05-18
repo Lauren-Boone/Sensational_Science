@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/projectPreview.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Screens/Teacher/viewprojectstaging.dart';
 import 'package:sensational_science/Services/getproject.dart';
 import 'package:sensational_science/models/user.dart';
@@ -23,12 +24,27 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
   ];
   String filter = "All";
   bool hasfilter = false;
+  
   @override
   Widget build(BuildContext context) {
      //final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("View All Public Projects"),
+        actions: <Widget>[
+          FlatButton.icon(
+           icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
       ),
       body: Container(
         margin: EdgeInsets.all(10),
@@ -37,6 +53,7 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
         child: Column(children: [
           new Text('Projects', style: TextStyle(fontSize: 20)),
           new DropdownButton(
+            value: filter,
             items: subjects.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -44,6 +61,7 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
               );
             }).toList(),
             onChanged: (String newValue) {
+              filter=newValue;
               if(newValue == 'All'){
                 setState(() {
                   hasfilter=false;
@@ -158,7 +176,7 @@ class ViewPublicStaging extends StatefulWidget {
   final String projInfo;
   final String createdProjID;
   final String uid;
-  ViewPublicStaging( this.title, this.projectID,this.projInfo, this.createdProjID, this.uid); 
+  ViewPublicStaging(this.title, this.projectID,this.projInfo, this.createdProjID, this.uid); 
 
   @override
   _ViewPublicStagingState createState() => _ViewPublicStagingState(this.title, this.projectID, this.projInfo, this.createdProjID, this.uid);
@@ -240,7 +258,22 @@ final user = Provider.of<User>(context);
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+              actions: <Widget>[
+          FlatButton.icon(
+              icon: Icon(Icons.home),
+              label: Text('Home'),
+              onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
+            ),
         body:
            Container(
              padding: EdgeInsets.all(20),

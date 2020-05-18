@@ -208,10 +208,9 @@ class _CollectDataState extends State<CollectData> {
         case 0:
           widget.questionType[_currentQuestion] = 0;
           return Column(children: <Widget>[
-            Text("TextInputItem " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
+           
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -238,10 +237,9 @@ class _CollectDataState extends State<CollectData> {
           widget.questionType[_currentQuestion] = 1;
           return Column(
             children: <Widget>[
-              Text("MultipleChoice " + (_currentQuestion + 1).toString(),
-                  textScaleFactor: 4),
+        
               Text("Question: " +
-                  widget.project.questions[_currentQuestion].question),
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3 * 2,
@@ -270,10 +268,9 @@ class _CollectDataState extends State<CollectData> {
         case 2:
           widget.questionType[_currentQuestion] = 2;
           return Column(children: <Widget>[
-            Text("ShortAnswer " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
+    
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
@@ -298,9 +295,8 @@ class _CollectDataState extends State<CollectData> {
           var code = widget.student.code; 
           return Column(
             children: <Widget>[
-              Text("UserLocation " + (_currentQuestion + 1).toString(),
-                  textScaleFactor: 4),
-              Text("Question: " + widget.project.questions[_currentQuestion].question),
+              
+              Text("Question: " + widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
@@ -324,10 +320,9 @@ class _CollectDataState extends State<CollectData> {
         case 4:
           widget.questionType[_currentQuestion] = 4;
           return Column(children: <Widget>[
-            Text("Numerical " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
+           
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
@@ -349,10 +344,9 @@ class _CollectDataState extends State<CollectData> {
         case 5:
           widget.questionType[_currentQuestion] = 5;
           return Column(children: <Widget>[
-            Text("Image" + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
+           
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question , style: TextStyle(fontSize: 20)),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -408,11 +402,11 @@ class _CollectDataState extends State<CollectData> {
           child: Text('Submit Project'),
           onPressed: () => {
             _submitProj(widget.student.code),
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        StudentHome(classData: widget.student.code))),
+            Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => StudentHome(classData: widget.student.code)),
+             
+               ),
             showDialog(
               context: context,
               builder: (BuildContext context) {

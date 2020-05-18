@@ -33,6 +33,16 @@ class StudentHome extends StatelessWidget{
         Scaffold(
         appBar: AppBar(
           title: Text('Project Home Page'),
+           actions: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.person),
+              label: Text('Log out'),
+              onPressed: () {
+                
+              },
+            ),
+          ]
+              
         ),
         body: Center(
           child: Column(

@@ -102,29 +102,29 @@ class _DynamicWidgetState extends State<DynamicWidget> {
           child: Column(
       children: <Widget>[
         new Text("Question Number: " + widget.numq.toString(),
-          style: TextStyle(fontSize: 20)),
+            style: TextStyle(fontSize: 20)),
         new Text("Type: " + widget.type),
          new Text("Question: " + widget.question, style: TextStyle(fontSize: 30)),
         new ListView.builder(
-            shrinkWrap: true,
-            itemCount: widget.answers.length,
-            itemBuilder: (_, index) => widget.answerWidget[index]),
+              shrinkWrap: true,
+              itemCount: widget.answers.length,
+              itemBuilder: (_, index) => widget.answerWidget[index]),
       ],
-            ),
+              ),
         );
     } else {
       return Container(
-        margin: new EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            new Text("Question Number: " + widget.numq.toString(),
-                style: TextStyle(fontSize: 20)),
-            new Text("Type: " + widget.type),
-            new Text("Question: " + widget.question, style: TextStyle(fontSize: 30)),
-            new Text("Answers: " + widget.keyAnswers),
-          ],
-        ),
-      );
+          margin: new EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+      new Text("Question Number: " + widget.numq.toString(),
+          style: TextStyle(fontSize: 20)),
+      new Text("Type: " + widget.type),
+      new Text("Question: " + widget.question, style: TextStyle(fontSize: 30)),
+      new Text("Answers: " + widget.keyAnswers),
+            ],
+          ),
+        );
     }
   }
 }

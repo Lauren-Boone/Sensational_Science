@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sensational_science/Screens/Teacher/classProjects.dart';
 import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'dart:async';
 import 'roster.dart';
 import 'addRoster.dart';
@@ -48,9 +49,24 @@ class _ClassInfoState extends State<ClassInfo>{
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
+             actions: <Widget>[
+          FlatButton.icon(
+           icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+               onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context, false),
+          
         ),
       ),
       body: Container(
