@@ -332,6 +332,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               .add({
             'student': newStudent.documentID, //student doc id in roster
             'completed': false, //has student submitted data
+            'name': e.controller.text,//student's name for reference
           });
           await newStudent.setData({
             'codes': FieldValue.arrayUnion([
@@ -470,6 +471,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
             .add({
           'student': student.documentID, //student doc id in roster
           'completed': false, //has student submitted data
+          'name': student.data['name'], //add student name for reference
         });
         await classDoc
             .collection('Roster')
@@ -491,6 +493,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           'ProjectID':
               projectID, //project doc id in top level project collection
           'ProjectTitle': projectDoc.data['title'], //project title
+          'DueDate': projectDoc.data['dueDate'],
         });
       }
     }

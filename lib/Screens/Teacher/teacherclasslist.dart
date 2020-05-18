@@ -41,20 +41,22 @@ class _ClassListState extends State<ClassListPage>{
             return Card(
                           child: new ListView(
                 children: snapshot.data.documents.map((document){
-                  return new ListTile( 
+                  return Card(
+                                      child: new ListTile( 
   
-                      title: new Text(document['name']),
-                      subtitle: new Text('Click to View Class Info'),
-                      trailing: Icon(Icons.arrow_forward_ios), 
+                        title: new Text(document['name']),
+                        subtitle: new Text('Click to View Class Info'),
+                        trailing: Icon(Icons.arrow_forward_ios), 
                 onTap: () =>{
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>ClassInfo(name: document.documentID, uid: user.uid),
-                    ),
-                  )
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>ClassInfo(name: document.documentID, uid: user.uid),
+                      ),
+                    )
                 },
-                    
-                    
+                      
+                      
+                    ),
                   );
                   
                 }).toList(),

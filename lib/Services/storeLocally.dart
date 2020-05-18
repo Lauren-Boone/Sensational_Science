@@ -2,6 +2,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:async';
 
+//if you are on a web app, do not use local storage
+const bool kIsWeb = identical(0, 0.0);
 
 //function to get where app files will be stored
 Future<String> get _localPath async {
@@ -27,12 +29,14 @@ Future<File> _localFile(String code, String name) async {
 
 //Write text data into a student's file
 Future<File> writeString(String code, String content, String qNum) async {
+  if (kIsWeb) return null;
   final file = await _localFile(code, '$qNum.txt');
   return file.writeAsString(content);
 }
 
 //save an image into a student's file
 Future<File> writeImage(String code, String qNum, File copyImage) async {
+  if (kIsWeb) return null;
   final toFile = await _localFile(code, '$qNum.png');
   final file = await copyImage.copy(toFile.path);
   return file;
@@ -40,12 +44,23 @@ Future<File> writeImage(String code, String qNum, File copyImage) async {
 
 //get image from the student's file
 Future<File> getImage(String code, String qNum) async {
+  if(kIsWeb) {
+    return null;
+  }
   final file = await _localFile(code, '$qNum.png');
+  int size = await file.length();
+  print("size of file: " + size.toString());
+  if(size < 1) {
+    return null;
+  }
   return file;
 }
 
 //read content from the student's file
 Future<String> readString(String code, String qNum) async {
+  if(kIsWeb) {
+    return '!ERROR!';
+  }
   try{
     final file = await _localFile(code, '$qNum.txt');
     String contents = await file.readAsString();

@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sensational_science/Screens/Student/locationtest.dart';
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:sensational_science/Services/firebaseStorage/fireStorageService.dart';
 import 'locationtest.dart';
 
 var createLocationMap = LocationMap();
@@ -73,10 +74,6 @@ class _ViewClassDataState extends State<ViewClassData> {
             RaisedButton(
                 child: Text('Click to view compiled data for each question'),
                 onPressed: () {
-                  //print(data.proj.questions[0].compAnswers[0]);
-                  //CompiledProject data = new CompiledProject(proj: proj);
-                  //data.getStudentsAnswers(widget.className, widget.classProjDocID);
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -123,6 +120,30 @@ class _CompileDataState extends State<CompileData> {
     // _generateChartData();
 
     _currentGraph = 0;
+  }
+
+  _getImages(BuildContext context, List<dynamic> imageLocs) async {
+    List<Widget> images = [];
+    for (var imgLoc in imageLocs) {
+      if (imgLoc.toString().length > 0) {
+        Image nextImage;
+        await FireStorageService.loadImage(context, imgLoc).then((downloadURL) {
+          nextImage = Image.network(
+            downloadURL.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+        images.add(new Container(
+          height: MediaQuery.of(context).size.height / 1.25,
+          width: MediaQuery.of(context).size.width / 1.25,
+          child: nextImage,
+        ));
+      }
+    }
+    if (images.length < 1) {
+      images.add(Text("No photos have been submitted for this project"));
+    }
+    return images;
   }
 
   _getGraph(List<charts.Series<GraphVals, String>> multGraph) {
@@ -254,7 +275,7 @@ class _CompileDataState extends State<CompileData> {
                           .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
                         title: Text(
-                            'Location Map',
+                            widget.proj.questions[_currentQuestion].compAnswers[index],
                             style: TextStyle(color: Colors.black)),
                       );
                     },
@@ -457,8 +478,51 @@ class _CompileDataState extends State<CompileData> {
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              Expanded(child: Text('Image')),
-                            getPrevButton(context),
+              Center(
+                child: new Card(
+                  child: Text('Images',
+                      style: TextStyle(color: Colors.black)),
+                ),
+              ),
+              new Card(
+                  child: new Text(
+                      widget.proj.questions[_currentQuestion].question)),
+              Expanded(
+                child: FutureBuilder(
+                    future: _getImages(context,
+                        widget.proj.questions[_currentQuestion].compAnswers),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView(
+                          children: snapshot.data,
+                        );
+                      }
+                      if (!snapshot.hasData) {
+                        List<Widget> waitList = [];
+                        for (var i = 0;
+                            i <
+                                widget.proj.questions[_currentQuestion]
+                                    .compAnswers.length;
+                            i++) {
+                          waitList.add(Container(
+                            height: MediaQuery.of(context).size.height / 10,
+                            width: MediaQuery.of(context).size.width / 10,
+                            child: CupertinoActivityIndicator(),
+                          ));
+                        }
+                        if (waitList.length < 1) {
+                          waitList.add(Container(
+                            height: MediaQuery.of(context).size.height / 10,
+                            width: MediaQuery.of(context).size.width / 10,
+                            child: CupertinoActivityIndicator(),
+                          ));
+                        }
+                        return ListView(
+                          children: waitList,
+                        );
+                      }
+                    }),
+              ),
               getNextButton(context),
 
             ],
