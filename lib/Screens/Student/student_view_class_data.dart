@@ -274,7 +274,7 @@ class _CompileDataState extends State<CompileData> {
                       print(widget
                           .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
-                        title: Text('Location Map',
+                        title: Text('Text Input Question',
                             style: TextStyle(color: Colors.black)),
                       );
                     },

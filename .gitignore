@@ -43,6 +43,7 @@ app.*.map.json
 #api keys
 /lib/keys
 /android/app/src/main/res/values/secrets.xml
+/android/app/src/main/res/values/secret.xml
 /ios/Runner/keys.*
 
 # Exceptions to above rules.
