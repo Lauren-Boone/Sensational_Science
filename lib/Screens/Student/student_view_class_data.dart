@@ -253,8 +253,7 @@ class _CompileDataState extends State<CompileData> {
                       print(widget
                           .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
-                        title: Text(
-                            'Location Map',
+                        title: Text('Location Map',
                             style: TextStyle(color: Colors.black)),
                       );
                     },
@@ -365,9 +364,7 @@ class _CompileDataState extends State<CompileData> {
           child: new Container(
             child: Column(
               children: <Widget>[
-                Expanded(
-                    child: Text(
-                        '')),
+                Expanded(child: Text('')),
                 Container(
                   height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width / 3,
@@ -458,9 +455,8 @@ class _CompileDataState extends State<CompileData> {
           child: Column(
             children: <Widget>[
               Expanded(child: Text('Image')),
-                            getPrevButton(context),
+              getPrevButton(context),
               getNextButton(context),
-
             ],
           ),
         );
