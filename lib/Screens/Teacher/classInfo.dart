@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sensational_science/Screens/Teacher/classProjects.dart';
+import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
 import 'dart:async';
 import 'roster.dart';
 import 'addRoster.dart';
@@ -76,6 +77,16 @@ class _ClassInfoState extends State<ClassInfo>{
                     onTap: () =>{
                       Navigator.of(context).push( new MaterialPageRoute(
                         builder: (context) => new ViewClassProjects( name: widget.name),
+                      ))
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Add Project"),
+                    subtitle: Text("Add a new project to class"),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: () =>{
+                      Navigator.push(context, new MaterialPageRoute(
+                        builder: (context) => new AddProjectToClass(),
                       ))
                     },
                   ),

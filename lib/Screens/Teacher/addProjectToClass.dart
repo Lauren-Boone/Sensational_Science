@@ -22,7 +22,39 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   String _project;
   DateTime _date;
   bool hasRoster = true;
+  bool myProjectsOnly = true;
   Random numberGenerator = new Random();
+
+  getMyProjects(String uid) async {
+    List<DropdownMenuItem<String>> menuList = [];
+    List<DocumentSnapshot> myProjects = [];
+
+    await Firestore.instance.collection('Teachers').document(uid).collection('Created Projects').getDocuments().then((docList) async {
+      for (var proj in docList.documents) {
+        myProjects.add(await Firestore.instance.collection('Projects').document(proj.data['docIDref']).get());
+      }
+    });
+
+    for (var doc in myProjects) {
+      menuList.add(new DropdownMenuItem<String>(
+        value: doc.documentID,
+        child: new Container(
+          decoration: new BoxDecoration(
+            color: Colors.green,
+            borderRadius:
+                new BorderRadius.circular(3.0),
+          ),
+          height: 32.0,
+          width: MediaQuery.of(context).size.width *
+              0.52,
+          padding: EdgeInsets.fromLTRB(
+              10.0, 5.0, 10.0, 0.0),
+          child: Text(doc.data['title']),
+        ),
+      ));
+    }
+    return menuList;
+  }
 
   Future<void> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
@@ -202,7 +234,79 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                   );
                 },
               ),
-              new StreamBuilder<QuerySnapshot>(
+              Padding(
+                padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.1,
+                  bottom: 10.0),
+                child: Row(
+                  children: [
+                    Text("View only my created projects",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Switch(
+                      value: myProjectsOnly,
+                      onChanged: (value) {
+                        setState(() {
+                          myProjectsOnly = value;
+                        });
+                      },
+                      activeTrackColor: Colors.lightGreenAccent,
+                      activeColor: Colors.green,
+                    ),
+                  ],
+                ),
+              ),
+              myProjectsOnly ? new FutureBuilder(
+                future: getMyProjects(user.uid),
+                builder: (context, projList) {
+                  if (!projList.hasData)
+                    return Center(
+                      child: Text('Loading . . .'),
+                    );
+                  return new Container(
+                    padding: EdgeInsets.only(bottom: 10.0),
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: new Row(
+                      children: <Widget>[
+                        new Expanded(
+                          flex: 2,
+                          child: new Container(
+                            padding:
+                                EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                            child: Text("Project to Assign"),
+                          ),
+                        ),
+                        new Expanded(
+                          flex: 4,
+                          child: new InputDecorator(
+                            decoration: const InputDecoration(
+                              hintText: 'Choose a project',
+                              hintStyle: TextStyle(
+                                color: Colors.green,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            isEmpty: _project == null,
+                            child: new DropdownButton(
+                              value: _project,
+                              isDense: true,
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  _project = newValue;
+                                  print(_project);
+                                });
+                              },
+                              items: projList.data,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ) 
+              : new StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance.collection('Projects').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
