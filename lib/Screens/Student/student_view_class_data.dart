@@ -4,8 +4,17 @@ import 'package:sensational_science/Screens/Student/locationtest.dart';
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'locationtest.dart';
 
 var createLocationMap = LocationMap();
+
+class locationInfo {
+  // double latitude = 0.0;
+  // double longitude = 0.0;
+  String latlonInfo;
+
+  locationInfo({this.latlonInfo});
+}
 
 class ViewClassData extends StatefulWidget {
   final String user;
@@ -44,8 +53,11 @@ class _ViewClassDataState extends State<ViewClassData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("View Data"),
-      ),
+          title: Text("View Data"),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context, false),
+          )),
       body: Container(
         margin: EdgeInsets.all(40),
         child: Center(
@@ -53,7 +65,8 @@ class _ViewClassDataState extends State<ViewClassData> {
             Padding(
               padding: EdgeInsets.all(20),
             ),
-            Text("All of the students' answers have been commpiled. ", style: TextStyle(color: Colors.black, fontSize: 20) ),
+            Text("All of the students' answers have been compiled. ",
+                style: TextStyle(color: Colors.black, fontSize: 20)),
             Padding(
               padding: EdgeInsets.all(20),
             ),
@@ -192,38 +205,36 @@ class _CompileDataState extends State<CompileData> {
         child: Text("Prev"),
         color: Colors.red,
         onPressed: () {
-          if (_currentQuestion < widget.proj.questions.length) {
+          if (_currentQuestion < widget.proj.questions.length &&
+              _currentQuestion != 0) {
             setState(() {
               //controllers.add(value);
               _currentQuestion--;
             });
-          } else {}
+          } else if (_currentQuestion == 0) {
+            Navigator.pop(context);
+          }
         });
   }
 
   Widget build(BuildContext context) {
-   
     if (_currentQuestion >= widget.proj.questions.length) {
       return Material(
         child: Container(
-          margin: EdgeInsets.all(30),
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Text('End of Compiled Answers'),
-              RaisedButton(
-                child: Text('Click to Go back'),
-                onPressed: ()=>
-                  Navigator.of(context).pop(),
-                  
-              )
-            ],
-          )
-        ),
-        
+            margin: EdgeInsets.all(30),
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Text('End of Compiled Answers'),
+                RaisedButton(
+                  child: Text('Click to Go back'),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              ],
+            )),
       );
     }
-     while (proj.questions[_currentQuestion].compAnswers.length == 0) {
+    while (proj.questions[_currentQuestion].compAnswers.length == 0) {
       setState(() {});
     }
     switch (widget.proj.questions[_currentQuestion].type.toString()) {
@@ -243,12 +254,13 @@ class _CompileDataState extends State<CompileData> {
                           .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
                         title: Text(
-                            '${widget.proj.questions[_currentQuestion].compAnswers[index]}',
+                            'Location Map',
                             style: TextStyle(color: Colors.black)),
                       );
                     },
                   ),
                 ),
+                getPrevButton(context),
                 getNextButton(context),
               ],
             ),
@@ -303,8 +315,8 @@ class _CompileDataState extends State<CompileData> {
                     ),
                   ),
                 ),
-                getNextButton(context),
                 getPrevButton(context),
+                getNextButton(context),
               ],
             ),
           ),
@@ -334,8 +346,8 @@ class _CompileDataState extends State<CompileData> {
                     },
                   ),
                 ),
-                getNextButton(context),
                 getPrevButton(context),
+                getNextButton(context),
               ],
             ),
           ),
@@ -343,17 +355,45 @@ class _CompileDataState extends State<CompileData> {
 
         break;
       case 'UserLocation':
+        // print('${widget.proj.questions[_currentQuestion].compAnswers[0]}');
+        var locationInfoMap =
+            widget.proj.questions[_currentQuestion].compAnswers[0];
+        final lms = locationInfo(
+            latlonInfo:
+                '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
           child: new Container(
             child: Column(
               children: <Widget>[
-                Expanded(child: Text('Location')),
+                Expanded(
+                    child: Text(
+                        '')),
                 Container(
-                    height: MediaQuery.of(context).size.height / 3,
-                    width: MediaQuery.of(context).size.width / 3,
-                    child: createLocationMap),
-                getNextButton(context),
+                  height: MediaQuery.of(context).size.height / 3,
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: new LocationMap(lms: lms),
+                  // child: RaisedButton(
+                  //   child: Text('Click to load map'),
+
+                  //   onPressed: () {
+                  //     // var locationInfoMap = createLocationMap;
+                  //     var locationInfoMap = widget
+                  //         .proj.questions[_currentQuestion].compAnswers[0];
+                  //         final lms = locationInfo(latlonInfo: '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
+                  //     // locationInfoMap.longitude = widget
+                  //     //     .proj.questions[_currentQuestion].compAnswers[0][1];
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => LocationMap(
+                  //                 lms: lms,
+                  //               )),
+                  //     );
+                  //   },
+                  // ),
+                ),
                 getPrevButton(context),
+                getNextButton(context),
               ],
             ),
           ),
@@ -382,7 +422,7 @@ class _CompileDataState extends State<CompileData> {
                     animate: true,
                     animationDuration: Duration(seconds: 2),
                     // barRendererDecorator: new charts.BarLabelDecorator<String>(),
-      domainAxis: new charts.OrdinalAxisSpec(),
+                    domainAxis: new charts.OrdinalAxisSpec(),
                     behaviors: [
                       new charts.DatumLegend(
                         outsideJustification:
@@ -392,21 +432,20 @@ class _CompileDataState extends State<CompileData> {
                         cellPadding:
                             new EdgeInsets.only(right: 4.0, bottom: 4.0),
                         entryTextStyle: charts.TextStyleSpec(
-                          //color: charts.MaterialPalette.purple.shadeDefault,
+                          color: charts.MaterialPalette.purple.shadeDefault,
                           fontFamily: 'Georgia',
                           fontSize: 11,
                         ),
                       ),
                     ],
-                    
+
                     defaultRenderer: new charts.BarRendererConfig(
                       groupingType: charts.BarGroupingType.groupedStacked,
-                      
                     ),
                   ),
                 ),
-                getNextButton(context),
                 getPrevButton(context),
+                getNextButton(context),
               ],
             ),
           ),
@@ -419,8 +458,9 @@ class _CompileDataState extends State<CompileData> {
           child: Column(
             children: <Widget>[
               Expanded(child: Text('Image')),
+                            getPrevButton(context),
               getNextButton(context),
-              getPrevButton(context),
+
             ],
           ),
         );

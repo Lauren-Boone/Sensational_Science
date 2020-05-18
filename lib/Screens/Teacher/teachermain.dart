@@ -171,21 +171,21 @@ bool selected= false;
                   },
                 ),
               ), 
-                             Card(
-                child: ListTile(
-                  title: Text('Location', style: TextStyle(fontSize: 20)),
-                  subtitle: Text('Location Test'),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LocationMap(),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              //                Card(
+              //   child: ListTile(
+              //     title: Text('Location'),
+              //     subtitle: Text('Location Test'),
+              //     trailing: Icon(Icons.arrow_forward_ios), 
+              //     onTap: (){
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => LocationMap(),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
             ],
           ),
           floatingActionButton: RaisedButton(
