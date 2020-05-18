@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/web_imageCapture.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/imageCapture/imageCaptureService.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import '../../Services/getproject.dart';
 import 'package:sensational_science/Screens/Teacher/textquestion.dart';
 import 'package:sensational_science/Screens/Teacher/multiplechoicequestion.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
 import 'package:sensational_science/Screens/Teacher/shortanswerquestion.dart';
 import 'package:sensational_science/Screens/Teacher/numericalquestion.dart';
 import 'package:sensational_science/Screens/Teacher/UserLocationInfo.dart';
@@ -370,24 +369,17 @@ class _CollectDataState extends State<CollectData> {
                           preFilledFile = await getImage(
                               widget.student.code, _currentQuestion.toString());
                         }
-                        if (kIsWeb) {
-                          Navigator.of(context).push(
+                        Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => WebImageCapture())
-                          );
-                        } else {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ImageCapture(
-                                student: widget.student,
-                                questionNum: _currentQuestion.toString(),
-                                imgLocController:
-                                    widget.controllers[_currentQuestion],
-                                imageFile: preFilledFile,
-                              ),
+                            builder: (context) => ImageCapture(
+                              student: widget.student,
+                              questionNum: _currentQuestion.toString(),
+                              imgLocController:
+                                  widget.controllers[_currentQuestion],
+                              imageFile: preFilledFile,
                             ),
-                          );
-                        }
+                          ),
+                        );
                       },
                     );
                   }),

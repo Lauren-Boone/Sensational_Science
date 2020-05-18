@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'dart:ui' as ui;
+import 'package:sensational_science/models/student.dart';
+import 'dart:io';
 
-class WebImageCapture extends StatefulWidget {
+class ImageCapture extends StatefulWidget {
+  final Student student;
+  final String questionNum;
+  final TextEditingController imgLocController;
+  final File imageFile;
+
+  ImageCapture({this.student, this.questionNum, this.imgLocController, this.imageFile});
+
   @override
-  _WebImageCaptureState createState() => _WebImageCaptureState();
+  _ImageCaptureState createState() => _ImageCaptureState();
 }
 
-class _WebImageCaptureState extends State<WebImageCapture> {
+class _ImageCaptureState extends State<ImageCapture> {
   Widget _camera;
   html.VideoElement _cameraVideo = new html.VideoElement();
   String key = UniqueKey().toString();
