@@ -90,6 +90,8 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                   // questionObservations.addAnswer(widget.questionNum, result.toString()); 
                   
                   await writeString(widget.code, widget.userLocationController.text, widget.questionNum.toString());
+                  if(widget.userLocationController.text == "")
+                    Text("Invalid or no user location entered. User Location will be set to (0.0, 0.0) "); 
                   print('Inner Success'); 
                 });
                 print("Success!");

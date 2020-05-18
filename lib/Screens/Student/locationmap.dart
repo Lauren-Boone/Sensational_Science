@@ -29,7 +29,7 @@ class LocationMap extends StatefulWidget {
 
 class LocationMapState extends State<LocationMap> {
   var results;
-final List<Marker> markers = [];
+  final List<Marker> markers = [];
   void add(lat, lon) {
     // RegExp exp = new RegExp(r"^Lat: (.*), Long: (.*)");
     // var lms_actual = widget.lms.toString();
@@ -41,16 +41,16 @@ final List<Marker> markers = [];
     // double lon = double.parse(matches.toList()[0].group(2));
     final String markerIdValue = "1";
     final MarkerId markerId = MarkerId(markerIdValue);
-    
+
     setState(() {
-      markers.clear(); 
+      markers.clear();
       final Marker marker = Marker(
           markerId: markerId,
           position: LatLng(lat, lon),
           draggable: false,
           infoWindow: InfoWindow(title: "Current Location"));
-          markers.add(marker);
-    }); 
+      markers.add(marker);
+    });
   }
 
   @override
@@ -76,27 +76,64 @@ final List<Marker> markers = [];
     RegExp exp = new RegExp(r"^Lat: (.*), Long: (.*)");
     var lms_actual = widget.lms.toString();
     var lms_test = widget.lms.latlonInfo;
+    print("LMS TEST: " + lms_test); 
+    var check = true; 
+    double lat, lon; 
     print(lms_actual);
+    if (lms_test != ""){
     Iterable<RegExpMatch> matches = exp.allMatches(lms_test);
 
-    double lat = double.parse(matches.toList()[0].group(1));
-    double lon = double.parse(matches.toList()[0].group(2));
-    add(lat, lon); 
+     lat = double.parse(matches.toList()[0].group(1));
+     lon = double.parse(matches.toList()[0].group(2));
+    }else{
+      print("No valid location info available. Location Info set to (0.0, 0.0)");
+      lat = 0.0; 
+      lon = 0.0; 
+      check = false; 
+    }
+
+    add(lat, lon);
+    // if (lms_test == "") {
+    //   print("No valid location info available. Location Info set to (0.0, 0.0)");
+    //   lat = 0.0;
+    //   lon = 0.0;
+    //   check = false; 
+    // }
     return Material(
       child: new Container(
         child: Column(
           children: <Widget>[
-            Expanded(child: Text('Location')),
-            Container(
+            if(check)
+              Container(
               height: MediaQuery.of(context).size.height / 3,
               width: MediaQuery.of(context).size.width / 3,
               child: GoogleMap(
-                mapType: MapType.hybrid,
-                initialCameraPosition:
-                    CameraPosition(target: LatLng(lat, lon), zoom: 11),
-                markers: Set.from(markers)
+                  mapType: MapType.hybrid,
+                  initialCameraPosition:
+                      CameraPosition(target: LatLng(lat, lon), zoom: 11),
+                  markers: Set.from(markers)),
+              )
+              else
+                Text("No valid location entered. Location Info set to (0.0, 0.0)"), 
+                              Container(
+              height: MediaQuery.of(context).size.height / 3,
+              width: MediaQuery.of(context).size.width / 3,
+              child: GoogleMap(
+                  mapType: MapType.hybrid,
+                  initialCameraPosition:
+                      CameraPosition(target: LatLng(lat, lon), zoom: 11),
+                  markers: Set.from(markers)),
               ),
-            )
+            Expanded(child: Text('Location')),
+            // Container(
+            //   height: MediaQuery.of(context).size.height / 3,
+            //   width: MediaQuery.of(context).size.width / 3,
+            //   child: GoogleMap(
+            //       mapType: MapType.hybrid,
+            //       initialCameraPosition:
+            //           CameraPosition(target: LatLng(lat, lon), zoom: 11),
+            //       markers: Set.from(markers)),
+            // )
           ],
         ),
       ),

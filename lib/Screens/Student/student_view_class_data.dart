@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sensational_science/Screens/Student/locationtest.dart';
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:sensational_science/Services/firebaseStorage/fireStorageService.dart';
-import 'locationtest.dart';
+import 'locationmap.dart';
 
 var createLocationMap = LocationMap();
 
