@@ -40,7 +40,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
         value: doc.documentID,
         child: new Container(
           decoration: new BoxDecoration(
-            color: Colors.green,
+            color: Colors.lightGreen,
             borderRadius:
                 new BorderRadius.circular(3.0),
           ),
@@ -215,7 +215,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                                   value: document.documentID,
                                   child: new Container(
                                     decoration: new BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.lightGreen,
                                       borderRadius:
                                           new BorderRadius.circular(3.0),
                                     ),
@@ -355,7 +355,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                                   value: document.documentID,
                                   child: new Container(
                                     decoration: new BoxDecoration(
-                                      color: Colors.green,
+                                      color: Colors.lightGreen,
                                       borderRadius:
                                           new BorderRadius.circular(3.0),
                                     ),
