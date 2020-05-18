@@ -122,7 +122,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
         'Project': projRef.documentID, //project doc id in class
         'ProjectID': projectID, //project doc id in top level project collection
         'ProjectTitle': projectDoc.data['title'], //project title
-        'DueDate': projRef.get().then((doc) {return doc.data['dueDate'];}), //project due date
+        'dueDate': dueDate, //project due date
         'Subject': projectDoc.data['subject'], //project subject
       });
     }
