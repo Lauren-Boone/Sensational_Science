@@ -124,9 +124,15 @@ class _DynamicWidgetState extends State<DynamicWidget> {
     } else {
       return Container(
         margin: new EdgeInsets.all(8.0),
-        decoration: BoxDecoration(border: Border.all(
-          color: Colors.black,
-          )),
+        decoration: BoxDecoration(
+          color: Colors.white, 
+          borderRadius: BorderRadius.all(Radius.circular(10)), 
+          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 5, blurRadius: 7, offset: Offset(0, 3))] 
+
+          // border: Border.all(
+          // color: Colors.black,
+          // )
+          ),
         child: Column(
           children: <Widget>[
             new Text("Question Number: " + widget.numq.toString(),
@@ -151,8 +157,12 @@ class DynamicAnswers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(5),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
+          color: Colors.white, 
+          borderRadius: BorderRadius.all(Radius.zero), 
+          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 5, blurRadius: 7, offset: Offset(0, 3))], 
+          // border: Border.all(color: Colors.black),
         ),
         width: MediaQuery.of(context).size.width / 2,
         child: SizedBox(
