@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 
 class ViewAllStudentCodes extends StatelessWidget{
   final String teachID;
@@ -49,6 +50,20 @@ class ViewAllStudentCodes extends StatelessWidget{
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context, false),
         ),
+          actions: <Widget>[
+          FlatButton.icon(
+           icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

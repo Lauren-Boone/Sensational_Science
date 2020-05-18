@@ -42,9 +42,9 @@ class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
   List<TextEditingController> questions=[];
   List<List<TextEditingController>> answers = [];
   List<String> types = ["MultipleChoice", "TextInputItem", "ShortAnswerItem", "UserLocation", "NumericalInputItem", "AddImageInput"];
+  String curVal='MultipleChoice';
 
-
-  String selected;
+  //String selected;
   int numQuestions = 0;
 bool _checkforInput(){
   bool retVal = true;
@@ -89,17 +89,27 @@ bool _checkforInput(){
                   itemBuilder: (_, index) => questionwidgets[index]),
             ),
             new RaisedButton(
-              child: new Text('Add a Questions'),
+              child: new Text('Add a Question'),
               onPressed: () => {
+                
+                curVal = 'MultipleChoice',
+                setState((){}),
                 showDialog(
+                  
                     context: context,
+                    
                     builder: (BuildContext context) {
                       //addQuestiontoAccordion.add(new DynamicWidget());
                       return AlertDialog(
-                          title: Text("Select a type of questions"),
                           actions: <Widget>[
+                        new StatefulBuilder(
+                         builder: (BuildContext context, StateSetter setState) {
+                           return Column(
+                             children: <Widget>[
+                          Text("Select the type of question"),
+                          
                             DropdownButton(
-                              value: selected,
+                              value: curVal,
                               items: types.map<DropdownMenuItem<String>>(
                                   (String value) {
                                 return DropdownMenuItem<String>(
@@ -107,34 +117,49 @@ bool _checkforInput(){
                                   child: Text(value),
                                 );
                               }).toList(),
-                              onChanged: (String value) {
-                                selected = value;
+                              onChanged: (String newValue) {
+                               curVal = newValue;
+                               
+                               print(curVal);
                                 setState(() {
-                                  selected = value;
+                                  
                                 });
                               },
                             ),
-                            RaisedButton(
-                              child: Text('continue'),
+                           
+                            
+                             ],
+                         
+                          
+                           );
+                         }
+
+                        ),
+                         RaisedButton(
+                              child: Text('Continue'),
                               onPressed: () {
-                                if (selected == "") {
+                                if (curVal == "") {
                                 } else {
                                   numQuestions++;
-                                  questionwidgets.add(new DynamicWidget(
-                                      type: selected, numq: numQuestions));
-                                      typecontroller.add(selected);
-                                  setState(() {});
+                                  setState(() {
+                                   questionwidgets.add(new DynamicWidget(
+                                      type: curVal, numq: numQuestions));
+                                      typecontroller.add(curVal);
+                                  });
+                             
                                   Navigator.of(context).pop();
+                                    
+                                  
                                 }
                               },
                             ),
-                            
-                          ]);
+                          ]
+                          );
                     }),
               },
             ),
             RaisedButton(
-                              child: Text('Create Project'),
+                              child: Text('Submit Created Project'),
                               onPressed: (){
                                 
                                 if(questionwidgets.length == 0){
@@ -251,6 +276,7 @@ class DynamicWidget extends StatefulWidget {
 }
 
 class _DynamicWidgetState extends State<DynamicWidget> {
+  
   @override
   Widget build(BuildContext context) {
     if (widget.type == "MultipleChoice") {

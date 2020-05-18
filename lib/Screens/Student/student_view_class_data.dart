@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'package:sensational_science/Screens/Student/locationtest.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
+>>>>>>> lauren_week8
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -57,7 +62,23 @@ class _ViewClassDataState extends State<ViewClassData> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context, false),
-          )),
+
+          ),
+           actions: <Widget>[
+          FlatButton.icon(
+              icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+          onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
+          ),
       body: Container(
         margin: EdgeInsets.all(40),
         child: Center(
@@ -241,11 +262,11 @@ class _CompileDataState extends State<CompileData> {
     if (_currentQuestion >= widget.proj.questions.length) {
       return Material(
         child: Container(
-            margin: EdgeInsets.all(30),
+            margin: EdgeInsets.all(50),
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                Text('End of Compiled Answers'),
+                Text('End of Compiled Answers', style: TextStyle(fontSize: 25)),
                 RaisedButton(
                   child: Text('Click to Go back'),
                   onPressed: () => Navigator.of(context).pop(),
@@ -261,10 +282,15 @@ class _CompileDataState extends State<CompileData> {
       case 'TextInputItem':
         return Material(
           child: Container(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                new Text('Text Input', style: TextStyle(color: Colors.black)),
+               new Card(
+                    child: new Text(
+                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 25),
+                         )
+                        ),
                 Expanded(
                   child: new ListView.builder(
                     itemCount: widget
@@ -273,8 +299,9 @@ class _CompileDataState extends State<CompileData> {
                       print(widget
                           .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
-                        title: Text('Text Input Question',
-                            style: TextStyle(color: Colors.black)),
+                        title: Text(
+                            widget.proj.questions[_currentQuestion].compAnswers[index],
+                            style: TextStyle(color: Colors.black, fontSize: 25)),
                       );
                     },
                   ),
@@ -292,18 +319,16 @@ class _CompileDataState extends State<CompileData> {
         _getGraph(multGraph);
         return Material(
           child: Container(
+             padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                Center(
-                  child: new Card(
-                    child: Text('Mult Choice',
-                        style: TextStyle(color: Colors.black)),
-                  ),
-                ),
+               
                 new Card(
                     child: new Text(
-                        widget.proj.questions[_currentQuestion].question)),
+                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 25),
+                         )
+                        ),
                 new Expanded(
                   child: charts.PieChart(
                     multGraph,
@@ -313,19 +338,19 @@ class _CompileDataState extends State<CompileData> {
                       new charts.DatumLegend(
                         outsideJustification:
                             charts.OutsideJustification.endDrawArea,
-                        horizontalFirst: false,
+                        horizontalFirst: true,
                         desiredMaxRows: 2,
                         cellPadding:
-                            new EdgeInsets.only(right: 4.0, bottom: 4.0),
+                            new EdgeInsets.only(right: 12.0, bottom: 4.0),
                         entryTextStyle: charts.TextStyleSpec(
                           color: charts.MaterialPalette.purple.shadeDefault,
                           fontFamily: 'Georgia',
-                          fontSize: 11,
+                          fontSize: 20,
                         ),
                       ),
                     ],
                     defaultRenderer: new charts.ArcRendererConfig(
-                      arcWidth: 100,
+                      arcWidth: 250,
                       arcRendererDecorators: [
                         new charts.ArcLabelDecorator(
                           labelPosition: charts.ArcLabelPosition.inside,
@@ -345,11 +370,15 @@ class _CompileDataState extends State<CompileData> {
       case 'ShortAnswerItem':
         return Material(
           child: Container(
+             padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                new Text('Short answer Input',
-                    style: TextStyle(color: Colors.black)),
+               new Card(
+                    child: new Text(
+                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 25),
+                         )
+                        ),
                 Expanded(
                   child: new ListView.builder(
                     itemCount: widget
@@ -360,7 +389,7 @@ class _CompileDataState extends State<CompileData> {
                       return ListTile(
                         title: Text(
                             '${widget.proj.questions[_currentQuestion].compAnswers[index]}',
-                            style: TextStyle(color: Colors.black)),
+                           style: TextStyle(color: Colors.black, fontSize: 25)),
                       );
                     },
                   ),
@@ -384,7 +413,11 @@ class _CompileDataState extends State<CompileData> {
           child: new Container(
             child: Column(
               children: <Widget>[
-                Expanded(child: Text('')),
+                new Card(
+                    child: new Text(
+                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 25),
+                         )
+                        ),
                 Container(
                   height: MediaQuery.of(context).size.height / 2,
                   width: MediaQuery.of(context).size.width / 2,
@@ -421,43 +454,56 @@ class _CompileDataState extends State<CompileData> {
         _getGraph(multGraph);
         return Material(
           child: Container(
+             padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                Center(
-                  child: new Card(
-                    child: Text('Numerical Graph',
-                        style: TextStyle(color: Colors.black)),
-                  ),
-                ),
+                
                 new Card(
                     child: new Text(
-                        widget.proj.questions[_currentQuestion].question)),
+                        widget.proj.questions[_currentQuestion].question,
+                        style: TextStyle(color: Colors.black, fontSize: 25),
+                        )
+                        ),
                 new Expanded(
-                  child: charts.OrdinalComboChart(
+                  child: charts.BarChart(
                     multGraph,
                     animate: true,
-                    animationDuration: Duration(seconds: 2),
+                    animationDuration: Duration(seconds: 1),
                     // barRendererDecorator: new charts.BarLabelDecorator<String>(),
-                    domainAxis: new charts.OrdinalAxisSpec(),
+                    domainAxis: new charts.OrdinalAxisSpec(
+                      renderSpec: charts.GridlineRendererSpec(labelStyle: 
+                      new charts.TextStyleSpec(
+                  fontSize: 18),
+                    ),
+                    ),
+                     primaryMeasureAxis: new charts.NumericAxisSpec(
+          renderSpec: new charts.GridlineRendererSpec(
+
+              // Tick and Label styling here.
+              labelStyle: new charts.TextStyleSpec(
+                  fontSize: 18, // size in Pts.
+                  color: charts.MaterialPalette.black),
+          ),
+                     ),
                     behaviors: [
                       new charts.DatumLegend(
                         outsideJustification:
                             charts.OutsideJustification.endDrawArea,
-                        horizontalFirst: false,
+                        horizontalFirst: true,
                         desiredMaxRows: 2,
-                        cellPadding:
-                            new EdgeInsets.only(right: 4.0, bottom: 4.0),
+                        showMeasures: true,
+                        
                         entryTextStyle: charts.TextStyleSpec(
                           color: charts.MaterialPalette.purple.shadeDefault,
                           fontFamily: 'Georgia',
-                          fontSize: 11,
+                          fontSize: 30,
                         ),
                       ),
                     ],
 
                     defaultRenderer: new charts.BarRendererConfig(
-                      groupingType: charts.BarGroupingType.groupedStacked,
+                      groupingType: charts.BarGroupingType.grouped,
                     ),
                   ),
                 ),
@@ -471,20 +517,16 @@ class _CompileDataState extends State<CompileData> {
         break;
       case 'AddImageInput':
         return new Container(
+           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              Expanded(child: Text('Image')),
-              getPrevButton(context),
-              Center(
-                child: new Card(
-                  child: Text('Images',
-                      style: TextStyle(color: Colors.black)),
-                ),
-              ),
+              
               new Card(
                   child: new Text(
-                      widget.proj.questions[_currentQuestion].question)),
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      )),
               Expanded(
                 child: FutureBuilder(
                     future: _getImages(context,

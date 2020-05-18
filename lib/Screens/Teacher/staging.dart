@@ -60,6 +60,7 @@ class StagePageState extends State<StagingPage> {
   String pubpriv = 'Current Setting: Public';
   final _formKey = GlobalKey<FormState>();
   AddProject proj;
+  var subjectVal = "Physics";
   List<String> subjects = [
     "Physics",
     "Biology",
@@ -94,7 +95,7 @@ class StagePageState extends State<StagingPage> {
     final TextEditingController projectTitleController =
         new TextEditingController();
     final TextEditingController projectInfo = new TextEditingController();
-    var subjectVal = subjects[0];
+    
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Project Info"),
@@ -139,6 +140,9 @@ class StagePageState extends State<StagingPage> {
 
                   onChanged: (String newValue) {
                     subjectVal = newValue;
+                    setState(() {
+                      
+                    });
                     print(subjectVal);
                   },
                   //onChanged: (value) => setState(() => _currentInfo = value),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/saveStudentAnswers.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import 'package:sensational_science/models/user.dart';
 import '../../models/project.dart';
@@ -133,6 +134,20 @@ class _ViewProjectState extends State<ViewProject> {
               onPressed: () => Navigator.pop(context, false),
             ),
             backgroundColor: Colors.deepPurple,
+              actions: <Widget>[
+          FlatButton.icon(
+              icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+         onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
             ),
         body:
             /*widget.project.questions.length == 0

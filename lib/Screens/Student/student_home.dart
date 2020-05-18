@@ -34,6 +34,16 @@ class StudentHome extends StatelessWidget{
         appBar: AppBar(
           title: Text('Project Home Page'),
           backgroundColor: Colors.deepPurple,
+           actions: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.person),
+              label: Text('Log out'),
+              onPressed: () {
+                
+              },
+            ),
+          ]
+              
         ),
         body: Center(
           child: Column(
