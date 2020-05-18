@@ -509,7 +509,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
       }
     }
 
-    _checkForRoster(String uid) {
+  Future<void>  _checkForRoster(String uid) {
       Future<QuerySnapshot> snap = Firestore.instance
           .collection('Teachers')
           .document(uid)
