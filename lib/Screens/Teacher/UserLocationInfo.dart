@@ -83,9 +83,9 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                 controller: widget.userLocationController;
                 var questionObservations = Observation.of(context);
                 widget.getUserLocation().then((result) async {
-                  // setState(() {
-                  //   results = result;
-                  // });
+                  setState(() {
+                    results = result;
+                  });
                   widget.userLocationController.text = result.toString();
                   // questionObservations.addAnswer(widget.questionNum, result.toString()); 
                   

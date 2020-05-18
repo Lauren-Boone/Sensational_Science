@@ -387,8 +387,8 @@ class _CompileDataState extends State<CompileData> {
               children: <Widget>[
                 Expanded(child: Text('')),
                 Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width / 3,
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width / 2,
                   child: new LocationMap(lms: lms),
                   // child: RaisedButton(
                   //   child: Text('Click to load map'),
