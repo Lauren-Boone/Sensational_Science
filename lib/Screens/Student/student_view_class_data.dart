@@ -275,7 +275,7 @@ class _CompileDataState extends State<CompileData> {
                           .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
                         title: Text(
-                            'Location Map',
+                            widget.proj.questions[_currentQuestion].compAnswers[index],
                             style: TextStyle(color: Colors.black)),
                       );
                     },
@@ -283,7 +283,6 @@ class _CompileDataState extends State<CompileData> {
                 ),
                 getPrevButton(context),
                 getNextButton(context),
-                getPrevButton(context),
               ],
             ),
           ),
