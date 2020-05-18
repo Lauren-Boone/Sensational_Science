@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/user.dart';
-
+import 'package:sensational_science/Screens/Teacher/viewStudentCodes.dart';
 
 
 class AddRoster extends StatefulWidget{
@@ -98,29 +98,6 @@ class _AddRosterState extends State<AddRoster>{
   setState(() {});
 }
 
-  /*
-  List<String> tags = List.from(doc.data['name']);
-  
-    if(tags.contains(element.controller.text)==true){
-    
-    docRef.addData({
-      'Name' : FieldValue.arrayRemove([element.controller.text])
-    });
-    
-  }
-  else{
-    docRef.updateData(
-      {
-      'Name' : FieldValue.arrayUnion([element.controller.text])
-      });
-  }
-  });
-  
-  roster.forEach(
-    (widget)=>print(widget.controller.text)
-  );
-}
-*/
 String success = '';
 @override
 
@@ -136,6 +113,7 @@ Widget build(BuildContext context){
         child: Column(
           children: [
             new Text('Current Roster'),
+            new Text('Select a student to view their project access codes'),
             new StreamBuilder(
               stream: Firestore.instance.collection('Teachers').
                 document(user.uid)
@@ -152,6 +130,14 @@ Widget build(BuildContext context){
                       children: snapshot.data.documents.map<Widget>((doc){
                         return new ListTile(
                           title: new Text(doc['name']),
+                          trailing: Icon(Icons.arrow_forward_ios),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                              builder: (context) =>ViewStudentCodes(teachID: user.uid, classID: widget.name, studentID: doc.documentID, name: doc['name']),
+                            ),);
+                          }
                         );
                       }).toList(),
                     ),
