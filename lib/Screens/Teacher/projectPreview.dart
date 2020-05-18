@@ -45,7 +45,8 @@ class _PreviewProjectState extends State<PreviewProject> {
                           leading: IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () => Navigator.pop(context, false),
-                )
+                ),
+                backgroundColor: Colors.deepPurple,
         ),
         body: Column(
           children: <Widget>[
@@ -102,9 +103,9 @@ class _DynamicWidgetState extends State<DynamicWidget> {
           child: Column(
       children: <Widget>[
         new Text("Question Number: " + widget.numq.toString(),
-          style: TextStyle(fontSize: 20)),
+          style: TextStyle(fontSize: 18)),
         new Text("Type: " + widget.type),
-         new Text("Question: " + widget.question, style: TextStyle(fontSize: 30)),
+         new Text("Question: " + widget.question, style: TextStyle(fontSize: 20)),
         new ListView.builder(
             shrinkWrap: true,
             itemCount: widget.answers.length,
@@ -118,9 +119,9 @@ class _DynamicWidgetState extends State<DynamicWidget> {
         child: Column(
           children: <Widget>[
             new Text("Question Number: " + widget.numq.toString(),
-                style: TextStyle(fontSize: 20)),
+                style: TextStyle(fontSize: 18)),
             new Text("Type: " + widget.type),
-            new Text("Question: " + widget.question, style: TextStyle(fontSize: 30)),
+            new Text("Question: " + widget.question, style: TextStyle(fontSize: 20)),
             new Text("Answers: " + widget.keyAnswers),
           ],
         ),
@@ -141,7 +142,8 @@ class DynamicAnswers extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 2,
         child: SizedBox(
       width: 50,
-      child: Text("Answer " + this.numAnswer.toString() + ": " + this.answer),
+      child: new Text("Answer " + this.numAnswer.toString() + ": " + this.answer, style: TextStyle(fontSize: 14)),
+      
       
     ));
   }
