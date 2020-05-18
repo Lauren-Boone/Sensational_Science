@@ -189,6 +189,7 @@ String docIDref;
   String projInfo;
   String createdProjID;
   bool hasKey = false;
+   bool titleExists = false;
   String uid;
   List<dynamic> answers = new List();
    _ViewPublicStagingState(title, docID, projInfo, createdProjID, uid) {
@@ -207,7 +208,8 @@ String docIDref;
         }
         else{
         getAnswers(uid);
-        }//project.questionData();
+        }
+        checkforProject();//project.questionData();
     // this.controllers = new List();
    
 
@@ -232,9 +234,27 @@ getAnswers(String user)async{
     
   });
 }
+checkforProject()async{
+final existingProjects =
+                          await Firestore.instance
+                          .collection('Teachers')
+                          .document(uid)
+                          .collection('Created Projects')
+                          .getDocuments();
+                      for (var doc in existingProjects.documents) {
+                        if (doc.data['docIDref'] == docIDref){
+                          titleExists = true;
+                        }
+                      }
+}
 
-addProjectToTeacher(){
- Firestore.instance
+addProjectToTeacher() async{
+  
+                      
+                     
+                     
+
+                  Firestore.instance
               .collection("Teachers")
               .document(uid)
               .collection('Created Projects')
@@ -246,6 +266,9 @@ addProjectToTeacher(){
             'subject': this.project.subject,
             'owned': false,
           });
+                      
+                      
+
     
 }
   @override
@@ -293,13 +316,37 @@ final user = Provider.of<User>(context);
                     ),
                     
                     RaisedButton(
+
                       onPressed: () {
+
                         //color: Colors.blue;
                         setState(() {});
                         project.questions.forEach((element) {
                           print(element.question);
                         });
-                        addProjectToTeacher();
+                        
+                        
+                        if(titleExists){
+                           return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                  title: Text("Project Exists in your List"),
+                                  content: Text(
+                                      "This project is already in your list of projects!."),
+                                  actions: <Widget>[
+                                    RaisedButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ]);
+                            });
+                        }
+                        else{
+                          addProjectToTeacher();
+                        }
                       
                       },
                       child: Text('Click to add this project your project list!'),
