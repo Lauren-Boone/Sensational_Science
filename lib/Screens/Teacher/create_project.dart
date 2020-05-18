@@ -284,7 +284,7 @@ bool _checkForPrompts() {
                                   }
                                   answerCount++;
                                 }
-                              }                              
+                              }
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {

@@ -136,21 +136,21 @@ class TeacherHome extends StatelessWidget{
                 ),
               ),
               
-              Card(
-                child: ListTile(
-                  title: Text('Test Camera'),
-                  subtitle: Text('Test opening camera & picture from file'),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ImageCapture(),
-                      ),
-                    );
-                  },
-                ),
-              ), 
+              // Card(
+              //   child: ListTile(
+              //     title: Text('Test Camera'),
+              //     subtitle: Text('Test opening camera & picture from file'),
+              //     trailing: Icon(Icons.arrow_forward_ios), 
+              //     onTap: (){
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => ImageCapture(),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),  
               //                Card(
               //   child: ListTile(
               //     title: Text('Location'),
