@@ -274,8 +274,7 @@ class _CompileDataState extends State<CompileData> {
                       print(widget
                           .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
-                        title: Text(
-                            widget.proj.questions[_currentQuestion].compAnswers[index],
+                        title: Text('Text Input Question',
                             style: TextStyle(color: Colors.black)),
                       );
                     },
@@ -386,9 +385,7 @@ class _CompileDataState extends State<CompileData> {
           child: new Container(
             child: Column(
               children: <Widget>[
-                Expanded(
-                    child: Text(
-                        '')),
+                Expanded(child: Text('')),
                 Container(
                   height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width / 3,
@@ -478,6 +475,8 @@ class _CompileDataState extends State<CompileData> {
           color: Colors.white,
           child: Column(
             children: <Widget>[
+              Expanded(child: Text('Image')),
+              getPrevButton(context),
               Center(
                 child: new Card(
                   child: Text('Images',
@@ -524,7 +523,6 @@ class _CompileDataState extends State<CompileData> {
                     }),
               ),
               getNextButton(context),
-
             ],
           ),
         );

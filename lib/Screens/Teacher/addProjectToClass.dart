@@ -164,7 +164,9 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+            backgroundColor: Colors.deepPurple,
+            ),
         body: new Container(
           child: new Column(
             children: <Widget>[

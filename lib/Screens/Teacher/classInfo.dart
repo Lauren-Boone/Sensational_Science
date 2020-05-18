@@ -94,7 +94,7 @@ class _ClassInfoState extends State<ClassInfo>{
               ),
             ),
             new Divider(
-              color: Colors.blue,
+              color: Colors.deepPurple,
               height: 10.0,
             ),
             Text("Class Information",

@@ -229,6 +229,8 @@ PODS:
     - Flutter
   - cloud_firestore_web (0.1.0):
     - Flutter
+  - Firebase (6.24.0):
+    - Firebase/Core (= 6.24.0)
   - Firebase/Analytics (6.24.0):
     - Firebase/Core
   - Firebase/Auth (6.24.0):
@@ -453,6 +455,7 @@ PODS:
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_firestore_web (from `.symlinks/plugins/cloud_firestore_web/ios`)
+  - Firebase
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Core
@@ -619,6 +622,6 @@ SPEC CHECKSUMS:
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   TOCropViewController: e9da34f484aedd4e5d5a8ab230ba217cfe16c729
 
-PODFILE CHECKSUM: f23077855c6a8fc2cb3abbb5d1b5994e3c34fd31
+PODFILE CHECKSUM: ad65aae4cc02b153c76328e2edfa58822667bb9b
 
 COCOAPODS: 1.9.1

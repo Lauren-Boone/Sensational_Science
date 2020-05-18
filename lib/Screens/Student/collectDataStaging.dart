@@ -19,7 +19,7 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
   String docIDref;
   String title;
   String student;
-  String projInfo= "We need to create a form to add project info still";
+  String projInfo= "Please continue to collect your data";
   _CollectDataStagingState(title, docID, student) {
     this.docIDref = docID;
     this.title = title;
@@ -32,7 +32,7 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Random Widget"),
+            title: Text("Collect Data"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
@@ -45,13 +45,13 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
                     Card(
                       child:  Text(
                         widget.title,style: TextStyle(
-                          fontSize: 40,
+                          fontSize: 34,
                         ),),
                     ),
                     Card(
                       child: Text(this.projInfo,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                         )),
                     ),
                     RaisedButton(
