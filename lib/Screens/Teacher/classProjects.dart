@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'dart:async';
 import '../Student/student_view_class_data.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,20 @@ class _ViewClassProjectsState extends State<ViewClassProjects> {
     return Scaffold(
       appBar: AppBar(
         title: Text("View " + widget.name + " Projects"),
+             actions: <Widget>[
+          FlatButton.icon(
+          icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

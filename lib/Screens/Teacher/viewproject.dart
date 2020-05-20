@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/saveStudentAnswers.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
+import 'package:sensational_science/Screens/Teacher/viewprojectstaging.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import 'package:sensational_science/models/user.dart';
 import '../../models/project.dart';
@@ -133,6 +135,20 @@ class _ViewProjectState extends State<ViewProject> {
               onPressed: () => Navigator.pop(context, false),
             ),
             backgroundColor: Colors.deepPurple,
+              actions: <Widget>[
+          FlatButton.icon(
+              icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+         onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
             ),
         body:
             /*widget.project.questions.length == 0
@@ -215,10 +231,8 @@ class _ViewProjectState extends State<ViewProject> {
       switch (number) {
         case 0:
           return Column(children: <Widget>[
-            Text("TextInputItem " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+          Text("Question: " +
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -234,10 +248,8 @@ class _ViewProjectState extends State<ViewProject> {
           break;
         case 1:
           return Column(children: <Widget>[
-            Text("MultipleChoice " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3 * 2,
@@ -275,10 +287,8 @@ class _ViewProjectState extends State<ViewProject> {
           break;
         case 2:
           return Column(children: <Widget>[
-            Text("ShortAnswer " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -294,10 +304,8 @@ class _ViewProjectState extends State<ViewProject> {
           break;
         case 3:
           return Column(children: <Widget>[
-            Text("UserLocation " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -314,10 +322,8 @@ class _ViewProjectState extends State<ViewProject> {
           break;
         case 4:
           return Column(children: <Widget>[
-            Text("Numerical " + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -332,10 +338,8 @@ class _ViewProjectState extends State<ViewProject> {
           ]);
         case 5:
           return Column(children: <Widget>[
-            Text("Image" + (_currentQuestion + 1).toString(),
-                textScaleFactor: 4),
             Text("Question: " +
-                widget.project.questions[_currentQuestion].question),
+                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -374,7 +378,14 @@ class _ViewProjectState extends State<ViewProject> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => saveStudentAnswers(results: Observation.of(context))),
-          ); //getNextButton()
+          );
+          Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>ViewProjectStaging(widget.project.title, widget.project.docID, widget.project.info, widget.createdProjectID, user.uid)),
+                     
+ 
+             
+               );
         },
         child: Text('Submit Form'),
         )
