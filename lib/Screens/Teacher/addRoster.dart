@@ -133,8 +133,8 @@ Widget build(BuildContext context){
         //height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
-            new Text('Current Roster'),
-            new Text('Select a student to view their project access codes'),
+            new Text('Current Roster', style: TextStyle(fontSize: 20)),
+            new Text('Select a student to view their project access codes', style: TextStyle(fontSize: 16)),
             new StreamBuilder(
               stream: Firestore.instance.collection('Teachers').
                 document(user.uid)
@@ -192,7 +192,7 @@ Widget build(BuildContext context){
               color: Colors.deepPurple,
               height: 10.0,
             ),
-            new Text('Students to add:'),
+            new Text('Students to add:', style: TextStyle(fontSize: 20)),
             new Expanded(
               
               child: new SizedBox(
