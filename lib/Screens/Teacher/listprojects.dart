@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Screens/Teacher/viewprojectstaging.dart';
 import 'package:sensational_science/models/user.dart';
 import 'viewproject.dart';
@@ -77,26 +78,45 @@ List<String> subjects = [
           .snapshots();
     }
   }
+  String curVal="All";
 @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Projects You've Created")
+        title: Text("Projects You've Created"),
+             actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
       ),
           body: Material(
             child: Column(
               children: <Widget>[
                 new DropdownButton(
+                  value: curVal,
             items: subjects.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
+              
+                            return DropdownMenuItem<String>(
+                              value: value,
                 child: Text(value),
               );
             }).toList(),
             onChanged: (String newValue) {
+              curVal=newValue;
               if(newValue == 'All'){
                 setState(() {
+                  
                   subjectFilter=false;
                   hasfilter=false;
                   _getStream(user.uid);
@@ -105,7 +125,7 @@ List<String> subjects = [
               else{
               
               setState(() { 
-                
+                curVal;
                  hasfilter = true;
                 filter = newValue;
                 filterId='subject';
@@ -126,10 +146,10 @@ List<String> subjects = [
                        hasownedfilter = value;
                       
                       print( hasownedfilter);
-                      if ( hasownedfilter.toString() == 'true') {
+                      if ( hasownedfilter.toString() == 'false') {
                         toggleview = 'Current Setting: Viewing project you have created';
                       } else {
-                        toggleview = 'Current Setting: Viewing project you have created and added';
+                        toggleview = 'Current Setting: Viewing project you have added';
                       }
                     });
                   },

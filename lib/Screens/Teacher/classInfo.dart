@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sensational_science/Screens/Teacher/classProjects.dart';
 import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'dart:async';
 import 'roster.dart';
 import 'addRoster.dart';
@@ -46,11 +47,27 @@ class _ClassInfoState extends State<ClassInfo>{
    Widget build(BuildContext context){
     final user = Provider.of<User>(context);
     return Scaffold(
+      backgroundColor: Colors.green[200],
       appBar: AppBar(
         title: Text(widget.name),
+             actions: <Widget>[
+          FlatButton.icon(
+           icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+               onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context, false),
+          
         ),
       ),
       body: Container(
@@ -58,6 +75,11 @@ class _ClassInfoState extends State<ClassInfo>{
         child: Column(
           children: [
             Expanded(
+                                child: Container(child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.green[200]
+                      ),
+                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8,
               child: ListView(
                 children: [
                   ListTile(
@@ -92,7 +114,7 @@ class _ClassInfoState extends State<ClassInfo>{
                   ),
                 ],
               ),
-            ),
+            )))),
             new Divider(
               color: Colors.deepPurple,
               height: 10.0,

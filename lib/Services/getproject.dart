@@ -50,6 +50,9 @@ class GetProject {
           }),
           
           questionSnap.data.forEach((key, value) {
+            if ('$key' == 'info') {
+                this.info = '$value';
+              }
             if ('$key' != 'count' &&
                 '$key' != 'public' &&
                 '$key' != 'title' &&
@@ -72,9 +75,7 @@ class GetProject {
                 });
                 //question.answers.addAll(value['Answers']);
               }
-              if ('$key' == 'info') {
-                this.info = '$value';
-              }
+              
               print('adding');
               this.questions.add(question);
               //count--;
@@ -128,6 +129,7 @@ class GetProject {
 
 class CompiledProject {
   final GetProject proj;
+  
   CompiledProject({this.proj});
   List<Questions> answers = new List();
 
@@ -153,6 +155,7 @@ class CompiledProject {
             }
           });
         }
+        
       });
     }
     proj.questions.forEach((element) {

@@ -31,6 +31,24 @@ class Home extends StatelessWidget {
         //  accentColor: Colors.lightBlueAccent,
         accentColor: Colors.deepPurpleAccent,
         primarySwatch: Colors.deepPurple,
+        buttonTheme: ButtonThemeData(
+           buttonColor: Colors.indigo[600],
+           shape: RoundedRectangleBorder(),
+           textTheme: ButtonTextTheme.primary,
+           hoverColor: Colors.blue[100],
+           highlightColor: Colors.blueGrey,
+          splashColor: Colors.purpleAccent,
+          
+          
+          
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.grey,
+          
+          
+        ),
+        
+        
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
@@ -38,7 +56,7 @@ class Home extends StatelessWidget {
         highlightColor: Colors.deepPurpleAccent,
         // highlightColor: Colors.blueAccent,
       ),
-      home: MyHomePage(title: 'Home Page'),
+      home: TeacherHome(),
     );
   }
 }

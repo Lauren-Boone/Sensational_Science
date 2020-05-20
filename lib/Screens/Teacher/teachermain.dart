@@ -6,6 +6,7 @@ import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
 import 'package:sensational_science/Screens/Teacher/testingNEWcreateproj.dart';
+import 'package:sensational_science/Services/auth.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
 import '../home/user_list.dart';
@@ -15,24 +16,41 @@ import 'staging.dart';
 import 'listprojects.dart';
 import 'viewallprojects.dart';
 class TeacherHome extends StatefulWidget {
+  TeacherHome({Key key}) : super(key: key);
+
   @override
   _TeacherHomeState createState() => _TeacherHomeState();
 }
 
 class _TeacherHomeState extends State<TeacherHome> {
 bool selected= false;  
-
+final AuthService _auth = AuthService();
 
   @override
 
   Widget build(BuildContext context){
+    
+    
     return StreamProvider<List<Teacher>>.value(
         value: DatabaseService().user,
           child: Scaffold(
         appBar: AppBar(
-          title: Text("Home")
+          title: Text("Home"),
+          actions: <Widget>[
+            new FlatButton.icon(
+            
+              icon: Icon(Icons.person, color: Colors.black),
+              
+              label: Text('Log out', style: TextStyle(color: Colors.black)),
+              onPressed: () async{
+                await _auth.signOut();
+              },
+            ),
+          ]
+              
         ),
-        backgroundColor: Colors.blueGrey[50],
+        
+        backgroundColor: Colors.green[200],
         body: ListView(
             children:  <Widget>[
               
@@ -142,7 +160,7 @@ bool selected= false;
               ),
               Card(
                 child: ListTile(
-                  title: Text('View Projects You Created or Added to Your List', style: TextStyle(fontSize: 20)),
+                  title: Text('View Your Projects', style: TextStyle(fontSize: 20)),
                   subtitle: Text('', style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios), 
                   onTap: (){

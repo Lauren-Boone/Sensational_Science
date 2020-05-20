@@ -99,14 +99,22 @@ class LocationMapState extends State<LocationMap> {
     //   lon = 0.0;
     //   check = false; 
     // }
+
+    MediaQueryData queryData; 
+    queryData = MediaQuery.of(context); 
+    final heightSize = MediaQuery.of(context).size.height / 3 - 10; 
+    final widthSize = MediaQuery.of(context).size.width/2; 
     return Material(
-      child: new Container(
+      child: new AspectRatio(
+        aspectRatio: 100/100,
+              child: new Container(
         child: Column(
           children: <Widget>[
             if(check)
-              Container(
-              height: MediaQuery.of(context).size.height / 3,
-              width: MediaQuery.of(context).size.width / 3,
+              new Container(
+                margin: EdgeInsets.only(top: 10),
+              height: heightSize,
+              width: widthSize,
               child: GoogleMap(
                   mapType: MapType.hybrid,
                   initialCameraPosition:
@@ -114,16 +122,16 @@ class LocationMapState extends State<LocationMap> {
                   markers: Set.from(markers)),
               )
               else
-                Text("No valid location entered. Location Info set to (0.0, 0.0)"), 
-                              Container(
-              height: MediaQuery.of(context).size.height / 3,
-              width: MediaQuery.of(context).size.width / 3,
-              child: GoogleMap(
-                  mapType: MapType.hybrid,
-                  initialCameraPosition:
-                      CameraPosition(target: LatLng(lat, lon), zoom: 11),
-                  markers: Set.from(markers)),
-              ),
+                Text("No valid location entered. Location Info temporarily set to (0.0, 0.0)"), 
+              //                 Container(
+              // height: heightSize,
+              // width: widthSize,
+              // child: GoogleMap(
+              //     mapType: MapType.hybrid,
+              //     initialCameraPosition:
+              //         CameraPosition(target: LatLng(lat, lon), zoom: 11),
+              //     markers: Set.from(markers)),
+              // ),
             Expanded(child: Text('Location')),
             // Container(
             //   height: MediaQuery.of(context).size.height / 3,
@@ -137,6 +145,44 @@ class LocationMapState extends State<LocationMap> {
           ],
         ),
       ),
+      )
+      // child: new Container(
+      //   child: Column(
+      //     children: <Widget>[
+      //       if(check)
+      //         new Container(
+      //         height: heightSize,
+      //         width: widthSize,
+      //         child: GoogleMap(
+      //             mapType: MapType.hybrid,
+      //             initialCameraPosition:
+      //                 CameraPosition(target: LatLng(lat, lon), zoom: 11),
+      //             markers: Set.from(markers)),
+      //         )
+      //         else
+      //           Text("No valid location entered. Location Info set to (0.0, 0.0)"), 
+      //                         Container(
+      //         height: heightSize
+      //         width: widthSize,
+      //         child: GoogleMap(
+      //             mapType: MapType.hybrid,
+      //             initialCameraPosition:
+      //                 CameraPosition(target: LatLng(lat, lon), zoom: 11),
+      //             markers: Set.from(markers)),
+      //         ),
+      //       Expanded(child: Text('Location')),
+      //       // Container(
+      //       //   height: MediaQuery.of(context).size.height / 3,
+      //       //   width: MediaQuery.of(context).size.width / 3,
+      //       //   child: GoogleMap(
+      //       //       mapType: MapType.hybrid,
+      //       //       initialCameraPosition:
+      //       //           CameraPosition(target: LatLng(lat, lon), zoom: 11),
+      //       //       markers: Set.from(markers)),
+      //       // )
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

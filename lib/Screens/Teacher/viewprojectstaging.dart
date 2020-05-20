@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/projectPreview.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/models/user.dart';
 import 'viewproject.dart';
 import '../../Services/getproject.dart';
@@ -80,7 +81,22 @@ final user = Provider.of<User>(context);
               onPressed: () => Navigator.pop(context, false),
             ),
             backgroundColor: Colors.deepPurple,
-            ),
+            
+              actions: <Widget>[
+          FlatButton.icon(
+           icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+           onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
+        ),
         body:
            Container(
              padding: EdgeInsets.all(20),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Login/authenticate.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'main.dart';
 import 'Services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
