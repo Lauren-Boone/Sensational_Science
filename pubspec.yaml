@@ -39,6 +39,7 @@ dependencies:
 
   image_cropper: ^1.2.1
   image_picker: ^0.6.6+1
+  material_design_icons_flutter: 2.7.94
 
   firebase_auth: ^0.15.5+3
   firebase_auth_web:
