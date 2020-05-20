@@ -258,7 +258,7 @@ class _CompileDataState extends State<CompileData> {
   Widget build(BuildContext context) {
     if (_currentQuestion >= widget.proj.questions.length) {
       return Material(
-        child: Container(
+        child: FittedBox(        child: Container(
             margin: EdgeInsets.all(50),
             color: Colors.white,
             child: Column(
@@ -269,7 +269,8 @@ class _CompileDataState extends State<CompileData> {
                   onPressed: () => Navigator.of(context).pop(),
                 )
               ],
-            )),
+            )),)
+
       );
     }
     while (proj.questions[_currentQuestion].compAnswers.length == 0) {
