@@ -30,6 +30,7 @@ class _ClassListState extends State<ClassListPage>{
   Widget build(BuildContext context){
     final user = Provider.of<User>(context);
     return Scaffold(
+      backgroundColor: Colors.green[200],
       appBar: AppBar(
         title: Text("Classes"),
         actions: <Widget>[
@@ -48,6 +49,7 @@ class _ClassListState extends State<ClassListPage>{
           ]
       ),
           body: Material(
+            color: Colors.green[200], 
             child: new StreamBuilder<QuerySnapshot>(
           stream: getClassList(user.uid),
           

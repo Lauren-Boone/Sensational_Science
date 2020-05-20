@@ -47,6 +47,7 @@ class _ClassInfoState extends State<ClassInfo>{
    Widget build(BuildContext context){
     final user = Provider.of<User>(context);
     return Scaffold(
+      backgroundColor: Colors.green[200],
       appBar: AppBar(
         title: Text(widget.name),
              actions: <Widget>[
@@ -74,6 +75,11 @@ class _ClassInfoState extends State<ClassInfo>{
         child: Column(
           children: [
             Expanded(
+                                child: Container(child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.green[200]
+                      ),
+                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8,
               child: ListView(
                 children: [
                   ListTile(
@@ -108,7 +114,7 @@ class _ClassInfoState extends State<ClassInfo>{
                   ),
                 ],
               ),
-            ),
+            )))),
             new Divider(
               color: Colors.deepPurple,
               height: 10.0,
