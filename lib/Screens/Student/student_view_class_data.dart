@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
-import 'package:sensational_science/Screens/Student/locationtest.dart';
+import 'package:sensational_science/Screens/Student/locationmap.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
->>>>>>> lauren_week8
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -411,6 +408,7 @@ class _CompileDataState extends State<CompileData> {
                 '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
           child: new Container(
+            constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
             child: Column(
               children: <Widget>[
                 new Card(
@@ -419,8 +417,8 @@ class _CompileDataState extends State<CompileData> {
                          )
                         ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 2,
-                  width: MediaQuery.of(context).size.width / 2,
+                  height: MediaQuery.of(context).size.height/3,
+                  width: MediaQuery.of(context).size.width/3,
                   child: new LocationMap(lms: lms),
                   // child: RaisedButton(
                   //   child: Text('Click to load map'),
