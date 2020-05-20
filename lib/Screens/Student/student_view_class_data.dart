@@ -408,6 +408,7 @@ class _CompileDataState extends State<CompileData> {
                 '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
           child: new Container(
+            margin: EdgeInsets.only(top: 60), 
             constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
             child: Column(
               children: <Widget>[
