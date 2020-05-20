@@ -6,16 +6,15 @@ import '../../Services/getproject.dart';
 class Observation extends InheritedWidget {
   final String projectID; 
   final Map<int, String> answers;
+  final String className; 
+  final String teacherID; 
   const Observation({
     Key key,
-    this.projectID, this.answers, child
+    this.projectID, this.answers, this.className, this.teacherID, child
     }): super(key: key, child: child); 
-  // {
-  //   this.answers = new Map<int, String>(); 
-  //   this.projectID = projectID; 
-  // }
   void addAnswer(int questionNum, String value){
     answers[questionNum] = value; 
+    print("Answers: " + answers[questionNum]);
   }
 
   static Observation of(BuildContext context) => 

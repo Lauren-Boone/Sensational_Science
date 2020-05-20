@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:async';
-
+import 'dart:math';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/models/user.dart';
-
+import 'package:sensational_science/Screens/Teacher/viewStudentCodes.dart';
 
 
 class AddRoster extends StatefulWidget{
@@ -19,6 +19,7 @@ class AddRoster extends StatefulWidget{
 class _AddRosterState extends State<AddRoster>{
   String name;
   List<DynamicWidget> roster=[];
+  Random numberGenerator = new Random();
 
   addStudent(){
     roster.add(new DynamicWidget());
@@ -28,23 +29,58 @@ class _AddRosterState extends State<AddRoster>{
 
  submitData(teachID) async {
   //String val='Success!';
-  roster.forEach((e){
-    Firestore.instance
-      .runTransaction((transaction) async{
-        await transaction.set(Firestore.instance
-          .collection("Teachers")
-          .document(teachID)
-          .collection('Classes')
-          .document(widget.name)
-          .collection('Roster')
-          .document(),
-          {
-            'name': e.controller.text,
-          }
-        );
-      }
-    ); 
-  });
+  CollectionReference classRoster = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name).collection('Roster');
+  CollectionReference classProjects = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name).collection('Projects');
+  DocumentReference classInfo = Firestore.instance.collection('Teachers').document(teachID).collection('Classes').document(widget.name);
+  //add students and project codes for existing projects
+  roster.forEach((e) async{
+    DocumentReference newStudent = await classRoster.add({'name':e.controller.text});
+    QuerySnapshot eachProject = await classProjects.getDocuments();
+    eachProject.documents.forEach((project) async {
+      bool exists = false;
+      int newCode;
+      do {
+        newCode = numberGenerator.nextInt(10000000);
+        newCode = newCode<1000000?newCode+999999:newCode;        
+        await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
+          exists = doc.exists?true:false;
+        });
+        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+      } while (exists);
+      await classProjects.document(project.documentID).collection('Students')
+        .document(newCode.toString())
+        .setData({
+          'student': newStudent.documentID, //student doc id in roster
+          'completed': false, //has student submitted data
+        });
+      await newStudent.setData({
+        'codes': FieldValue.arrayUnion([
+          {project.documentID: newCode.toString()}
+        ]) //list of codes for each student for all projects, {projectCode : studentCode}
+      }, merge: true);
+      await Firestore.instance
+        .collection('codes')
+        .document(newCode.toString())
+        .setData({
+          'Teacher': teachID, //teacher doc id
+          'Class': widget.name, //class doc id
+          'Student': newStudent.documentID, //student doc id in roster
+          'Name': e.controller.text, //student name in roster
+          'Project': project.documentID, //project doc id in class
+          'ProjectID': project.data['projectID'], //project doc id in top level project collection
+          'ProjectTitle': project.data['projectTitle'], //project title
+          'DueDate': project.data['dueDate'], //project due date
+          'Subject': project.data['projectSubject'], //project subject
+      });
+    });
+    classInfo.get().then((doc) {
+      classInfo.updateData({'students': doc.data['students'] + 1 });
+    });
+  }); 
+
+  //increment the count of students in the class
+
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -53,7 +89,7 @@ class _AddRosterState extends State<AddRoster>{
         content: Text('Students have been added to the class'),
         actions: <Widget>[
           RaisedButton(child: Text("Close"),
-            onPressed: () {Navigator.of(context).pop();},
+            onPressed: () {Navigator.pop(context);},
           ),
         ]
       );
@@ -63,44 +99,42 @@ class _AddRosterState extends State<AddRoster>{
   setState(() {});
 }
 
-  /*
-  List<String> tags = List.from(doc.data['name']);
-  
-    if(tags.contains(element.controller.text)==true){
-    
-    docRef.addData({
-      'Name' : FieldValue.arrayRemove([element.controller.text])
-    });
-    
-  }
-  else{
-    docRef.updateData(
-      {
-      'Name' : FieldValue.arrayUnion([element.controller.text])
-      });
-  }
-  });
-  
-  roster.forEach(
-    (widget)=>print(widget.controller.text)
-  );
-}
-*/
 String success = '';
 @override
 
 Widget build(BuildContext context){
   final user = Provider.of<User>(context);
     return Scaffold(
+      backgroundColor: Colors.green[200],
       appBar: AppBar(
         title: Text("View & Add To Roster"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        
+        actions: <Widget>[
+          FlatButton.icon(
+             icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+              onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         //height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
-            new Text('Current Roster'),
+            new Text('Current Roster', style: TextStyle(fontSize: 20)),
+            new Text('Select a student to view their project access codes', style: TextStyle(fontSize: 16)),
             new StreamBuilder(
               stream: Firestore.instance.collection('Teachers').
                 document(user.uid)
@@ -111,25 +145,56 @@ Widget build(BuildContext context){
               builder: (BuildContext context, snapshot) {
                 if(!snapshot.hasData) return new Text('...Loading');
                 return new Expanded(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
+                  child: Container(child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.green[400]
+                      ),
+                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8,
                     child: new ListView(
                       children: snapshot.data.documents.map<Widget>((doc){
                         return new ListTile(
                           title: new Text(doc['name']),
+                          trailing: Icon(Icons.arrow_forward_ios),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                              builder: (context) =>ViewStudentCodes(teachID: user.uid, classID: widget.name, studentID: doc.documentID, name: doc['name']),
+                            ),);
+                          }
                         );
                       }).toList(),
-                    ),
-                  ),
+                    ),)
+                      ),)
+                  // child: SizedBox(
+                    
+                  //   height: MediaQuery.of(context).size.height * 0.8,
+                  //   child: new ListView(
+                  //     children: snapshot.data.documents.map<Widget>((doc){
+                  //       return new ListTile(
+                  //         title: new Text(doc['name']),
+                  //         trailing: Icon(Icons.arrow_forward_ios),
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //             builder: (context) =>ViewStudentCodes(teachID: user.uid, classID: widget.name, studentID: doc.documentID, name: doc['name']),
+                  //           ),);
+                  //         }
+                  //       );
+                  //     }).toList(),
+                  //   ),
+                  // ),
                 );
               },
             ),
             new Divider(
-              color: Colors.blue,
+              color: Colors.deepPurple,
               height: 10.0,
             ),
-            new Text('Students to add:'),
+            new Text('Students to add:', style: TextStyle(fontSize: 20)),
             new Expanded(
+              
               child: new SizedBox(
                 height: MediaQuery.of(context).size.height * 0.2,
                 child: new ListView.builder(

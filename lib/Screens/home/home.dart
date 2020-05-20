@@ -7,6 +7,7 @@ import '../Student/student_enter_code.dart';
 import 'user_list.dart';
 import 'package:provider/provider.dart';
 import '../../Services/database.dart';
+
 import '../../models/teacher.dart';
 import 'testdatabase.dart';
 
@@ -15,7 +16,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Sensational Science Projects',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,13 +27,36 @@ class Home extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+         brightness: Brightness.light,
+        //  accentColor: Colors.lightBlueAccent,
+        accentColor: Colors.deepPurpleAccent,
+        primarySwatch: Colors.deepPurple,
+        buttonTheme: ButtonThemeData(
+           buttonColor: Colors.indigo[600],
+           shape: RoundedRectangleBorder(),
+           textTheme: ButtonTextTheme.primary,
+           hoverColor: Colors.blue[100],
+           highlightColor: Colors.blueGrey,
+          splashColor: Colors.purpleAccent,
+          
+          
+          
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.grey,
+          
+          
+        ),
+        
+        
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        highlightColor: Colors.deepPurpleAccent,
+        // highlightColor: Colors.blueAccent,
       ),
-      home: MyHomePage(title: 'Home Page'),
+      home: TeacherHome(),
     );
   }
 }

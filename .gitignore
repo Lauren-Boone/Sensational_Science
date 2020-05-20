@@ -9,6 +9,7 @@
 .history
 .svn/
 
+
 # IntelliJ related
 *.iml
 *.ipr
@@ -38,6 +39,12 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+#api keys
+/lib/keys
+/android/app/src/main/res/values/secrets.xml
+/android/app/src/main/res/values/secret.xml
+/ios/Runner/keys.*
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages

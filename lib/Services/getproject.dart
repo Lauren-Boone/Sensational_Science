@@ -12,11 +12,15 @@ class Questions {
   final String type;
   Questions({this.question, this.number, this.type});
   List<String> answers = new List();
+  List<dynamic> compAnswers = new List();
 }
 
 class GetProject {
   String docID;
   String title;
+  String info;
+  String subject;
+  String teacherID;
   GetProject(String title, String docID) {
     this.docID = docID;
     this.title = title;
@@ -25,15 +29,10 @@ class GetProject {
   List<Questions> questions = new List();
 
   Future<void> questionData() async {
-    //List<String> questiondata;
     int count = 0;
-    // int returncount=0;
-    //DocumentReference docRef= document[this.docID];
+
     Future<DocumentSnapshot> snapshot =
         Firestore.instance.collection('Projects').document(this.docID).get();
-
-    // var snapshot = projectCollection.document(this.docID).get();
-    //snapshot.asStream();
 
     return snapshot.then((DocumentSnapshot questionSnap) => {
           questionSnap.data.forEach((key, value) {
@@ -42,12 +41,26 @@ class GetProject {
 
               //returncount=count;
             }
+            if ('$key' == 'teacherID') {
+              teacherID = value;
+            }
+            if('$key'== 'subject'){
+            this.subject = value;
+          }
           }),
+          
           questionSnap.data.forEach((key, value) {
+            if ('$key' == 'info') {
+                this.info = '$value';
+              }
             if ('$key' != 'count' &&
                 '$key' != 'public' &&
                 '$key' != 'title' &&
-                '$key' != 'docID') {
+                '$key' != 'docID' &&
+                '$key' != 'hasImage' &&
+                '$key' != 'info' &&
+                '$key' != 'teacherID' &&
+                '$key' != 'subject') {
               // count = value['Number'];
               print(value['Type']);
               Questions question = new Questions(
@@ -62,6 +75,7 @@ class GetProject {
                 });
                 //question.answers.addAll(value['Answers']);
               }
+              
               print('adding');
               this.questions.add(question);
               //count--;
@@ -73,9 +87,9 @@ class GetProject {
 
   orderProject(int count) {
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
-    this.questions.forEach((element) {
-      this.questions.sort((a, b) => a.number.compareTo(b.number));
-    });
+    //this.questions.forEach((element) {
+    this.questions.sort((a, b) => a.number.compareTo(b.number));
+    //});
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
     //for(int i = 0; i < count; ++i){
     //if(this.questions[i].number != i.toString()){
@@ -109,6 +123,43 @@ class GetProject {
       print(e.number);
       print(e.type);
       print(e.answers);
+    });
+  }
+}
+
+class CompiledProject {
+  final GetProject proj;
+  
+  CompiledProject({this.proj});
+  List<Questions> answers = new List();
+
+  Future getStudentsAnswers(String className, String classProjectID) async {
+    print(proj.toString()); 
+    QuerySnapshot snap = await Firestore.instance
+        .collection('codes')
+        .where('Project', isEqualTo: classProjectID)
+        .where('Class', isEqualTo: className)
+        .getDocuments();
+    int j = 0;
+    for (int i = 0; i < snap.documents.length; ++i) {
+      print(snap.documents[i].data.toString()); 
+      snap.documents[i].data.forEach((key, value) {
+        if ("$key" == "Answers") {
+          j = 0;
+          print("J = $j"); 
+          value.forEach((e) {
+            if (j < proj.questions.length) {
+              print("Project Questions J = $j"); 
+              this.proj.questions[j].compAnswers.add(e.toString());
+              j++;
+            }
+          });
+        }
+        
+      });
+    }
+    proj.questions.forEach((element) {
+      print(element.compAnswers);
     });
   }
 }

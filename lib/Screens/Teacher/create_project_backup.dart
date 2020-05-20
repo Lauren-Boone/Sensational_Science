@@ -253,7 +253,7 @@ addProjectDataToDoc(String uid, List<Widget> acceptData, List<String> acceptType
                           ),
                           Container(
                             margin: EdgeInsets.all(10),
-                            width: MediaQuery.of(context).size.width / 3,
+                            width: MediaQuery.of(context).size.width / 2,
                             child: Draggable<Widget>(
                               child: Text('User Location'),
                               data: createLocationHandler,

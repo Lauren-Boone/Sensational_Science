@@ -23,18 +23,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  random_color: ^1.0.5
+  fa_stepper: ^0.0.2
+  charts_flutter: ^0.9.0
   firebase_core: ^0.4.4+3
   firebase_storage:
+  firebase:
   firebase_analytics: ^5.0.11
+  firebase_remote_config:
 
   cloud_firestore: ^0.13.4+2
   datetime_picker_formfield: ^1.0.0
-
+  flutter_reorderable_list: ^0.1.3
   geolocator: ^5.3.1
+  google_maps_flutter: ^0.5.27+1
 
-  image_cropper:
-  image_picker:
+  image_cropper: ^1.2.1
+  image_picker: ^0.6.6+1
+  material_design_icons_flutter: 2.7.94
 
   firebase_auth: ^0.15.5+3
   firebase_auth_web:
@@ -44,6 +50,8 @@ dependencies:
   flutter_conditional_rendering: ^1.1.1
 
   flutter_form_builder: ^3.8.3
+
+  path_provider:
 
   provider:
   #flutter_spinkit:

@@ -1,7 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sensational_science">
+    package="com.sensationalscience.sensational_science">
     <!-- Flutter needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="@string/google_maps_api"/>
+    </application>
 </manifest>

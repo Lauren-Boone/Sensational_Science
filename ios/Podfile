@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '8.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -9,6 +9,11 @@ project 'Runner', {
   'Profile' => :release,
   'Release' => :release,
 }
+
+pre_install do |installer|
+  # workaround for https://github.com/CocoaPods/CocoaPods/issues/3289
+  Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+end
 
 def parse_KV_file(file, separator='=')
   file_abs_path = File.expand_path(file)
@@ -35,11 +40,6 @@ end
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
-
-  # add the Firebase pod for Google Analytics
-  pod 'Firebase/Analytics'
-  # add pods for any other desired Firebase products
-  # https://firebase.google.com/docs/ios/setup#available-pods
 
   # Flutter Pod
 
@@ -68,10 +68,12 @@ target 'Runner' do
 
   # Keep pod path relative so it can be checked into Podfile.lock.
   pod 'Flutter', :path => 'Flutter'
-
-  pod 'Firebase/Auth'
-
+  pod 'Firebase'
   # Plugin Pods
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Core'
+  pod 'Firebase/RemoteConfig'
 
   # Prepare symlinks folder. We use symlinks to avoid having Podfile.lock
   # referring to absolute paths on developers' machines.
@@ -92,4 +94,3 @@ post_install do |installer|
     end
   end
 end
-

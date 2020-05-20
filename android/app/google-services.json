@@ -30,6 +30,49 @@
             {
               "client_id": "286001680675-69p3qhi8qln68l7n58p84jg56ci452vp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "286001680675-e4kct1dt32klr2v2qp7fcsie80hve0pa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "sensationalScience"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286001680675:android:ebaa3946fe2cf15aeabc96",
+        "android_client_info": {
+          "package_name": "com.sensationalscience.sensational_science"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286001680675-69p3qhi8qln68l7n58p84jg56ci452vp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU8vLcjL-77i-M5AS-KP7_txrAfE-Owq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286001680675-69p3qhi8qln68l7n58p84jg56ci452vp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "286001680675-e4kct1dt32klr2v2qp7fcsie80hve0pa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "sensationalScience"
+              }
             }
           ]
         }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'dart:async';
 import 'addRoster.dart';
 
@@ -56,6 +57,20 @@ Stream<DocumentSnapshot> getRosterList() {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
+          actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+               Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) =>TeacherHome()),
+             
+               );
+                      
+              },
+          ),
+        ],
       ),
          body: Material(
             child: new StreamBuilder(

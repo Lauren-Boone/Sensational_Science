@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
+import 'package:sensational_science/Services/storeLocally.dart';
 // import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart';
 import '../../Services/getproject.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,9 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 class UserLocationInfo extends StatefulWidget {
   final Questions question;
   final TextEditingController userLocationController; 
-  UserLocationInfo({this.question, this.userLocationController});
+  final int questionNum; 
+  final String code; 
+  UserLocationInfo({this.question, this.userLocationController, this.questionNum, this.code});
   Position currentUserPosition;
   // Function(int, dynamic) locationCallback;
   // UserLocationInfo({this.question, this.userLocationController, this.locationCallback});
@@ -79,11 +82,17 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
               onPressed: () {
                 controller: widget.userLocationController;
                 var questionObservations = Observation.of(context);
-                widget.getUserLocation().then((result) {
-                  // setState(() {
-                  //   results = result;
-                  // });
-                  questionObservations.addAnswer(0, result.toString()); 
+                widget.getUserLocation().then((result) async {
+                  setState(() {
+                    results = result;
+                  });
+                  widget.userLocationController.text = result.toString();
+                  // questionObservations.addAnswer(widget.questionNum, result.toString()); 
+                  
+                  await writeString(widget.code, widget.userLocationController.text, widget.questionNum.toString());
+                  if(widget.userLocationController.text == "")
+                    Text("Invalid or no user location entered. User Location will be set to (0.0, 0.0) "); 
+                  print('Inner Success'); 
                 });
                 print("Success!");
               },
