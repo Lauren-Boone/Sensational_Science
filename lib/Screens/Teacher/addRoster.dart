@@ -45,13 +45,14 @@ class _AddRosterState extends State<AddRoster>{
         await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
           exists = doc.exists?true:false;
         });
-        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+        //print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
       } while (exists);
       await classProjects.document(project.documentID).collection('Students')
         .document(newCode.toString())
         .setData({
           'student': newStudent.documentID, //student doc id in roster
           'completed': false, //has student submitted data
+          'name': e.controller.text, //student's name for reference
         });
       await newStudent.setData({
         'codes': FieldValue.arrayUnion([
@@ -166,25 +167,6 @@ Widget build(BuildContext context){
                       }).toList(),
                     ),)
                       ),)
-                  // child: SizedBox(
-                    
-                  //   height: MediaQuery.of(context).size.height * 0.8,
-                  //   child: new ListView(
-                  //     children: snapshot.data.documents.map<Widget>((doc){
-                  //       return new ListTile(
-                  //         title: new Text(doc['name']),
-                  //         trailing: Icon(Icons.arrow_forward_ios),
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //             builder: (context) =>ViewStudentCodes(teachID: user.uid, classID: widget.name, studentID: doc.documentID, name: doc['name']),
-                  //           ),);
-                  //         }
-                  //       );
-                  //     }).toList(),
-                  //   ),
-                  // ),
                 );
               },
             ),
