@@ -206,13 +206,13 @@ final AuthService _auth = AuthService();
               // ),
             ],
           ),
-          floatingActionButton: RaisedButton(
-            onPressed: (){
-              Navigator.pop(context);
-            },
-            child: Text("Go Back"),
+          // floatingActionButton: RaisedButton(
+          //   onPressed: (){
+          //     Navigator.pop(context);
+          //   },
+          //   child: Text("Go Back"),
             
-          ),
+          // ),
         
           ),
     );
