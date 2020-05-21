@@ -93,13 +93,10 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                     title: new Text("I understand that I cannot undo deleting this project from the class and I would still like to proceed with deleting this project form this class"),
                     value: _ackDelete,
                     onChanged: (bool value) {
-                      print("ackDelete is: " + _ackDelete.toString());
-                      print("value is: " + value.toString());
                       _ackDelete = value?true:false;
                       setState(() {
                         _ackDelete = value;
                       });
-                      print("After set state, ackDelete is: " + _ackDelete.toString());
                     }
                   ),
                   RaisedButton(
