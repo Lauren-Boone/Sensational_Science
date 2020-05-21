@@ -28,7 +28,7 @@ class _ClassListState extends State<ClassListPage> {
     return Center(
       child: Scaffold(
       backgroundColor: Colors.green[200],
-      appBar: AppBar(title: Text("Classes"), actions: <Widget>[
+      appBar: AppBar(title: FittedBox(fit:BoxFit.fitHeight, child: Text("Classes")), actions: <Widget>[
         FlatButton.icon(
           icon: Icon(Icons.home, color: Colors.black),
           label: Text('Home', style: TextStyle(color: Colors.black)),
@@ -53,8 +53,8 @@ class _ClassListState extends State<ClassListPage> {
                       height: SizeConfig.verticalSize * 13,
                       child: Card(
                       child: new ListTile(
-                        title: FittedBox(fit:BoxFit.scaleDown, child: new Text(document['name']),), 
-                        subtitle: FittedBox(fit:BoxFit.scaleDown, child: new Text('Click to View Class Info'),), 
+                        title: FittedBox(fit:BoxFit.scaleDown, child: new Text(document['name'], maxLines: 2,)), 
+                        subtitle: FittedBox(fit:BoxFit.scaleDown, child: new Text('Click to View Class Info', maxLines: 2),), 
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () => {
                           Navigator.of(context).push(
