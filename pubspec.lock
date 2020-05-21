@@ -225,6 +225,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.5"
+  flinq:
+    dependency: transitive
+    description:
+      name: flinq
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   flushbar:
     dependency: transitive
     description:
@@ -265,6 +272,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.10.1"
+  flutter_google_maps:
+    dependency: "direct main"
+    description:
+      name: flutter_google_maps
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.7.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -345,6 +359,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  google_directions_api:
+    dependency: transitive
+    description:
+      name: google_directions_api
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
+  google_maps:
+    dependency: transitive
+    description:
+      name: google_maps
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.4.2"
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -359,6 +387,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  google_polyline_algorithm:
+    dependency: transitive
+    description:
+      name: google_polyline_algorithm
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -436,6 +471,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1+1"
+  js_wrapping:
+    dependency: transitive
+    description:
+      name: js_wrapping
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   location_permissions:
     dependency: transitive
     description:
@@ -644,6 +686,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   validators:
     dependency: transitive
     description:
