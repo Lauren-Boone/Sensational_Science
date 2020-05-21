@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
-import 'package:sensational_science/Screens/Student/locationtest.dart';
+
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
->>>>>>> lauren_week8
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
