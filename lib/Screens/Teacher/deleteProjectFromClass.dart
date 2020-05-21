@@ -18,11 +18,6 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
   bool _ackDelete = false;
 
   @override
-  void setState(fn) {
-    _ackDelete = false;
-  }
-
-  @override
   Widget build(BuildContext context) {    
     return Scaffold(
       appBar: AppBar(
@@ -59,22 +54,20 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
               .snapshots(),
               builder: (BuildContext context, snapshot) {
                 if(!snapshot.hasData) return new Text('...Loading');
+                if(!snapshot.data.exists) return new Text('Project no longer exists');
                 return new Expanded(
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    //height: MediaQuery.of(context).size.height * 0.4,
                     child: new ListView(
                       children: [
                         new ListTile(
-                          title: Text(snapshot.data['projectTitle']),
-                          subtitle: Text('Project Title'),
+                          title: Text(snapshot.data['projectTitle'], textAlign: TextAlign.center,),
                         ),
                         new ListTile(
-                          title: Text(snapshot.data['dueDate'].toDate().toString()),
-                          subtitle: Text('Project Due Date'),
+                          title: Text("Due date: " + snapshot.data['dueDate'].toDate().toString(), textAlign: TextAlign.center,),
                         ),
                         new ListTile(
-                          title: Text(widget.classID),
-                          subtitle: Text('Class that this project is assigned to'),
+                          title: Text("Assigned to class: " + widget.classID, textAlign: TextAlign.center,),
                         ),
                       ],
                     ),
@@ -86,20 +79,27 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Column(
                 children: [
-                  Text("Once you delete this project from this class you cannot recover it. It will delete all student codes and asociated submissions and it will delete this project from this class. It will still be available as a project to add to a class.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Text("Once you delete this project from this class you cannot recover it. It will delete all student codes and asociated submissions and it will delete this project from this class. It will still be available as a project to add to a class.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                   ),
                   CheckboxListTile(
                     title: new Text("I understand that I cannot undo deleting this project from the class and I would still like to proceed with deleting this project form this class"),
                     value: _ackDelete,
                     onChanged: (bool value) {
+                      print("ackDelete is: " + _ackDelete.toString());
+                      print("value is: " + value.toString());
+                      _ackDelete = value?true:false;
                       setState(() {
                         _ackDelete = value;
                       });
+                      print("After set state, ackDelete is: " + _ackDelete.toString());
                     }
                   ),
                   RaisedButton(
@@ -113,11 +113,41 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                         .document(widget.projectID)
                         .collection('Students')
                         .getDocuments();
-                        var roster = await Firestore.instance.collection('Teachers')
+                        var roster = Firestore.instance.collection('Teachers')
                         .document(widget.teachID)
                         .collection('Classes')
                         .document(widget.classID)
                         .collection('Roster');
+                        var project = Firestore.instance.collection('Teachers')
+                        .document(widget.teachID)
+                        .collection('Classes')
+                        .document(widget.classID)
+                        .collection('Projects')
+                        .document(widget.projectID);
+                        //get project questions, so we know if/where the images are to delete
+                        var tldProjID = await project.get().then((value) { return value.data['projectID']; });
+                        var questions = await Firestore.instance.collection('Projects')
+                        .document(tldProjID).get();
+                        var imageQs = [];
+                        if (questions.data['hasImage'] != null && questions.data['hasImage']) {
+                          for (var count=0; count<questions.data['count']; count++) {
+                            if(questions.data['Question' + count.toString()]['Type'] == "AddImageInput") {
+                              print("found an image question!");
+                              imageQs.add(count);
+                            }
+                          }
+                        }
+                        //delete all images based on routes from top level codes collection
+                        studentCodes.documents.forEach((element) async {
+                          var fileName;
+                          for (var index in imageQs) {
+                            await Firestore.instance.collection('codes').document(element.documentID).get().then((ele) {
+                              fileName = ele.data['Answers'] != null? ele.data['Answers'][index] : null;
+                            });
+                            if (fileName != null) FireStorageService.deleteFile(context, fileName);
+                          }
+                        });
+                        
                         //delete each project student code from the top level codes collection
                         await Firestore.instance.runTransaction((transaction) async {
                           studentCodes.documents.forEach((element) async {
@@ -132,16 +162,9 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                             "codes": FieldValue.arrayRemove(deleteVal)
                           });
                         });
-                        //delete all information associated with this project in firebase storage 
-                        await FireStorageService.loadImage(context, '${widget.teachID}/${widget.classID}/${widget.projectID}');
                         //delete the project from the class
                         await Firestore.instance.runTransaction((transaction) async {
-                          await transaction.delete(Firestore.instance.collection('Teachers')
-                          .document(widget.teachID)
-                          .collection('Classes')
-                          .document(widget.classID)
-                          .collection('Projects')
-                          .document(widget.projectID));
+                          await transaction.delete(project);
                         });
                         showDialog(
                           context: context,
@@ -161,6 +184,7 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                           }
                         );
                         Navigator.pop(context);
+                        //Navigator.pop(context);
                       } else {
                         showDialog(
                           context: context,
