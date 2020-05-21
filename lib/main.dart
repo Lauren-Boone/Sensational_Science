@@ -4,6 +4,7 @@ import 'package:sensational_science/Services/auth.dart';
 import 'wrapper.dart';
 import 'models/user.dart';
 import 'package:firebase/firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(MyApp());
