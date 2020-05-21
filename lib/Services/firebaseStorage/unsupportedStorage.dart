@@ -7,4 +7,8 @@ class FireStorageService extends ChangeNotifier {
   static Future<dynamic> loadImage(BuildContext context, dynamic image) {
     throw ("Platform not found");
   }
+
+  static Future<dynamic> deleteFile(BuildContext context, dynamic filePath) {
+    throw ("Platform not found");
+  }
 }

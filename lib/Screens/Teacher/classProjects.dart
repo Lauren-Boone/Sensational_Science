@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
+import 'package:sensational_science/Screens/Teacher/deleteProjectFromClass.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'dart:async';
 import '../Student/student_view_class_data.dart';
@@ -141,13 +142,16 @@ class _ViewClassProjectsState extends State<ViewClassProjects> {
                                   title: new Text("Delete Project"),
                                   trailing: Icon(Icons.arrow_forward_ios),
                                   onTap: () {
-                                    print("I still need to be built");
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => DeleteProjectFromClass()
-                                    //   ),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DeleteProjectFromClass(
+                                          teachID: user.uid,
+                                          classID: widget.name,
+                                          projectID: doc.documentID,
+                                        )
+                                      ),
+                                    );
                                   }
                                 ),
                               ],
