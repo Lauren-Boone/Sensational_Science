@@ -1,9 +1,7 @@
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io';
 import 'dart:async';
-
-//if you are on a web app, do not use local storage
-const bool kIsWeb = identical(0, 0.0);
 
 //function to get where app files will be stored
 Future<String> get _localPath async {
