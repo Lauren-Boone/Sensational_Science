@@ -371,7 +371,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               'Project': project.documentID, //project doc id in class
               'ProjectID': project.data['projectID'], //project doc id in top level project collection
               'ProjectTitle': project.data['projectTitle'], //project title
-              'DueDate': project.data['dueDate'], //project due date
+              'dueDate': project.data['dueDate'], //project due date
               'Subject': project.data['projectSubject'], //project subject
           });
         });
@@ -538,7 +538,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           'ProjectID':
               projectID, //project doc id in top level project collection
           'ProjectTitle': projectDoc.data['title'], //project title
-          'DueDate': projectDoc.data['dueDate'],
+          'dueDate': projectDoc.data['dueDate'],
           'Subject': projectDoc.data['projectSubject'], //project subject
         });
       }
