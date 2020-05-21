@@ -105,12 +105,14 @@ String success = '';
 Widget build(BuildContext context){
   final user = Provider.of<User>(context);
     return Scaffold(
+      backgroundColor: Colors.green[200],
       appBar: AppBar(
         title: Text("View & Add To Roster"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
+        
         actions: <Widget>[
           FlatButton.icon(
              icon: Icon(Icons.home, color: Colors.black),
@@ -131,8 +133,8 @@ Widget build(BuildContext context){
         //height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
-            new Text('Current Roster'),
-            new Text('Select a student to view their project access codes'),
+            new Text('Current Roster', style: TextStyle(fontSize: 20)),
+            new Text('Select a student to view their project access codes', style: TextStyle(fontSize: 16)),
             new StreamBuilder(
               stream: Firestore.instance.collection('Teachers').
                 document(user.uid)
@@ -143,8 +145,11 @@ Widget build(BuildContext context){
               builder: (BuildContext context, snapshot) {
                 if(!snapshot.hasData) return new Text('...Loading');
                 return new Expanded(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
+                  child: Container(child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.green[400]
+                      ),
+                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8,
                     child: new ListView(
                       children: snapshot.data.documents.map<Widget>((doc){
                         return new ListTile(
@@ -159,8 +164,27 @@ Widget build(BuildContext context){
                           }
                         );
                       }).toList(),
-                    ),
-                  ),
+                    ),)
+                      ),)
+                  // child: SizedBox(
+                    
+                  //   height: MediaQuery.of(context).size.height * 0.8,
+                  //   child: new ListView(
+                  //     children: snapshot.data.documents.map<Widget>((doc){
+                  //       return new ListTile(
+                  //         title: new Text(doc['name']),
+                  //         trailing: Icon(Icons.arrow_forward_ios),
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //             builder: (context) =>ViewStudentCodes(teachID: user.uid, classID: widget.name, studentID: doc.documentID, name: doc['name']),
+                  //           ),);
+                  //         }
+                  //       );
+                  //     }).toList(),
+                  //   ),
+                  // ),
                 );
               },
             ),
@@ -168,8 +192,9 @@ Widget build(BuildContext context){
               color: Colors.deepPurple,
               height: 10.0,
             ),
-            new Text('Students to add:'),
+            new Text('Students to add:', style: TextStyle(fontSize: 20)),
             new Expanded(
+              
               child: new SizedBox(
                 height: MediaQuery.of(context).size.height * 0.2,
                 child: new ListView.builder(
