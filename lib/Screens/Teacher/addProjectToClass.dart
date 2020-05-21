@@ -64,7 +64,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
         await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
           exists = doc.exists?true:false;
         });
-        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+        //print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
       } while (exists);
       await classDoc
         .collection('Projects')
@@ -408,7 +408,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                          await assignProject(user.uid, _class.trim(), _project, _date);
                       }
                       else{
-                        print("No Roster exists"); 
+                        //print("No Roster exists"); 
                         return showDialog(
                         context: context,
                         builder: (BuildContext context) {

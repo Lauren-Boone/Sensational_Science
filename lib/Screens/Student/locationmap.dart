@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sensational_science/Screens/Student/student_view_class_data.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/userlocation.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
+import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 // Map<MarkerId, Marker> marker = <MarkerId, Marker>{};
 
@@ -40,15 +42,16 @@ class LocationMapState extends State<LocationMap> {
     // double lat = double.parse(matches.toList()[0].group(1));
     // double lon = double.parse(matches.toList()[0].group(2));
     final String markerIdValue = "1";
-    final MarkerId markerId = MarkerId(markerIdValue);
+    // final MarkerId markerId = MarkerId(markerIdValue);
 
     setState(() {
       markers.clear();
       final Marker marker = Marker(
-          markerId: markerId,
-          position: LatLng(lat, lon),
-          draggable: false,
-          infoWindow: InfoWindow(title: "Current Location"));
+          // markerId: markerId,
+          // position: LatLng(lat, lon),
+          // draggable: false,
+          // infoWindow: InfoWindow(title: "Current Location"));
+          GeoCoord(lat, lon));
       markers.add(marker);
     });
   }
@@ -117,12 +120,15 @@ class LocationMapState extends State<LocationMap> {
               width: widthSize,
               child: GoogleMap(
                   mapType: MapType.hybrid,
-                  initialCameraPosition:
-                      CameraPosition(target: LatLng(lat, lon), zoom: 11),
+                  initialPosition:
+                      GeoCoord(lat, lon),
                   markers: Set.from(markers)),
               )
+              else if(!check)
+                Text("No valid location entered. Location Info temporarily set to (0.0, 0.0)") 
               else
-                Text("No valid location entered. Location Info temporarily set to (0.0, 0.0)"), 
+                
+
               //                 Container(
               // height: heightSize,
               // width: widthSize,
