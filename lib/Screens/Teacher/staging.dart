@@ -86,15 +86,15 @@ class StagePageState extends State<StagingPage> {
   
 }
 */
-
+final TextEditingController projectTitleController =
+        new TextEditingController();
+    final TextEditingController projectInfo = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     final CollectionReference projectCollection =
         Firestore.instance.collection('Projects');
-    final TextEditingController projectTitleController =
-        new TextEditingController();
-    final TextEditingController projectInfo = new TextEditingController();
+    
     
     return Scaffold(
       appBar: AppBar(
@@ -129,23 +129,39 @@ class StagePageState extends State<StagingPage> {
                   //onChanged: (value) => setState(() => _currentInfo = value),
                 ),
                 SizedBox(height: 20),
-                DropdownButton(
-                  value: subjectVal,
-                  items: subjects.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                Center(
+                  widthFactor: 50,
+                  child: Column(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                       
+                        child: Text("Please Select a Subject", style: TextStyle(fontSize: 17))
+                        ),
+                      SizedBox(height: 20),
+                      DropdownButton(
+                          value: subjectVal,
+                          
+                          hint: Text("Please Select A Subject"),
+                          items: subjects.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              
+                              child: Text(value),
+                            );
+                          }).toList(),
 
-                  onChanged: (String newValue) {
-                    subjectVal = newValue;
-                    setState(() {
-                      
-                    });
-                    print(subjectVal);
-                  },
-                  //onChanged: (value) => setState(() => _currentInfo = value),
+                          onChanged: (String newValue) {
+                            subjectVal = newValue;
+                           setState(() {
+                              
+                            });
+                            print(subjectVal);
+                          },
+                          //onChanged: (value) => setState(() => _currentInfo = value),
+                        ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20),
                 SwitchListTile(
@@ -239,13 +255,13 @@ class StagePageState extends State<StagingPage> {
                         _currentInfo = projectInfo.text.trim();
                       }
                       AddProject proj = new AddProject(title: _currentTitle, public: pub, info: _currentInfo, teacherID: user.uid, subject: subjectVal);
-                      String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
+                      //String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
                       
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              AddQuestionsToProject(title: _currentTitle, proj: proj),
+                              AddQuestionsToProject(title: _currentTitle, proj: proj, pub: pub, uid: user.uid),
                         ),
                       );
                     },
