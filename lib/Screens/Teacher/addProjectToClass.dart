@@ -26,37 +26,6 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   bool myProjectsOnly = true;
   Random numberGenerator = new Random();
 
-  getMyProjects(String uid) async {
-    List<DropdownMenuItem<String>> menuList = [];
-    List<DocumentSnapshot> myProjects = [];
-
-    await Firestore.instance.collection('Teachers').document(uid).collection('Created Projects').getDocuments().then((docList) async {
-      for (var proj in docList.documents) {
-        myProjects.add(await Firestore.instance.collection('Projects').document(proj.data['docIDref']).get());
-      }
-    });
-
-    for (var doc in myProjects) {
-      menuList.add(new DropdownMenuItem<String>(
-        value: doc.documentID,
-        child: new Container(
-          decoration: new BoxDecoration(
-            color: Colors.lightGreen,
-            borderRadius:
-                new BorderRadius.circular(3.0),
-          ),
-          height: 32.0,
-          width: MediaQuery.of(context).size.width *
-              0.52,
-          padding: EdgeInsets.fromLTRB(
-              10.0, 5.0, 10.0, 0.0),
-          child: Text(doc.data['title']),
-        ),
-      ));
-    }
-    return menuList;
-  }
-
   Future<dynamic> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
     //create project under the class
@@ -95,7 +64,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
         await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
           exists = doc.exists?true:false;
         });
-        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+        //print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
       } while (exists);
       await classDoc
         .collection('Projects')
@@ -257,7 +226,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                   bottom: 10.0),
                 child: Row(
                   children: [
-                    Text("View only my created projects",
+                    Text("View my projects only",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Switch(
@@ -273,10 +242,10 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                   ],
                 ),
               ),
-              myProjectsOnly ? new FutureBuilder(
-                future: getMyProjects(user.uid),
-                builder: (context, projList) {
-                  if (!projList.hasData)
+              myProjectsOnly ? new StreamBuilder<QuerySnapshot>(
+                stream: Firestore.instance.collection('Teachers').document(user.uid).collection('Created Projects').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
                     return Center(
                       child: Text('Loading . . .'),
                     );
@@ -314,7 +283,25 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                                   print(_project);
                                 });
                               },
-                              items: projList.data,
+                              items: snapshot.data.documents
+                                  .map((DocumentSnapshot document) {
+                                return new DropdownMenuItem<String>(
+                                  value: document.data['docIDref'],
+                                  child: new Container(
+                                    decoration: new BoxDecoration(
+                                      color: Colors.lightGreen,
+                                      borderRadius:
+                                          new BorderRadius.circular(3.0),
+                                    ),
+                                    height: 32.0,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.52,
+                                    padding: EdgeInsets.fromLTRB(
+                                        10.0, 5.0, 10.0, 0.0),
+                                    child: Text(document.data['title']),
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ),
                         ),
@@ -421,7 +408,7 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
                          await assignProject(user.uid, _class.trim(), _project, _date);
                       }
                       else{
-                        print("No Roster exists"); 
+                        //print("No Roster exists"); 
                         return showDialog(
                         context: context,
                         builder: (BuildContext context) {

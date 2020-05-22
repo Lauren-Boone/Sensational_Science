@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
+import 'package:sensational_science/Screens/Teacher/deleteProjectFromClass.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'dart:async';
 import '../Student/student_view_class_data.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:sensational_science/models/user.dart';
 import '../../Services/getproject.dart';
 import 'package:sensational_science/Screens/Teacher/viewAllStudentCodes.dart';
+import 'package:sensational_science/Screens/Teacher/changeProjectDueDate.dart';
 
 class ViewClassProjects extends StatefulWidget {
   final String name;
@@ -123,26 +125,33 @@ class _ViewClassProjectsState extends State<ViewClassProjects> {
                                   title: new Text("Change Project Due Date"),
                                   trailing: Icon(Icons.arrow_forward_ios),
                                   onTap: () {
-                                    print("I still need to be built");
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => ChangeProjectDueDate()
-                                    //   ),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ChangeProjectDueDate(
+                                          teachID: user.uid,
+                                          classID: widget.name,
+                                          projectID: doc.documentID,
+                                          dueDate: doc.data['dueDate'].toDate(),
+                                        )
+                                      ),
+                                    );
                                   }
                                 ),
                                 new ListTile(
                                   title: new Text("Delete Project"),
                                   trailing: Icon(Icons.arrow_forward_ios),
                                   onTap: () {
-                                    print("I still need to be built");
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => DeleteProjectFromClass()
-                                    //   ),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DeleteProjectFromClass(
+                                          teachID: user.uid,
+                                          classID: widget.name,
+                                          projectID: doc.documentID,
+                                        )
+                                      ),
+                                    );
                                   }
                                 ),
                               ],

@@ -105,7 +105,10 @@ addProjectDataToDoc(String uid, List<Widget> acceptData, List<String> acceptType
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+            backgroundColor: Colors.deepPurple,
+            
+            ),
         backgroundColor: Colors.grey[100],
         body: Padding(
           padding: EdgeInsets.all(10),

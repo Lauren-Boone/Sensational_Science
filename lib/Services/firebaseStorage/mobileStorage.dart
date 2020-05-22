@@ -8,4 +8,8 @@ class FireStorageService extends ChangeNotifier {
   static Future<dynamic> loadImage(BuildContext context, dynamic image) async {
     return await FirebaseStorage.instance.ref().child(image).getDownloadURL();
   }
+
+  static Future<dynamic> deleteFile(BuildContext context, dynamic filePath) async {
+    return await FirebaseStorage.instance.ref().child(filePath).delete();
+  }
 }
