@@ -83,7 +83,7 @@ class LocationMapState extends State<LocationMap> {
     var check = true; 
     double lat, lon; 
     print(lms_actual);
-    if (lms_test != "" && lms_test != null){
+    if (lms_test != "" && lms_test != "null"){
     Iterable<RegExpMatch> matches = exp.allMatches(lms_test);
 
      lat = double.parse(matches.toList()[0].group(1));
