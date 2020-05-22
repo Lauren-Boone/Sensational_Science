@@ -26,7 +26,9 @@ enum DraggingMode {
 class AddQuestionsToProject extends StatefulWidget {
   final String title;
   final AddProject proj;
-  AddQuestionsToProject({Key key, this.title, this.proj}) : super(key: key);
+  final bool pub;
+  final String uid;
+  AddQuestionsToProject({Key key, this.title, this.proj, this.pub, this.uid}) : super(key: key);
   
   @override
   _AddQuestionsToProjectState createState() => _AddQuestionsToProjectState();
@@ -224,7 +226,7 @@ bool _checkforInput(){
                                   });
 
                                 });
-                              
+                             String docID=  widget.proj.createProjectDoc(widget.title, widget.pub, user.uid);
             widget.proj.addProjectDataToDoc(
                                   user.uid,
                                   questions,

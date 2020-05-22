@@ -68,90 +68,87 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: Container(
-           
-          child: FAStepper(
-            type: FAStepperType.horizontal,
-             titleIconArrange: FAStepperTitleIconArrange.column,
-            //stepNumberColor: Colors.pinkAccent,
-            currentStep: _currentStep,
-            titleHeight: 100,
-            steps: steps,
-            onStepCancel: () => {
-              Navigator.of(context).pop(),
-            },
-           
-            onStepContinue: () {
-              
-              if (_currentStep == 0 && hasClass == false) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                        title: Text("You must create and submit a class first!"),
-                        content: Text("Please be sure to submit your data."),
-                        actions: <Widget>[
-                          RaisedButton(
-                            child: Text("Close"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          )
-                        ]);
-                  },
+        body: FAStepper(
+          type: FAStepperType.horizontal,
+          titleIconArrange: FAStepperTitleIconArrange.column,
+          stepNumberColor: Colors.pink,
+          currentStep: _currentStep,
+          titleHeight: 90,
+          steps: steps,
+          onStepCancel: () => {
+            Navigator.of(context).pop(),
+          },
+         
+          onStepContinue: () {
+            
+            if (_currentStep == 0 && hasClass == false) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                      title: Text("You must create and submit a class first!"),
+                      content: Text("Please be sure to submit your data."),
+                      actions: <Widget>[
+                        RaisedButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ]);
+                },
+              );
+            }
+            if (_currentStep == 1 && hasRoster == false) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                      title: Text(
+                          "You must create and submit a class Roster first!"),
+                      content:
+                          Text("Please be sure to submit your roster data."),
+                      actions: <Widget>[
+                        RaisedButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ]);
+                },
+              );
+            } if(_currentStep != 2) {
+              setState(() {
+                _currentStep++;
+              });
+            }
+           else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> TeacherHome())
                 );
-              }
-              if (_currentStep == 1 && hasRoster == false) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                        title: Text(
-                            "You must create and submit a class Roster first!"),
-                        content:
-                            Text("Please be sure to submit your roster data."),
-                        actions: <Widget>[
-                          RaisedButton(
-                            child: Text("Close"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          )
-                        ]);
-                  },
-                );
-              } if(_currentStep != 2) {
-                setState(() {
-                  _currentStep++;
-                });
-              }
-             else {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context)=> TeacherHome())
-                  );
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                        title: Text("Success! You have set up a class"),
-                        content: Text(
-                            "You can add more projects to this class in the add project to class section and add more student to the roster under the class info"),
-                        actions: <Widget>[
-                          RaisedButton(
-                            child: Text("Close"),
-                            onPressed: () {
-                              
-                              Navigator.of(context).pop();
-                              
-                            },
-                          )
-                        ]);
-                  },
-                );
-              }
-            },
-          ),
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                      title: Text("Success! You have set up a class"),
+                      content: Text(
+                          "You can add more projects to this class in the add project to class section and add more student to the roster under the class info"),
+                      actions: <Widget>[
+                        RaisedButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            
+                            Navigator.of(context).pop();
+                            
+                          },
+                        )
+                      ]);
+                },
+              );
+            }
+          },
         ));
   }
 
