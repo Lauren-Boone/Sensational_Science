@@ -163,6 +163,17 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                         await Firestore.instance.runTransaction((transaction) async {
                           await transaction.delete(project);
                         });
+                        //update project count
+                        var classInfo = await Firestore.instance.collection('Teachers')
+                        .document(widget.teachID)
+                        .collection('Classes')
+                        .document(widget.classID);
+                        var projCount = 0;
+                        await classInfo.get().then((doc) => projCount = doc['projects']);
+                        await classInfo.setData({
+                          'projects': projCount + 1,
+                        }, merge: true);
+
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
