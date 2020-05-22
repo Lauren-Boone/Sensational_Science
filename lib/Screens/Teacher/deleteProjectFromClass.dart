@@ -171,7 +171,7 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                         var projCount = 0;
                         await classInfo.get().then((doc) => projCount = doc['projects']);
                         await classInfo.setData({
-                          'projects': projCount + 1,
+                          'projects': projCount - 1,
                         }, merge: true);
 
                         showDialog(
