@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Services/getproject.dart';
+import 'package:sensational_science/Services/firebaseStorage/fireStorageService.dart';
 
 class PreviewProject extends StatefulWidget {
   final String title;
@@ -92,6 +94,22 @@ class DynamicWidget extends StatefulWidget {
 }
 
 class _DynamicWidgetState extends State<DynamicWidget> {
+
+  _getImage(BuildContext context, String imageLoc) async {
+      if (imageLoc.length > 0) {
+        Image image;
+        await FireStorageService.loadImage(context, imageLoc).then((downloadURL) {
+          image = Image.network(
+            downloadURL.toString(),
+            fit: BoxFit.scaleDown,
+          );
+        });
+        return image;
+      } else {
+        return null;
+      }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!widget.hasKey) {
@@ -130,10 +148,51 @@ class _DynamicWidgetState extends State<DynamicWidget> {
                 shrinkWrap: true,
                 itemCount: widget.answers.length,
                 itemBuilder: (_, index) => widget.answerWidget[index]),
+            new Text("Answer Number: " + widget.keyAnswers,
+                style: TextStyle(color: Colors.green)),
           ],
         ),
       );
-    } else {
+    } else if (widget.type == "AddImageInput"){
+        return Container(
+          margin: new EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3))
+              ]
+              ),
+          child: Column(
+            children: <Widget>[
+              new Text("Question Number: " + widget.numq.toString(),
+                  style: TextStyle(fontSize: 16)),
+              new Text("Type: " + widget.type),
+              new Text("Question: " + widget.question,
+                  style: TextStyle(fontSize: 20, color: Colors.red)),
+              new Text("Answers:",
+                  style: TextStyle(color: Colors.green)),
+              new FutureBuilder(
+                future: _getImage(context, widget.keyAnswers),
+                builder: (context, snapshot) {
+                  if(!snapshot.hasData) return CupertinoActivityIndicator();
+                  if(snapshot.data == null) return Text("No answer image stored", style: TextStyle(color: Colors.green));
+                  return Container(
+                    padding: EdgeInsets.all(10.0),
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: snapshot.data,
+                    );
+                },
+              )
+
+            ],
+          ),
+        );
+      } else {
       return Container(
         margin: new EdgeInsets.all(8.0),
         decoration: BoxDecoration(

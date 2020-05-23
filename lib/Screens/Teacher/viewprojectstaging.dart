@@ -124,10 +124,10 @@ final user = Provider.of<User>(context);
                         });
                         Navigator.of(context).push(
                       MaterialPageRoute(
-                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, widget.createdProjID),
-                      ),
+                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, widget.createdProjID, widget.uid),
                   
-                    );
+                    )
+                        );
                       },
                       child: Text('Click to Create Answer Key'),
                       color: Colors.blue,
