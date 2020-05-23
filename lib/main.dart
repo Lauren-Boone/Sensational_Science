@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 // import 'package:sensational_science/Screens/Student/collectData.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sensational_science/Services/auth.dart';
+import 'dart:io' show Platform;
 import 'wrapper.dart';
 import 'models/user.dart';
 import 'dart:io' show Platform;
@@ -15,7 +16,6 @@ Future<String>loadApiKey() async{
   }else if(Platform.isIOS){
     return await rootBundle.loadString('assets/keys.txt'); 
   }
-  
 }
 
 void main() {
