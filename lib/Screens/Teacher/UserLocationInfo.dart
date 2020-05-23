@@ -63,7 +63,7 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
   var results;
   double latitude  = 0.0; 
   double longitude = 0.0; 
-  var value = "please wait for text after pressing button for location"; 
+  var value = "Please wait for text after pressing button for location. You may click next after the coordinates appear"; 
   //     getUserLocation(){
   //   final Geolocator test = Geolocator()..forceAndroidLocationManager;
   //   test
