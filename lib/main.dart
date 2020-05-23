@@ -7,16 +7,24 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sensational_science/Services/auth.dart';
 import 'wrapper.dart';
 import 'models/user.dart';
+import 'dart:io' show Platform;
+import 'dart:js'; 
 
 Future<String>loadApiKey() async{
-  return await rootBundle.loadString('assets/keys.txt'); 
+  if(Platform.isAndroid){
+    return await rootBundle.loadString('assets/androidkey.txt'); 
+  }else if(Platform.isIOS){
+    return await rootBundle.loadString('assets/keys.txt'); 
+  }
+  
 }
 
 void main() {
   
   runApp(MyApp());
-  if(!kIsWeb)
+  if(!kIsWeb){
     loadApiKey().then((value) => GoogleMap.init(value));
+  }
   else 
     GoogleMap.init('AIzaSyA2zhLJzZCBXwj6dQ8KAExZcuZpE3HpWXU');
 }
