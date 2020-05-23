@@ -63,6 +63,7 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
   var results;
   double latitude  = 0.0; 
   double longitude = 0.0; 
+  var value = "please wait for text after pressing button for location"; 
   //     getUserLocation(){
   //   final Geolocator test = Geolocator()..forceAndroidLocationManager;
   //   test
@@ -113,20 +114,19 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                 }else if(kIsWeb){
                   getCurrentPosition(allowInterop((pos) {
                     setState((){
+                      
                       results = "Lat: "; 
                       results += pos.coords.latitude.toString(); 
                       results += ", Long: "; 
                       results += pos.coords.longitude.toString();    
                     });
+
                     widget.userLocationController.text = results.toString(); 
 
                      writeString(
                         widget.code,
                         widget.userLocationController.text,
                         widget.questionNum.toString());
-                    if (widget.userLocationController.text == "" || results == null)
-                      Text(
-                          "Invalid or no user location entered. Please use mobile phone to collect location data.");
                           
                     print('Inner Web Success');
                   }));
@@ -156,12 +156,11 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                           
                     // print('Inner Web Success');
                   // })); 
-                  if (widget.userLocationController.text == "" || results == null)
-                      new Text(
-                          "Invalid or no user location entered. Please use mobile phone to collect location data.");
+                  print('Web Success');
+                
                           
                   // print(results); 
-                  print('Web Success');
+                  
                   // print(latitude); 
                 }
                 // widget.getUserLocation().then((result) async {
@@ -180,6 +179,7 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
               },
             ),
             if (results != null) new Text('$results'),
+            new Text(value), 
             
           ],
         ));
