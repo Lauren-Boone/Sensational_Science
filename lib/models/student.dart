@@ -23,4 +23,11 @@ class Student{
     });
   }
 
+  Student.teacherKey({this.code, this.projectCode, this.projectTitle}) {
+    className = "key";
+    studentName = "teacher key";
+    studentID = code;
+    teacherID = code;
+  }
+
 }
