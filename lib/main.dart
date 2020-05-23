@@ -8,7 +8,6 @@ import 'package:sensational_science/Services/auth.dart';
 import 'wrapper.dart';
 import 'models/user.dart';
 import 'dart:io' show Platform;
-import 'dart:js'; 
 
 Future<String>loadApiKey() async{
   if(Platform.isAndroid){
