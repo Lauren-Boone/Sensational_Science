@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sensational_science/Screens/Student/locationtest.dart';
+import 'package:sensational_science/Screens/Student/locationmap.dart';
 import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
 import 'package:sensational_science/Screens/Teacher/setupclasswithprojects.dart';
 import 'package:sensational_science/Screens/Teacher/teacherclasslist.dart';
@@ -50,7 +50,7 @@ final AuthService _auth = AuthService();
               
         ),
         
-        backgroundColor: Colors.blueGrey[50],
+        backgroundColor: Colors.green[200],
         body: ListView(
             children:  <Widget>[
               
@@ -206,13 +206,13 @@ final AuthService _auth = AuthService();
               // ),
             ],
           ),
-          floatingActionButton: RaisedButton(
-            onPressed: (){
-              Navigator.pop(context);
-            },
-            child: Text("Go Back"),
+          // floatingActionButton: RaisedButton(
+          //   onPressed: (){
+          //     Navigator.pop(context);
+          //   },
+          //   child: Text("Go Back"),
             
-          ),
+          // ),
         
           ),
     );

@@ -75,11 +75,13 @@ final user = Provider.of<User>(context);
        return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Random Widget"),
+            title: Text("View Your Project"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             ),
+            backgroundColor: Colors.deepPurple,
+            
               actions: <Widget>[
           FlatButton.icon(
            icon: Icon(Icons.home, color: Colors.black),
@@ -122,10 +124,10 @@ final user = Provider.of<User>(context);
                         });
                         Navigator.of(context).push(
                       MaterialPageRoute(
-                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, widget.createdProjID),
-                      ),
+                       builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, widget.createdProjID, widget.uid),
                   
-                    );
+                    )
+                        );
                       },
                       child: Text('Click to Create Answer Key'),
                       color: Colors.blue,

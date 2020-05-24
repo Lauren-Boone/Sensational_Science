@@ -45,13 +45,14 @@ class _AddRosterState extends State<AddRoster>{
         await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
           exists = doc.exists?true:false;
         });
-        print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+        //print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
       } while (exists);
       await classProjects.document(project.documentID).collection('Students')
         .document(newCode.toString())
         .setData({
           'student': newStudent.documentID, //student doc id in roster
           'completed': false, //has student submitted data
+          'name': e.controller.text, //student's name for reference
         });
       await newStudent.setData({
         'codes': FieldValue.arrayUnion([
@@ -105,12 +106,14 @@ String success = '';
 Widget build(BuildContext context){
   final user = Provider.of<User>(context);
     return Scaffold(
+      backgroundColor: Colors.green[200],
       appBar: AppBar(
         title: Text("View & Add To Roster"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
+        
         actions: <Widget>[
           FlatButton.icon(
              icon: Icon(Icons.home, color: Colors.black),
@@ -131,8 +134,8 @@ Widget build(BuildContext context){
         //height: MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
-            new Text('Current Roster'),
-            new Text('Select a student to view their project access codes'),
+            new Text('Current Roster', style: TextStyle(fontSize: 20)),
+            new Text('Select a student to view their project access codes', style: TextStyle(fontSize: 16)),
             new StreamBuilder(
               stream: Firestore.instance.collection('Teachers').
                 document(user.uid)
@@ -143,8 +146,11 @@ Widget build(BuildContext context){
               builder: (BuildContext context, snapshot) {
                 if(!snapshot.hasData) return new Text('...Loading');
                 return new Expanded(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
+                  child: Container(child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.green[400]
+                      ),
+                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.8,
                     child: new ListView(
                       children: snapshot.data.documents.map<Widget>((doc){
                         return new ListTile(
@@ -159,17 +165,18 @@ Widget build(BuildContext context){
                           }
                         );
                       }).toList(),
-                    ),
-                  ),
+                    ),)
+                      ),)
                 );
               },
             ),
             new Divider(
-              color: Colors.blue,
+              color: Colors.deepPurple,
               height: 10.0,
             ),
-            new Text('Students to add:'),
+            new Text('Students to add:', style: TextStyle(fontSize: 20)),
             new Expanded(
+              
               child: new SizedBox(
                 height: MediaQuery.of(context).size.height * 0.2,
                 child: new ListView.builder(

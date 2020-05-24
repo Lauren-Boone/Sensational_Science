@@ -9,7 +9,7 @@ import '../../models/project.dart';
 import '../../Services/getproject.dart';
 import 'textquestion.dart';
 import 'multiplechoicequestion.dart';
-import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
+import 'package:sensational_science/Screens/Teacher/FormInputs/imageCapture/imageCaptureService.dart';
 import 'shortanswerquestion.dart';
 import 'numericalquestion.dart';
 import 'UserLocationInfo.dart';
@@ -18,36 +18,26 @@ import '../../Services/projectDB.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/models/student.dart';
 import 'submittedPage.dart';
-
-//import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
-
-// var createLocationHandler = new UserLocationInfo();
-
-// var locationResult = createLocationHandler.getUserLocation();
-
-// var createTextInputHandler = new TextQuestionWidget();
-
-// var createMultipleChoice = new MultQuestionWidget();
-
-//var createImageCapture = new AddImageInput();
-
-// var createShortAnswer = new ShortAnswerQuestion();
-
-// var createNumericalInput = new NumericalQuestion();
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io';
+import 'package:sensational_science/Services/storeLocally.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ViewProjectPage extends StatelessWidget {
   final String projectID;
   final String title;
   final String createdProjectID; 
+  final String uid;
   GetProject project;
-  ViewProjectPage(this.title, this.projectID, this.project, this.createdProjectID);
+  ViewProjectPage(this.title, this.projectID, this.project, this.createdProjectID, this.uid);
 
   Widget build(BuildContext context) {
+    final Student student = new Student.teacherKey(code: uid, projectCode: createdProjectID, projectTitle: title);
     return new Observation(
         key: new Key(projectID),
         projectID: this.projectID,
         answers: new Map(),
-        child: new ViewProject(this.title, this.projectID, this.project, this.createdProjectID));
+        child: new ViewProject(this.title, this.projectID, this.project, this.createdProjectID, student));
   }
 }
 
@@ -55,13 +45,13 @@ class ViewProject extends StatefulWidget {
   final String docIDref;
   final String title;
   final String createdProjectID; 
-  Student student;
+  final Student student;
   final GetProject project;
   bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
   // Observation studentObservations;
 //GetProject project;
-  ViewProject(this.title, this.docIDref, this.project, this.createdProjectID) {
+  ViewProject(this.title, this.docIDref, this.project, this.createdProjectID, this.student) {
     //this.docIDref = docID;
 
     // this.project = project;
@@ -85,23 +75,7 @@ class ViewProject extends StatefulWidget {
 }
 
 class _ViewProjectState extends State<ViewProject> {
-  // GetProject project;
-  // bool done = false;
-  // List<TextEditingController> controllers = [];
-  // Observation studentObservations;
   _ViewProjectState(String title, String docID) {
-    // project = new GetProject(title, docID);
-    // this.controllers = new List();
-    // project.questionData().then((ignore) {
-    //   for (int i = 0; i < project.questions.length; i++) {
-    //     controllers[i] = new TextEditingController();
-    //     print("Values of i " + i.toString());
-    //   }
-    // });
-
-    // studentObservations = new Observation(docID);
-    //project.questionData();
-    //project.questionData();
   }
   int _currentQuestion = 0;
 
@@ -139,11 +113,12 @@ bool _checkforAnswers(var results){
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Random Widget"),
+            title: Text("Your Project"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             ),
+            backgroundColor: Colors.deepPurple,
               actions: <Widget>[
           FlatButton.icon(
               icon: Icon(Icons.home, color: Colors.black),
@@ -160,26 +135,8 @@ bool _checkforAnswers(var results){
         ],
             ),
         body:
-            /*widget.project.questions.length == 0
-            ? Center(
-                child: Column(children: <Widget>[
-                  Card(
-                    child: Text(widget.title),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      //color: Colors.blue;
-                      setState(() {});
-                    },
-                    child: Text('Click to View Questions'),
-                    color: Colors.blue,
-                  ),
-                ]),
-              )
-            : */
             Center(
                 child: FutureBuilder(
-                    // initialData: 0,
                     future: _getType(_currentQuestion),
                     builder: (context, snapshot) {
                       if (snapshot.data != null) {
@@ -218,16 +175,8 @@ bool _checkforAnswers(var results){
           }
 
           print(questionObservations.toJson());
-
-          // setState(() {
-          //   widget.studentObservations.addAnswer(
-          //       widget.project.questions[_currentQuestion].number,
-          //       widget.controllers[_currentQuestion].value.text);
-          //   print(widget.studentObservations.toJson());
-          // });
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
-              //controllers.add(value);
               _currentQuestion++;
               _getType(_currentQuestion);
             });
@@ -245,12 +194,10 @@ bool _checkforAnswers(var results){
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
               child: Center(
                   child: new TextQuestionWidget(
                       textAnswerController:
                           widget.controllers[_currentQuestion])),
-              // ),
             ),
             getNextButton(context)
           ]);
@@ -269,28 +216,6 @@ bool _checkforAnswers(var results){
                     multChoiceController: widget.controllers[_currentQuestion]),
               ),
             ),
-            // Center(
-            //   child: SizedBox(
-            //     height: 400.0,
-            //     child: ListView.builder(
-            //         itemCount:
-            //             widget.project.questions[_currentQuestion].answers.length,
-            //         itemBuilder: (context, index) {
-            //           //for(int i =0; i< project.questions[_currentQuestion].answers.length; ++i){
-            //           return RadioListTile(
-            //               title: Text(widget.project
-            //                   .questions[_currentQuestion].answers[index]),
-            //               // groupValue: selectedValue,
-            //               value: widget.project
-            //                   .questions[_currentQuestion].answers[index],
-            //               onChanged: (value) {
-            //                 setState(() {});
-            //               },
-            //               groupValue: null);
-            //           // }
-            //         }),
-            //   ),
-            // ),
             getNextButton(context)
           ]);
           break;
@@ -301,12 +226,8 @@ bool _checkforAnswers(var results){
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              //   child: Text('Short Answer'),
               child: new ShortAnswerQuestion(
                   shortAnswerController: widget.controllers[_currentQuestion]),
-              //   feedback: Text('Short Answer'),
-              // ),
             ),
             getNextButton(context)
           ]);
@@ -318,13 +239,9 @@ bool _checkforAnswers(var results){
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              // child: Text('User Location'),
               child: new UserLocationInfo(
                 userLocationController: widget.controllers[_currentQuestion],
               ),
-              //   feedback: Text('Text'),
-              // ),
             ),
             getNextButton(context)
           ]);
@@ -336,12 +253,8 @@ bool _checkforAnswers(var results){
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              //   child: Text('Numerical Input'),
               child: new NumericalQuestion(
                   numAnswerController: widget.controllers[_currentQuestion]),
-              //   feedback: Text('Numerical Input'),
-              // ),
             ),
             getNextButton(context)
           ]);
@@ -352,29 +265,27 @@ bool _checkforAnswers(var results){
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
-              // child: Draggable<Widget>(
-              //   child: Text('Image Upload'),
               child: RaisedButton(
                 child: Text('Click to upload or take photo'),
-                onPressed: () =>
-                    print('This will take the student to upload a photo'),
-                // onPressed: () => {
-                //   Navigator.of(context).push(
-                //     MaterialPageRoute(
-                //       builder: (context) => ImageCapture(
-                //         student: widget.student,
-                //         questionNum: _currentQuestion.toString(),
-                //         imgLocController: widget.controllers[_currentQuestion],
-                //       ),
-                //     ),
-                //   )
-                // },
+                onPressed: () async {
+                  File preFilledFile;
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ImageCapture(
+                        student: widget.student,
+                        questionNum: _currentQuestion.toString(),
+                        imgLocController:
+                            widget.controllers[_currentQuestion],
+                        imageFile: preFilledFile,
+                      ),
+                    ),
+                  );
+                },
               ),
-              //   feedback: Text('Image'),
-              // ),
             ),
-            getNextButton(context)
-          ]);
+            getNextButton(context),
+          ]
+          );
           break;
       }
     } else {
@@ -387,6 +298,16 @@ bool _checkforAnswers(var results){
 
           }
           else{
+          //if answered on mobile app, store the image in the database (web is already stored)
+          if (!kIsWeb){
+            for(var index=0; index<widget.project.questions.length; index++) {
+              if (widget.project.questions[index].type == "AddImageInput") {
+                File image = await getImage(widget.student.code, index.toString());
+                StorageUploadTask _uploadTask = FirebaseStorage(storageBucket: 'gs://citizen-science-app.appspot.com').ref().child(widget.controllers[index].text).putFile(image);
+                await _uploadTask.onComplete;
+              }
+            }
+          }
           await saveAnswers(user.uid, widget.createdProjectID, results);
           Navigator.push(
             context,
@@ -395,9 +316,6 @@ bool _checkforAnswers(var results){
           Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) =>ViewProjectStaging(widget.project.title, widget.project.docID, widget.project.info, widget.createdProjectID, user.uid)),
-                     
- 
-             
                );
           }
         },
@@ -409,21 +327,10 @@ bool _checkforAnswers(var results){
 
   @override
   void initState() {
-    // setState(() {
-    //   _getQuestions();
-    // });
-    // done=false;
+
     super.initState();
   }
 
-/*
-  Future<void> _getQuestions() async {
-    // you mentioned you use firebase for database, so
-    // you have to wait for the data to be loaded from the network
-    await widget.project.questionData();
-    setState(() {});
-  }
-*/
   // Call this function when you want to move to the next page
   void goToNextPage() {
     //setState(() {

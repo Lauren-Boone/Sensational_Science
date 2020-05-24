@@ -33,7 +33,7 @@ class ViewAllStudentCodes extends StatelessWidget{
 
     }
 
-    if (tiles.length < 1) {
+    if (tiles.length < 2) {
       tiles.add(ListTile(
         title: Text("The class this project is assigned to has no students"),
       ));

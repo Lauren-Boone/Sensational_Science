@@ -24,18 +24,20 @@ class ViewStudentCodes extends StatelessWidget{
       collection('Classes').document(classID).collection('Roster').document(studentID).get();
     var projectList = Firestore.instance.collection('Teachers').document(teachID).
         collection('Classes').document(classID).collection('Projects');
-    for (var pair in codeList['codes']) {
-      for (var key in pair.keys) {
-        await projectList.document(key).get().then((doc) {
-          tiles.add(ListTile(
-            title: Text(doc['projectTitle'] + ': ' + pair[key]),
-            subtitle: Text(doc['dueDate'].toDate().toString()),
-          ));
-        });
+    if (codeList.data.containsKey('codes') && codeList.data['codes'].length > 0) {
+      for (var pair in codeList['codes']) {
+        for (var key in pair.keys) {
+          await projectList.document(key).get().then((doc) {
+            tiles.add(ListTile(
+              title: Text(doc['projectTitle'] + ': ' + pair[key]),
+              subtitle: Text(doc['dueDate'].toDate().toString()),
+            ));
+          });
+        }
       }
     }
 
-    if (tiles.length < 1) {
+    if (tiles.length < 2) {
       tiles.add(ListTile(
         title: Text("The class has no projects assigned yet"),
       ));

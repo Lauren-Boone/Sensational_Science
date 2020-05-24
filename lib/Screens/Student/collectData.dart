@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/imageCapture/imageCaptureService.dart';
 import 'package:sensational_science/Services/projectDB.dart';
@@ -15,8 +16,6 @@ import 'package:sensational_science/Services/storeLocally.dart';
 import 'dart:io';
 import 'student_home.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-const bool kIsWeb = identical(0, 0.0);
 
 class CollectDataPage extends StatelessWidget {
   final String projectID;
@@ -122,11 +121,13 @@ bool _checkforAnswers(){
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Random Widget"),
+            title: Text("Collect Data For Your Project"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+            backgroundColor: Colors.deepPurple,
+            ),
         body: widget.project.questions.length == 0
             ? Center(
                 child: Column(children: <Widget>[

@@ -105,7 +105,10 @@ addProjectDataToDoc(String uid, List<Widget> acceptData, List<String> acceptType
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
+            ),
+            backgroundColor: Colors.deepPurple,
+            
+            ),
         backgroundColor: Colors.grey[100],
         body: Padding(
           padding: EdgeInsets.all(10),
@@ -253,7 +256,7 @@ addProjectDataToDoc(String uid, List<Widget> acceptData, List<String> acceptType
                           ),
                           Container(
                             margin: EdgeInsets.all(10),
-                            width: MediaQuery.of(context).size.width / 3,
+                            width: MediaQuery.of(context).size.width / 2,
                             child: Draggable<Widget>(
                               child: Text('User Location'),
                               data: createLocationHandler,

@@ -11,16 +11,16 @@ import GoogleMaps
     ) -> Bool {
         FirebaseApp.configure()
 
-        var keys: NSDictionary?
+         var keys: NSDictionary?
 
-        if let path = Bundle.main.path(forResource: "keys", ofType: "plist"){
-          keys = NSDictionary(contentsOfFile: path)
-        }
+         if let path = Bundle.main.path(forResource: "keys", ofType: "plist"){
+           keys = NSDictionary(contentsOfFile: path)
+         }
 
-        if let dictionary = keys{
-            let apiKey = dictionary["google_maps_api"] as? String
-            GMSServices.provideAPIKey(apiKey ?? "MISSING")
-        }
+         if let dictionary = keys{
+             let apiKey = dictionary["google_maps_api"] as? String
+             GMSServices.provideAPIKey(apiKey ?? "MISSING")
+         }
 //        let remoteConfig = RemoteConfig.remoteConfig()
 //        let settings = RemoteConfigSettings(developerModeEnabled: true)
 //        settings.minimumFetchInterval = 0

@@ -24,4 +24,8 @@ class FireStorageService extends ChangeNotifier {
     var url = await fb.storage().ref(image).getDownloadURL();
     return url;
   }
+
+  static Future<dynamic> deleteFile(BuildContext context, dynamic filePath) async {
+    return await fb.storage().ref().child(filePath).delete();
+  }
 }

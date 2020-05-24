@@ -92,7 +92,7 @@ class _ImageCaptureState extends State<ImageCapture> {
                     onPressed: _cropImage,
                   ),
                   FlatButton(
-                    child: Icon(Icons.refresh),
+                    child: Icon(Icons.clear),
                     onPressed: _clear,
                   ),
                 ],

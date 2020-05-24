@@ -28,7 +28,8 @@ class Home extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
          brightness: Brightness.light,
-         accentColor: Colors.lightBlueAccent,
+        //  accentColor: Colors.lightBlueAccent,
+        accentColor: Colors.deepPurpleAccent,
         primarySwatch: Colors.deepPurple,
         buttonTheme: ButtonThemeData(
            buttonColor: Colors.indigo[600],
@@ -52,7 +53,8 @@ class Home extends StatelessWidget {
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        highlightColor: Colors.blueAccent,
+        highlightColor: Colors.deepPurpleAccent,
+        // highlightColor: Colors.blueAccent,
       ),
       home: TeacherHome(),
     );

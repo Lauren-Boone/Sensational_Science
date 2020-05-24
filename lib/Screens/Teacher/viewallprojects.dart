@@ -282,6 +282,7 @@ final user = Provider.of<User>(context);
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             ),
+            backgroundColor: Colors.deepPurple,
               actions: <Widget>[
           FlatButton.icon(
               icon: Icon(Icons.home),

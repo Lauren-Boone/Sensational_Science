@@ -43,7 +43,9 @@ app.*.map.json
 #api keys
 /lib/keys
 /android/app/src/main/res/values/secrets.xml
+/android/app/src/main/res/values/secret.xml
 /ios/Runner/keys.*
+/assets/
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages

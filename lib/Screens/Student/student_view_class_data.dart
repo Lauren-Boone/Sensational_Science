@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sensational_science/Screens/Student/locationtest.dart';
+import 'package:sensational_science/Screens/Student/locationmap.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import '../../Services/getproject.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:sensational_science/Services/firebaseStorage/fireStorageService.dart';
-import 'locationtest.dart';
+import 'locationmap.dart';
 
 var createLocationMap = LocationMap();
 
@@ -258,7 +258,10 @@ class _CompileDataState extends State<CompileData> {
   Widget build(BuildContext context) {
     if (_currentQuestion >= widget.proj.questions.length) {
       return Material(
-        child: Container(
+        child: FittedBox(        
+          fit: BoxFit.scaleDown, 
+          child: Container(
+          
             margin: EdgeInsets.all(50),
             color: Colors.white,
             child: Column(
@@ -269,7 +272,8 @@ class _CompileDataState extends State<CompileData> {
                   onPressed: () => Navigator.of(context).pop(),
                 )
               ],
-            )),
+            )),)
+
       );
     }
     while (proj.questions[_currentQuestion].compAnswers.length == 0) {
@@ -408,6 +412,8 @@ class _CompileDataState extends State<CompileData> {
                 '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
           child: new Container(
+            margin: EdgeInsets.only(top: 60), 
+            constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
             child: Column(
               children: <Widget>[
                 new Card(
@@ -416,8 +422,8 @@ class _CompileDataState extends State<CompileData> {
                          )
                         ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width / 3,
+                  height: MediaQuery.of(context).size.height/3,
+                  width: MediaQuery.of(context).size.width/3,
                   child: new LocationMap(lms: lms),
                   // child: RaisedButton(
                   //   child: Text('Click to load map'),
@@ -561,7 +567,6 @@ class _CompileDataState extends State<CompileData> {
                     }),
               ),
               getNextButton(context),
-
             ],
           ),
         );

@@ -37,9 +37,14 @@ dependencies:
   flutter_reorderable_list: ^0.1.3
   geolocator: ^5.3.1
   google_maps_flutter: ^0.5.27+1
+  flutter_google_maps: ^3.7.0
+  js: ^0.6.1+1
+  universal_html: ^1.1.10
+  
 
   image_cropper: ^1.2.1
   image_picker: ^0.6.6+1
+  material_design_icons_flutter: 2.7.94
 
   firebase_auth: ^0.15.5+3
   firebase_auth_web:
@@ -82,6 +87,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   # assets:
+  assets:
+    - assets/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

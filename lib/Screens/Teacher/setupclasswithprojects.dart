@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   String _project;
   DateTime _date;
   bool hasRoster = false;
+  bool myProjectsOnly = true;
   final _formKey = GlobalKey<FormState>();
   final classNameController = TextEditingController();
   final subjectController = TextEditingController();
@@ -330,19 +333,44 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
             await classRoster.add({'name': e.controller.text});
         QuerySnapshot eachProject = await classProjects.getDocuments();
         eachProject.documents.forEach((project) async {
-          var codeRef = await classProjects
-              .document(project.documentID)
-              .collection('Students')
-              .add({
-            'student': newStudent.documentID, //student doc id in roster
-            'completed': false, //has student submitted data
-            'name': e.controller.text,//student's name for reference
+          bool exists = false;
+          int newCode;
+          do {
+            newCode = Random().nextInt(10000000);
+            newCode = newCode<1000000?newCode+999999:newCode;        
+            await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
+              exists = doc.exists?true:false;
+            });
+            //print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+          } while (exists);
+          await classProjects
+            .document(project.documentID)
+            .collection('Students')
+            .document(newCode.toString())
+            .setData({
+              'student': newStudent.documentID, //student doc id in roster
+              'completed': false, //has student submitted data
+              'name': e.controller.text,//student's name for reference
           });
           await newStudent.setData({
             'codes': FieldValue.arrayUnion([
-              {project.documentID: codeRef.documentID}
+              {project.documentID: newCode.toString()}
             ]) //list of codes for each student for all projects, {projectCode : studentCode}
           }, merge: true);
+          await Firestore.instance
+            .collection('codes')
+            .document(newCode.toString())
+            .setData({
+              'Teacher': teachID, //teacher doc id
+              'Class': classNameController.text.trim(), //class doc id
+              'Student': newStudent.documentID, //student doc id in roster
+              'Name': e.controller.text, //student name in roster
+              'Project': project.documentID, //project doc id in class
+              'ProjectID': project.data['projectID'], //project doc id in top level project collection
+              'ProjectTitle': project.data['projectTitle'], //project title
+              'dueDate': project.data['dueDate'], //project due date
+              'Subject': project.data['projectSubject'], //project subject
+          });
         });
         classInfo.get().then((doc) {
           classInfo.updateData({'students': doc.data['students'] + 1});
@@ -409,7 +437,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               },
             ),
             new Divider(
-              color: Colors.blue,
+              color: Colors.deepPurple,
               height: 10.0,
             ),
             new Text('Students to add:'),
@@ -468,26 +496,36 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
       //under top level codes collection
       final students = await classDoc.collection('Roster').getDocuments();
       for (var student in students.documents) {
-        var codeRef = await classDoc
-            .collection('Projects')
-            .document(projRef.documentID)
-            .collection('Students')
-            .add({
-          'student': student.documentID, //student doc id in roster
-          'completed': false, //has student submitted data
-          'name': student.data['name'], //add student name for reference
+        bool exists = false;
+        int newCode;
+        do {
+          newCode = Random().nextInt(10000000);
+          newCode = newCode<1000000?newCode+999999:newCode;        
+          await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
+            exists = doc.exists?true:false;
+          });
+          //print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
+        } while (exists);
+        await classDoc.collection('Projects')
+          .document(projRef.documentID)
+          .collection('Students')
+          .document(newCode.toString())
+          .setData({
+            'student': student.documentID, //student doc id in roster
+            'completed': false, //has student submitted data
+            'name': student.data['name'], //add student name for reference
         });
         await classDoc
             .collection('Roster')
             .document(student.documentID)
             .setData({
           'codes': FieldValue.arrayUnion([
-            {projRef.documentID: codeRef.documentID}
+            {projRef.documentID: newCode.toString()}
           ]) //list of codes for each student for all projects, {projectCode : studentCode}
         }, merge: true);
         await Firestore.instance
             .collection('codes')
-            .document(codeRef.documentID)
+            .document(newCode.toString())
             .setData({
           'Teacher': uid, //teacher doc id
           'Class': className, //class doc id
@@ -497,7 +535,8 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           'ProjectID':
               projectID, //project doc id in top level project collection
           'ProjectTitle': projectDoc.data['title'], //project title
-          'DueDate': projectDoc.data['dueDate'],
+          'dueDate': projectDoc.data['dueDate'],
+          'Subject': projectDoc.data['projectSubject'], //project subject
         });
       }
     }
@@ -524,7 +563,97 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
       child: Container(
         child: new Column(
           children: <Widget>[
-            new StreamBuilder<QuerySnapshot>(
+            Padding(
+              padding: EdgeInsets.only(
+                left: MediaQuery.of(context).size.width * 0.1,
+                bottom: 10.0),
+              child: Row(
+                children: [
+                  Text("View my projects only",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Switch(
+                    value: myProjectsOnly,
+                    onChanged: (value) {
+                      setState(() {
+                        myProjectsOnly = value;
+                      });
+                    },
+                    activeTrackColor: Colors.lightGreenAccent,
+                    activeColor: Colors.green,
+                  ),
+                ],
+              ),
+            ),
+            myProjectsOnly ? new StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance.collection('Teachers').document(user.uid).collection('Created Projects').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(
+                    child: Text('Loading . . .'),
+                  );
+                return new Container(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        flex: 2,
+                        child: new Container(
+                          padding:
+                              EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                          child: Text("Project to Assign"),
+                        ),
+                      ),
+                      new Expanded(
+                        flex: 4,
+                        child: new InputDecorator(
+                          decoration: const InputDecoration(
+                            hintText: 'Choose a project',
+                            hintStyle: TextStyle(
+                              color: Colors.green,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          isEmpty: _project == null,
+                          child: new DropdownButton(
+                            value: _project,
+                            isDense: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                _project = newValue;
+                                print(_project);
+                              });
+                            },
+                            items: snapshot.data.documents
+                                .map((DocumentSnapshot document) {
+                              return new DropdownMenuItem<String>(
+                                value: document.data['docIDref'],
+                                child: new Container(
+                                  decoration: new BoxDecoration(
+                                    color: Colors.lightGreen,
+                                    borderRadius:
+                                        new BorderRadius.circular(3.0),
+                                  ),
+                                  height: 32.0,
+                                  width: MediaQuery.of(context).size.width *
+                                      0.52,
+                                  padding: EdgeInsets.fromLTRB(
+                                      10.0, 5.0, 10.0, 0.0),
+                                  child: Text(document.data['title']),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ) 
+            : new StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection('Projects').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
@@ -539,7 +668,8 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                       new Expanded(
                         flex: 2,
                         child: new Container(
-                          //padding: EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                          padding:
+                              EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
                           child: Text("Project to Assign"),
                         ),
                       ),
@@ -570,15 +700,15 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                 value: document.documentID,
                                 child: new Container(
                                   decoration: new BoxDecoration(
-                                    color: Colors.green,
+                                    color: Colors.lightGreen,
                                     borderRadius:
                                         new BorderRadius.circular(3.0),
                                   ),
                                   height: 32.0,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.52,
-                                  padding:
-                                      EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
+                                  width: MediaQuery.of(context).size.width *
+                                      0.52,
+                                  padding: EdgeInsets.fromLTRB(
+                                      10.0, 5.0, 10.0, 0.0),
                                   child: Text(document.data['title']),
                                 ),
                               );
