@@ -124,6 +124,16 @@ class _ViewProjectState extends State<ViewProject> {
     }
   }
 
+
+bool _checkforAnswers(var results){
+  results.answers.forEach((element) {
+    if(element.value == null || element.value == ""){
+      return true;
+    }
+  });
+  return false;
+
+}
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
     return new MaterialApp(
@@ -373,6 +383,10 @@ class _ViewProjectState extends State<ViewProject> {
         RaisedButton(onPressed: () async {
           final user = Provider.of<User>(context, listen:false);
           var results = Observation.of(context);
+          if(_checkforAnswers(results)){
+
+          }
+          else{
           await saveAnswers(user.uid, widget.createdProjectID, results);
           Navigator.push(
             context,
@@ -385,6 +399,7 @@ class _ViewProjectState extends State<ViewProject> {
  
              
                );
+          }
         },
         child: Text('Submit Form'),
         )
