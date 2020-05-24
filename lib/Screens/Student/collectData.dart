@@ -57,12 +57,13 @@ class CollectData extends StatefulWidget {
 class _CollectDataState extends State<CollectData> {
   List<dynamic> answers = new List();
 bool _checkforAnswers(){
-  answers.forEach((element) {
-    if(element == null || element == ""){
-      return true;
+  bool retVal = false;
+  widget.controllers.forEach((element) {
+    if(element.text == null || element.text == ""){
+      retVal = true;
     }
   });
-  return false;
+  return retVal;
 
 }
   _submitProj(String code) async {
@@ -179,6 +180,7 @@ bool _checkforAnswers(){
               answers[_currentQuestion] = (widget.controllers[_currentQuestion].value.text);
             }
           } else {
+            answers.add(widget.controllers[_currentQuestion].value.text);
             //store data locally
             writeString(
                 widget.student.code,

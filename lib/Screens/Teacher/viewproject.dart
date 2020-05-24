@@ -100,12 +100,14 @@ class _ViewProjectState extends State<ViewProject> {
 
 
 bool _checkforAnswers(var results){
-  results.answers.forEach((element) {
-    if(element.value == null || element.value == ""){
-      return true;
+   bool retVal = false;
+results.answers.forEach((element) {
+    if(element == null || element == ""){
+      retVal = true;
     }
   });
-  return false;
+  return retVal;
+
 
 }
   Widget build(BuildContext context) {
@@ -291,13 +293,39 @@ bool _checkforAnswers(var results){
     } else {
       return Column(children: <Widget>[
         Text("Would you like to save your answers as an answer key/example project?", textScaleFactor: 2),
+        RaisedButton(
+          child: Text('Go back and review answers'),
+          onPressed: () => {
+            setState(() {
+              _currentQuestion = 0;
+            }),
+            //getQuestionWidget(),
+          },
+        ),
         RaisedButton(onPressed: () async {
           final user = Provider.of<User>(context, listen:false);
           var results = Observation.of(context);
-          if(_checkforAnswers(results)){
-
+        /*  if(_checkforAnswers(results)){
+ showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("One or more of your answers is empty!"),
+                  content: Text(
+                      "Your must submit an answer for each question!"),
+                  actions: <Widget>[
+                    RaisedButton(
+                      child: Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              }
+                 );
           }
-          else{
+          else{*/
           //if answered on mobile app, store the image in the database (web is already stored)
           if (!kIsWeb){
             for(var index=0; index<widget.project.questions.length; index++) {
@@ -317,7 +345,7 @@ bool _checkforAnswers(var results){
                       MaterialPageRoute(
                         builder: (context) =>ViewProjectStaging(widget.project.title, widget.project.docID, widget.project.info, widget.createdProjectID, user.uid)),
                );
-          }
+         // }
         },
         child: Text('Submit Form'),
         )
