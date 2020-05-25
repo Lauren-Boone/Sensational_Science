@@ -79,10 +79,14 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                     } else {
                       var code = codeController.text;
                       codeController.text = '';
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context)=> StudentHome(classData: code))
-                      );
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => StudentHome(classData: code)),             
+                    );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context)=> StudentHome(classData: code))
+                      // );
                     }
                   },
                   child: Text('Go to Project'),

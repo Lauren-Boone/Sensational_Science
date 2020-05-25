@@ -68,7 +68,8 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: FAStepper(
+        body: SingleChildScrollView(
+          child: FAStepper(
           type: FAStepperType.horizontal,
           titleIconArrange: FAStepperTitleIconArrange.column,
           stepNumberColor: Colors.pink,
@@ -149,7 +150,9 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               );
             }
           },
-        ));
+        ),
+        ),
+    );
   }
 
   Widget createClass() {
