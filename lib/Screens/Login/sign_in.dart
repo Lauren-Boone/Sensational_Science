@@ -59,6 +59,8 @@ class _SignInState extends State<SignIn> {
                     );
                   },
                 ),
+                Container(height: 120.0,
+      width: 120.0, child: Image.asset('assets/images/logo.jpg'),), 
                 Form(
                 key: _formKey,
                 child: Column(
@@ -124,10 +126,15 @@ class _SignInState extends State<SignIn> {
                 ),
               ],
             ),
-          ),
-      ),
+            ),
+      //       Container(height: 120.0,
+      // width: 120.0, child: Image.asset('assets/images/logo.jpg'),)
+          // ],
+        ),
+          );
+      // ),
 
         
-      );
+      // );
   }
 }
