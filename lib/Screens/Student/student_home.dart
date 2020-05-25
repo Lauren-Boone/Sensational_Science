@@ -40,82 +40,84 @@ class StudentHome extends StatelessWidget{
             ]
                 
           ),
-          body: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  child: Text('Collect Data For Project'),
-                  onPressed: () {
-                    if (DateTime.now().isBefore(student.dueDate)) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>CollectDataStaging(student.projectTitle, student.projectID, classData),
-                        ),
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Due Date Has Passed"),
-                            content: Text("The due date for this project is " + student.dueDate.toString() +". It is now past the due date so new data cannot be submitted."),
-                            actions: [
-                              FlatButton(
-                                child: Text("Close"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
+          body: SingleChildScrollView(
+            child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text('Collect Data For Project'),
+                      onPressed: () {
+                        if (DateTime.now().isBefore(student.dueDate)) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>CollectDataStaging(student.projectTitle, student.projectID, classData),
+                            ),
                           );
-                        },
-                      );
-                    }
-                  },
-                ),
-                RaisedButton(
-                  child: Text('View All Class Data'),
-                  onPressed: () {
-                    if (DateTime.now().isAfter(student.dueDate)) {
-                      var proj = new GetProject( student.projectTitle, student.projectID);
-                      proj.questionData().whenComplete(() => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ViewClassData(
-                                user: student.teacherID,
-                                className: student.className,
-                                classProjDocID: student.projectCode,
-                                proj: proj),
-                          ),
-                        ),
-                      }
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Class Data Is Not Available Yet"),
-                            content: Text("The due date for this project is " + student.dueDate.toString() +". The class data will not be available to until after the due date has passed."),
-                            actions: [
-                              FlatButton(
-                                child: Text("Close"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Due Date Has Passed"),
+                                content: Text("The due date for this project is " + student.dueDate.toString() +". It is now past the due date so new data cannot be submitted."),
+                                actions: [
+                                  FlatButton(
+                                    child: Text("Close"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
                           );
-                        },
-                      );
-                    }
-                  },
-                ),
-              ],
-            )
+                        }
+                      },
+                    ),
+                    RaisedButton(
+                      child: Text('View All Class Data'),
+                      onPressed: () {
+                        if (DateTime.now().isAfter(student.dueDate)) {
+                          var proj = new GetProject( student.projectTitle, student.projectID);
+                          proj.questionData().whenComplete(() => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewClassData(
+                                    user: student.teacherID,
+                                    className: student.className,
+                                    classProjDocID: student.projectCode,
+                                    proj: proj),
+                              ),
+                            ),
+                          }
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Class Data Is Not Available Yet"),
+                                content: Text("The due date for this project is " + student.dueDate.toString() +". The class data will not be available to until after the due date has passed."),
+                                actions: [
+                                  FlatButton(
+                                    child: Text("Close"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                )
+              ),
           ),
           // floatingActionButton: RaisedButton(
           //   onPressed: () {
