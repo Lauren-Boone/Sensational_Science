@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/addRoster.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import 'package:sensational_science/models/user.dart';
 
@@ -81,7 +82,21 @@ bool _checkforInput(){
                           leading: IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () => Navigator.pop(context, false),
-                )
+                ),
+                  actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
+                );
+                      
+              },
+          ),
+        ],
         ),
         body: Column(
           children: <Widget>[

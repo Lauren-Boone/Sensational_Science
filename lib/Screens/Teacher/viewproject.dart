@@ -126,11 +126,11 @@ results.answers.forEach((element) {
               icon: Icon(Icons.home, color: Colors.black),
               label: Text('Home', style: TextStyle(color: Colors.black)),
          onPressed: () {
-               Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) =>TeacherHome()),
-             
-               );
+               Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
+                );
                       
               },
           ),
@@ -341,9 +341,11 @@ results.answers.forEach((element) {
             context,
             MaterialPageRoute(builder: (context) => saveStudentAnswers(results: Observation.of(context))),
           );
-          Navigator.of(context).pushReplacement(
+         
+          Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) =>ViewProjectStaging(widget.project.title, widget.project.docID, widget.project.info, widget.createdProjectID, user.uid)),
+                (Route<dynamic> route) => false,
                );
          // }
         },
