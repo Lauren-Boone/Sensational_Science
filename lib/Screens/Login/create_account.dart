@@ -61,9 +61,11 @@ class CreateAccountState extends State<CreateAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green[200],
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
+          backgroundColor: Colors.deepPurple,
           title: Text("Create Account"),
            actions: <Widget>[
           FlatButton.icon(
@@ -77,7 +79,7 @@ class CreateAccountState extends State<CreateAccount> {
           ),
         ],
         ),
-        backgroundColor: Colors.lightBlue[100],
+        // backgroundColor: Colors.lightBlue[100],
         body: Form(
             key: _formKey,
             child: Padding(

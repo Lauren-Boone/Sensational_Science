@@ -46,6 +46,8 @@ class _SignInState extends State<SignIn> {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: Column(
           children: <Widget>[
+      //                   Container(height: 120.0,
+      // width: 120.0, child: Image.asset('assets/images/logo.jpg'),),
             RaisedButton(
               color: Colors.blue[400],
               child: Text('Access Project Using Student Code'),
@@ -58,6 +60,8 @@ class _SignInState extends State<SignIn> {
                 );
               },
             ),
+                                    Container(height: 120.0,
+      width: 120.0, child: Image.asset('assets/images/logo.jpg'),),
             Form(
             key: _formKey,
             child: Column(
@@ -121,6 +125,8 @@ class _SignInState extends State<SignIn> {
               ],
             ),
             ),
+      //       Container(height: 120.0,
+      // width: 120.0, child: Image.asset('assets/images/logo.jpg'),)
           ],
         ),
       ),

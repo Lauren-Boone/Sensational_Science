@@ -83,24 +83,24 @@ final AuthService _auth = AuthService();
                      ),
                 ),
               ),
-              Card(
-                              child: Ink(
-                 color: Colors.white,
-                  child: ListTile(
-                    title: Text('Add Class', style: TextStyle(fontSize: 20)),
-                    subtitle: Text('Add A New Class', style: TextStyle(fontSize: 17)),
-                    trailing: Icon(Icons.arrow_forward_ios), 
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>AddClassPage(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+              // Card(
+              //                 child: Ink(
+              //    color: Colors.white,
+              //     child: ListTile(
+              //       title: Text('Add Class', style: TextStyle(fontSize: 20)),
+              //       subtitle: Text('Add A New Class', style: TextStyle(fontSize: 17)),
+              //       trailing: Icon(Icons.arrow_forward_ios), 
+              //       onTap: (){
+              //         Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //             builder: (context) =>AddClassPage(),
+              //           ),
+              //         );
+              //       },
+              //     ),
+              //   ),
+              // ),
                
                Card(
                 child: ListTile(
