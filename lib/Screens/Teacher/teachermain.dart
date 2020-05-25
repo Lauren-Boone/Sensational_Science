@@ -54,16 +54,14 @@ final AuthService _auth = AuthService();
               
         ),
         
-        backgroundColor: Colors.green[200],
+        backgroundColor: Colors.deepPurple[100],
         body: ListView(
             children:  <Widget>[
               
               Card(
-                              child: Ink(
-                  color: Colors.white,
-                                child: ListTile(
+                              child: ListTile(
                     
-                     title: Text('Classes', style: TextStyle(fontSize: 20)),
+                     title: Text('Classes', style: TextStyle(fontSize: 20,)),
                      subtitle: Text('View All Classes, view class info, add roster, and view compiled data', style: TextStyle(fontSize: 17)),
                      trailing: Icon(Icons.arrow_forward_ios), 
                      
@@ -81,101 +79,97 @@ final AuthService _auth = AuthService();
                        ),
                      },
                      ),
-                ),
               ),
               Card(
-                              child: Ink(
-                 color: Colors.white,
-                  child: ListTile(
-                    title: Text('Add Class', style: TextStyle(fontSize: 20)),
-                    subtitle: Text('Add A New Class', style: TextStyle(fontSize: 17)),
+                              child: ListTile(
+                                title: Text('Add Class', style: TextStyle(fontSize: 20)),
+                                subtitle: Text('Add A New Class', style: TextStyle(fontSize: 17)),
+                                trailing: Icon(Icons.arrow_forward_ios), 
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>AddClassPage(),
+                                    ),
+                                  );
+                                },
+                              ),
+              ),
+               
+               Card(
+                child: ListTile(
+                    title: Text('View All projects', style: TextStyle(fontSize: 20)),
+                    subtitle: Text('Public Projects', style: TextStyle(fontSize: 17)),
                     trailing: Icon(Icons.arrow_forward_ios), 
                     onTap: (){
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>AddClassPage(),
+                          builder: (context) =>PublicProjectsList(),
                         ),
                       );
                     },
                   ),
-                ),
-              ),
-               
-               Card(
-                child: ListTile(
-                  title: Text('View All projects', style: TextStyle(fontSize: 20)),
-                  subtitle: Text('Public Projects', style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>PublicProjectsList(),
-                      ),
-                    );
-                  },
-                ),
               ),
               Card(
                 child: ListTile(
-                  title: Text('Assign Project to Class', style: TextStyle(fontSize: 20)),
-                  subtitle: Text('Assign an Existing Project to an Existing Class', style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>AddProjectToClass(),
-                      ),
-                    );
-                  },
-                ),
+                    title: Text('Assign Project to Class', style: TextStyle(fontSize: 20)),
+                    subtitle: Text('Assign an Existing Project to an Existing Class', style: TextStyle(fontSize: 17)),
+                    trailing: Icon(Icons.arrow_forward_ios), 
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>AddProjectToClass(),
+                        ),
+                      );
+                    },
+                  ),
               ),
               Card(
                 child: ListTile(
-                  title: Text('Create Project', style: TextStyle(fontSize: 20)),
-                  subtitle: Text('Create A New Project From Scratch', style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StagingPage(),
-                      ),
-                    );
-                  },
-                ),
+                    title: Text('Create Project', style: TextStyle(fontSize: 20)),
+                    subtitle: Text('Create A New Project From Scratch', style: TextStyle(fontSize: 17)),
+                    trailing: Icon(Icons.arrow_forward_ios), 
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StagingPage(),
+                        ),
+                      );
+                    },
+                  ),
               ),
                 Card(
                 child: ListTile(
-                  title: Text('Class Setup', style: TextStyle(fontSize: 20)),
-                  subtitle: Text('Create and setup a class', style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SetUpClassSteps(),
-                      ),
-                    );
-                  },
-                ),
+                    title: Text('Class Setup', style: TextStyle(fontSize: 20)),
+                    subtitle: Text('Create and setup a class', style: TextStyle(fontSize: 17)),
+                    trailing: Icon(Icons.arrow_forward_ios), 
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SetUpClassSteps(),
+                        ),
+                      );
+                    },
+                  ),
               ),
               Card(
                 child: ListTile(
-                  title: Text('View Your Projects', style: TextStyle(fontSize: 20)),
-                  subtitle: Text('', style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ListProjects(),
-                      ),
-                    );
-                  },
-                ),
+                    title: Text('View Your Projects', style: TextStyle(fontSize: 20)),
+                    subtitle: Text('', style: TextStyle(fontSize: 17)),
+                    trailing: Icon(Icons.arrow_forward_ios), 
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListProjects(),
+                        ),
+                      );
+                    },
+                  ),
               ),
               
               // Card(

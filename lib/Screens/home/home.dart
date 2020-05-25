@@ -42,6 +42,10 @@ class Home extends StatelessWidget {
           
           
         ),
+        cardTheme: CardTheme(
+          color: Colors.green[100],
+          
+        ),
         iconTheme: IconThemeData(
           color: Colors.grey,
           
