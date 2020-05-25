@@ -10,8 +10,9 @@ import 'package:sensational_science/Services/auth.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
 import '../home/user_list.dart';
+import '../home/home.dart';
 import '../../models/teacher.dart';
-
+import 'package:sensational_science/Screens/Login/authenticate.dart';
 import 'staging.dart';
 import 'listprojects.dart';
 import 'viewallprojects.dart';
@@ -44,7 +45,10 @@ final AuthService _auth = AuthService();
               label: Text('Log out', style: TextStyle(color: Colors.black)),
               onPressed: () async{
                 await _auth.signOut();
-              },
+            Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => Authenticate()),             
+               );           },
             ),
           ]
               

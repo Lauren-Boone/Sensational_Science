@@ -405,8 +405,7 @@ class _CollectDataState extends State<CollectData> {
             _submitProj(widget.student.code),
             Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => StudentHome(classData: widget.student.code)),
-             
+                        builder: (context) => StudentHome(classData: widget.student.code)),             
                ),
             showDialog(
               context: context,
