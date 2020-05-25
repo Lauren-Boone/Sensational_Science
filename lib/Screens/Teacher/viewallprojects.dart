@@ -28,59 +28,61 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
   @override
   Widget build(BuildContext context) {
      //final user = Provider.of<User>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("View All Public Projects"),
-        actions: <Widget>[
-          FlatButton.icon(
-           icon: Icon(Icons.home, color: Colors.black),
-              label: Text('Home', style: TextStyle(color: Colors.black)),
-                onPressed: () {
-               Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) =>TeacherHome()),
-             
-               );
-                      
-              },
-          ),
-        ],
-      ),
-      body: Container(
-        margin: EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width,
-        //height: MediaQuery.of(context).size.height * 0.8,
-        child: Column(children: [
-          new Text('Projects', style: TextStyle(fontSize: 20)),
-          new DropdownButton(
-            value: filter,
-            items: subjects.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (String newValue) {
-              filter=newValue;
-              if(newValue == 'All'){
-                setState(() {
-                  hasfilter=false;
-                });
-              }
-              else{
-              setState(() {
-                 hasfilter = true;
-                filter = newValue;
-              
-              });
-              }
+    return Material(
+          child: Scaffold(
+        appBar: AppBar(
+          title: Text("View All Public Projects"),
+          actions: <Widget>[
+            FlatButton.icon(
+             icon: Icon(Icons.home, color: Colors.black),
+                label: Text('Home', style: TextStyle(color: Colors.black)),
+                  onPressed: () {
+                 Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) =>TeacherHome()),
                
-              print(filter);
-            },
-          ),
-          new SizedBox(),
-          filterWidget(context),
-        ]),
+                 );
+                        
+                },
+            ),
+          ],
+        ),
+        body: Container(
+          margin: EdgeInsets.all(10),
+          width: MediaQuery.of(context).size.width,
+          //height: MediaQuery.of(context).size.height * 0.8,
+          child: Column(children: [
+            new Text('Projects', style: TextStyle(fontSize: 20)),
+            new DropdownButton(
+              value: filter,
+              items: subjects.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String newValue) {
+                filter=newValue;
+                if(newValue == 'All'){
+                  setState(() {
+                    hasfilter=false;
+                  });
+                }
+                else{
+                setState(() {
+                   hasfilter = true;
+                  filter = newValue;
+                
+                });
+                }
+                 
+                print(filter);
+              },
+            ),
+            new SizedBox(),
+            filterWidget(context),
+          ]),
+        ),
       ),
     );
   }
@@ -104,9 +106,10 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: new ListView(
                       children: snapshot.data.documents.map<Widget>((doc) {
-                        return new ListTile(
-                          title: new Text(doc['title']),
-                          trailing: Icon(Icons.arrow_forward_ios), 
+                        return Card(
+                                                  child: new ListTile(
+                            title: new Text(doc['title']),
+                            trailing: Icon(Icons.arrow_forward_ios), 
                 onTap: () =>{
                   //projInfo= _getInfo(document['docID']),
                   Navigator.of(context).push(
@@ -115,6 +118,7 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
                     ),
                   )
                 },
+                          ),
                         );
                       }).toList(),
                     ),
@@ -141,10 +145,11 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: new ListView(
                       children: snapshot.data.documents.map<Widget>((doc) {
-                        return new ListTile(
-                          title: new Text(doc['title']),
-                          subtitle: new Text(doc['info']),
-                                trailing: Icon(Icons.arrow_forward_ios), 
+                        return Card(
+                                                  child: new ListTile(
+                            title: new Text(doc['title']),
+                            subtitle: new Text(doc['info']),
+                                  trailing: Icon(Icons.arrow_forward_ios), 
                 onTap: () =>{
                   //projInfo= _getInfo(document['docID']),
                   Navigator.of(context).push(
@@ -153,6 +158,7 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
                     ),
                   )
                 },
+                          ),
                         );
                       }).toList(),
                     ),
