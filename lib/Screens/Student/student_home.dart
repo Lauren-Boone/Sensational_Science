@@ -115,6 +115,8 @@ class StudentHome extends StatelessWidget{
                         }
                       },
                     ),
+                    Container(height: 120.0,
+      width: 120.0, child: Image.asset('assets/images/logo.jpg'),), 
                   ],
                 )
               ),
