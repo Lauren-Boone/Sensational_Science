@@ -14,7 +14,7 @@ import 'dart:io' show Platform;
 
 Future<String>loadApiKey() async{
   if(Platform.isAndroid){
-    return await rootBundle.loadString('assets/androidkey.txt'); 
+    return await rootBundle.loadString('assets/keys.txt'); 
   }else if(Platform.isIOS){
     return await rootBundle.loadString('assets/keys.txt'); 
   }

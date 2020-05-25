@@ -12,7 +12,7 @@ class StudentEnterCode extends StatefulWidget{
 
 class _StudentEnterCodeState extends State<StudentEnterCode> {
   final _formKey = GlobalKey<FormState>();
-  final codeController = TextEditingController();
+  final codeController = new TextEditingController();
 
   getCodeData(String idCode) async {
     var data = Firestore.instance.collection('codes').document(idCode).get();
@@ -77,9 +77,11 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                         }
                       );
                     } else {
+                      var code = codeController.text;
+                      codeController.text = '';
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context)=> StudentHome(classData: codeController.text))
+                        MaterialPageRoute(builder: (context)=> StudentHome(classData: code))
                       );
                     }
                   },
