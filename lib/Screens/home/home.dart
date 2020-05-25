@@ -31,6 +31,7 @@ class Home extends StatelessWidget {
         // is not restarted.
         
          brightness: Brightness.light,
+        backgroundColor: Colors.deepPurple[100],
         //  accentColor: Colors.lightBlueAccent,
         accentColor: Colors.deepPurpleAccent,
         primarySwatch: Colors.deepPurple,
@@ -54,7 +55,7 @@ class Home extends StatelessWidget {
           
           
         ),
-        
+       
         
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and

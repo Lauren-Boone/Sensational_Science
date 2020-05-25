@@ -27,48 +27,48 @@ class _ClassListState extends State<ClassListPage> {
     final user = Provider.of<User>(context);
     return Center(
       child: Scaffold(
-      backgroundColor: Colors.green[200],
+      //backgroundColor: Colors.green[200],
       appBar: AppBar(title: FittedBox(fit:BoxFit.fitHeight, child: Text("Classes")), actions: <Widget>[
         FlatButton.icon(
           icon: Icon(Icons.home, color: Colors.black),
           label: Text('Home', style: TextStyle(color: Colors.black)),
           onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => TeacherHome()),
-            );
+            Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
+                );
           },
         ),
       ]),
       body: Material(
-        color: Colors.green[200],
+        //color: Colors.green[200],
         child: new StreamBuilder<QuerySnapshot>(
             stream: getClassList(user.uid),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) return new Text('..Loading');
-              return Card(
-                child: new ListView(
-                  children: snapshot.data.documents.map((document) {
-                    return Container(
-                      height: SizeConfig.verticalSize * 13,
-                      child: Card(
-                      child: new ListTile(
-                        title: FittedBox(fit:BoxFit.scaleDown, child: new Text(document['name'], maxLines: 2,)), 
-                        subtitle: FittedBox(fit:BoxFit.scaleDown, child: new Text('Click to View Class Info', maxLines: 2),), 
-                        trailing: Icon(Icons.arrow_forward_ios),
-                        onTap: () => {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ClassInfo(
-                                  name: document.documentID, uid: user.uid),
-                            ),
-                          )
-                        },
-                      ),
+              return new ListView(
+                children: snapshot.data.documents.map((document) {
+                  return Container(
+                    height: SizeConfig.verticalSize * 13,
+                    child: Card(
+                    child: new ListTile(
+                      title: FittedBox(fit:BoxFit.scaleDown, child: new Text(document['name'], maxLines: 2,)), 
+                      subtitle: FittedBox(fit:BoxFit.scaleDown, child: new Text('Click to View Class Info', maxLines: 2),), 
+                      trailing: Icon(Icons.arrow_forward_ios),
+                      onTap: () => {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ClassInfo(
+                                name: document.documentID, uid: user.uid),
+                          ),
+                        )
+                      },
                     ),
-                    );
-                  }).toList(),
-                ),
+                  ),
+                  );
+                }).toList(),
               );
             }),
       ),

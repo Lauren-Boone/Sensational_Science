@@ -120,6 +120,7 @@ bool _checkforAnswers(){
 
   Widget build(BuildContext context) {
     return new MaterialApp(
+      
       home: new Scaffold(
         appBar: AppBar(
             title: Text("Collect Data For Your Project"),
@@ -157,12 +158,7 @@ bool _checkforAnswers(){
                         return CircularProgressIndicator();
                       }
                     })),
-        floatingActionButton: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back'),
-        ),
+        
       ),
     );
   }
@@ -437,10 +433,12 @@ bool _checkforAnswers(){
 
             
             _submitProj(widget.student.code),
-            Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => StudentHome(classData: widget.student.code)),             
-               ),
+            Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => StudentHome(classData: widget.student.code)),
+                  (Route<dynamic> route) => false,
+                ),
+         
             showDialog(
               context: context,
               builder: (BuildContext context) {

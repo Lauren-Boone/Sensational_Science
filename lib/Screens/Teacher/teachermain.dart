@@ -54,7 +54,7 @@ final AuthService _auth = AuthService();
               
         ),
         
-        backgroundColor: Colors.deepPurple[100],
+       
         body: ListView(
             children:  <Widget>[
               

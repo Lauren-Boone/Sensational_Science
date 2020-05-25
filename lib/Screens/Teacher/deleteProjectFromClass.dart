@@ -31,10 +31,11 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
               icon: Icon(Icons.home, color: Colors.black),
               label: Text('Home', style: TextStyle(color: Colors.black)),
           onPressed: () {
-               Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) =>TeacherHome()),
-               );
+               Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
+                );
               },
           ),
         ],

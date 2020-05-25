@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Screens/Teacher/testingNEWcreateproj.dart';
 import 'package:sensational_science/models/project.dart';
 import '../../Services/projectDB.dart';
@@ -99,6 +100,20 @@ final TextEditingController projectTitleController =
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Project Info"),
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
+                );
+                      
+              },
+          ),
+        ],
       ),
       backgroundColor: Colors.grey[100],
       body: Container(
