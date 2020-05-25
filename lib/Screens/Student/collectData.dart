@@ -56,7 +56,16 @@ class CollectData extends StatefulWidget {
 
 class _CollectDataState extends State<CollectData> {
   List<dynamic> answers = new List();
+bool _checkforAnswers(){
+  bool retVal = false;
+  widget.controllers.forEach((element) {
+    if(element.text == null || element.text == ""){
+      retVal = true;
+    }
+  });
+  return retVal;
 
+}
   _submitProj(String code) async {
     DocumentReference docRef =
         Firestore.instance.collection('codes').document(code);
@@ -171,6 +180,7 @@ class _CollectDataState extends State<CollectData> {
               answers[_currentQuestion] = (widget.controllers[_currentQuestion].value.text);
             }
           } else {
+            answers.add(widget.controllers[_currentQuestion].value.text);
             //store data locally
             writeString(
                 widget.student.code,
@@ -402,6 +412,30 @@ class _CollectDataState extends State<CollectData> {
         RaisedButton(
           child: Text('Submit Project'),
           onPressed: () => {
+            if(_checkforAnswers()){
+                 showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("One or more of your answers is empty!"),
+                  content: Text(
+                      "Your must submit an answer for each question!"),
+                  actions: <Widget>[
+                    RaisedButton(
+                      child: Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              }
+                 ),
+
+            }
+            else{
+
+            
             _submitProj(widget.student.code),
             Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
@@ -425,6 +459,7 @@ class _CollectDataState extends State<CollectData> {
                 );
               },
             ),
+            }
           },
         )
       ]);
