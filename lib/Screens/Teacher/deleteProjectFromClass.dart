@@ -90,7 +90,7 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                       ),
                   ),
                   CheckboxListTile(
-                    title: new Text("I understand that I cannot undo deleting this project from the class and I would still like to proceed with deleting this project form this class"),
+                    title: new Text("I understand that I cannot undo deleting this project from the class and I would still like to proceed with deleting this project from this class"),
                     value: _ackDelete,
                     onChanged: (bool value) {
                       _ackDelete = value?true:false;
