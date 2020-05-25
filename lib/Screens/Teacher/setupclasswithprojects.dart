@@ -469,6 +469,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   Widget addProject() {
     Future<void> assignProject(String uid, String className, String projectID,
         DateTime dueDate) async {
+          print(dueDate);
       //create project under the class
       DocumentReference classDoc = Firestore.instance
           .collection('Teachers')
@@ -535,8 +536,8 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           'ProjectID':
               projectID, //project doc id in top level project collection
           'ProjectTitle': projectDoc.data['title'], //project title
-          'dueDate': projectDoc.data['dueDate'],
-          'Subject': projectDoc.data['projectSubject'], //project subject
+          'dueDate': dueDate,
+          'Subject': projectDoc.data['subject'], //project subject
         });
       }
     }
@@ -600,8 +601,8 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                       new Expanded(
                         flex: 2,
                         child: new Container(
-                          padding:
-                              EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                         padding:
+                              EdgeInsets.fromLTRB(10.0, 10.0, 7.0, 8.0),
                           child: Text("Project to Assign"),
                         ),
                       ),
@@ -612,7 +613,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                             hintText: 'Choose a project',
                             hintStyle: TextStyle(
                               color: Colors.green,
-                              fontSize: 16.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -638,7 +639,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                   ),
                                   height: 32.0,
                                   width: MediaQuery.of(context).size.width *
-                                      0.52,
+                                      0.5,
                                   padding: EdgeInsets.fromLTRB(
                                       10.0, 5.0, 10.0, 0.0),
                                   child: Text(document.data['title']),

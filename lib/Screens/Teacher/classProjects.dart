@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sensational_science/Screens/Teacher/deleteProjectFromClass.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
+import 'package:sensational_science/Screens/Teacher/viewCompiledData.dart';
 import 'dart:async';
 import '../Student/student_view_class_data.dart';
 import 'package:provider/provider.dart';
@@ -94,8 +95,8 @@ class _ViewClassProjectsState extends State<ViewClassProjects> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => ViewClassData(
-                                              user: user.uid,
+                                          builder: (context) => TeacherViewClassData(
+                                              //user: user.uid,
                                               className: widget.name,
                                               classProjDocID: doc.documentID,
                                               proj: proj),

@@ -192,3 +192,11 @@ class LocationMapState extends State<LocationMap> {
     );
   }
 }
+
+class locationInfo {
+  // double latitude = 0.0;
+  // double longitude = 0.0;
+  String latlonInfo;
+
+  locationInfo({this.latlonInfo});
+}
