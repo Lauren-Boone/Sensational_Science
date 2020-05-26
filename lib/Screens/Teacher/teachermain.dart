@@ -7,15 +7,16 @@ import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dart';
 import 'package:sensational_science/Screens/Teacher/testingNEWcreateproj.dart';
 import 'package:sensational_science/Services/auth.dart';
+import 'package:sensational_science/Shared/styles.dart';
+import 'package:universal_html/html.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
-import '../home/user_list.dart';
-import '../home/home.dart';
 import '../../models/teacher.dart';
 import 'package:sensational_science/Screens/Login/authenticate.dart';
 import 'staging.dart';
 import 'listprojects.dart';
 import 'viewallprojects.dart';
+
 class TeacherHome extends StatefulWidget {
   TeacherHome({Key key}) : super(key: key);
 
@@ -24,61 +25,102 @@ class TeacherHome extends StatefulWidget {
 }
 
 class _TeacherHomeState extends State<TeacherHome> {
-bool selected= false;  
-final AuthService _auth = AuthService();
+  bool selected = false;
+  final AuthService _auth = AuthService();
 
   @override
-
-  Widget build(BuildContext context){
-    
-    
+  Widget build(BuildContext context) {
     return StreamProvider<List<Teacher>>.value(
-        value: DatabaseService().user,
-          child: Scaffold(
-        appBar: AppBar(
-          title: Text("Home"),
-          actions: <Widget>[
+      value: DatabaseService().user,
+      child: Material(
+  
+              child: Scaffold(
+          appBar: AppBar(title: Text("Home"), actions: <Widget>[
             new FlatButton.icon(
-            
               icon: Icon(Icons.person, color: Colors.black),
-              
               label: Text('Log out', style: TextStyle(color: Colors.black)),
-              onPressed: () async{
+              onPressed: () async {
                 await _auth.signOut();
-            Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => Authenticate()),             
-               );           },
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Authenticate()),
+                );
+              },
             ),
-          ]
-              
-        ),
-        
-       
-        body: ListView(
-            children:  <Widget>[
-              
+            new FlatButton.icon(
+              onPressed: () => {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Material(
+                        //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+                        child: MainHelp(),
+                      );
+                    }),
+
+/*
+                  showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            
+                              title: ListTile(
+                                title: Center(child: Text("This is your home page", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+                                trailing: Icon(Icons.help),
+                                ),
+                              content: SingleChildScrollView(
+                                                            child: Column(
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text("From this page you can navigate to:", style: TextStyle(fontWeight: FontWeight.bold )),
+                                    ),
+                                    ListTile(
+                                      title: Text("Classes -- Here you will find your current classes with their projects, rosters, and class info")),
+                                    ListTile(title: Text("Set Up a Class -- Here you can create up a new class, add a roster to the class and add projects to the class ")),
+                                    ListTile(title: Text("View All Project -- This is a listing of all public projects in the database")),
+                                    ListTile(title: Text("View Your Projects -- This is a listing of all the project you have created or added from the public projects")),
+                                    ListTile(title: Text("Create A Project -- This is a custom form builder that allows you to create a custom project for you class")),
+                                    ListTile(title: Text("Assign a Project to a Class -- You can add a project to any class that has a roster"))
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                RaisedButton(
+                                  child: Text("Close"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ]);
+                        }),
+        */
+              },
+              icon: Icon(Icons.help, color: Colors.black),
+              label: Text("Help"),
+            ),
+          ]),
+
+          body: ListView(
+            children: <Widget>[
               Card(
-                              child: ListTile(
-                    
-                     title: Text('Classes', style: TextStyle(fontSize: 20,)),
-                     subtitle: Text('View All Classes, view class info, add roster, and view compiled data', style: TextStyle(fontSize: 17)),
-                     trailing: Icon(Icons.arrow_forward_ios), 
-                     
-                     onTap: ()=>{
-                       setState((){
-                         
-                       }),
-                       
-                     
-                       Navigator.push(
-                         context,
-                         MaterialPageRoute(
-                           builder: (context) =>ClassListPage(),
-                         ),
-                       ),
-                     },
-                     ),
+                child: ListTile(
+                  title: Text('Classes',
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
+                  subtitle: Text(
+                      'View All Classes, view class info, add roster, and view compiled data',
+                      style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () => {
+                    setState(() {}),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ClassListPage(),
+                      ),
+                    ),
+                  },
+                ),
               ),
               // Card(
               //                 child: Ink(
@@ -86,7 +128,7 @@ final AuthService _auth = AuthService();
               //     child: ListTile(
               //       title: Text('Add Class', style: TextStyle(fontSize: 20)),
               //       subtitle: Text('Add A New Class', style: TextStyle(fontSize: 17)),
-              //       trailing: Icon(Icons.arrow_forward_ios), 
+              //       trailing: Icon(Icons.arrow_forward_ios),
               //       onTap: (){
               //         Navigator.push(
               //           context,
@@ -98,17 +140,19 @@ final AuthService _auth = AuthService();
               //     ),
               //   ),
               // ),
-               
-               Card(
+
+              Card(
                 child: ListTile(
-                  title: Text('View All projects', style: TextStyle(fontSize: 20)),
-                  subtitle: Text('Public Projects', style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios), 
-                  onTap: (){
+                  title:
+                      Text('View All projects', style: TextStyle(fontSize: 20)),
+                  subtitle:
+                      Text('Public Projects', style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>PublicProjectsList(),
+                        builder: (context) => PublicProjectsList(),
                       ),
                     );
                   },
@@ -116,70 +160,76 @@ final AuthService _auth = AuthService();
               ),
               Card(
                 child: ListTile(
-                    title: Text('Assign Project to Class', style: TextStyle(fontSize: 20)),
-                    subtitle: Text('Assign an Existing Project to an Existing Class', style: TextStyle(fontSize: 17)),
-                    trailing: Icon(Icons.arrow_forward_ios), 
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>AddProjectToClass(),
-                        ),
-                      );
-                    },
-                  ),
+                  title: Text('Assign Project to Class',
+                      style: TextStyle(fontSize: 20)),
+                  subtitle: Text(
+                      'Assign an Existing Project to an Existing Class',
+                      style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddProjectToClass(),
+                      ),
+                    );
+                  },
+                ),
               ),
               Card(
                 child: ListTile(
-                    title: Text('Create Project', style: TextStyle(fontSize: 20)),
-                    subtitle: Text('Create A New Project From Scratch', style: TextStyle(fontSize: 17)),
-                    trailing: Icon(Icons.arrow_forward_ios), 
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => StagingPage(),
-                        ),
-                      );
-                    },
-                  ),
-              ),
-                Card(
-                child: ListTile(
-                    title: Text('Class Setup', style: TextStyle(fontSize: 20)),
-                    subtitle: Text('Create and setup a class', style: TextStyle(fontSize: 17)),
-                    trailing: Icon(Icons.arrow_forward_ios), 
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SetUpClassSteps(),
-                        ),
-                      );
-                    },
-                  ),
+                  title: Text('Create Project', style: TextStyle(fontSize: 20)),
+                  subtitle: Text('Create A New Project From Scratch',
+                      style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StagingPage(),
+                      ),
+                    );
+                  },
+                ),
               ),
               Card(
                 child: ListTile(
-                    title: Text('View Your Projects', style: TextStyle(fontSize: 20)),
-                    subtitle: Text('', style: TextStyle(fontSize: 17)),
-                    trailing: Icon(Icons.arrow_forward_ios), 
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ListProjects(),
-                        ),
-                      );
-                    },
-                  ),
+                  title: Text('Class Setup', style: TextStyle(fontSize: 20)),
+                  subtitle: Text('Create and setup a class',
+                      style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SetUpClassSteps(),
+                      ),
+                    );
+                  },
+                ),
               ),
-              
+              Card(
+                child: ListTile(
+                  title:
+                      Text('View Your Projects', style: TextStyle(fontSize: 20)),
+                  subtitle: Text('', style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ListProjects(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
               // Card(
               //   child: ListTile(
               //     title: Text('Test Camera'),
               //     subtitle: Text('Test opening camera & picture from file'),
-              //     trailing: Icon(Icons.arrow_forward_ios), 
+              //     trailing: Icon(Icons.arrow_forward_ios),
               //     onTap: (){
               //       Navigator.push(
               //         context,
@@ -189,12 +239,12 @@ final AuthService _auth = AuthService();
               //       );
               //     },
               //   ),
-              // ),  
+              // ),
               //                Card(
               //   child: ListTile(
               //     title: Text('Location'),
               //     subtitle: Text('Location Test'),
-              //     trailing: Icon(Icons.arrow_forward_ios), 
+              //     trailing: Icon(Icons.arrow_forward_ios),
               //     onTap: (){
               //       Navigator.push(
               //         context,
@@ -212,10 +262,83 @@ final AuthService _auth = AuthService();
           //     Navigator.pop(context);
           //   },
           //   child: Text("Go Back"),
-            
+
           // ),
+        ),
+      ),
+    );
+  }
+}
+
+class MainHelp extends StatefulWidget {
+  @override
+  _MainHelpState createState() => _MainHelpState();
+}
+
+class _MainHelpState extends State<MainHelp> {
+  @override
+  Widget build(BuildContext context) {
+    return
+     
+       Container(
         
-          ),
+       
+        padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                "This is your home page",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    decoration: TextDecoration.underline),
+                textAlign: TextAlign.center,
+              ),
+              trailing: Icon(
+                Icons.help,
+                semanticLabel: 'Close',
+              ),
+              onTap: () => {Navigator.of(context).pop()},
+            ),
+            Container(
+              // Theme.of(context).textTheme.bodyText1,
+              child: Column(
+                children: <Widget>[
+                  
+                  ListTile(
+                    title: Text(
+                      "From this page you can navigate to:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text("Classes:   ", style: Theme.of(context).textTheme.headline1 ),
+                           Text('Here you will find your current classes with their projects, rosters, and class info'
+                     ),
+                  
+                  ListTile(
+                      title: Text(
+                          "Set Up a Class -- Here you can create up a new class, add a roster to the class and add projects to the class ")),
+                  ListTile(
+                      title: Text(
+                          "View All Project -- This is a listing of all public projects in the database")),
+                  ListTile(
+                      title: Text(
+                          "View Your Projects -- This is a listing of all the project you have created or added from the public projects")),
+                  ListTile(
+                      title: Text(
+                          "Create A Project -- This is a custom form builder that allows you to create a custom project for you class")),
+                  ListTile(
+                      title: Text(
+                          "Assign a Project to a Class -- You can add a project to any class that has a roster"))
+                ],
+              ),
+            ),
+          ],
+        ),
+      
     );
   }
 }

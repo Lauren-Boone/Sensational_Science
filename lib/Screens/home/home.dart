@@ -4,7 +4,7 @@ import 'package:sensational_science/Services/auth.dart';
 import 'settings_form.dart';
 import '../Teacher/teachermain.dart';
 import '../Student/student_enter_code.dart';
-import 'user_list.dart';
+import '../../Shared/styles.dart';
 
 import 'package:provider/provider.dart';
 import '../../Services/database.dart';
@@ -55,8 +55,23 @@ class Home extends StatelessWidget {
           
           
         ),
+        dialogTheme: DialogTheme(
+          backgroundColor: Colors.blueAccent,
+          elevation: 100,
+        ),
        
+        popupMenuTheme: PopupMenuThemeData(
+          color: Colors.blue,
+          
+        ),
         
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.blue[100],
+          modalElevation: 100,
+          clipBehavior: Clip.hardEdge,
+          
+
+        ),
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.

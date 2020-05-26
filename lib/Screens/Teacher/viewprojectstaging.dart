@@ -133,7 +133,7 @@ final user = Provider.of<User>(context);
                       color: Colors.blue,
                     ),
                     RaisedButton(
-                      child: Text("Click to Preview Questions"),
+                      child: Text("Click to Preview Project"),
                       onPressed: ()=>{
                         //getAnswers(user.uid),
                         setState((){
