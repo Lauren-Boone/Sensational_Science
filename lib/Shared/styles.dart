@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:universal_html/html.dart';
 
+import 'package:google_fonts/google_fonts.dart';
 final appTheme = ThemeData(
   // This is the theme of your application.
   //
@@ -13,10 +13,10 @@ final appTheme = ThemeData(
   // is not restarted.
 
   brightness: Brightness.light,
-  backgroundColor: Colors.grey[500],
+  //backgroundColor: Colors.grey[500],
   //  accentColor: Colors.lightBlueAccent,
   accentColor: Colors.deepPurpleAccent,
-  primarySwatch: Colors.deepPurple,
+  primarySwatch: Colors.teal,
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.indigo[600],
     shape: RoundedRectangleBorder(),
@@ -44,7 +44,7 @@ final appTheme = ThemeData(
     backgroundColor: Colors.blue[100],
     modalElevation: 100,
   ),
-  fontFamily: 'montserrat',
+  
 
   // This makes the visual density adapt to the platform that you run
   // the app on. For desktop platforms, the controls will be smaller and

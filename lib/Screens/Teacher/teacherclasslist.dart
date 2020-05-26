@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:random_color/random_color.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/user.dart';
 import 'dart:async';
 import '../Size_Config.dart';
@@ -21,7 +23,16 @@ class _ClassListState extends State<ClassListPage> {
         .collection('Classes')
         .snapshots());
   }
+Color getColor(){
+    RandomColor _randomColor = RandomColor();
 
+Color _color = _randomColor.randomColor(
+  colorSaturation: ColorSaturation.lowSaturation,
+  colorHue: ColorHue.green,
+  colorBrightness: ColorBrightness.primary,
+);
+return _color;
+}
   Widget build(BuildContext context) {
     SizeConfig().init(context); 
     final user = Provider.of<User>(context);
@@ -51,11 +62,12 @@ class _ClassListState extends State<ClassListPage> {
               return new ListView(
                 children: snapshot.data.documents.map((document) {
                   return Container(
-                    height: SizeConfig.verticalSize * 13,
+                    height: SizeConfig.verticalSize * 8,
                     child: Card(
+                      color: getColor(),
                     child: new ListTile(
-                      title: FittedBox(fit:BoxFit.scaleDown, child: new Text(document['name'], maxLines: 2,)), 
-                      subtitle: FittedBox(fit:BoxFit.scaleDown, child: new Text('Click to View Class Info', maxLines: 2),), 
+                      title: new Text(document['name'], maxLines: 2, style: modalLabel), 
+                      //subtitle: FittedBox(fit:BoxFit.scaleDown, child: new Text('Click to View Class Info', maxLines: 2),), 
                       trailing: Icon(Icons.arrow_forward_ios),
                       onTap: () => {
                         Navigator.of(context).push(

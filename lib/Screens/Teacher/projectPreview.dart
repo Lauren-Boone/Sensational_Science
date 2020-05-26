@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Services/getproject.dart';
 import 'package:sensational_science/Services/firebaseStorage/fireStorageService.dart';
+import 'package:sensational_science/Shared/styles.dart';
 
 class PreviewProject extends StatefulWidget {
   final String title;
@@ -49,15 +50,15 @@ class _PreviewProjectState extends State<PreviewProject> {
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Material(
+      child: Scaffold(
         appBar: AppBar(
           title: const Text('Preview Project'),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context, false),
           ),
-          backgroundColor: Colors.deepPurple,
+          //backgroundColor: Colors.deepPurple,
         ),
         body: Column(children: <Widget>[
           Expanded(
@@ -130,26 +131,31 @@ class _DynamicWidgetState extends State<DynamicWidget> {
           borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
+                color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 5,
-                blurRadius: 7,
+                blurRadius: 3,
                 offset: Offset(0, 3))
           ],
           // border: Border.all(color: Colors.black),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new Text("Question Number: " + widget.numq.toString(),
-                style: TextStyle(fontSize: 18)),
+                style: TextStyle(fontSize: 15)),
             new Text("Type: " + widget.type),
-            new Text("Question: " + widget.question,
-                style: TextStyle(fontSize: 18, color: Colors.red)),
+            Center(
+              child: new Text("Question: " + widget.question,
+                  style: TextStyle(fontSize: 18, color: Colors.red)),
+            ),
             new ListView.builder(
                 shrinkWrap: true,
                 itemCount: widget.answers.length,
                 itemBuilder: (_, index) => widget.answerWidget[index]),
-            new Text("Answer Number: " + widget.keyAnswers,
-                style: TextStyle(color: Colors.green)),
+            Center(
+              child: new Text("Correct Answer: " + widget.keyAnswers,
+                  style: TextStyle(color: Colors.green, fontSize: 20)),
+            ),
           ],
         ),
       );
@@ -168,25 +174,32 @@ class _DynamicWidgetState extends State<DynamicWidget> {
               ]
               ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               new Text("Question Number: " + widget.numq.toString(),
                   style: TextStyle(fontSize: 16)),
               new Text("Type: " + widget.type),
-              new Text("Question: " + widget.question,
-                  style: TextStyle(fontSize: 20, color: Colors.red)),
-              new Text("Answers:",
-                  style: TextStyle(color: Colors.green)),
-              new FutureBuilder(
-                future: _getImage(context, widget.keyAnswers),
-                builder: (context, snapshot) {
-                  if(!snapshot.hasData) return CupertinoActivityIndicator();
-                  if(snapshot.data == null) return Text("No answer image stored", style: TextStyle(color: Colors.green));
-                  return Container(
-                    padding: EdgeInsets.all(10.0),
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: snapshot.data,
-                    );
-                },
+              Center(
+                child: new Text("Question: " + widget.question,
+                    style: TextStyle(fontSize: 20, color: Colors.red), ),
+              ),
+              Center(
+                child: new Text("Answers:",
+                    style: TextStyle(color: Colors.green, fontSize: 20)),
+              ),
+              Center(
+                child: new FutureBuilder(
+                  future: _getImage(context, widget.keyAnswers),
+                  builder: (context, snapshot) {
+                    if(!snapshot.hasData) return CupertinoActivityIndicator();
+                    if(snapshot.data == null) return Text("No answer image stored", style: TextStyle(color: Colors.green));
+                    return Container(
+                      padding: EdgeInsets.all(10.0),
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: snapshot.data,
+                      );
+                  },
+                ),
               )
 
             ],
@@ -194,6 +207,7 @@ class _DynamicWidgetState extends State<DynamicWidget> {
         );
       } else {
       return Container(
+        
         margin: new EdgeInsets.all(8.0),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -211,14 +225,19 @@ class _DynamicWidgetState extends State<DynamicWidget> {
             // )
             ),
         child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new Text("Question Number: " + widget.numq.toString(),
                 style: TextStyle(fontSize: 16)),
             new Text("Type: " + widget.type),
-            new Text("Question: " + widget.question,
-                style: TextStyle(fontSize: 20, color: Colors.red)),
-            new Text("Answers: " + widget.keyAnswers,
-                style: TextStyle(color: Colors.green)),
+            Center(
+              child: new Text("Question: " + widget.question,
+                  style: TextStyle(fontSize: 20, color: Colors.red)),
+            ),
+            Center(
+              child: new Text("Answers: " + widget.keyAnswers,
+                  style: TextStyle(color: Colors.green, fontSize: 20)),
+            ),
           ],
         ),
       );
