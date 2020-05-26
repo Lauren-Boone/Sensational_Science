@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/addRoster.dart';
+import 'package:sensational_science/Screens/Teacher/staging.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import 'package:sensational_science/models/user.dart';
@@ -93,9 +94,26 @@ bool _checkforInput(){
                   MaterialPageRoute(builder: (context) => TeacherHome()),
                   (Route<dynamic> route) => false,
                 );
+                
                       
               },
           ),
+
+         new FlatButton.icon(
+              onPressed: () => {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Material(
+                        //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+                        child: CreateAProjectHelp(),
+                      );
+                    }),
+
+              },
+              icon: Icon(Icons.help, color: Colors.black),
+              label: Text("Help", style: TextStyle(color: Colors.black)),
+            ),
         ],
         ),
         body: Column(

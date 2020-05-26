@@ -7,9 +7,11 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:provider/provider.dart';
+import 'package:random_color/random_color.dart';
 import 'package:sensational_science/Screens/Teacher/addRoster.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/models/user.dart';
+import '../../Shared/styles.dart';
 
 class AddProjectToClass extends StatefulWidget {
   AddProjectToClass({Key key}) : super(key: key);
@@ -26,6 +28,16 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   bool myProjectsOnly = true;
   Random numberGenerator = new Random();
 
+Color getColor(){
+    RandomColor _randomColor = RandomColor();
+
+Color _color = _randomColor.randomColor(
+  colorSaturation: ColorSaturation.lowSaturation,
+  colorHue: ColorHue.green,
+  colorBrightness: ColorBrightness.primary,
+);
+return _color;
+}
   Future<dynamic> assignProject(
     String uid, String className, String projectID, DateTime dueDate) async {
     //create project under the class
@@ -120,375 +132,478 @@ class _AddProjectToClassState extends State<AddProjectToClass> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    return new MaterialApp(
-      home: Material(
-              child: new Scaffold(
+    return new Material(
+      child: new Scaffold(
           appBar: new AppBar(
-              title: Text("Add Project To Class"),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context, false),
-              ),
-              backgroundColor: Colors.deepPurple,
-               actions: <Widget>[
+      title: Text("Add Project To Class"),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () => Navigator.pop(context, false),
+      ),
+      //backgroundColor: Colors.deepPurple,
+       actions: <Widget>[
             FlatButton.icon(
-               icon: Icon(Icons.home, color: Colors.black),
-                label: Text('Home', style: TextStyle(color: Colors.black)),
-                onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeacherHome()),
-                  (Route<dynamic> route) => false,
-                );
-                        
-                },
+       icon: Icon(Icons.home, color: Colors.black),
+        label: Text('Home', style: TextStyle(color: Colors.black)),
+        onPressed: () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => TeacherHome()),
+          (Route<dynamic> route) => false,
+        );
+                
+        },
+            ),
+            new FlatButton.icon(
+      onPressed: () => {
+        showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return Material(
+                //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+                child: AddProjectToClassHelp(),
+              );
+            }),
+
+      },
+      icon: Icon(Icons.help, color: Colors.black),
+      label: Text("Help", style: TextStyle(color: Colors.black)),
             ),
           ],
-              ),
-          body: Material(
-                      child: new Container(
-              child: new Column(
-                children: <Widget>[
-                  new StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance
-                        .collection('Teachers')
-                        .document(user.uid)
-                        .collection('Classes')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData)
-                        return Center(
-                          child: Text("Loading . . ."),
-                        );
-                      return new Container(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: new Row(
-                          children: <Widget>[
-                            new Expanded(
-                              flex: 2,
-                              child: new Container(
-                                padding:
-                                    EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                                child: Text("Class to Assign Project For"),
-                              ),
-                            ),
-                            new Expanded(
-                              flex: 4,
-                              child: new InputDecorator(
-                                decoration: const InputDecoration(
-                                  hintText: 'Choose a class',
-                                  hintStyle: TextStyle(
-                                    color: Colors.green,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                isEmpty: _class == null,
-                                child: new DropdownButton(
-                                  value: _class,
-                                  isDense: true,
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      _class = newValue;
-                                      _checkForRoster(user.uid);
-                                      print(_class);
-                                    });
-                                  },
-                                  items: snapshot.data.documents
-                                      .map((DocumentSnapshot document) {
-                                    return new DropdownMenuItem<String>(
-                                      value: document.documentID,
-                                      child: new Container(
-                                        decoration: new BoxDecoration(
-                                          color: Colors.lightGreen,
-                                          borderRadius:
-                                              new BorderRadius.circular(3.0),
-                                        ),
-                                        height: 32.0,
-                                        width: MediaQuery.of(context).size.width *
-                                            0.52,
-                                        padding: EdgeInsets.fromLTRB(
-                                            10.0, 5.0, 10.0, 0.0),
-                                        child: Text(document.data['name']),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+      ),
+          body: new Container(
+            //color: appTheme.backgroundColor,
+      child: new Column(
+        children: <Widget>[
+          new StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance
+            .collection('Teachers')
+            .document(user.uid)
+            .collection('Classes')
+            .snapshots(),
+            builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: Text("Loading . . ."),
+            );
+          return new Container(
+            padding: EdgeInsets.only(bottom: 10.0),
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: new Row(
+              children: <Widget>[
+                new Expanded(
+                  flex: 2,
+                  child: new Container(
+                    padding:
+                        EdgeInsets.fromLTRB(10.0, 16.0, 10.0, 10.0),
+                    child: Text("Class to Assign Project For", style: modalLabel),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.1,
-                      bottom: 10.0),
-                    child: Row(
-                      children: [
-                        Text("View my projects only",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Switch(
-                          value: myProjectsOnly,
-                          onChanged: (value) {
-                            setState(() {
-                              myProjectsOnly = value;
-                            });
-                          },
-                          activeTrackColor: Colors.lightGreenAccent,
-                          activeColor: Colors.green,
-                        ),
-                      ],
+                ),
+                new Expanded(
+                  flex: 4,
+                  child: new InputDecorator(
+                    decoration: const InputDecoration(
+                      hintText: 'Choose a class',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  myProjectsOnly ? new StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance.collection('Teachers').document(user.uid).collection('Created Projects').snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData)
-                        return Center(
-                          child: Text('Loading . . .'),
-                        );
-                      return new Container(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: new Row(
-                          children: <Widget>[
-                            new Expanded(
-                              flex: 2,
-                              child: new Container(
-                                padding:
-                                    EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                                child: Text("Project to Assign"),
-                              ),
+                    isEmpty: _class == null,
+                    child: new DropdownButton(
+                      value: _class,
+                      isDense: true,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          _class = newValue;
+                          _checkForRoster(user.uid);
+                          print(_class);
+                        });
+                      },
+                      items: snapshot.data.documents
+                          .map((DocumentSnapshot document) {
+                        return new DropdownMenuItem<String>(
+                          value: document.documentID,
+                          child: new Container(
+                            decoration: new BoxDecoration(
+                              color: getColor(),
+                              borderRadius:
+                                  new BorderRadius.circular(3.0),
                             ),
-                            new Expanded(
-                              flex: 4,
-                              child: new InputDecorator(
-                                decoration: const InputDecoration(
-                                  hintText: 'Choose a project',
-                                  hintStyle: TextStyle(
-                                    color: Colors.green,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                isEmpty: _project == null,
-                                child: new DropdownButton(
-                                  value: _project,
-                                  isDense: true,
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      _project = newValue;
-                                      print(_project);
-                                    });
-                                  },
-                                  items: snapshot.data.documents
-                                      .map((DocumentSnapshot document) {
-                                    return new DropdownMenuItem<String>(
-                                      value: document.data['docIDref'],
-                                      child: new Container(
-                                        decoration: new BoxDecoration(
-                                          color: Colors.lightGreen,
-                                          borderRadius:
-                                              new BorderRadius.circular(3.0),
-                                        ),
-                                        height: 32.0,
-                                        width: MediaQuery.of(context).size.width *
-                                            0.52,
-                                        padding: EdgeInsets.fromLTRB(
-                                            10.0, 5.0, 10.0, 0.0),
-                                        child: Text(document.data['title']),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ) 
-                  : Material(
-                                      child: new StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection('Projects').snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData)
-                          return Center(
-                            child: Text('Loading . . .'),
-                          );
-                        return new Container(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: new Row(
-                            children: <Widget>[
-                              new Expanded(
-                                flex: 2,
-                                child: new Container(
-                                  padding:
-                                      EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                                  child: Text("Project to Assign"),
-                                ),
-                              ),
-                              new Expanded(
-                                flex: 4,
-                                child: new InputDecorator(
-                                  decoration: const InputDecoration(
-                                    hintText: 'Choose a project',
-                                    hintStyle: TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  isEmpty: _project == null,
-                                  child: new DropdownButton(
-                                    value: _project,
-                                    isDense: true,
-                                    onChanged: (String newValue) {
-                                      setState(() {
-                                        _project = newValue;
-                                        print(_project);
-                                      });
-                                    },
-                                    items: snapshot.data.documents
-                                        .map((DocumentSnapshot document) {
-                                      return new DropdownMenuItem<String>(
-                                        value: document.documentID,
-                                        child: new Container(
-                                          decoration: new BoxDecoration(
-                                            color: Colors.lightGreen,
-                                            borderRadius:
-                                                new BorderRadius.circular(3.0),
-                                          ),
-                                          height: 32.0,
-                                          width: MediaQuery.of(context).size.width *
-                                              0.52,
-                                          padding: EdgeInsets.fromLTRB(
-                                              10.0, 5.0, 10.0, 0.0),
-                                          child: Text(document.data['title']),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            height: 32.0,
+                            width: MediaQuery.of(context).size.width *
+                                0.52,
+                            padding: EdgeInsets.fromLTRB(
+                                10.0, 5.0, 10.0, 0.0),
+                            child: Text(document.data['name'], style: TextStyle(color: Colors.white)),
                           ),
                         );
-                      },
+                      }).toList(),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.1,
-                        bottom: 10.0),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: DateTimeField(
-                      format: DateFormat("yyyy-MM-dd"),
-                      decoration: const InputDecoration(
-                        hintText: 'Project Due Date',
-                        hintStyle: TextStyle(color: Colors.green),
+                ),
+              ],
+            ),
+          );
+            },
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.1,
+          bottom: 10.0),
+            child: Row(
+          children: [
+            Text("View my projects only",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Switch(
+              value: myProjectsOnly,
+              onChanged: (value) {
+                setState(() {
+                  myProjectsOnly = value;
+                });
+              },
+              activeTrackColor: Colors.lightGreenAccent,
+              activeColor: Colors.green,
+            ),
+          ],
+            ),
+          ),
+          myProjectsOnly ? new StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance.collection('Teachers').document(user.uid).collection('Created Projects').snapshots(),
+            builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: Text('Loading . . .'),
+            );
+          return new Container(
+            padding: EdgeInsets.only(bottom: 10.0),
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: new Row(
+              children: <Widget>[
+                new Expanded(
+                  flex: 2,
+                  child: new Container(
+                    padding:
+                        EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                    child: Text("Project to Assign", style: modalLabel),
+                  ),
+                ),
+                new Expanded(
+                  flex: 4,
+                  child: new InputDecorator(
+                    decoration: const InputDecoration(
+                      hintText: 'Choose a project',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
                       ),
-                      onChanged: (dt) => setState(() => _date = dt),
-                      onShowPicker: (context, currentValue) {
-                        return showDatePicker(
-                            context: context,
-                            firstDate: DateTime.now(),
-                            initialDate: currentValue ?? DateTime.now(),
-                            lastDate: DateTime(2100));
+                    ),
+                    isEmpty: _project == null,
+                    child: new DropdownButton(
+                      value: _project,
+                      isDense: true,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          _project = newValue;
+                          print(_project);
+                        });
                       },
+                      items: snapshot.data.documents
+                          .map((DocumentSnapshot document) {
+                        return new DropdownMenuItem<String>(
+                          value: document.data['docIDref'],
+                          child: new Container(
+                            decoration: new BoxDecoration(
+                              color: getColor(),
+                              borderRadius:
+                                  new BorderRadius.circular(3.0),
+                            ),
+                            height: 32.0,
+                            width: MediaQuery.of(context).size.width *
+                                0.52,
+                            padding: EdgeInsets.fromLTRB(
+                                10.0, 5.0, 10.0, 0.0),
+                            child: Text(document.data['title'], style: TextStyle(color: Colors.white)),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: RaisedButton(
-                      onPressed: () async {
-                        if (_class != null && _project != null && _date != null ) {
-                          if(hasRoster){
-                             await assignProject(user.uid, _class.trim(), _project, _date);
-                          }
-                          else{
-                            //print("No Roster exists"); 
-                            return showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Error: Your Selected Class does not have a roster yet"),
-                                content: Text(
-                                    "You must add a roster to a class first."),
-                                actions: <Widget>[
-                                   RaisedButton(
-                                    child: Text("Click here to add a roster now"),
-                                    onPressed: () {
-                                       Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>AddRoster(name: _class),
-                          ));
-                                    },
-                                  ),
-                                  RaisedButton(
-                                    child: Text("Close"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
+                ),
+              ],
+            ),
+          );
+            },
+          ) 
+          : Container(
+                          child: new StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance.collection('Projects').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(
+                child: Text('Loading . . .'),
+              );
+            return new Container(
+              padding: EdgeInsets.only(bottom: 10.0),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: new Row(
+                children: <Widget>[
+                  new Expanded(
+                    flex: 2,
+                    child: new Container(
+                      padding:
+                          EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                      child: Text("Project to Assign", style: modalLabel),
+                    ),
+                  ),
+                  new Expanded(
+                    flex: 4,
+                    child: new InputDecorator(
+                      decoration: const InputDecoration(
+                        hintText: 'Choose a project',
+                        hintStyle: TextStyle(
+                          color: Colors.green,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      isEmpty: _project == null,
+                      child: new DropdownButton(
+                        value: _project,
+                        isDense: true,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            _project = newValue;
+                            print(_project);
+                          });
+                        },
+                        items: snapshot.data.documents
+                            .map((DocumentSnapshot document) {
+                          return new DropdownMenuItem<String>(
+                            value: document.documentID,
+                            child: new Container(
+                              decoration: new BoxDecoration(
+                                color: getColor(),
+                                borderRadius:
+                                    new BorderRadius.circular(3.0),
+                              ),
+                              height: 32.0,
+                              width: MediaQuery.of(context).size.width *
+                                  0.52,
+                              padding: EdgeInsets.fromLTRB(
+                                  10.0, 5.0, 10.0, 0.0),
+                              child: Text(document.data['title'], style: TextStyle(color: Colors.white)),
+                            ),
                           );
-                        }
-
-                          
-                         
-                        } else {
-                          return showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Missing Data"),
-                                content: Text(
-                                    "You must make a selection for class, project and due date."),
-                                actions: <Widget>[
-                                  RaisedButton(
-                                    child: Text("Close"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                  title: Text("Success!"),
-                                  content: Text(
-                                      "A project has been added to the class. View the class details to see the assigned project."),
-                                  actions: <Widget>[
-                                    RaisedButton(
-                                      child: Text("Close"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ]);
-                            });
-                        Navigator.pop(context);
-                        return;
-                      },
-                      child: Text('Add Project'),
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ],
               ),
+            );
+          },
             ),
           ),
+          Container(
+            padding: EdgeInsets.only(
+            left: MediaQuery.of(context).size.width * 0.1,
+            bottom: 10.0),
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: DateTimeField(
+          format: DateFormat("yyyy-MM-dd"),
+          decoration: const InputDecoration(
+            hintText: 'Project Due Date',
+            hintStyle: TextStyle(color: Colors.black),
+          ),
+          onChanged: (dt) => setState(() => _date = dt),
+          onShowPicker: (context, currentValue) {
+            return showDatePicker(
+                context: context,
+                firstDate: DateTime.now(),
+                initialDate: currentValue ?? DateTime.now(),
+                lastDate: DateTime(2100));
+          },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: RaisedButton(
+          onPressed: () async {
+            if (_class != null && _project != null && _date != null ) {
+              if(hasRoster){
+                 await assignProject(user.uid, _class.trim(), _project, _date);
+              }
+              else{
+                //print("No Roster exists"); 
+                return showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Error: Your Selected Class does not have a roster yet"),
+                    content: Text(
+                        "You must add a roster to a class first."),
+                    actions: <Widget>[
+                       RaisedButton(
+                        child: Text("Click here to add a roster now"),
+                        onPressed: () {
+                           Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>AddRoster(name: _class),
+              ));
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+
+              
+             
+            } else {
+              return showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Missing Data"),
+                    content: Text(
+                        "You must make a selection for class, project and due date."),
+                    actions: <Widget>[
+                      RaisedButton(
+                        child: Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                      title: Text("Success!"),
+                      content: Text(
+                          "A project has been added to the class. View the class details to see the assigned project."),
+                      actions: <Widget>[
+                        RaisedButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ]);
+                });
+            Navigator.pop(context);
+            return;
+          },
+          child: Text('Add Project'),
+            ),
+          ),
+        ],
+      ),
+            ),
+        ),
+    );
+  }
+}
+
+class AddProjectToClassHelp extends StatefulWidget {
+  @override
+  _AddProjectToClassHelpState createState() => _AddProjectToClassHelpState();
+}
+
+class _AddProjectToClassHelpState extends State<AddProjectToClassHelp> {
+  @override
+  Widget build(BuildContext context) {
+     return MaterialApp(
+      theme: modalHelpTheme,
+      home: Container(
+        color: modalHelpTheme.backgroundColor,
+        padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                "Create a Project",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              trailing: Icon(
+                Icons.help,
+                semanticLabel: 'Close'
+                ,
+              ),
+              onTap: () => {Navigator.of(context).pop()},
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    "This pages allows you to add projects to a class. ",
+                    style: modalInfo,
+                  ),
+                ),
+                Text(
+                  "Step 1: Select a Class",
+                  style: modalLabel,
+                ),
+                Text(
+                  '-Select a class from the dropdown menu',
+                  style: modalInfo,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Step 2: Select a Project",
+                  style: modalLabel,
+                ),
+                Text(
+                  "-Toggle between projects in your list or public projects then select the project for the class",
+                  style: modalInfo,
+                ),
+                
+                SizedBox(height: 20),
+                 Text(
+                  "Step 3: Pick a Due Date",
+                  style: modalLabel,
+                ),
+                Text(
+                  "-Chose a due data for the project\n-Note that the due date can be changes by going to the class data page. ",
+                  style: modalInfo,
+                ),
+                
+            
+                SizedBox(height: 20),
+                 Text(
+                  "Submit",
+                  style: modalLabel,
+                ),
+                Text(
+                  "-You will now be able to view the class project.\n -Each student will have their own personal code to use to access the project\n-You can view the codes under the class information section",
+                  style: modalInfo,
+                ),
+                
+               
+                      
+                
+              ],
+            ),
+          ],
         ),
       ),
     );
