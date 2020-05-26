@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Student{
-  final String code;
+  String code;
   String className;
   String studentName;
   String projectCode;
@@ -33,6 +33,27 @@ class Student{
     studentName = "teacher key";
     studentID = code;
     teacherID = code;
+  }
+
+  Student.empty(){
+
+  }
+
+  static Future<Student> getForCode(String code) async{
+    final doc = await Firestore.instance.collection('codes').document(code).get();
+      Student student = new Student.empty(); 
+      print(doc.data['Subject'].toString()); 
+      student.className = doc.data['Class'];
+      student.studentName = doc.data['Name'];
+      student.projectCode = doc.data['Project'];
+      student.projectID = doc.data['ProjectID'];
+      student.studentID = doc.data['Student'];
+      student.teacherID = doc.data['Teacher'];
+      student.projectTitle = doc.data['ProjectTitle'];
+      student.classSubject = doc.data['Subject']; 
+      student.dueDate = doc.data['dueDate'].toDate();
+    
+    return student; 
   }
 
 }

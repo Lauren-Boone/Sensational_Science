@@ -18,15 +18,15 @@ class StudentHome extends StatelessWidget {
         
 
   @override
-  Widget build(BuildContext context) {
-    final student = Student(code: classData);
+  Widget build(BuildContext context)  {
+    // final student = Student.getForCode(classData); 
     // String subject = student.classSubject; 
     // Icon icon = chooseIcon(subject); 
     // print("Class Subject: " + student.classSubject); 
-    return Provider<Student>(
-      create: (_) => new Student(code: classData),
+    return FutureProvider<Student>(
+      create: (_) => Student.getForCode(classData), 
       
-      child: MaterialApp(
+      child: Consumer<Student>(builder: (context, student, child) {return MaterialApp(
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -169,7 +169,7 @@ class StudentHome extends StatelessWidget {
                 Container(
                   height: 300.0,
                   width: 300.0,
-                  child: Consumer<Student>(builder: (context, test, child) {return chooseIcon(test.classSubject.toString());},),
+                  child: chooseIcon(student.classSubject.toString()),
                 ),
               ],
             )),
@@ -180,7 +180,8 @@ class StudentHome extends StatelessWidget {
           //   },
           //   child: Text('Go back'),
         ),
-      ),
+      );
+      }),
     );
   }
 }
@@ -213,7 +214,7 @@ Icon chooseIcon(String subject){
 
     }
     default:{
-      return Icon(Ionicons.ios_school); 
+      return Icon(Ionicons.ios_school, size: 150.0); 
     }
     break;
   
