@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/getproject.dart';
 import 'package:provider/provider.dart';
@@ -18,42 +18,32 @@ class StudentHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final student = Student.getForCode(classData);
-    // String subject = student.classSubject;
-    // Icon icon = chooseIcon(subject);
-    // print("Class Subject: " + student.classSubject);
-    return FutureProvider<Student>(
-      create: (_) => Student.getForCode(classData),
-      child: Consumer<Student>(builder: (context, student, child) {
-        if(student == null){
-          return CircularProgressIndicator(); 
-        }
-        return MaterialApp(
-          theme: ThemeData(
-            // This is the theme of your application.
-            //
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or simply save your changes to "hot reload" in a Flutter IDE).
-            // Notice that the counter didn't reset back to zero; the application
-            // is not restarted.
-
-            brightness: Brightness.light,
-            //  accentColor: Colors.lightBlueAccent,
-            accentColor: Colors.deepPurpleAccent,
-            primarySwatch: Colors.deepPurple,
-            buttonTheme: ButtonThemeData(
-              buttonColor: Colors.indigo[600],
-              shape: RoundedRectangleBorder(),
-              textTheme: ButtonTextTheme.primary,
-              hoverColor: Colors.white,
-              highlightColor: Colors.blueGrey,
-              splashColor: Colors.purpleAccent,
-            ),
-            cardTheme: CardTheme(
-              color: Colors.green[100],
+    final student = Student(code: classData);
+    return Provider<Student>(
+      create: (_) => new Student(code: classData), 
+      child:  
+          MaterialApp(
+            theme: appTheme,
+             
+                      home: Scaffold(
+            appBar: AppBar(
+              title: Text('Project Home Page'),
+             // backgroundColor: Colors.deepPurple,
+              actions: <Widget>[
+                FlatButton.icon(
+                  icon: Icon(Icons.person, color: Colors.black,),
+                  label: Text('Log out', style: TextStyle(color: Colors.black)),
+                  onPressed: () {
+                     Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Authenticate()),     
+                  (Route<dynamic> route) => false,
+                );
+                   
+                  },
+                ),
+              ]
+                  
             ),
             iconTheme: IconThemeData(
               color: Colors.grey,
