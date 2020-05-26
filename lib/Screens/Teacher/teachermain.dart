@@ -33,8 +33,8 @@ class _TeacherHomeState extends State<TeacherHome> {
     return StreamProvider<List<Teacher>>.value(
       value: DatabaseService().user,
       child: MaterialApp(
-          theme: appTheme,
-              home: Scaffold(
+        theme: appTheme,
+        home: Scaffold(
           appBar: AppBar(title: Text("Home"), actions: <Widget>[
             new FlatButton.icon(
               icon: Icon(Icons.person, color: Colors.black),
@@ -210,8 +210,8 @@ class _TeacherHomeState extends State<TeacherHome> {
               ),
               Card(
                 child: ListTile(
-                  title:
-                      Text('View Your Projects', style: TextStyle(fontSize: 20)),
+                  title: Text('View Your Projects',
+                      style: TextStyle(fontSize: 20)),
                   subtitle: Text('', style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios),
                   onTap: () {
@@ -278,80 +278,117 @@ class MainHelp extends StatefulWidget {
 class _MainHelpState extends State<MainHelp> {
   @override
   Widget build(BuildContext context) {
-    return
-     
-       MaterialApp(
-         theme: modalHelpTheme,
-                home: Container(
-          
-         color: modalHelpTheme.backgroundColor,
-          padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                title: Text(
-                  "This is your home page",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      decoration: TextDecoration.underline),
-                  textAlign: TextAlign.center,
-                ),
-                trailing: Icon(
-                  Icons.help,
-                  semanticLabel: 'Close',
-                ),
-                onTap: () => {Navigator.of(context).pop()},
+    return MaterialApp(
+      theme: modalHelpTheme,
+      home: Container(
+        color: modalHelpTheme.backgroundColor,
+        padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                "This is your home page",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23,
+                  ),
+                textAlign: TextAlign.center,
               ),
-              Column(
-                  children: <Widget>[
-                    
-                    ListTile(
-                      title: Text(
-                        "From this page you can navigate to:",
-                        style: modalLabel
-                      ),
-                    ),
-                    
-                    
-                      
-                        RichText(
-                       text: TextSpan(
-                  text: "Classes: ", style: modalLabel,
-                          
-                
-                           children: <TextSpan>[
-                        TextSpan( 
-                         text: 'Here you will find your current classes with their projects, rosters, and class info', style: modalInfo,
-                      ),
-                           ]
-                       ),
-                        ),
-                      
-                    
-                             
-                    
-                    ListTile(
-                        title: Text(
-                            "Set Up a Class: Here you can create up a new class, add a roster to the class and add projects to the class ")),
-                    ListTile(
-                        title: Text(
-                            "View All Project -- This is a listing of all public projects in the database")),
-                    ListTile(
-                        title: Text(
-                            "View Your Projects -- This is a listing of all the project you have created or added from the public projects")),
-                    ListTile(
-                        title: Text(
-                            "Create A Project -- This is a custom form builder that allows you to create a custom project for you class")),
-                    ListTile(
-                        title: Text(
-                            "Assign a Project to a Class -- You can add a project to any class that has a roster"))
-                  ],
+              trailing: Icon(
+                Icons.help,
+                semanticLabel: 'Close',
+              ),
+              onTap: () => {Navigator.of(context).pop()},
+            ),
+            Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ListTile(
+                  title: Text("From this page you can navigate to:",
+                      style: modalLabel),
                 ),
-            ],
-          ),
-      
-    ),
-       );
+                RichText(
+                  text: TextSpan(
+                      text: "Classes: ",
+                      style: modalLabel,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text:
+                              'Here you will find your current classes with their projects, rosters, and class info',
+                          style: modalInfo,
+                        ),
+                      ]),
+                ),
+                SizedBox(height: 20),
+                RichText(
+                    text: TextSpan(
+                        text: "Set Up a Class: ",
+                        style: modalLabel,
+                        children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            "Here you can create up a new class, add a roster to the class and add projects to the class ",
+                        style: modalInfo,
+                      ),
+                    ])),
+                     SizedBox(height: 20),
+                RichText(
+                  text: TextSpan(
+                      text: "View All Projects: ",
+                      style: modalLabel,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text:
+                              "This is a listing of all public projects in the database",
+                          style: modalInfo,
+                        ),
+                      ]),
+                ),
+                 SizedBox(height: 20),
+                RichText(
+                  text: TextSpan(
+                      text: "View Your Projects: ",
+                      style: modalLabel,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text:
+                              "This is a listing of all the project you have created or added from the public projects",
+                          style: modalInfo,
+                        ),
+                      ]),
+                ),
+                 SizedBox(height: 20),
+                RichText(
+                  text: TextSpan(
+                      text: "Create A Project: ",
+                      style: modalLabel,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text:
+                              "This is a custom form builder that allows you to create a custom project for you class",
+                          style: modalInfo,
+                        ),
+                      ]),
+                ),
+                 SizedBox(height: 20),
+                RichText(
+                  text: TextSpan(
+                      text: "Assign a Project to a Class: ",
+                      style: modalLabel,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text:
+                              "You can add a project to any class that has a roster",
+                          style: modalInfo,
+                        ),
+                      ]),
+                ),
+                 
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
