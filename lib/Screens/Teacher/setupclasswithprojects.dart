@@ -39,6 +39,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   int _currentStep = 0;
   String name;
   List<DynamicWidget> roster = [];
+  List<String> addedStudents = [];
   @override
   Widget build(BuildContext context) {
     List<FAStep> steps = [
@@ -68,7 +69,9 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: FAStepper(
+        body: //SingleChildScrollView(
+          //child: 
+          FAStepper(
           type: FAStepperType.horizontal,
           titleIconArrange: FAStepperTitleIconArrange.column,
           stepNumberColor: Colors.pink,
@@ -124,9 +127,10 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               });
             }
            else {
-              Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context)=> TeacherHome())
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
                 );
               showDialog(
                 context: context,
@@ -149,7 +153,9 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               );
             }
           },
-        ));
+        ),
+        //),
+    );
   }
 
   Widget createClass() {
@@ -159,6 +165,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         .document(user.uid)
         .collection('Classes');
     return Material(
+      child: SingleChildScrollView(
       child: Container(
         child: Column(
           children: <Widget>[
@@ -299,10 +306,12 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           ],
         ),
       ),
+    ),
     );
   }
 
   Widget addRoster() {
+
     addStudent() {
       roster.add(new DynamicWidget());
       setState(() {});
@@ -311,6 +320,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
     submitData(teachID) async {
       final int count = roster.length;
       //String val='Success!';
+      int rosterCount = 0;
       CollectionReference classRoster = Firestore.instance
           .collection('Teachers')
           .document(teachID)
@@ -385,6 +395,10 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
 
 
       //increment the count of students in the class
+        await classInfo.get().then((doc) {
+          print((doc.data['students'] + rosterCount).toString());
+          classInfo.updateData({'students': doc.data['students'] + rosterCount});
+        });
 
       showDialog(
         context: context,
@@ -406,6 +420,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         },
       );
       roster = [];
+      print(addedStudents.toString());
       setState(() {});
     }
 
@@ -419,30 +434,43 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         child: Column(
           children: <Widget>[
             new Text('Current Roster'),
-            new StreamBuilder(
-              stream: Firestore.instance
-                  .collection('Teachers')
-                  .document(user.uid)
-                  .collection('Classes')
-                  .document(classNameController.text)
-                  .collection('Roster')
-                  .snapshots(),
-              builder: (BuildContext context, snapshot) {
-                if (!snapshot.hasData) return new Text('...Loading');
-                return new Expanded(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: new ListView(
-                      children: snapshot.data.documents.map<Widget>((doc) {
-                        return new ListTile(
-                          title: new Text(doc['name']),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                );
-              },
+            new Expanded(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+                child: new ListView.builder(
+                  itemCount: addedStudents.length,
+                  itemBuilder: (context, index) {
+                    return new ListTile(
+                      title: Text(addedStudents[index]),
+                    );
+                  }
+                ),
+              ),
             ),
+//            new StreamBuilder(
+            //   stream: Firestore.instance
+            //       .collection('Teachers')
+            //       .document(user.uid)
+            //       .collection('Classes')
+            //       .document(classNameController.text)
+            //       .collection('Roster')
+            //       .snapshots(),
+            //   builder: (BuildContext context, snapshot) {
+            //     if (!snapshot.hasData) return new Text('...Loading');
+            //     return new Expanded(
+            //       child: SizedBox(
+            //         height: MediaQuery.of(context).size.height * 0.8,
+            //         child: new ListView(
+            //           children: snapshot.data.documents.map<Widget>((doc) {
+            //             return new ListTile(
+            //               title: new Text(doc['name']),
+            //             );
+            //           }).toList(),
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
             new Divider(
               color: Colors.deepPurple,
               height: 10.0,

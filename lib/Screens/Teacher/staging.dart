@@ -71,22 +71,6 @@ class StagePageState extends State<StagingPage> {
     "Geology"
   ];
 
-/*
- String createProjectDoc(String title, bool public ){
- DocumentReference docRef = Firestore.instance
- .collection('Projects')
- .document();
- docRef
- .setData({
-   'title': title,
-    'public': public,
-    'docID': docRef.documentID,
-
- });
- return docRef.documentID;
-  
-}
-*/
 final TextEditingController projectTitleController =
         new TextEditingController();
     final TextEditingController projectInfo = new TextEditingController();
@@ -116,7 +100,8 @@ final TextEditingController projectTitleController =
         ],
       ),
       backgroundColor: Colors.grey[100],
-      body: Container(
+      body: SingleChildScrollView(
+        child: Container(
         margin: EdgeInsets.all(10),
         child: Form(
             key: _formKey,
@@ -283,7 +268,9 @@ final TextEditingController projectTitleController =
                   ),
                 ),
               ],
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

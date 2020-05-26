@@ -40,6 +40,7 @@ dependencies:
   flutter_google_maps: ^3.7.0
   js: ^0.6.1+1
   universal_html: ^1.1.10
+  flutter_icons: ^1.1.0
   
 
   image_cropper: ^1.2.1

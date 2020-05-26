@@ -14,14 +14,23 @@ class _TextQuestionWidgetState extends State<TextQuestionWidget> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return SingleChildScrollView(
+      child: Form(
         key: _formKey,
-        child: new TextFormField(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: new TextFormField(
           controller: widget.textAnswerController,
           decoration: new InputDecoration(
             labelText: "Text Answer",
+            fillColor: Colors.white,
+            enabledBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
+            focusedBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
           
           ),
-        ));
+        ),
+        ),
+      ),
+    );
   }
 }

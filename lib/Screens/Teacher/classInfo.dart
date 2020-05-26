@@ -133,13 +133,13 @@ class _ClassInfoState extends State<ClassInfo> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              FutureBuilder(
-                future: Firestore.instance
+              StreamBuilder(
+                stream: Firestore.instance
                     .collection('Teachers')
                     .document(user.uid)
                     .collection("Classes")
                     .document(widget.name)
-                    .get(),
+                    .snapshots(),
                 builder: (context, document) {
                   if (!document.hasData) {
                     return Text("...Loading");
