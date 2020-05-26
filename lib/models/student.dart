@@ -51,7 +51,7 @@ class Student{
       student.teacherID = doc.data['Teacher'];
       student.projectTitle = doc.data['ProjectTitle'];
       student.classSubject = doc.data['Subject']; 
-      student.dueDate = doc.data['dueDate'].toDate();
+      student.dueDate = doc.data['dueDate']?.toDate();
     
     return student; 
   }
