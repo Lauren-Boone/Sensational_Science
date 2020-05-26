@@ -32,9 +32,9 @@ class _TeacherHomeState extends State<TeacherHome> {
   Widget build(BuildContext context) {
     return StreamProvider<List<Teacher>>.value(
       value: DatabaseService().user,
-      child: Material(
-  
-              child: Scaffold(
+      child: MaterialApp(
+          theme: appTheme,
+              home: Scaffold(
           appBar: AppBar(title: Text("Home"), actions: <Widget>[
             new FlatButton.icon(
               icon: Icon(Icons.person, color: Colors.black),
@@ -280,65 +280,68 @@ class _MainHelpState extends State<MainHelp> {
   Widget build(BuildContext context) {
     return
      
-       Container(
-        
-       
-        padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                "This is your home page",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    decoration: TextDecoration.underline),
-                textAlign: TextAlign.center,
+       MaterialApp(
+         theme: modalHelpTheme,
+                home: Container(
+          
+         
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  "This is your home page",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      decoration: TextDecoration.underline),
+                  textAlign: TextAlign.center,
+                ),
+                trailing: Icon(
+                  Icons.help,
+                  semanticLabel: 'Close',
+                ),
+                onTap: () => {Navigator.of(context).pop()},
               ),
-              trailing: Icon(
-                Icons.help,
-                semanticLabel: 'Close',
-              ),
-              onTap: () => {Navigator.of(context).pop()},
-            ),
-            Container(
-              // Theme.of(context).textTheme.bodyText1,
-              child: Column(
-                children: <Widget>[
-                  
-                  ListTile(
-                    title: Text(
-                      "From this page you can navigate to:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+              Container(
+                // Theme.of(context).textTheme.bodyText1,
+                child: Column(
+                  children: <Widget>[
+                    
+                    ListTile(
+                      title: Text(
+                        "From this page you can navigate to:",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Text("Classes:   ", style: Theme.of(context).textTheme.headline1 ),
-                           Text('Here you will find your current classes with their projects, rosters, and class info'
-                     ),
-                  
-                  ListTile(
-                      title: Text(
-                          "Set Up a Class -- Here you can create up a new class, add a roster to the class and add projects to the class ")),
-                  ListTile(
-                      title: Text(
-                          "View All Project -- This is a listing of all public projects in the database")),
-                  ListTile(
-                      title: Text(
-                          "View Your Projects -- This is a listing of all the project you have created or added from the public projects")),
-                  ListTile(
-                      title: Text(
-                          "Create A Project -- This is a custom form builder that allows you to create a custom project for you class")),
-                  ListTile(
-                      title: Text(
-                          "Assign a Project to a Class -- You can add a project to any class that has a roster"))
-                ],
+                    Text("Classes:   ", style: Theme.of(context).textTheme.headline1 ),
+                             Text('Here you will find your current classes with their projects, rosters, and class info'
+                       ),
+                    
+                    ListTile(
+                        title: Text(
+                            "Set Up a Class -- Here you can create up a new class, add a roster to the class and add projects to the class ")),
+                    ListTile(
+                        title: Text(
+                            "View All Project -- This is a listing of all public projects in the database")),
+                    ListTile(
+                        title: Text(
+                            "View Your Projects -- This is a listing of all the project you have created or added from the public projects")),
+                    ListTile(
+                        title: Text(
+                            "Create A Project -- This is a custom form builder that allows you to create a custom project for you class")),
+                    ListTile(
+                        title: Text(
+                            "Assign a Project to a Class -- You can add a project to any class that has a roster"))
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
       
-    );
+    ),
+       );
   }
 }
