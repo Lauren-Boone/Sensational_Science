@@ -191,11 +191,15 @@ results.answers.forEach((element) {
       switch (number) {
         case 0:
           return Column(children: <Widget>[
-          Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
               margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 1.33,
               child: Center(
                   child: new TextQuestionWidget(
                       textAnswerController:
@@ -206,8 +210,12 @@ results.answers.forEach((element) {
           break;
         case 1:
           return Column(children: <Widget>[
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3 * 2,
@@ -223,11 +231,15 @@ results.answers.forEach((element) {
           break;
         case 2:
           return Column(children: <Widget>[
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
               margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 1.33,
               child: new ShortAnswerQuestion(
                   shortAnswerController: widget.controllers[_currentQuestion]),
             ),
@@ -236,11 +248,15 @@ results.answers.forEach((element) {
           break;
         case 3:
           return Column(children: <Widget>[
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
               margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 1.33,
               child: new UserLocationInfo(
                 userLocationController: widget.controllers[_currentQuestion],
               ),
@@ -250,11 +266,15 @@ results.answers.forEach((element) {
           break;
         case 4:
           return Column(children: <Widget>[
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
               margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 1.33,
               child: new NumericalQuestion(
                   numAnswerController: widget.controllers[_currentQuestion]),
             ),
@@ -262,11 +282,15 @@ results.answers.forEach((element) {
           ]);
         case 5:
           return Column(children: <Widget>[
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
               margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 1.33,
               child: RaisedButton(
                 child: Text('Click to upload or take photo'),
                 onPressed: () async {

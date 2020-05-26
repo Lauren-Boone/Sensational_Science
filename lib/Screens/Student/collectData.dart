@@ -215,9 +215,12 @@ bool _checkforAnswers(){
         case 0:
           widget.questionType[_currentQuestion] = 0;
           return Column(children: <Widget>[
-           
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
@@ -244,9 +247,12 @@ bool _checkforAnswers(){
           widget.questionType[_currentQuestion] = 1;
           return Column(
             children: <Widget>[
-        
-              Text("Question: " +
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3 * 2,
@@ -275,9 +281,12 @@ bool _checkforAnswers(){
         case 2:
           widget.questionType[_currentQuestion] = 2;
           return Column(children: <Widget>[
-    
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
@@ -302,8 +311,12 @@ bool _checkforAnswers(){
           var code = widget.student.code; 
           return Column(
             children: <Widget>[
-              
-              Text("Question: " + widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
               Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
@@ -327,9 +340,12 @@ bool _checkforAnswers(){
         case 4:
           widget.questionType[_currentQuestion] = 4;
           return Column(children: <Widget>[
-           
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
                 margin: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width / 3,
@@ -351,9 +367,12 @@ bool _checkforAnswers(){
         case 5:
           widget.questionType[_currentQuestion] = 5;
           return Column(children: <Widget>[
-           
-            Text("Question: " +
-                widget.project.questions[_currentQuestion].question , style: TextStyle(fontSize: 20)),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              width: MediaQuery.of(context).size.width / 1.2,
+              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+            ),
             Container(
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3,
