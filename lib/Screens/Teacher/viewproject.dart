@@ -26,32 +26,36 @@ import 'package:firebase_storage/firebase_storage.dart';
 class ViewProjectPage extends StatelessWidget {
   final String projectID;
   final String title;
-  final String createdProjectID; 
+  final String createdProjectID;
   final String uid;
   GetProject project;
-  ViewProjectPage(this.title, this.projectID, this.project, this.createdProjectID, this.uid);
+  ViewProjectPage(this.title, this.projectID, this.project,
+      this.createdProjectID, this.uid);
 
   Widget build(BuildContext context) {
-    final Student student = new Student.teacherKey(code: uid, projectCode: createdProjectID, projectTitle: title);
+    final Student student = new Student.teacherKey(
+        code: uid, projectCode: createdProjectID, projectTitle: title);
     return new Observation(
         key: new Key(projectID),
         projectID: this.projectID,
         answers: new Map(),
-        child: new ViewProject(this.title, this.projectID, this.project, this.createdProjectID, student));
+        child: new ViewProject(this.title, this.projectID, this.project,
+            this.createdProjectID, student));
   }
 }
 
 class ViewProject extends StatefulWidget {
   final String docIDref;
   final String title;
-  final String createdProjectID; 
+  final String createdProjectID;
   final Student student;
   final GetProject project;
   bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
   // Observation studentObservations;
 //GetProject project;
-  ViewProject(this.title, this.docIDref, this.project, this.createdProjectID, this.student) {
+  ViewProject(this.title, this.docIDref, this.project, this.createdProjectID,
+      this.student) {
     //this.docIDref = docID;
 
     // this.project = project;
@@ -75,8 +79,7 @@ class ViewProject extends StatefulWidget {
 }
 
 class _ViewProjectState extends State<ViewProject> {
-  _ViewProjectState(String title, String docID) {
-  }
+  _ViewProjectState(String title, String docID) {}
   int _currentQuestion = 0;
 
   Future<int> _getType(_currentQuestion) async {
@@ -98,60 +101,56 @@ class _ViewProjectState extends State<ViewProject> {
     }
   }
 
+  bool _checkforAnswers(List<TextEditingController> answers) {
+    bool retVal = false;
+    answers.forEach((element) {
+      if (element.text == null || element.text == "") {
+        retVal = true;
+      }
+    });
+    return retVal;
+  }
 
-bool _checkforAnswers(var results){
-   bool retVal = false;
-results.answers.forEach((element) {
-    if(element == null || element == ""){
-      retVal = true;
-    }
-  });
-  return retVal;
-
-
-}
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
     return new MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-            title: Text("Your Project"),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () => Navigator.pop(context, false),
-            ),
-            backgroundColor: Colors.deepPurple,
-              actions: <Widget>[
-          FlatButton.icon(
+          title: Text("Your Project"),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context, false),
+          ),
+          backgroundColor: Colors.deepPurple,
+          actions: <Widget>[
+            FlatButton.icon(
               icon: Icon(Icons.home, color: Colors.black),
               label: Text('Home', style: TextStyle(color: Colors.black)),
-         onPressed: () {
-               Navigator.pushAndRemoveUntil(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => TeacherHome()),
                   (Route<dynamic> route) => false,
                 );
-                      
               },
-          ),
-        ],
             ),
-        body:
-            Center(
-                child: FutureBuilder(
-                    future: _getType(_currentQuestion),
-                    builder: (context, snapshot) {
-                      if (snapshot.data != null) {
-                        return getQuestionWidget(context, snapshot.data);
-                      } else if (_currentQuestion >=
-                          widget.project.questions.length) {
-                        return getQuestionWidget(context, -1);
-                      } else {
-                        return CircularProgressIndicator();
-                      }
-                    })
-                // )
-                ),
+          ],
+        ),
+        body: Center(
+            child: FutureBuilder(
+                future: _getType(_currentQuestion),
+                builder: (context, snapshot) {
+                  if (snapshot.data != null) {
+                    return getQuestionWidget(context, snapshot.data);
+                  } else if (_currentQuestion >=
+                      widget.project.questions.length) {
+                    return getQuestionWidget(context, -1);
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                })
+            // )
+            ),
         floatingActionButton: RaisedButton(
           onPressed: () {
             Navigator.pop(context);
@@ -300,8 +299,7 @@ results.answers.forEach((element) {
                       builder: (context) => ImageCapture(
                         student: widget.student,
                         questionNum: _currentQuestion.toString(),
-                        imgLocController:
-                            widget.controllers[_currentQuestion],
+                        imgLocController: widget.controllers[_currentQuestion],
                         imageFile: preFilledFile,
                       ),
                     ),
@@ -310,13 +308,14 @@ results.answers.forEach((element) {
               ),
             ),
             getNextButton(context),
-          ]
-          );
+          ]);
           break;
       }
     } else {
       return Column(children: <Widget>[
-        Text("Would you like to save your answers as an answer key/example project?", textScaleFactor: 2),
+        Text(
+            "Would you like to save your answers as an answer key/example project?",
+            textScaleFactor: 2),
         RaisedButton(
           child: Text('Go back and review answers'),
           onPressed: () => {
@@ -326,54 +325,84 @@ results.answers.forEach((element) {
             //getQuestionWidget(),
           },
         ),
-        RaisedButton(onPressed: () async {
-          final user = Provider.of<User>(context, listen:false);
-          var results = Observation.of(context);
-        /*  if(_checkforAnswers(results)){
- showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("One or more of your answers is empty!"),
-                  content: Text(
-                      "Your must submit an answer for each question!"),
-                  actions: <Widget>[
-                    RaisedButton(
-                      child: Text("Close"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
+        RaisedButton(
+          onPressed: () async {
+            final user = Provider.of<User>(context, listen: false);
+            var results = Observation.of(context);
+            if (_checkforAnswers(widget.controllers)) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("One or more of your answers is empty!"),
+                      content:
+                          Text("Your must submit an answer for each question!"),
+                      actions: <Widget>[
+                        RaisedButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  });
+            } else {
+              //if answered on mobile app, store the image in the database (web is already stored)
+              if (!kIsWeb) {
+                for (var index = 0;
+                    index < widget.project.questions.length;
+                    index++) {
+                  if (widget.project.questions[index].type == "AddImageInput") {
+                    File image =
+                        await getImage(widget.student.code, index.toString());
+                    StorageUploadTask _uploadTask = FirebaseStorage(
+                            storageBucket:
+                                'gs://citizen-science-app.appspot.com')
+                        .ref()
+                        .child(widget.controllers[index].text)
+                        .putFile(image);
+                    await _uploadTask.onComplete;
+                  }
+                }
               }
-                 );
-          }
-          else{*/
-          //if answered on mobile app, store the image in the database (web is already stored)
-          if (!kIsWeb){
-            for(var index=0; index<widget.project.questions.length; index++) {
-              if (widget.project.questions[index].type == "AddImageInput") {
-                File image = await getImage(widget.student.code, index.toString());
-                StorageUploadTask _uploadTask = FirebaseStorage(storageBucket: 'gs://citizen-science-app.appspot.com').ref().child(widget.controllers[index].text).putFile(image);
-                await _uploadTask.onComplete;
-              }
-            }
-          }
-          await saveAnswers(user.uid, widget.createdProjectID, results);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => saveStudentAnswers(results: Observation.of(context))),
-          );
-         
-          Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) =>ViewProjectStaging(widget.project.title, widget.project.docID, widget.project.info, widget.createdProjectID, user.uid)),
+              await saveAnswers(user.uid, widget.createdProjectID, results);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        saveStudentAnswers(results: Observation.of(context))),
+              );
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Answer key has been saved!"),
+                      content:
+                          Text("You can now view your answer key."),
+                      actions: <Widget>[
+                        RaisedButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  });
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => ViewProjectStaging(
+                        widget.project.title,
+                        widget.project.docID,
+                        widget.project.info,
+                        widget.createdProjectID,
+                        user.uid)),
                 (Route<dynamic> route) => false,
-               );
-         // }
-        },
-        child: Text('Submit Form'),
+              );
+            }
+          },
+          child: Text('Submit Form'),
         )
       ]);
     }
@@ -381,7 +410,6 @@ results.answers.forEach((element) {
 
   @override
   void initState() {
-
     super.initState();
   }
 

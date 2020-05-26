@@ -75,8 +75,8 @@ bool _checkforInput(){
   @override
   Widget build(BuildContext context) {
      final user = Provider.of<User>(context);
-    return MaterialApp(
-      home: Scaffold(
+    return Material(
+      child: Scaffold(
         appBar: AppBar(
           title: const Text('Add Questions To the Project'),
                           leading: IconButton(
