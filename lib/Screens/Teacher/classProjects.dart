@@ -79,81 +79,93 @@ class _ViewClassProjectsState extends State<ViewClassProjects> {
                         return new Expanded(
                           child: SizedBox(
                             child: ListView(
-                              children: [new ListTile(
-                                title: new Text(doc['projectTitle'], 
-                                  style: TextStyle(fontWeight: FontWeight.bold)),
-                                subtitle: new Text('Due Date: ' +
-                                    doc['dueDate'].toDate().toString()),
+                              children: [Card(
+                                color: Colors.green[300],
+                                                              child: new ListTile(
+                                  title: new Text(doc['projectTitle'], 
+                                    style: TextStyle(fontWeight: FontWeight.bold)),
+                                  subtitle: new Text('Due Date: ' +
+                                      doc['dueDate'].toDate().toString()),
+                                  ),
+                              ),
+                                Card(
+                                  
+                                                                  child: new ListTile(
+                                    title: new Text("Compile & View Class Data"),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                    onTap: () {
+                                      proj = new GetProject(
+                                          doc['projectTitle'], doc['projectID']);
+                                      proj.questionData().whenComplete(() => {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => TeacherViewClassData(
+                                                //user: user.uid,
+                                                className: widget.name,
+                                                classProjDocID: doc.documentID,
+                                                proj: proj),
+                                          ),
+                                        )
+                                      });
+                                    },
+                                  ),
                                 ),
-                                new ListTile(
-                                  title: new Text("Compile & View Class Data"),
-                                  trailing: Icon(Icons.arrow_forward_ios),
-                                  onTap: () {
-                                    proj = new GetProject(
-                                        doc['projectTitle'], doc['projectID']);
-                                    proj.questionData().whenComplete(() => {
+                                Card(
+                                                                  child: new ListTile(
+                                    title: new Text("View Student Codes for Project"),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                    onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => TeacherViewClassData(
-                                              //user: user.uid,
-                                              className: widget.name,
-                                              classProjDocID: doc.documentID,
-                                              proj: proj),
+                                          builder: (context) => ViewAllStudentCodes(
+                                            teachID: user.uid,
+                                            classID: widget.name,
+                                            projectID: doc.documentID,
+                                            title: doc['projectTitle'],
+                                          )
                                         ),
-                                      )
-                                    });
-                                  },
+                                      );
+                                    }
+                                  ),
                                 ),
-                                new ListTile(
-                                  title: new Text("View Student Codes for Project"),
-                                  trailing: Icon(Icons.arrow_forward_ios),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ViewAllStudentCodes(
-                                          teachID: user.uid,
-                                          classID: widget.name,
-                                          projectID: doc.documentID,
-                                          title: doc['projectTitle'],
-                                        )
-                                      ),
-                                    );
-                                  }
+                                Card(
+                                                                  child: new ListTile(
+                                    title: new Text("Change Project Due Date"),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ChangeProjectDueDate(
+                                            teachID: user.uid,
+                                            classID: widget.name,
+                                            projectID: doc.documentID,
+                                            dueDate: doc.data['dueDate'].toDate(),
+                                          )
+                                        ),
+                                      );
+                                    }
+                                  ),
                                 ),
-                                new ListTile(
-                                  title: new Text("Change Project Due Date"),
-                                  trailing: Icon(Icons.arrow_forward_ios),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ChangeProjectDueDate(
-                                          teachID: user.uid,
-                                          classID: widget.name,
-                                          projectID: doc.documentID,
-                                          dueDate: doc.data['dueDate'].toDate(),
-                                        )
-                                      ),
-                                    );
-                                  }
-                                ),
-                                new ListTile(
-                                  title: new Text("Delete Project"),
-                                  trailing: Icon(Icons.arrow_forward_ios),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DeleteProjectFromClass(
-                                          teachID: user.uid,
-                                          classID: widget.name,
-                                          projectID: doc.documentID,
-                                        )
-                                      ),
-                                    );
-                                  }
+                                Card(
+                                                                  child: new ListTile(
+                                    title: new Text("Delete Project"),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DeleteProjectFromClass(
+                                            teachID: user.uid,
+                                            classID: widget.name,
+                                            projectID: doc.documentID,
+                                          )
+                                        ),
+                                      );
+                                    }
+                                  ),
                                 ),
                               ],
                             ),

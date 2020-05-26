@@ -158,7 +158,7 @@ final TextEditingController projectTitleController =
                           SizedBox(height: 20),
                           DropdownButton(
                               value: subjectVal,
-                              
+                              focusColor: Colors.deepPurple[100],
                               hint: Text("Please Select A Subject"),
                               items: subjects.map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(

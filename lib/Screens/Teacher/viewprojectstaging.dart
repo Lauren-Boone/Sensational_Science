@@ -72,15 +72,15 @@ getAnswers(String user)async{
   @override
   Widget build(BuildContext context) {
 final user = Provider.of<User>(context);
-       return new MaterialApp(
-      home: new Scaffold(
+       return new Material(
+      child: new Scaffold(
         appBar: AppBar(
             title: Text("View Your Project"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             ),
-            backgroundColor: Colors.deepPurple,
+            //backgroundColor: Colors.deepPurple,
             
               actions: <Widget>[
           FlatButton.icon(
@@ -102,18 +102,14 @@ final user = Provider.of<User>(context);
              padding: EdgeInsets.all(20),
              child: Center(
                   child: Column(children: <Widget>[
-                    Card(
-                      child:  Text(
-                        widget.title,style: TextStyle(
-                          fontSize: 30,
-                        ),),
-                    ),
-                    Card(
-                      child: Text(widget.projInfo,
-                        style: TextStyle(
-                          fontSize: 20,
-                        )),
-                    ),
+                    Text(
+                      widget.title,style: TextStyle(
+                        fontSize: 30,
+                      ),),
+                    Text(widget.projInfo,
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
                     
                     RaisedButton(
                       onPressed: () {

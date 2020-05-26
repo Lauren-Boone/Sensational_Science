@@ -113,15 +113,15 @@ class _ViewProjectState extends State<ViewProject> {
 
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
-    return new MaterialApp(
-      home: new Scaffold(
+    return new Material(
+      child: new Scaffold(
         appBar: AppBar(
           title: Text("Your Project"),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context, false),
           ),
-          backgroundColor: Colors.deepPurple,
+         // backgroundColor: Colors.deepPurple,
           actions: <Widget>[
             FlatButton.icon(
               icon: Icon(Icons.home, color: Colors.black),

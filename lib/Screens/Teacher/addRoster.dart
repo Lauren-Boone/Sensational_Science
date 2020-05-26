@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
+import 'package:random_color/random_color.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/models/user.dart';
 import 'package:sensational_science/Screens/Teacher/viewStudentCodes.dart';
@@ -99,7 +100,16 @@ class _AddRosterState extends State<AddRoster>{
   roster = [];
   setState(() {});
 }
+Color getColor(){
+    RandomColor _randomColor = RandomColor();
 
+Color _color = _randomColor.randomColor(
+  colorSaturation: ColorSaturation.lowSaturation,
+  colorHue: ColorHue.green,
+  colorBrightness: ColorBrightness.primary,
+);
+return _color;
+}
 String success = '';
 @override
 
@@ -150,21 +160,25 @@ Widget build(BuildContext context){
                   return new Expanded(
                     child: Container(child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: Colors.green[400]
+                          //color: getColor(),
                         ),
                         child: SizedBox(height: MediaQuery.of(context).size.height * 0.8,
                       child: new ListView(
                         children: snapshot.data.documents.map<Widget>((doc){
-                          return new ListTile(
-                            title: new Text(doc['name']),
-                            trailing: Icon(Icons.arrow_forward_ios),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                builder: (context) =>ViewStudentCodes(teachID: user.uid, classID: widget.name, studentID: doc.documentID, name: doc['name']),
-                              ),);
-                            }
+                          return Card(
+                            color: getColor(),
+                                                      child: new ListTile(
+                              //hoverColor: Colors.blue,
+                              title: new Text(doc['name']),
+                              trailing: Icon(Icons.arrow_forward_ios),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) =>ViewStudentCodes(teachID: user.uid, classID: widget.name, studentID: doc.documentID, name: doc['name']),
+                                ),);
+                              }
+                            ),
                           );
                         }).toList(),
                       ),)
