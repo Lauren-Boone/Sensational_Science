@@ -288,7 +288,7 @@ final TextEditingController projectTitleController =
                 )),
           ),
         ),
-      ),
+          ),
     );
   }
 }
@@ -369,11 +369,7 @@ class _CreateAProjectHelpState extends State<CreateAProjectHelp> {
                 
               ],
             ),
-<<<<<<< HEAD
-          ),
-=======
           ],
->>>>>>> lauren_week9
         ),
       ),
     );
