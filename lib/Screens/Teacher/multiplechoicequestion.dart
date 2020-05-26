@@ -53,14 +53,13 @@ class _MultQuestionWidgetState extends State<MultQuestionWidget> {
           return RadioListTile(
             title: Text(widget.question.answers[index]),
             value: index.toString(),
-            activeColor: Colors.lightBlue,
-            selected: widget.multChoiceController.text == index.toString(),
+            //selected: widget.multChoiceController.text == index.toString(),
             onChanged: (value) {
               setState(() {
                 widget.multChoiceController.text = value;
               });
             },
-            groupValue: null,
+            groupValue: widget.multChoiceController.text,
           );
         }
       ),
