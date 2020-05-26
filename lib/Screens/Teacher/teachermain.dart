@@ -8,7 +8,7 @@ import 'package:sensational_science/Screens/Teacher/FormInputs/image_capture.dar
 import 'package:sensational_science/Screens/Teacher/testingNEWcreateproj.dart';
 import 'package:sensational_science/Services/auth.dart';
 import 'package:sensational_science/Shared/styles.dart';
-import 'package:universal_html/html.dart';
+//import 'package:universal_html/html.dart';
 import '../../Services/database.dart';
 import 'package:provider/provider.dart';
 import '../../models/teacher.dart';
@@ -284,8 +284,8 @@ class _MainHelpState extends State<MainHelp> {
          theme: modalHelpTheme,
                 home: Container(
           
-         
-          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+         color: modalHelpTheme.backgroundColor,
+          padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
           child: Column(
             children: <Widget>[
               ListTile(
@@ -303,26 +303,37 @@ class _MainHelpState extends State<MainHelp> {
                 ),
                 onTap: () => {Navigator.of(context).pop()},
               ),
-              Container(
-                // Theme.of(context).textTheme.bodyText1,
-                child: Column(
+              Column(
                   children: <Widget>[
                     
                     ListTile(
                       title: Text(
                         "From this page you can navigate to:",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: modalLabel
                       ),
                     ),
-                    Text("Classes:   ", style: Theme.of(context).textTheme.headline1 ),
-                             Text('Here you will find your current classes with their projects, rosters, and class info'
+                    
+                    
+                      
+                        RichText(
+                       text: TextSpan(
+                  text: "Classes: ", style: modalLabel,
+                          
+                
+                           children: <TextSpan>[
+                        TextSpan( 
+                         text: 'Here you will find your current classes with their projects, rosters, and class info', style: modalInfo,
+                      ),
+                           ]
                        ),
+                        ),
+                      
+                    
+                             
                     
                     ListTile(
                         title: Text(
-                            "Set Up a Class -- Here you can create up a new class, add a roster to the class and add projects to the class ")),
+                            "Set Up a Class: Here you can create up a new class, add a roster to the class and add projects to the class ")),
                     ListTile(
                         title: Text(
                             "View All Project -- This is a listing of all public projects in the database")),
@@ -337,7 +348,6 @@ class _MainHelpState extends State<MainHelp> {
                             "Assign a Project to a Class -- You can add a project to any class that has a roster"))
                   ],
                 ),
-              ),
             ],
           ),
       

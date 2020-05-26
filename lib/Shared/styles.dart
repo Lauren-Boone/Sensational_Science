@@ -12,7 +12,7 @@ final appTheme = ThemeData(
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         
-         brightness: Brightness.light,
+        brightness: Brightness.light,
         backgroundColor: Colors.deepPurple[100],
         //  accentColor: Colors.lightBlueAccent,
         accentColor: Colors.deepPurpleAccent,
@@ -56,7 +56,7 @@ final appTheme = ThemeData(
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+       
         highlightColor: Colors.deepPurpleAccent,
         // highlightColor: Colors.blueAccent,
       );
@@ -67,22 +67,35 @@ final modalHelpTheme = ThemeData(
           backgroundColor: Colors.blue[100],
           modalElevation: 100,
           
+          
 
         ),
-    textTheme: TextTheme(
-      
-      //this is for the normal text
-      bodyText1: TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.normal,
-        color: Colors.black,
+  backgroundColor: Colors.blue,
 
-      ),
-      //This is for the text in from of the definition
-      headline1: TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
-      ),
-    )
+   textTheme: TextTheme(
+     
+     body1: TextStyle(
+       fontSize: 20,
+       fontWeight: FontWeight.bold,
+     ),
+   ),
+      //this is for the normal text
+      
+);
+
+
+const modalLabel = TextStyle(
+  fontSize: 17,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+  decoration: TextDecoration.none
+);
+
+const modalInfo = TextStyle(
+  fontSize: 17,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+  decoration: TextDecoration.none,
+  
+  
 );
