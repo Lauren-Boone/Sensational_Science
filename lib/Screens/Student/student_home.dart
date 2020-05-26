@@ -193,7 +193,7 @@ Icon chooseIcon(String subject){
     }
     break; 
     case 'Biology':{
-      return Icon(FontAwesome5Brands.canadian_maple_leaf, size: 150.0); 
+      return Icon(FontAwesome5Brands.canadian_maple_leaf, size: 150.0, color:Colors.orange); 
     }
     break;
         case 'Chemistry':{
@@ -201,7 +201,7 @@ Icon chooseIcon(String subject){
     }
     break; 
         case 'Astronomy':{
-
+          return Icon(Ionicons.ios_planet, size: 150.0, color:Colors.orange); 
     }
     break; 
         case 'Geography':{
