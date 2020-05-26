@@ -68,8 +68,9 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: SingleChildScrollView(
-          child: FAStepper(
+        body: //SingleChildScrollView(
+          //child: 
+          FAStepper(
           type: FAStepperType.horizontal,
           titleIconArrange: FAStepperTitleIconArrange.column,
           stepNumberColor: Colors.pink,
@@ -151,7 +152,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
             }
           },
         ),
-        ),
+        //),
     );
   }
 
@@ -162,6 +163,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         .document(user.uid)
         .collection('Classes');
     return Material(
+      child: SingleChildScrollView(
       child: Container(
         child: Column(
           children: <Widget>[
@@ -302,6 +304,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           ],
         ),
       ),
+    ),
     );
   }
 
