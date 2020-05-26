@@ -14,19 +14,24 @@ class _NumericalQuestionState extends State<NumericalQuestion> {
     final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return SingleChildScrollView(
+      child: Form(
       key: _formKey, 
         child: new TextFormField(
       controller: widget.numAnswerController,
       
       decoration: new InputDecoration(
         labelText: "Numerical Answer",
-        
+        fillColor: Colors.white,
+        enabledBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
+        focusedBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
+
       ),
        inputFormatters: <TextInputFormatter>[
     WhitelistingTextInputFormatter.digitsOnly
 ], // Only numbers can be entered
-    )
+    ),
+    ),
     );
   }
 }

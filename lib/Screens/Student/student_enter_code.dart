@@ -73,7 +73,8 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
         ),
         
         
-        body: Form(
+        body: SingleChildScrollView(
+          child: Form(
           key: _formKey,
           child: Padding(
             padding: EdgeInsets.all(16.0),
@@ -143,6 +144,7 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
               ],
             ),
           ),
+        ),
         ),
         floatingActionButton: RaisedButton(
           onPressed: () {

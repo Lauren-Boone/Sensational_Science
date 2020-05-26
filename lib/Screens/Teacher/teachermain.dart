@@ -174,48 +174,9 @@ final AuthService _auth = AuthService();
                     },
                   ),
               ),
-              
-              // Card(
-              //   child: ListTile(
-              //     title: Text('Test Camera'),
-              //     subtitle: Text('Test opening camera & picture from file'),
-              //     trailing: Icon(Icons.arrow_forward_ios), 
-              //     onTap: (){
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => ImageCapture(),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),  
-              //                Card(
-              //   child: ListTile(
-              //     title: Text('Location'),
-              //     subtitle: Text('Location Test'),
-              //     trailing: Icon(Icons.arrow_forward_ios), 
-              //     onTap: (){
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => LocationMap(),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),
             ],
           ),
-          // floatingActionButton: RaisedButton(
-          //   onPressed: (){
-          //     Navigator.pop(context);
-          //   },
-          //   child: Text("Go Back"),
-            
-          // ),
-        
-          ),
+        ),
     );
   }
 }

@@ -223,7 +223,7 @@ bool _checkforAnswers(){
             ),
             Container(
               margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 1.33,
               child: Center(
                   child: FutureBuilder(
                       future: readString(
@@ -255,7 +255,7 @@ bool _checkforAnswers(){
             ),
               Container(
                 margin: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width / 3 * 2,
+                width: MediaQuery.of(context).size.width / 1.33,
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: FutureBuilder(
@@ -289,7 +289,7 @@ bool _checkforAnswers(){
             ),
             Container(
                 margin: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width / 3,
+                width: MediaQuery.of(context).size.width / 1.33,
                 child: FutureBuilder(
                     future: readString(
                         widget.student.code, _currentQuestion.toString()),
@@ -319,7 +319,7 @@ bool _checkforAnswers(){
             ),
               Container(
                 margin: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width / 3,
+                width: MediaQuery.of(context).size.width / 1.33,
                 child: FutureBuilder(
                     future: readString(
                         widget.student.code, _currentQuestion.toString()),
@@ -348,7 +348,7 @@ bool _checkforAnswers(){
             ),
             Container(
                 margin: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width / 3,
+                width: MediaQuery.of(context).size.width / 1.33,
                 child: FutureBuilder(
                     future: readString(
                         widget.student.code, _currentQuestion.toString()),
@@ -375,7 +375,7 @@ bool _checkforAnswers(){
             ),
             Container(
               margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 3,
+              width: MediaQuery.of(context).size.width / 1.33,
               child: FutureBuilder(
                   future: readString(
                       widget.student.code, _currentQuestion.toString()),
