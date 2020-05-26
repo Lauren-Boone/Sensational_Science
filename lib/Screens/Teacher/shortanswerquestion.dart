@@ -17,7 +17,9 @@ class _ShortAnswerQuestionState extends State<ShortAnswerQuestion> {
     return SingleChildScrollView(
     child: Form(
       key: _formKey, 
-        child: new TextFormField(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: new TextFormField(
       controller: widget.shortAnswerController,
       decoration: new InputDecoration(
         labelText: "Short Answer",
@@ -27,6 +29,7 @@ class _ShortAnswerQuestionState extends State<ShortAnswerQuestion> {
 
       ),
       maxLines: 10,
+    ),
     ),
     ),
     );

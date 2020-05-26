@@ -17,6 +17,8 @@ class _NumericalQuestionState extends State<NumericalQuestion> {
     return SingleChildScrollView(
       child: Form(
       key: _formKey, 
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
         child: new TextFormField(
       controller: widget.numAnswerController,
       
@@ -32,6 +34,7 @@ class _NumericalQuestionState extends State<NumericalQuestion> {
 ], // Only numbers can be entered
     ),
     ),
+      ),
     );
   }
 }

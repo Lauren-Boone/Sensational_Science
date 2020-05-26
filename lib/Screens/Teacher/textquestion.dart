@@ -17,7 +17,9 @@ class _TextQuestionWidgetState extends State<TextQuestionWidget> {
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
-        child: new TextFormField(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: new TextFormField(
           controller: widget.textAnswerController,
           decoration: new InputDecoration(
             labelText: "Text Answer",
@@ -28,6 +30,7 @@ class _TextQuestionWidgetState extends State<TextQuestionWidget> {
           ),
         ),
         ),
+      ),
     );
   }
 }
