@@ -57,45 +57,9 @@ class _TeacherHomeState extends State<TeacherHome> {
                       );
                     }),
 
-/*
-                  showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            
-                              title: ListTile(
-                                title: Center(child: Text("This is your home page", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
-                                trailing: Icon(Icons.help),
-                                ),
-                              content: SingleChildScrollView(
-                                                            child: Column(
-                                  children: <Widget>[
-                                    ListTile(
-                                      title: Text("From this page you can navigate to:", style: TextStyle(fontWeight: FontWeight.bold )),
-                                    ),
-                                    ListTile(
-                                      title: Text("Classes -- Here you will find your current classes with their projects, rosters, and class info")),
-                                    ListTile(title: Text("Set Up a Class -- Here you can create up a new class, add a roster to the class and add projects to the class ")),
-                                    ListTile(title: Text("View All Project -- This is a listing of all public projects in the database")),
-                                    ListTile(title: Text("View Your Projects -- This is a listing of all the project you have created or added from the public projects")),
-                                    ListTile(title: Text("Create A Project -- This is a custom form builder that allows you to create a custom project for you class")),
-                                    ListTile(title: Text("Assign a Project to a Class -- You can add a project to any class that has a roster"))
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                RaisedButton(
-                                  child: Text("Close"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ]);
-                        }),
-        */
               },
               icon: Icon(Icons.help, color: Colors.black),
-              label: Text("Help"),
+              label: Text("Help", style: TextStyle(color: Colors.black)),
             ),
           ]),
 
