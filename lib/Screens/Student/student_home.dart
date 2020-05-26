@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/student.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'collectDataStaging.dart';
 import 'student_view_class_data.dart';
 import 'package:sensational_science/Screens/Login/authenticate.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StudentHome extends StatelessWidget {
   final String classData;
@@ -54,13 +56,17 @@ class StudentHome extends StatelessWidget {
                 ]),
             body: SingleChildScrollView(
               child: Center(
-                  child: Column(
+                  child: StreamBuilder(
+                    stream: Firestore.instance.collection('codes').document(classData).snapshots(),
+                    builder: (context, stream) {
+                      if (!stream.hasData) {return CupertinoActivityIndicator();}
+                      return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton(
                     child: Text('Collect Data For Project'),
                     onPressed: () {
-                      if (DateTime.now().isBefore(student.dueDate)) {
+                      if (DateTime.now().isBefore(stream.data['dueDate'].toDate())) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -96,7 +102,7 @@ class StudentHome extends StatelessWidget {
                   RaisedButton(
                     child: Text('View All Class Data'),
                     onPressed: () {
-                      if (DateTime.now().isAfter(student.dueDate)) {
+                      if (DateTime.now().isAfter(stream.data['dueDate'].toDate())) {
                         var proj = new GetProject(
                             student.projectTitle, student.projectID);
                         proj.questionData().whenComplete(() => {
@@ -140,7 +146,9 @@ class StudentHome extends StatelessWidget {
                     child: chooseIcon(student.classSubject.toString()),
                   ),
                 ],
-              )),
+              );
+              }
+              ),
             ),
             // floatingActionButton: RaisedButton(
             //   onPressed: () {
@@ -148,6 +156,7 @@ class StudentHome extends StatelessWidget {
             //   },
             //   child: Text('Go back'),
           ),
+        ),
         );
       }),
     );
