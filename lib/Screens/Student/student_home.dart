@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/getproject.dart';
@@ -18,44 +19,18 @@ class StudentHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final student = Student(code: classData);
-    return Provider<Student>(
-      create: (_) => new Student(code: classData), 
-      child:  
-          MaterialApp(
-            theme: appTheme,
-             
-                      home: Scaffold(
-            appBar: AppBar(
-              title: Text('Project Home Page'),
-             // backgroundColor: Colors.deepPurple,
-              actions: <Widget>[
-                FlatButton.icon(
-                  icon: Icon(Icons.person, color: Colors.black,),
-                  label: Text('Log out', style: TextStyle(color: Colors.black)),
-                  onPressed: () {
-                     Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => Authenticate()),     
-                  (Route<dynamic> route) => false,
-                );
-                   
-                  },
-                ),
-              ]
-                  
-            ),
-            iconTheme: IconThemeData(
-              color: Colors.grey,
-            ),
-
-            // This makes the visual density adapt to the platform that you run
-            // the app on. For desktop platforms, the controls will be smaller and
-            // closer together (more dense) than on mobile platforms.
-            // visualDensity: VisualDensity.adaptivePlatformDensity,
-            highlightColor: Colors.deepPurpleAccent,
-            // highlightColor: Colors.blueAccent,
-          ),
+    // final student = Student.getForCode(classData);
+    // String subject = student.classSubject;
+    // Icon icon = chooseIcon(subject);
+    // print("Class Subject: " + student.classSubject);
+    return FutureProvider<Student>(
+      create: (_) => Student.getForCode(classData),
+      child: Consumer<Student>(builder: (context, student, child) {
+        if(student == null){
+          return CircularProgressIndicator(); 
+        }
+        return MaterialApp(
+          theme: appTheme,
           home: Scaffold(
             appBar: AppBar(
                 title: Text('Project Home Page'),
