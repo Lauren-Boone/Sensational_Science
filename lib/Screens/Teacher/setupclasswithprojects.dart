@@ -39,6 +39,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   int _currentStep = 0;
   String name;
   List<DynamicWidget> roster = [];
+  List<String> addedStudents = [];
   @override
   Widget build(BuildContext context) {
     List<FAStep> steps = [
@@ -68,7 +69,9 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
             )),
-        body: FAStepper(
+        body: //SingleChildScrollView(
+          //child: 
+          FAStepper(
           type: FAStepperType.horizontal,
           titleIconArrange: FAStepperTitleIconArrange.column,
           stepNumberColor: Colors.pink,
@@ -149,7 +152,9 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               );
             }
           },
-        ));
+        ),
+        //),
+    );
   }
 
   Widget createClass() {
@@ -159,6 +164,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         .document(user.uid)
         .collection('Classes');
     return Material(
+      child: SingleChildScrollView(
       child: Container(
         child: Column(
           children: <Widget>[
@@ -299,10 +305,12 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           ],
         ),
       ),
+    ),
     );
   }
 
   Widget addRoster() {
+
     addStudent() {
       roster.add(new DynamicWidget());
       setState(() {});
@@ -310,6 +318,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
 
     submitData(teachID) async {
       //String val='Success!';
+      int rosterCount = 0;
       CollectionReference classRoster = Firestore.instance
           .collection('Teachers')
           .document(teachID)
@@ -372,12 +381,17 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               'Subject': project.data['projectSubject'], //project subject
           });
         });
-        classInfo.get().then((doc) {
-          classInfo.updateData({'students': doc.data['students'] + 1});
-        });
+        addedStudents.add(e.controller.text);
+        print(rosterCount.toString());
+        rosterCount = rosterCount + 1;
+        print(rosterCount.toString());
       });
 
       //increment the count of students in the class
+        await classInfo.get().then((doc) {
+          print((doc.data['students'] + rosterCount).toString());
+          classInfo.updateData({'students': doc.data['students'] + rosterCount});
+        });
 
       showDialog(
         context: context,
@@ -399,6 +413,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         },
       );
       roster = [];
+      print(addedStudents.toString());
       setState(() {});
     }
 
@@ -412,34 +427,47 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         child: Column(
           children: <Widget>[
             new Text('Current Roster'),
-            new StreamBuilder(
-              stream: Firestore.instance
-                  .collection('Teachers')
-                  .document(user.uid)
-                  .collection('Classes')
-                  .document(classNameController.text)
-                  .collection('Roster')
-                  .snapshots(),
-              builder: (BuildContext context, snapshot) {
-                if (!snapshot.hasData) return new Text('...Loading');
-                return new Expanded(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: new ListView(
-                      children: snapshot.data.documents.map<Widget>((doc) {
-                        return new ListTile(
-                          title: new Text(doc['name']),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                );
-              },
+            new Expanded(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+                child: new ListView.builder(
+                  itemCount: addedStudents.length,
+                  itemBuilder: (context, index) {
+                    return new ListTile(
+                      title: Text(addedStudents[index]),
+                    );
+                  }
+                ),
+              ),
             ),
-            new Divider(
-              color: Colors.deepPurple,
-              height: 10.0,
-            ),
+//            new StreamBuilder(
+            //   stream: Firestore.instance
+            //       .collection('Teachers')
+            //       .document(user.uid)
+            //       .collection('Classes')
+            //       .document(classNameController.text)
+            //       .collection('Roster')
+            //       .snapshots(),
+            //   builder: (BuildContext context, snapshot) {
+            //     if (!snapshot.hasData) return new Text('...Loading');
+            //     return new Expanded(
+            //       child: SizedBox(
+            //         height: MediaQuery.of(context).size.height * 0.8,
+            //         child: new ListView(
+            //           children: snapshot.data.documents.map<Widget>((doc) {
+            //             return new ListTile(
+            //               title: new Text(doc['name']),
+            //             );
+            //           }).toList(),
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
+            // new Divider(
+            //   color: Colors.deepPurple,
+            //   height: 10.0,
+            // ),
             new Text('Students to add:'),
             new Expanded(
               child: new SizedBox(
@@ -469,6 +497,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   Widget addProject() {
     Future<void> assignProject(String uid, String className, String projectID,
         DateTime dueDate) async {
+          print(dueDate);
       //create project under the class
       DocumentReference classDoc = Firestore.instance
           .collection('Teachers')
@@ -535,8 +564,8 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           'ProjectID':
               projectID, //project doc id in top level project collection
           'ProjectTitle': projectDoc.data['title'], //project title
-          'dueDate': projectDoc.data['dueDate'],
-          'Subject': projectDoc.data['projectSubject'], //project subject
+          'dueDate': dueDate,
+          'Subject': projectDoc.data['subject'], //project subject
         });
       }
     }
@@ -600,8 +629,8 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                       new Expanded(
                         flex: 2,
                         child: new Container(
-                          padding:
-                              EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                         padding:
+                              EdgeInsets.fromLTRB(10.0, 10.0, 7.0, 8.0),
                           child: Text("Project to Assign"),
                         ),
                       ),
@@ -612,7 +641,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                             hintText: 'Choose a project',
                             hintStyle: TextStyle(
                               color: Colors.green,
-                              fontSize: 16.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -638,7 +667,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                   ),
                                   height: 32.0,
                                   width: MediaQuery.of(context).size.width *
-                                      0.52,
+                                      0.5,
                                   padding: EdgeInsets.fromLTRB(
                                       10.0, 5.0, 10.0, 0.0),
                                   child: Text(document.data['title']),

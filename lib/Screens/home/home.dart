@@ -5,6 +5,7 @@ import 'settings_form.dart';
 import '../Teacher/teachermain.dart';
 import '../Student/student_enter_code.dart';
 import 'user_list.dart';
+
 import 'package:provider/provider.dart';
 import '../../Services/database.dart';
 
@@ -13,9 +14,10 @@ import 'testdatabase.dart';
 
 class Home extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return new MaterialApp(
       title: 'Sensational Science Projects',
       theme: ThemeData(
         // This is the theme of your application.
@@ -27,7 +29,9 @@ class Home extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
+        
          brightness: Brightness.light,
+        backgroundColor: Colors.deepPurple[100],
         //  accentColor: Colors.lightBlueAccent,
         accentColor: Colors.deepPurpleAccent,
         primarySwatch: Colors.deepPurple,
@@ -42,12 +46,16 @@ class Home extends StatelessWidget {
           
           
         ),
+        cardTheme: CardTheme(
+          color: Colors.green[100],
+          
+        ),
         iconTheme: IconThemeData(
           color: Colors.grey,
           
           
         ),
-        
+       
         
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and

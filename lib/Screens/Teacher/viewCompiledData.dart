@@ -2,36 +2,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/locationmap.dart';
 import '../../Services/getproject.dart';
-import 'package:sensational_science/models/student.dart';
-import 'package:provider/provider.dart';
-import 'student_home.dart';
+
+import 'teachermain.dart';
 import 'package:random_color/random_color.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:sensational_science/Services/firebaseStorage/fireStorageService.dart';
-import 'locationmap.dart';
+import '../Student/locationmap.dart';
 
 var createLocationMap = LocationMap();
 
 
-class ViewClassData extends StatefulWidget {
-  final String user;
+
+class TeacherViewClassData extends StatefulWidget {
+  //final String user;
   final String className;
   final String classProjDocID;
   final GetProject proj;
-  ViewClassData({this.user, this.className, this.classProjDocID, this.proj});
+  
+  TeacherViewClassData({this.className, this.classProjDocID, this.proj});
   //final String docID;
   @override
-  _ViewClassDataState createState() =>
-      _ViewClassDataState(this.proj, this.className, this.classProjDocID);
+  _TeacherViewClassDataState createState() =>
+      _TeacherViewClassDataState(this.proj, this.className, this.classProjDocID);
 }
 
-class _ViewClassDataState extends State<ViewClassData> {
+class _TeacherViewClassDataState extends State<TeacherViewClassData> {
   CompiledProject data;
   String className;
   String classDocProjID;
   List<dynamic> questionData = [];
   GetProject proj;
-  _ViewClassDataState(
+  _TeacherViewClassDataState(
       GetProject proj, String classname, String classDocProjID) {
     this.proj = proj;
 
@@ -48,53 +49,9 @@ class _ViewClassDataState extends State<ViewClassData> {
   }
 
   Widget build(BuildContext context) {
-      //final user = Provider.of<Student>(context);
-    return MaterialApp(
-          theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        
-         brightness: Brightness.light,
-        //  accentColor: Colors.lightBlueAccent,
-        accentColor: Colors.deepPurpleAccent,
-        primarySwatch: Colors.deepPurple,
-        buttonTheme: ButtonThemeData(
-           buttonColor: Colors.indigo[600],
-           shape: RoundedRectangleBorder(),
-           textTheme: ButtonTextTheme.primary,
-           hoverColor: Colors.white,
-           highlightColor: Colors.blueGrey,
-          splashColor: Colors.purpleAccent,
-          
-          
-          
-        ),
-        cardTheme: CardTheme(
-          color: Colors.green[100],
-          
-        ),
-        iconTheme: IconThemeData(
-          color: Colors.grey,
-          
-          
-        ),
-        
-        
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        highlightColor: Colors.deepPurpleAccent,
-        // highlightColor: Colors.blueAccent,
-      ),
-          home: Scaffold(
+     
+    return Material(
+          child: Scaffold(
         appBar: AppBar(
             title: Text("View Data"),
             leading: IconButton(
@@ -102,21 +59,20 @@ class _ViewClassDataState extends State<ViewClassData> {
               onPressed: () => Navigator.pop(context, false),
 
             ),
-            /* actions: <Widget>[
+             actions: <Widget>[
             FlatButton.icon(
                 icon: Icon(Icons.home, color: Colors.black),
                 label: Text('Home', style: TextStyle(color: Colors.black)),
             onPressed: () {
-               Navigator.pushAndRemoveUntil(
+                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => StudentHome(classData: user.code,)),
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
                   (Route<dynamic> route) => false,
                 );
-                
                         
                 },
             ),
-          ],*/
+          ],
             ),
         body: Container(
           margin: EdgeInsets.all(40),
@@ -234,26 +190,7 @@ class _CompileDataState extends State<CompileData> {
       graphData
           .add(new GraphVals(key.toString(), value, _randColor.randomColor()));
     });
-    /*
-   proj.questions[_currentQuestion].compAnswers.forEach((element) {
-       String title="";
-       if(proj.questions[_currentQuestion].type=='MultipleChoice'){
-             title=proj.questions[_currentQuestion].answers[int.parse(element)];
-           }
-           else{
-             title = element.toString();
-           }
-         
-              RandomColor _randColor = RandomColor();
-              
-              while (colorKey.containsValue(_randColor.randomColor())){
-                _randColor=RandomColor();
-              }
-              colorKey[element]=_randColor.randomColor();
-           graphData.add(new GraphVals(title, elementCount[element], _randColor.randomColor() ));
-           // }
-    });*/
-
+ 
     multGraph.add(
       charts.Series(
         data: graphData,
@@ -400,7 +337,6 @@ return _color;
                             new EdgeInsets.only(right: 12.0, bottom: 4.0),
                         entryTextStyle: charts.TextStyleSpec(
                           color: charts.MaterialPalette.purple.shadeDefault,
-                          
                           fontFamily: 'Georgia',
                           fontSize: 20,
                         ),
