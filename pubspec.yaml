@@ -40,6 +40,7 @@ dependencies:
   flutter_google_maps: ^3.7.0
   js: ^0.6.1+1
   universal_html: ^1.1.10
+  flutter_icons: ^1.1.0
   
 
   image_cropper: ^1.2.1
@@ -79,17 +80,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
- fonts:
-    - family: Raleway
-      fonts:
-        - asset: fonts/Raleway-Regular.ttf
-        - asset: fonts/Raleway-Italic.ttf
-          style: italic
-    - family: RobotoMono
-      fonts:
-        - asset: fonts/RobotoMono-Regular.ttf
-        - asset: fonts/RobotoMono-Bold.ttf
-          weight: 700
+ 
   
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
