@@ -329,7 +329,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
     submitData(teachID) async {
       final int count = roster.length;
       //String val='Success!';
-      int rosterCount = 0;
+      //int rosterCount = 0;
       CollectionReference classRoster = Firestore.instance
           .collection('Teachers')
           .document(teachID)
@@ -348,12 +348,12 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           .collection('Classes')
           .document(classNameController.text.trim());
       //add students and project codes for existing projects
-      classInfo.get().then((doc) async {
-        print(doc.data['students']);
-        classInfo.updateData({'students': doc.data['students'] + count});
-        print(doc.data['students']);
-      });
-
+       classInfo.get().then((doc) async{
+          //print(doc.data['students']);
+          classInfo.updateData({'students':  doc.data['students']+count});
+          //print(doc.data['students']);
+        });
+        
       roster.forEach((e) async {
         DocumentReference newStudent =
             await classRoster.add({'name': e.controller.text});
@@ -405,11 +405,11 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         });
       });
 
-      //increment the count of students in the class
-        await classInfo.get().then((doc) {
-          print((doc.data['students'] + rosterCount).toString());
-          classInfo.updateData({'students': doc.data['students'] + rosterCount});
-        });
+      // //increment the count of students in the class
+      //   await classInfo.get().then((doc) {
+      //     print((doc.data['students'] + rosterCount).toString());
+      //     classInfo.updateData({'students': doc.data['students'] + rosterCount});
+      //   });
 
       showDialog(
         context: context,
