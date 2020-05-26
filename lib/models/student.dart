@@ -9,11 +9,13 @@ class Student{
   String studentID;
   String teacherID;
   String projectTitle;
+  String classSubject; 
   DateTime dueDate;
 
   Student({this.code}) {
     final codeDoc = Firestore.instance.collection('codes').document(code).get();
     codeDoc.then( (doc) {
+      print(doc.data['Subject'].toString()); 
       className = doc.data['Class'];
       studentName = doc.data['Name'];
       projectCode = doc.data['Project'];
@@ -21,6 +23,7 @@ class Student{
       studentID = doc.data['Student'];
       teacherID = doc.data['Teacher'];
       projectTitle = doc.data['ProjectTitle'];
+      classSubject = doc.data['Subject']; 
       dueDate = doc.data['dueDate'].toDate();
     });
   }

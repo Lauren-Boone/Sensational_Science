@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/getproject.dart';
 import 'package:provider/provider.dart';
@@ -14,12 +15,17 @@ class StudentHome extends StatelessWidget {
     @required this.classData,
   })  : assert(classData != null),
         super(key: key);
+        
 
   @override
   Widget build(BuildContext context) {
     final student = Student(code: classData);
+    // String subject = student.classSubject; 
+    // Icon icon = chooseIcon(subject); 
+    // print("Class Subject: " + student.classSubject); 
     return Provider<Student>(
       create: (_) => new Student(code: classData),
+      
       child: MaterialApp(
         theme: ThemeData(
           // This is the theme of your application.
@@ -161,9 +167,9 @@ class StudentHome extends StatelessWidget {
                   },
                 ),
                 Container(
-                  height: 120.0,
-                  width: 120.0,
-                  child: Image.asset('assets/images/logo.jpg'),
+                  height: 300.0,
+                  width: 300.0,
+                  child: Consumer<Student>(builder: (context, test, child) {return chooseIcon(test.classSubject.toString());},),
                 ),
               ],
             )),
@@ -176,5 +182,40 @@ class StudentHome extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Icon chooseIcon(String subject){ 
+  print("Choose Icon: " + subject.toString()); 
+  switch(subject){
+    case 'Physics':{
+      return Icon(Foundation.lightbulb, size: 150.0, color:Colors.orange); 
+    }
+    break; 
+    case 'Biology':{
+      return Icon(FontAwesome5Brands.canadian_maple_leaf, size: 150.0); 
+    }
+    break;
+        case 'Chemistry':{
+          return Icon(Octicons.beaker, size: 150.0); 
+    }
+    break; 
+        case 'Astronomy':{
+
+    }
+    break; 
+        case 'Geography':{
+          return Icon(Foundation.map, size: 150.0); 
+    }
+    break; 
+            case 'Geology':{
+              return Icon(Foundation.mountains, size: 150.0); 
+
+    }
+    default:{
+      return Icon(Ionicons.ios_school); 
+    }
+    break;
+  
   }
 }
