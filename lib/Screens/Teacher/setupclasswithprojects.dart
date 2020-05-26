@@ -39,6 +39,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   int _currentStep = 0;
   String name;
   List<DynamicWidget> roster = [];
+  List<String> addedStudents = [];
   @override
   Widget build(BuildContext context) {
     List<FAStep> steps = [
@@ -309,6 +310,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   }
 
   Widget addRoster() {
+
     addStudent() {
       roster.add(new DynamicWidget());
       setState(() {});
@@ -316,6 +318,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
 
     submitData(teachID) async {
       //String val='Success!';
+      int rosterCount = 0;
       CollectionReference classRoster = Firestore.instance
           .collection('Teachers')
           .document(teachID)
@@ -378,12 +381,17 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               'Subject': project.data['projectSubject'], //project subject
           });
         });
-        classInfo.get().then((doc) {
-          classInfo.updateData({'students': doc.data['students'] + 1});
-        });
+        addedStudents.add(e.controller.text);
+        print(rosterCount.toString());
+        rosterCount = rosterCount + 1;
+        print(rosterCount.toString());
       });
 
       //increment the count of students in the class
+        await classInfo.get().then((doc) {
+          print((doc.data['students'] + rosterCount).toString());
+          classInfo.updateData({'students': doc.data['students'] + rosterCount});
+        });
 
       showDialog(
         context: context,
@@ -405,6 +413,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         },
       );
       roster = [];
+      print(addedStudents.toString());
       setState(() {});
     }
 
@@ -418,34 +427,47 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         child: Column(
           children: <Widget>[
             new Text('Current Roster'),
-            new StreamBuilder(
-              stream: Firestore.instance
-                  .collection('Teachers')
-                  .document(user.uid)
-                  .collection('Classes')
-                  .document(classNameController.text)
-                  .collection('Roster')
-                  .snapshots(),
-              builder: (BuildContext context, snapshot) {
-                if (!snapshot.hasData) return new Text('...Loading');
-                return new Expanded(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: new ListView(
-                      children: snapshot.data.documents.map<Widget>((doc) {
-                        return new ListTile(
-                          title: new Text(doc['name']),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                );
-              },
+            new Expanded(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+                child: new ListView.builder(
+                  itemCount: addedStudents.length,
+                  itemBuilder: (context, index) {
+                    return new ListTile(
+                      title: Text(addedStudents[index]),
+                    );
+                  }
+                ),
+              ),
             ),
-            new Divider(
-              color: Colors.deepPurple,
-              height: 10.0,
-            ),
+//            new StreamBuilder(
+            //   stream: Firestore.instance
+            //       .collection('Teachers')
+            //       .document(user.uid)
+            //       .collection('Classes')
+            //       .document(classNameController.text)
+            //       .collection('Roster')
+            //       .snapshots(),
+            //   builder: (BuildContext context, snapshot) {
+            //     if (!snapshot.hasData) return new Text('...Loading');
+            //     return new Expanded(
+            //       child: SizedBox(
+            //         height: MediaQuery.of(context).size.height * 0.8,
+            //         child: new ListView(
+            //           children: snapshot.data.documents.map<Widget>((doc) {
+            //             return new ListTile(
+            //               title: new Text(doc['name']),
+            //             );
+            //           }).toList(),
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
+            // new Divider(
+            //   color: Colors.deepPurple,
+            //   height: 10.0,
+            // ),
             new Text('Students to add:'),
             new Expanded(
               child: new SizedBox(
