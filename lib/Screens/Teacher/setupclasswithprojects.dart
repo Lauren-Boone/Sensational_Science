@@ -127,9 +127,10 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               });
             }
            else {
-              Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context)=> TeacherHome())
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
                 );
               showDialog(
                 context: context,
@@ -464,10 +465,10 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
             //     );
             //   },
             // ),
-            // new Divider(
-            //   color: Colors.deepPurple,
-            //   height: 10.0,
-            // ),
+            new Divider(
+              color: Colors.deepPurple,
+              height: 10.0,
+            ),
             new Text('Students to add:'),
             new Expanded(
               child: new SizedBox(
