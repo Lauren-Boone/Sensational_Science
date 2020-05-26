@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:random_color/random_color.dart';
 import 'package:sensational_science/Screens/Teacher/classProjects.dart';
 import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
@@ -31,7 +32,16 @@ class _ClassInfoState extends State<ClassInfo> {
         .collection('Classes')
         .snapshots());
   }
+Color getColor(){
+    RandomColor _randomColor = RandomColor();
 
+Color _color = _randomColor.randomColor(
+  colorSaturation: ColorSaturation.lowSaturation,
+  colorHue: ColorHue.blue,
+  colorBrightness: ColorBrightness.primary,
+);
+return _color;
+}
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -161,6 +171,8 @@ class _ClassInfoState extends State<ClassInfo> {
                   List<ListTile> tiles = [];
                   for (var index = 0; index < fields.length; index++) {
                     tiles.add(ListTile(
+                      selected: true,
+                      focusColor: getColor(),
                       title: Text(headings[index] +
                           document.data[fields[index]].toString()),
                     ));

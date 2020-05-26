@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Screens/Teacher/FormInputs/imageCapture/imageCaptureService.dart';
 import 'package:sensational_science/Services/projectDB.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import '../../Services/getproject.dart';
 import 'package:sensational_science/Screens/Teacher/textquestion.dart';
 import 'package:sensational_science/Screens/Teacher/multiplechoicequestion.dart';
@@ -119,46 +120,49 @@ bool _checkforAnswers(){
   }
 
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      
-      home: new Scaffold(
-        appBar: AppBar(
-            title: Text("Collect Data For Your Project"),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () => Navigator.pop(context, false),
-            ),
-            backgroundColor: Colors.deepPurple,
-            ),
-        body: widget.project.questions.length == 0
-            ? Center(
-                child: Column(children: <Widget>[
-                  Card(
-                    child: Text(widget.project.title),
-                  ),
-                  RaisedButton(
-                    onPressed: () {
-                      setState(() {});
-                    },
-                    child: Text('Click to View Questions'),
-                    color: Colors.blue,
-                  ),
-                ]),
-              )
-            : Center(
-                child: FutureBuilder(
-                    future: _getType(_currentQuestion),
-                    builder: (context, snapshot) {
-                      if (snapshot.data != null) {
-                        return getQuestionWidget(context, snapshot.data);
-                      } else if (_currentQuestion >=
-                          widget.project.questions.length) {
-                        return getQuestionWidget(context, -1);
-                      } else {
-                        return CircularProgressIndicator();
-                      }
-                    })),
+    return Container(
+      child: new MaterialApp(
+        theme: appTheme,
         
+        home: new Scaffold(
+          appBar: AppBar(
+              title: Text("Collect Data For Your Project"),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context, false),
+              ),
+              //backgroundColor: Colors.deepPurple,
+              ),
+          body: widget.project.questions.length == 0
+              ? Center(
+                  child: Column(children: <Widget>[
+                    Card(
+                      child: Text(widget.project.title),
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        setState(() {});
+                      },
+                      child: Text('Click to View Questions'),
+                      //color: Colors.blue,
+                    ),
+                  ]),
+                )
+              : Center(
+                  child: FutureBuilder(
+                      future: _getType(_currentQuestion),
+                      builder: (context, snapshot) {
+                        if (snapshot.data != null) {
+                          return getQuestionWidget(context, snapshot.data);
+                        } else if (_currentQuestion >=
+                            widget.project.questions.length) {
+                          return getQuestionWidget(context, -1);
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      })),
+          
+        ),
       ),
     );
   }

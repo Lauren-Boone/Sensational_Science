@@ -8,6 +8,7 @@ import 'package:sensational_science/Screens/Teacher/addProjectToClass.dart';
 import 'package:sensational_science/Screens/Teacher/addRoster.dart';
 import 'package:sensational_science/Screens/Teacher/teacher_add_class.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/classInfo.dart';
 import 'package:sensational_science/models/user.dart';
 import 'package:flutter/rendering.dart';
@@ -62,99 +63,107 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         content: addProject(),
       ),
     ];
-    return Scaffold(
-        appBar: AppBar(
+    return Material(
+          child: Scaffold(
+          appBar: AppBar(
             title: Text("Set up a Class"),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false),
-            )),
-        body: //SingleChildScrollView(
-          //child: 
-          FAStepper(
-          type: FAStepperType.horizontal,
-          titleIconArrange: FAStepperTitleIconArrange.column,
-          stepNumberColor: Colors.pink,
-          currentStep: _currentStep,
-          titleHeight: 90,
-          steps: steps,
-          onStepCancel: () => {
-            Navigator.of(context).pop(),
-          },
-         
-          onStepContinue: () {
-            
-            if (_currentStep == 0 && hasClass == false) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text("You must create and submit a class first!"),
-                      content: Text("Please be sure to submit your data."),
-                      actions: <Widget>[
-                        RaisedButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ]);
+            ),
+            actions: <Widget>[
+              new FlatButton.icon(
+                onPressed: () => {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Material(
+                          //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+                          child: SetUpClassHelp(),
+                        );
+                      }),
                 },
-              );
-            }
-            if (_currentStep == 1 && hasRoster == false) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text(
-                          "You must create and submit a class Roster first!"),
-                      content:
-                          Text("Please be sure to submit your roster data."),
-                      actions: <Widget>[
-                        RaisedButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ]);
-                },
-              );
-            } if(_currentStep != 2) {
-              setState(() {
-                _currentStep++;
-              });
-            }
-           else {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeacherHome()),
-                  (Route<dynamic> route) => false,
+                icon: Icon(Icons.help, color: Colors.black),
+                label: Text("Help", style: TextStyle(color: Colors.black)),
+              ),
+            ],
+          ),
+          body: FAStepper(
+            type: FAStepperType.horizontal,
+            titleIconArrange: FAStepperTitleIconArrange.column,
+            stepNumberColor: Colors.pink,
+            currentStep: _currentStep,
+            titleHeight: 90,
+            steps: steps,
+            onStepCancel: () => {
+              Navigator.of(context).pop(),
+            },
+            onStepContinue: () {
+              if (_currentStep == 0 && hasClass == false) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text("You must create and submit a class first!"),
+                        content: Text("Please be sure to submit your data."),
+                        actions: <Widget>[
+                          RaisedButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ]);
+                  },
                 );
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text("Success! You have set up a class"),
-                      content: Text(
-                          "You can add more projects to this class in the add project to class section and add more student to the roster under the class info"),
-                      actions: <Widget>[
-                        RaisedButton(
-                          child: Text("Close"),
-                          onPressed: () {
-                            
-                            Navigator.of(context).pop();
-                            
-                          },
-                        )
-                      ]);
-                },
-              );
-            }
-          },
-        ),
-        //),
+              }
+              if (_currentStep == 1 && hasRoster == false) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text(
+                            "You must create and submit a class Roster first!"),
+                        content:
+                            Text("Please be sure to submit your roster data."),
+                        actions: <Widget>[
+                          RaisedButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ]);
+                  },
+                );
+              }
+              if (_currentStep != 2) {
+                setState(() {
+                  _currentStep++;
+                });
+              } else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TeacherHome()));
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text("Success! You have set up a class"),
+                        content: Text(
+                            "You can add more projects to this class in the add project to class section and add more student to the roster under the class info"),
+                        actions: <Widget>[
+                          RaisedButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ]);
+                  },
+                );
+              }
+            },
+          )),
     );
   }
 
@@ -354,20 +363,24 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           int newCode;
           do {
             newCode = Random().nextInt(10000000);
-            newCode = newCode<1000000?newCode+999999:newCode;        
-            await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
-              exists = doc.exists?true:false;
+            newCode = newCode < 1000000 ? newCode + 999999 : newCode;
+            await Firestore.instance
+                .collection('codes')
+                .document(newCode.toString())
+                .get()
+                .then((doc) {
+              exists = doc.exists ? true : false;
             });
             //print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
           } while (exists);
           await classProjects
-            .document(project.documentID)
-            .collection('Students')
-            .document(newCode.toString())
-            .setData({
-              'student': newStudent.documentID, //student doc id in roster
-              'completed': false, //has student submitted data
-              'name': e.controller.text,//student's name for reference
+              .document(project.documentID)
+              .collection('Students')
+              .document(newCode.toString())
+              .setData({
+            'student': newStudent.documentID, //student doc id in roster
+            'completed': false, //has student submitted data
+            'name': e.controller.text, //student's name for reference
           });
           await newStudent.setData({
             'codes': FieldValue.arrayUnion([
@@ -375,24 +388,22 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
             ]) //list of codes for each student for all projects, {projectCode : studentCode}
           }, merge: true);
           await Firestore.instance
-            .collection('codes')
-            .document(newCode.toString())
-            .setData({
-              'Teacher': teachID, //teacher doc id
-              'Class': classNameController.text.trim(), //class doc id
-              'Student': newStudent.documentID, //student doc id in roster
-              'Name': e.controller.text, //student name in roster
-              'Project': project.documentID, //project doc id in class
-              'ProjectID': project.data['projectID'], //project doc id in top level project collection
-              'ProjectTitle': project.data['projectTitle'], //project title
-              'dueDate': project.data['dueDate'], //project due date
-              'Subject': project.data['projectSubject'], //project subject
+              .collection('codes')
+              .document(newCode.toString())
+              .setData({
+            'Teacher': teachID, //teacher doc id
+            'Class': classNameController.text.trim(), //class doc id
+            'Student': newStudent.documentID, //student doc id in roster
+            'Name': e.controller.text, //student name in roster
+            'Project': project.documentID, //project doc id in class
+            'ProjectID': project.data[
+                'projectID'], //project doc id in top level project collection
+            'ProjectTitle': project.data['projectTitle'], //project title
+            'dueDate': project.data['dueDate'], //project due date
+            'Subject': project.data['projectSubject'], //project subject
           });
         });
-      
       });
-      
-
 
       // //increment the count of students in the class
       //   await classInfo.get().then((doc) {
@@ -504,7 +515,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   Widget addProject() {
     Future<void> assignProject(String uid, String className, String projectID,
         DateTime dueDate) async {
-          print(dueDate);
+      print(dueDate);
       //create project under the class
       DocumentReference classDoc = Firestore.instance
           .collection('Teachers')
@@ -536,20 +547,25 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         int newCode;
         do {
           newCode = Random().nextInt(10000000);
-          newCode = newCode<1000000?newCode+999999:newCode;        
-          await Firestore.instance.collection('codes').document(newCode.toString()).get().then((doc) {
-            exists = doc.exists?true:false;
+          newCode = newCode < 1000000 ? newCode + 999999 : newCode;
+          await Firestore.instance
+              .collection('codes')
+              .document(newCode.toString())
+              .get()
+              .then((doc) {
+            exists = doc.exists ? true : false;
           });
           //print('code: ' + newCode.toString() + ' exists: ' + exists.toString());
         } while (exists);
-        await classDoc.collection('Projects')
-          .document(projRef.documentID)
-          .collection('Students')
-          .document(newCode.toString())
-          .setData({
-            'student': student.documentID, //student doc id in roster
-            'completed': false, //has student submitted data
-            'name': student.data['name'], //add student name for reference
+        await classDoc
+            .collection('Projects')
+            .document(projRef.documentID)
+            .collection('Students')
+            .document(newCode.toString())
+            .setData({
+          'student': student.documentID, //student doc id in roster
+          'completed': false, //has student submitted data
+          'name': student.data['name'], //add student name for reference
         });
         await classDoc
             .collection('Roster')
@@ -601,11 +617,11 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.1,
-                bottom: 10.0),
+                  left: MediaQuery.of(context).size.width * 0.1, bottom: 10.0),
               child: Row(
                 children: [
-                  Text("View my projects only",
+                  Text(
+                    "View my projects only",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Switch(
@@ -621,142 +637,150 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                 ],
               ),
             ),
-            myProjectsOnly ? new StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection('Teachers').document(user.uid).collection('Created Projects').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(
-                    child: Text('Loading . . .'),
-                  );
-                return new Container(
-                  padding: EdgeInsets.only(bottom: 10.0),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: new Row(
-                    children: <Widget>[
-                      new Expanded(
-                        flex: 2,
-                        child: new Container(
-                         padding:
-                              EdgeInsets.fromLTRB(10.0, 10.0, 7.0, 8.0),
-                          child: Text("Project to Assign"),
-                        ),
-                      ),
-                      new Expanded(
-                        flex: 4,
-                        child: new InputDecorator(
-                          decoration: const InputDecoration(
-                            hintText: 'Choose a project',
-                            hintStyle: TextStyle(
-                              color: Colors.green,
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.normal,
+            myProjectsOnly
+                ? new StreamBuilder<QuerySnapshot>(
+                    stream: Firestore.instance
+                        .collection('Teachers')
+                        .document(user.uid)
+                        .collection('Created Projects')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return Center(
+                          child: Text('Loading . . .'),
+                        );
+                      return new Container(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: new Row(
+                          children: <Widget>[
+                            new Expanded(
+                              flex: 2,
+                              child: new Container(
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 10.0, 7.0, 8.0),
+                                child: Text("Project to Assign"),
+                              ),
                             ),
-                          ),
-                          isEmpty: _project == null,
-                          child: new DropdownButton(
-                            value: _project,
-                            isDense: true,
-                            onChanged: (String newValue) {
-                              setState(() {
-                                _project = newValue;
-                                print(_project);
-                              });
-                            },
-                            items: snapshot.data.documents
-                                .map((DocumentSnapshot document) {
-                              return new DropdownMenuItem<String>(
-                                value: document.data['docIDref'],
-                                child: new Container(
-                                  decoration: new BoxDecoration(
-                                    color: Colors.lightGreen,
-                                    borderRadius:
-                                        new BorderRadius.circular(3.0),
+                            new Expanded(
+                              flex: 4,
+                              child: new InputDecorator(
+                                decoration: const InputDecoration(
+                                  hintText: 'Choose a project',
+                                  hintStyle: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                  height: 32.0,
-                                  width: MediaQuery.of(context).size.width *
-                                      0.5,
-                                  padding: EdgeInsets.fromLTRB(
-                                      10.0, 5.0, 10.0, 0.0),
-                                  child: Text(document.data['title']),
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ) 
-            : new StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection('Projects').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(
-                    child: Text('Loading . . .'),
-                  );
-                return new Container(
-                  padding: EdgeInsets.only(bottom: 10.0),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: new Row(
-                    children: <Widget>[
-                      new Expanded(
-                        flex: 2,
-                        child: new Container(
-                          padding:
-                              EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                          child: Text("Project to Assign"),
-                        ),
-                      ),
-                      new Expanded(
-                        flex: 4,
-                        child: new InputDecorator(
-                          decoration: const InputDecoration(
-                            hintText: 'Choose a project',
-                            hintStyle: TextStyle(
-                              color: Colors.green,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.normal,
+                                isEmpty: _project == null,
+                                child: new DropdownButton(
+                                  value: _project,
+                                  isDense: true,
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      _project = newValue;
+                                      print(_project);
+                                    });
+                                  },
+                                  items: snapshot.data.documents
+                                      .map((DocumentSnapshot document) {
+                                    return new DropdownMenuItem<String>(
+                                      value: document.data['docIDref'],
+                                      child: new Container(
+                                        decoration: new BoxDecoration(
+                                          color: Colors.lightGreen,
+                                          borderRadius:
+                                              new BorderRadius.circular(3.0),
+                                        ),
+                                        height: 32.0,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.5,
+                                        padding: EdgeInsets.fromLTRB(
+                                            10.0, 5.0, 10.0, 0.0),
+                                        child: Text(document.data['title']),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          isEmpty: _project == null,
-                          child: new DropdownButton(
-                            value: _project,
-                            isDense: true,
-                            onChanged: (String newValue) {
-                              setState(() {
-                                _project = newValue;
-                                print(_project);
-                              });
-                            },
-                            items: snapshot.data.documents
-                                .map((DocumentSnapshot document) {
-                              return new DropdownMenuItem<String>(
-                                value: document.documentID,
-                                child: new Container(
-                                  decoration: new BoxDecoration(
-                                    color: Colors.lightGreen,
-                                    borderRadius:
-                                        new BorderRadius.circular(3.0),
-                                  ),
-                                  height: 32.0,
-                                  width: MediaQuery.of(context).size.width *
-                                      0.52,
-                                  padding: EdgeInsets.fromLTRB(
-                                      10.0, 5.0, 10.0, 0.0),
-                                  child: Text(document.data['title']),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                          ],
                         ),
-                      ),
-                    ],
+                      );
+                    },
+                  )
+                : new StreamBuilder<QuerySnapshot>(
+                    stream:
+                        Firestore.instance.collection('Projects').snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return Center(
+                          child: Text('Loading . . .'),
+                        );
+                      return new Container(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: new Row(
+                          children: <Widget>[
+                            new Expanded(
+                              flex: 2,
+                              child: new Container(
+                                padding:
+                                    EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
+                                child: Text("Project to Assign"),
+                              ),
+                            ),
+                            new Expanded(
+                              flex: 4,
+                              child: new InputDecorator(
+                                decoration: const InputDecoration(
+                                  hintText: 'Choose a project',
+                                  hintStyle: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                isEmpty: _project == null,
+                                child: new DropdownButton(
+                                  value: _project,
+                                  isDense: true,
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      _project = newValue;
+                                      print(_project);
+                                    });
+                                  },
+                                  items: snapshot.data.documents
+                                      .map((DocumentSnapshot document) {
+                                    return new DropdownMenuItem<String>(
+                                      value: document.documentID,
+                                      child: new Container(
+                                        decoration: new BoxDecoration(
+                                          color: Colors.lightGreen,
+                                          borderRadius:
+                                              new BorderRadius.circular(3.0),
+                                        ),
+                                        height: 32.0,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.52,
+                                        padding: EdgeInsets.fromLTRB(
+                                            10.0, 5.0, 10.0, 0.0),
+                                        child: Text(document.data['title']),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
             Container(
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.1, bottom: 10.0),
@@ -782,7 +806,8 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
               child: RaisedButton(
                 onPressed: () async {
                   if (_project != null && _date != null) {
-                    await assignProject(user.uid, classNameController.text.trim(), _project, _date);
+                    await assignProject(user.uid,
+                        classNameController.text.trim(), _project, _date);
                   } else {
                     return showDialog(
                       context: context,
@@ -842,6 +867,87 @@ class DynamicWidget extends StatelessWidget {
         child: new TextField(
           controller: controller,
           decoration: new InputDecoration(hintText: 'Enter Student Name'),
+        ),
+      ),
+    );
+  }
+}
+
+class SetUpClassHelp extends StatefulWidget {
+  @override
+  _SetUpClassHelp createState() => _SetUpClassHelp();
+}
+
+class _SetUpClassHelp extends State<SetUpClassHelp> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      //theme: modalHelpTheme,
+      child: Container(
+        color: modalHelpTheme.backgroundColor,
+        padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                "Set up a Class",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              trailing: Icon(
+                Icons.help,
+                semanticLabel: 'Close',
+              ),
+              onTap: () => {Navigator.of(context).pop()},
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    "This pages guides you through setting up a class, adding a roster, and adding projects to a class",
+                    style: modalInfo,
+                  ),
+                ),
+                Text(
+                  "Step 1: Set up a Class ",
+                  style: modalLabel,
+                ),
+                Text(
+                  '-Enter your class details here and click register to add the class.',
+                  style: modalInfo,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Step 2: Create a Roster ",
+                  style: modalLabel,
+                ),
+                Text(
+                  "-Add as many students as you like with the 'Add Another Student' button. Click submit to add the students",
+                  style: modalInfo,
+                ),
+                
+                SizedBox(height: 20),
+                 Text(
+                  "Step 3: Add Projects to the Class",
+                  style: modalLabel,
+                ),
+                Text(
+                  "-Chose from projects you have created or public projects to add to the class. This step is not required.",
+                  style: modalInfo,
+                ),
+                
+            
+                SizedBox(height: 20),
+               
+                      
+                
+              ],
+            ),
+          ],
         ),
       ),
     );
