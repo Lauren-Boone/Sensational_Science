@@ -65,7 +65,7 @@ final modalHelpTheme = ThemeData(
 );
 
 const modalLabel = TextStyle(
-  fontSize: 20,
+  fontSize: 15,
   fontWeight: FontWeight.bold,
   color: Colors.black,
   decoration: TextDecoration.none,
@@ -73,7 +73,7 @@ const modalLabel = TextStyle(
 );
 
 const modalInfo = TextStyle(
-  fontSize: 20,
+  fontSize: 15,
   fontWeight: FontWeight.normal,
   color: Colors.black,
   decoration: TextDecoration.none,

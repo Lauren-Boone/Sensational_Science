@@ -137,11 +137,11 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                   },
                 );
               }
-              if (_currentStep != 2) {
+              else if (_currentStep != 2 && hasClass==true) {
                 setState(() {
                   _currentStep++;
                 });
-              } else {
+              } else if(hasClass==true) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => TeacherHome()));
                 showDialog(

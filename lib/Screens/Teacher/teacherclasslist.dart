@@ -28,7 +28,7 @@ Color getColor(){
 
 Color _color = _randomColor.randomColor(
   colorSaturation: ColorSaturation.lowSaturation,
-  colorHue: ColorHue.green,
+  colorHue: ColorHue.multiple(colorHues: [ColorHue.green, ColorHue.blue]),
   colorBrightness: ColorBrightness.primary,
 );
 return _color;

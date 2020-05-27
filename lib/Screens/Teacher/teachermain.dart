@@ -244,113 +244,117 @@ class _MainHelpState extends State<MainHelp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: modalHelpTheme,
-      home: Container(
-        color: modalHelpTheme.backgroundColor,
-        padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                "This is your home page",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23,
-                  ),
-                textAlign: TextAlign.center,
-              ),
-              trailing: Icon(
-                Icons.help,
-                semanticLabel: 'Close',
-              ),
-              onTap: () => {Navigator.of(context).pop()},
-            ),
-            Column(
-           crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ListTile(
-                  title: Text("From this page you can navigate to:",
-                      style: modalLabel),
+      home: SingleChildScrollView(
+              child: Container(
+          color: modalHelpTheme.backgroundColor,
+          padding: EdgeInsets.fromLTRB(30, 10, 10, 30),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  "This is your home page",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 23,
+                    ),
+                  textAlign: TextAlign.center,
                 ),
-                RichText(
-                  text: TextSpan(
-                      text: "Classes: ",
-                      style: modalLabel,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              'Here you will find your current classes with their projects, rosters, and class info',
-                          style: modalInfo,
-                        ),
-                      ]),
+                trailing: Icon(
+                  Icons.help,
+                  semanticLabel: 'Close',
                 ),
-                SizedBox(height: 20),
-                RichText(
-                    text: TextSpan(
-                        text: "Set Up a Class: ",
-                        style: modalLabel,
-                        children: <TextSpan>[
-                      TextSpan(
-                        text:
-                            "Here you can create up a new class, add a roster to the class and add projects to the class ",
-                        style: modalInfo,
-                      ),
-                    ])),
+                onTap: () => {Navigator.of(context).pop()},
+              ),
+              SingleChildScrollView(
+                            child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ListTile(
+                      title: Text("From this page you can navigate to:",
+                          style: modalLabel),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                          text: "Classes: ",
+                          style: modalLabel,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  'Here you will find your current classes with their projects, rosters, and class info',
+                              style: modalInfo,
+                            ),
+                          ]),
+                    ),
+                    SizedBox(height: 20),
+                    RichText(
+                        text: TextSpan(
+                            text: "Set Up a Class: ",
+                            style: modalLabel,
+                            children: <TextSpan>[
+                          TextSpan(
+                            text:
+                                "Here you can create up a new class, add a roster to the class and add projects to the class ",
+                            style: modalInfo,
+                          ),
+                        ])),
+                         SizedBox(height: 20),
+                    RichText(
+                      text: TextSpan(
+                          text: "View All Projects: ",
+                          style: modalLabel,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  "This is a listing of all public projects in the database",
+                              style: modalInfo,
+                            ),
+                          ]),
+                    ),
                      SizedBox(height: 20),
-                RichText(
-                  text: TextSpan(
-                      text: "View All Projects: ",
-                      style: modalLabel,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              "This is a listing of all public projects in the database",
-                          style: modalInfo,
-                        ),
-                      ]),
+                    RichText(
+                      text: TextSpan(
+                          text: "View Your Projects: ",
+                          style: modalLabel,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  "This is a listing of all the project you have created or added from the public projects",
+                              style: modalInfo,
+                            ),
+                          ]),
+                    ),
+                     SizedBox(height: 20),
+                    RichText(
+                      text: TextSpan(
+                          text: "Create A Project: ",
+                          style: modalLabel,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  "This is a custom form builder that allows you to create a custom project for you class",
+                              style: modalInfo,
+                            ),
+                          ]),
+                    ),
+                     SizedBox(height: 20),
+                    RichText(
+                      text: TextSpan(
+                          text: "Assign a Project to a Class: ",
+                          style: modalLabel,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  "You can add a project to any class that has a roster",
+                              style: modalInfo,
+                            ),
+                          ]),
+                    ),
+                     
+                  ],
                 ),
-                 SizedBox(height: 20),
-                RichText(
-                  text: TextSpan(
-                      text: "View Your Projects: ",
-                      style: modalLabel,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              "This is a listing of all the project you have created or added from the public projects",
-                          style: modalInfo,
-                        ),
-                      ]),
-                ),
-                 SizedBox(height: 20),
-                RichText(
-                  text: TextSpan(
-                      text: "Create A Project: ",
-                      style: modalLabel,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              "This is a custom form builder that allows you to create a custom project for you class",
-                          style: modalInfo,
-                        ),
-                      ]),
-                ),
-                 SizedBox(height: 20),
-                RichText(
-                  text: TextSpan(
-                      text: "Assign a Project to a Class: ",
-                      style: modalLabel,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              "You can add a project to any class that has a roster",
-                          style: modalInfo,
-                        ),
-                      ]),
-                ),
-                 
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
