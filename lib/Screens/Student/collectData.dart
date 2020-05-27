@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
@@ -411,6 +412,23 @@ bool _checkforAnswers(){
                     );
                   }),
             ),
+            //DO NOT DELETE - Working on previewing photo, only works with first loaded photo
+            // Container(
+            //   margin: EdgeInsets.all(10),
+            //   width: MediaQuery.of(context).size.width / 1.2,
+            //   child: FutureBuilder(
+            //       future: getImage(widget.student.code, _currentQuestion.toString()),
+            //       builder: (context, answer) {
+            //         if (!answer.hasData) return Text('');
+            //         if (answer.data == null) return Text('');
+            //         return Container(
+            //           padding: EdgeInsets.all(10.0),
+            //           height: MediaQuery.of(context).size.height * 0.4,
+            //           child: new Image.file(answer.data,
+            //           height: MediaQuery.of(context).size.height * 0.3,),
+            //           );
+            //       }),
+            // ),
             getNextButton(context),
             getPrevButton(context)
           ]);

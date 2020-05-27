@@ -52,23 +52,12 @@ class ViewProject extends StatefulWidget {
   final GetProject project;
   bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
-  // Observation studentObservations;
-//GetProject project;
   ViewProject(this.title, this.docIDref, this.project, this.createdProjectID,
       this.student) {
-    //this.docIDref = docID;
-
-    // this.project = project;
-
-    // this.controllers = new List();
-    //project.questionData().then((ignore) {
     for (int i = 1; i < this.project.questions.length; i++) {
       controllers.add(new TextEditingController());
       print("Values of i " + i.toString());
     }
-    // });
-
-    // studentObservations = new Observation(docID);
   }
 
   AddProject proj;
@@ -149,7 +138,6 @@ class _ViewProjectState extends State<ViewProject> {
                     return CircularProgressIndicator();
                   }
                 })
-            // )
             ),
         floatingActionButton: RaisedButton(
           onPressed: () {
@@ -313,16 +301,18 @@ class _ViewProjectState extends State<ViewProject> {
       }
     } else {
       return Column(children: <Widget>[
-        Text(
-            "Would you like to save your answers as an answer key/example project?",
-            textScaleFactor: 2),
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child:Text(
+              "Would you like to save your answers as an answer key/example project?",
+              textScaleFactor: 2),
+        ),
         RaisedButton(
           child: Text('Go back and review answers'),
           onPressed: () => {
             setState(() {
               _currentQuestion = 0;
             }),
-            //getQuestionWidget(),
           },
         ),
         RaisedButton(
