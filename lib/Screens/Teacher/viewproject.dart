@@ -104,48 +104,51 @@ class _ViewProjectState extends State<ViewProject> {
     List<TextEditingController> answers = [];
     return new Material(
       child: new Scaffold(
-        appBar: AppBar(
-          title: Text("Your Project"),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-         // backgroundColor: Colors.deepPurple,
-          actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.home, color: Colors.black),
-              label: Text('Home', style: TextStyle(color: Colors.black)),
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeacherHome()),
-                  (Route<dynamic> route) => false,
-                );
-              },
+          appBar: AppBar(
+            title: Text("Your Project"),
+            leading: IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () => Navigator.pop(context, false),
             ),
-          ],
-        ),
-        body: Center(
-            child: FutureBuilder(
-                future: _getType(_currentQuestion),
-                builder: (context, snapshot) {
-                  if (snapshot.data != null) {
-                    return getQuestionWidget(context, snapshot.data);
-                  } else if (_currentQuestion >=
-                      widget.project.questions.length) {
-                    return getQuestionWidget(context, -1);
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                })
-            ),
-        floatingActionButton: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back'),
-        ),
+           // backgroundColor: Colors.deepPurple,
+            actions: <Widget>[
+      FlatButton.icon(
+        icon: Icon(Icons.home, color: Colors.black),
+        label: Text('Home', style: TextStyle(color: Colors.black)),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => TeacherHome()),
+            (Route<dynamic> route) => false,
+          );
+        },
       ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Center(
+        child: FutureBuilder(
+            future: _getType(_currentQuestion),
+            builder: (context, snapshot) {
+              if (snapshot.data != null) {
+                return getQuestionWidget(context, snapshot.data);
+              } else if (_currentQuestion >=
+                  widget.project.questions.length) {
+                return getQuestionWidget(context, -1);
+              } else {
+                return CircularProgressIndicator();
+              }
+            })
+        // )
+        ),
+          ),
+      //     floatingActionButton: RaisedButton(
+      //       onPressed: () {
+      // Navigator.pop(context);
+      //       },
+      //       child: Text('Go back'),
+      //     ),
+        ),
     );
   }
 

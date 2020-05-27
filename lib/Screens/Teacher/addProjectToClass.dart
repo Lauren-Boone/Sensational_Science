@@ -529,81 +529,83 @@ class _AddProjectToClassHelpState extends State<AddProjectToClassHelp> {
   Widget build(BuildContext context) {
      return MaterialApp(
       theme: modalHelpTheme,
-      home: Container(
-        color: modalHelpTheme.backgroundColor,
-        padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                "Create a Project",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 23,
+      home: SingleChildScrollView(
+              child: Container(
+          color: modalHelpTheme.backgroundColor,
+          padding: EdgeInsets.fromLTRB(30, 0, 10, 30),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  "Create a Project",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
+                trailing: Icon(
+                  Icons.help,
+                  semanticLabel: 'Close'
+                  ,
+                ),
+                onTap: () => {Navigator.of(context).pop()},
               ),
-              trailing: Icon(
-                Icons.help,
-                semanticLabel: 'Close'
-                ,
-              ),
-              onTap: () => {Navigator.of(context).pop()},
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ListTile(
-                  title: Text(
-                    "This pages allows you to add projects to a class. ",
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      "This pages allows you to add projects to a class. ",
+                      style: modalInfo,
+                    ),
+                  ),
+                  Text(
+                    "Step 1: Select a Class",
+                    style: modalLabel,
+                  ),
+                  Text(
+                    '-Select a class from the dropdown menu',
                     style: modalInfo,
                   ),
-                ),
-                Text(
-                  "Step 1: Select a Class",
-                  style: modalLabel,
-                ),
-                Text(
-                  '-Select a class from the dropdown menu',
-                  style: modalInfo,
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Step 2: Select a Project",
-                  style: modalLabel,
-                ),
-                Text(
-                  "-Toggle between projects in your list or public projects then select the project for the class",
-                  style: modalInfo,
-                ),
-                
-                SizedBox(height: 20),
-                 Text(
-                  "Step 3: Pick a Due Date",
-                  style: modalLabel,
-                ),
-                Text(
-                  "-Chose a due data for the project\n-Note that the due date can be changes by going to the class data page. ",
-                  style: modalInfo,
-                ),
-                
-            
-                SizedBox(height: 20),
-                 Text(
-                  "Submit",
-                  style: modalLabel,
-                ),
-                Text(
-                  "-You will now be able to view the class project.\n -Each student will have their own personal code to use to access the project\n-You can view the codes under the class information section",
-                  style: modalInfo,
-                ),
-                
-               
-                      
-                
-              ],
-            ),
-          ],
+                  SizedBox(height: 20),
+                  Text(
+                    "Step 2: Select a Project",
+                    style: modalLabel,
+                  ),
+                  Text(
+                    "-Toggle between projects in your list or public projects then select the project for the class",
+                    style: modalInfo,
+                  ),
+                  
+                  SizedBox(height: 20),
+                   Text(
+                    "Step 3: Pick a Due Date",
+                    style: modalLabel,
+                  ),
+                  Text(
+                    "-Chose a due data for the project\n-Note that the due date can be changes by going to the class data page. ",
+                    style: modalInfo,
+                  ),
+                  
+              
+                  SizedBox(height: 20),
+                   Text(
+                    "Submit",
+                    style: modalLabel,
+                  ),
+                  Text(
+                    "-You will now be able to view the class project.\n -Each student will have their own personal code to use to access the project\n-You can view the codes under the class information section",
+                    style: modalInfo,
+                  ),
+                  
+                 
+                        
+                  
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
