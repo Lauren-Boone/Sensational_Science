@@ -83,7 +83,7 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
               RaisedButton(
                   child: Text('Click to view compiled data for each question'),
                   onPressed: () {
-                    //if(data.answers.length==0){
+                    if(data.hasAnswers == false){
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -100,8 +100,8 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
                                 )
                               ]);
                         });
-                    // }
-                    // else{
+                     }
+                    else{
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -109,7 +109,7 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
                             CompileData(proj: proj, compData: data),
                       ),
                     );
-                    // }
+                   }
                   }),
             ]),
           ),
@@ -345,16 +345,14 @@ class _CompileDataState extends State<CompileData> {
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text(
-                      "#" +
-                          (_currentQuestion + 1).toString() +
-                          ": " +
-                          widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                    ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25, decoration: TextDecoration.none),
                   ),
                 ),
                 new Expanded(
@@ -448,16 +446,14 @@ class _CompileDataState extends State<CompileData> {
             constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
             child: Column(
               children: <Widget>[
-                new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text(
-                      "#" +
-                          (_currentQuestion + 1).toString() +
-                          ": " +
-                          widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                    ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25),
                   ),
                 ),
                 Container(
@@ -481,16 +477,14 @@ class _CompileDataState extends State<CompileData> {
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text(
-                      "#" +
-                          (_currentQuestion + 1).toString() +
-                          ": " +
-                          widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                    ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25),
                   ),
                 ),
                 new Expanded(
@@ -546,16 +540,14 @@ class _CompileDataState extends State<CompileData> {
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              new Card(
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: new Text(
-                    "#" +
-                        (_currentQuestion + 1).toString() +
-                        ": " +
-                        widget.proj.questions[_currentQuestion].question,
-                    style: TextStyle(color: Colors.black, fontSize: 25),
-                  ),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: new Text(
+                  "#" +
+                      (_currentQuestion + 1).toString() +
+                      ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                  style: TextStyle(color: Colors.black, fontSize: 25, decoration: TextDecoration.none),
                 ),
               ),
               Expanded(
