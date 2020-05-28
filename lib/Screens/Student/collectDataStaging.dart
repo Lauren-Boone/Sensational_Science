@@ -43,7 +43,8 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
           body:
       Container(
         padding: EdgeInsets.all(20),
-        child: Center(
+        child: SingleChildScrollView(
+          child: Center(
              child: Column(children: <Widget>[
                Card(
                  child:  Text(
@@ -75,6 +76,7 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
                  //color: Colors.blue,
                ),
              ]),
+          ),
            ),
       )
         

@@ -100,7 +100,8 @@ final user = Provider.of<User>(context);
         body:
            Container(
              padding: EdgeInsets.all(20),
-             child: Center(
+             child: SingleChildScrollView(
+               child: Center(
                   child: Column(children: <Widget>[
                     Text(
                       widget.title,style: TextStyle(
@@ -149,6 +150,7 @@ final user = Provider.of<User>(context);
                     )
                   
                   ]),
+             ),
              ),
            ),
       ),
