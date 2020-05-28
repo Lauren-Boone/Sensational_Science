@@ -97,7 +97,7 @@ class _AddClassPageState extends State<AddClassPage> {
                       bool docExists = false;
                       final existingClasses = await classCollection.getDocuments();
                       for (var doc in existingClasses.documents) {
-                        print(doc.documentID);
+                        //print(doc.documentID);
                         if (doc.documentID == classNameController.text.trim()) {
                           docExists = true;
                         }

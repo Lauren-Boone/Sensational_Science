@@ -115,9 +115,9 @@ final user = Provider.of<User>(context);
                       onPressed: () {
                         //color: Colors.blue;
                         setState(() {});
-                        project.questions.forEach((element) {
-                          print(element.question);
-                        });
+                        // project.questions.forEach((element) {
+                        //   print(element.question);
+                        // });
                         Navigator.of(context).push(
                       MaterialPageRoute(
                        builder: (context) =>ViewProjectPage(this.title, this.docIDref, this.project, widget.createdProjID, widget.uid),

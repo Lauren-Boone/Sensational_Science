@@ -173,7 +173,7 @@ final TextEditingController projectTitleController =
                                setState(() {
                                   
                                 });
-                                print(subjectVal);
+                                //print(subjectVal);
                               },
                               //onChanged: (value) => setState(() => _currentInfo = value),
                             ),
@@ -188,7 +188,7 @@ final TextEditingController projectTitleController =
                       onChanged: (value) {
                         setState(() {
                           pub = value;
-                          print(pub);
+                          //print(pub);
                           if (pub.toString() == 'true') {
                             pubpriv = 'Current Setting: Public';
                           } else {
@@ -231,14 +231,14 @@ final TextEditingController projectTitleController =
                                       ]);
                                 });
                           }
-                          if (projectInfo.text == " ") {
+                          if (projectInfo.text == "" || projectTitleController.text == "") {
                             return showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                      title: Text("Project Description Missing"),
+                                      title: Text("Project Description or Title Missing"),
                                       content: Text(
-                                          "A project must have a description."),
+                                          "A project must have a title and a description."),
                                       actions: <Widget>[
                                         RaisedButton(
                                           child: Text('Close'),
@@ -249,7 +249,7 @@ final TextEditingController projectTitleController =
                                       ]);
                                 });
                           }
-                          if (subjectVal == " ") {
+                          if (subjectVal == "") {
                             return showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -267,10 +267,10 @@ final TextEditingController projectTitleController =
                                       ]);
                                 });
                           }
-                          {
+                          else {
                             _currentTitle = projectTitleController.text.trim();
                             _currentInfo = projectInfo.text.trim();
-                          }
+                          
                           AddProject proj = new AddProject(title: _currentTitle, public: pub, info: _currentInfo, teacherID: user.uid, subject: subjectVal);
                           //String docID = proj.createProjectDoc(_currentTitle, pub, user.uid);
                           
@@ -281,6 +281,7 @@ final TextEditingController projectTitleController =
                                   AddQuestionsToProject(title: _currentTitle, proj: proj, pub: pub, uid: user.uid),
                             ),
                           );
+                          }
                         },
                       ),
                     ),
@@ -304,72 +305,74 @@ class _CreateAProjectHelpState extends State<CreateAProjectHelp> {
   Widget build(BuildContext context) {
    return Material(
       
-      child: Container(
-        color: modalHelpTheme.backgroundColor,
-        padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                "Create a Project",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 23,
+      child: SingleChildScrollView(
+              child: Container(
+          color: modalHelpTheme.backgroundColor,
+          padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  "Create a Project",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
+                trailing: Icon(
+                  Icons.help,
+                  semanticLabel: 'Close'
+                  ,
+                ),
+                onTap: () => {Navigator.of(context).pop()},
               ),
-              trailing: Icon(
-                Icons.help,
-                semanticLabel: 'Close'
-                ,
-              ),
-              onTap: () => {Navigator.of(context).pop()},
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ListTile(
-                  title: Text(
-                    "This pages guides you through setting up a custom project. ",
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      "This pages guides you through setting up a custom project. ",
+                      style: modalInfo,
+                    ),
+                  ),
+                  Text(
+                    "Step 1: Initialize the Project",
+                    style: modalLabel,
+                  ),
+                  Text(
+                    '-Choose a title, subject, and description. \n-The description should give good background on what the project is about for both students and teachers (if the project is public)',
                     style: modalInfo,
                   ),
-                ),
-                Text(
-                  "Step 1: Initialize the Project",
-                  style: modalLabel,
-                ),
-                Text(
-                  '-Choose a title, subject, and description. \n-The description should give good background on what the project is about for both students and teachers (if the project is public)',
-                  style: modalInfo,
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Step 2: Add Questions",
-                  style: modalLabel,
-                ),
-                Text(
-                  "-Add as many questions as you like by pressing 'Add Question'. \n-You can select the type from various types of questions.\n-Note that for multiple choice question you must provide answers by click 'Add Answers'",
-                  style: modalInfo,
-                ),
-                
-                SizedBox(height: 20),
-                 Text(
-                  "Submit the Project",
-                  style: modalLabel,
-                ),
-                Text(
-                  "-Once you submit the project you will be able to view it in your created projects and public project.\n-Note that if you chose to create a private project then your project will not be visible in public projects. ",
-                  style: modalInfo,
-                ),
-                
-            
-                SizedBox(height: 20),
-               
-                      
-                
-              ],
-            ),
-          ],
+                  SizedBox(height: 20),
+                  Text(
+                    "Step 2: Add Questions",
+                    style: modalLabel,
+                  ),
+                  Text(
+                    "-Add as many questions as you like by pressing 'Add Question'. \n-You can select the type from various types of questions.\n-Note that for multiple choice question you must provide answers by click 'Add Answers'",
+                    style: modalInfo,
+                  ),
+                  
+                  SizedBox(height: 20),
+                   Text(
+                    "Submit the Project",
+                    style: modalLabel,
+                  ),
+                  Text(
+                    "-Once you submit the project you will be able to view it in your created projects and public project.\n-Note that if you chose to create a private project then your project will not be visible in public projects. ",
+                    style: modalInfo,
+                  ),
+                  
+              
+                  SizedBox(height: 20),
+                 
+                        
+                  
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

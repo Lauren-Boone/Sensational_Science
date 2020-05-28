@@ -44,12 +44,12 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
   void initState() {
     super.initState();
     data
-        .getStudentsAnswers(this.className, this.classDocProjID)
-        .whenComplete(() => print("Got answers!"));
+        .getStudentsAnswers(this.className, this.classDocProjID);
+        //.whenComplete(() => print("Got answers!"));
   }
 
   Widget build(BuildContext context) {
-     
+
     return Material(
           child: Scaffold(
         appBar: AppBar(
@@ -152,8 +152,14 @@ class _CompileDataState extends State<CompileData> {
         images.add(new Container(
           height: MediaQuery.of(context).size.height / 1.25,
           width: MediaQuery.of(context).size.width / 1.25,
-          child: nextImage,
-        ));
+          child: Card(
+            margin: EdgeInsets.all(10.0),
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: nextImage,
+            ),
+          ),
+        ),);
       }
     }
     if (images.length < 1) {
@@ -277,17 +283,20 @@ return _color;
             child: Column(
               children: <Widget>[
                new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 Expanded(
                   child: new ListView.builder(
                       itemCount: widget
                           .proj.questions[_currentQuestion].compAnswers.length,
                       itemBuilder: (context, index) {
-                        print(widget
-                            .proj.questions[_currentQuestion].compAnswers[index]);
+                        // print(widget
+                        //     .proj.questions[_currentQuestion].compAnswers[index]);
                         return Card(
                           
                                                   child: ListTile(
@@ -318,10 +327,13 @@ return _color;
               children: <Widget>[
                
                 new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 new Expanded(
                   child: charts.PieChart(
                     multGraph,
@@ -368,17 +380,20 @@ return _color;
             child: Column(
               children: <Widget>[
                new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 Expanded(
                   child: new ListView.builder(
                     itemCount: widget
                         .proj.questions[_currentQuestion].compAnswers.length,
                     itemBuilder: (context, index) {
-                      print(widget
-                          .proj.questions[_currentQuestion].compAnswers[index]);
+                      // print(widget
+                      //     .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
                         title: Text(
                             '${widget.proj.questions[_currentQuestion].compAnswers[index]}',
@@ -409,10 +424,13 @@ return _color;
             child: Column(
               children: <Widget>[
                 new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 Container(
                   height: MediaQuery.of(context).size.height/3,
                   width: MediaQuery.of(context).size.width/3,
@@ -455,11 +473,13 @@ return _color;
               children: <Widget>[
                 
                 new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,
-                        style: TextStyle(color: Colors.black, fontSize: 25),
-                        )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 new Expanded(
                   child: charts.BarChart(
                     multGraph,
@@ -518,10 +538,13 @@ return _color;
             children: <Widget>[
               
               new Card(
-                  child: new Text(
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
                       widget.proj.questions[_currentQuestion].question,
                       style: TextStyle(color: Colors.black, fontSize: 25),
-                      )),
+                      ),
+              ),),
               Expanded(
                 child: FutureBuilder(
                     future: _getImages(context,
@@ -558,6 +581,7 @@ return _color;
                       }
                     }),
               ),
+              getPrevButton(context),
               getNextButton(context),
             ],
           ),

@@ -62,7 +62,7 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
                    //color: Colors.blue;
                    setState(() {});
                    project.questions.forEach((element) {
-                     print(element.question);
+                     //print(element.question);
                    });
                    Navigator.of(context).push(
                  MaterialPageRoute(

@@ -280,15 +280,15 @@ bool _checkForPrompts() {
                               widget.proj.addtodb(questionCount);
 
                               var answerCount = 0;
-                              print('submit project onPressed');
+                              //print('submit project onPressed');
                               for (var i = 0; i < questionCount; i++) {
-                                print(
-                                    acceptType[i] + ': ' + controllers[i].text);
+                                // print(
+                                //     acceptType[i] + ': ' + controllers[i].text);
                                 if (acceptType[i] ==
                                     createMultipleChoice.toString()) {
                                   for (var item
                                       in answerControllers[answerCount]) {
-                                    print('answer option: ' + item.text);
+                                    // print('answer option: ' + item.text);
                                   }
                                   answerCount++;
                                 }

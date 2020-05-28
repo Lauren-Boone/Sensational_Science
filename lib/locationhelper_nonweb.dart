@@ -4,7 +4,7 @@ F allowInterop<F extends Function>(F f){
 }
 
 void getCurrentPosition(Function success(GeolocationPosition position)){
-  print("WRONG PLACE");
+//  print("WRONG PLACE");
 }
 
 class GeolocationPosition{

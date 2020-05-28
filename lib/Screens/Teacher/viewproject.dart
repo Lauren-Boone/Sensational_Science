@@ -52,23 +52,12 @@ class ViewProject extends StatefulWidget {
   final GetProject project;
   bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
-  // Observation studentObservations;
-//GetProject project;
   ViewProject(this.title, this.docIDref, this.project, this.createdProjectID,
       this.student) {
-    //this.docIDref = docID;
-
-    // this.project = project;
-
-    // this.controllers = new List();
-    //project.questionData().then((ignore) {
     for (int i = 1; i < this.project.questions.length; i++) {
       controllers.add(new TextEditingController());
-      print("Values of i " + i.toString());
+      //print("Values of i " + i.toString());
     }
-    // });
-
-    // studentObservations = new Observation(docID);
   }
 
   AddProject proj;
@@ -115,49 +104,51 @@ class _ViewProjectState extends State<ViewProject> {
     List<TextEditingController> answers = [];
     return new Material(
       child: new Scaffold(
-        appBar: AppBar(
-          title: Text("Your Project"),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-         // backgroundColor: Colors.deepPurple,
-          actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.home, color: Colors.black),
-              label: Text('Home', style: TextStyle(color: Colors.black)),
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeacherHome()),
-                  (Route<dynamic> route) => false,
-                );
-              },
+          appBar: AppBar(
+            title: Text("Your Project"),
+            leading: IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () => Navigator.pop(context, false),
             ),
-          ],
-        ),
-        body: Center(
-            child: FutureBuilder(
-                future: _getType(_currentQuestion),
-                builder: (context, snapshot) {
-                  if (snapshot.data != null) {
-                    return getQuestionWidget(context, snapshot.data);
-                  } else if (_currentQuestion >=
-                      widget.project.questions.length) {
-                    return getQuestionWidget(context, -1);
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                })
-            // )
-            ),
-        floatingActionButton: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back'),
-        ),
+           // backgroundColor: Colors.deepPurple,
+            actions: <Widget>[
+      FlatButton.icon(
+        icon: Icon(Icons.home, color: Colors.black),
+        label: Text('Home', style: TextStyle(color: Colors.black)),
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => TeacherHome()),
+            (Route<dynamic> route) => false,
+          );
+        },
       ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Center(
+        child: FutureBuilder(
+            future: _getType(_currentQuestion),
+            builder: (context, snapshot) {
+              if (snapshot.data != null) {
+                return getQuestionWidget(context, snapshot.data);
+              } else if (_currentQuestion >=
+                  widget.project.questions.length) {
+                return getQuestionWidget(context, -1);
+              } else {
+                return CircularProgressIndicator();
+              }
+            })
+        // )
+        ),
+          ),
+      //     floatingActionButton: RaisedButton(
+      //       onPressed: () {
+      // Navigator.pop(context);
+      //       },
+      //       child: Text('Go back'),
+      //     ),
+        ),
     );
   }
 
@@ -175,7 +166,7 @@ class _ViewProjectState extends State<ViewProject> {
                 widget.controllers[_currentQuestion].value.text);
           }
 
-          print(questionObservations.toJson());
+          //print(questionObservations.toJson());
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
               _currentQuestion++;
@@ -313,16 +304,18 @@ class _ViewProjectState extends State<ViewProject> {
       }
     } else {
       return Column(children: <Widget>[
-        Text(
-            "Would you like to save your answers as an answer key/example project?",
-            textScaleFactor: 2),
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child:Text(
+              "Would you like to save your answers as an answer key/example project?",
+              textScaleFactor: 2),
+        ),
         RaisedButton(
           child: Text('Go back and review answers'),
           onPressed: () => {
             setState(() {
               _currentQuestion = 0;
             }),
-            //getQuestionWidget(),
           },
         ),
         RaisedButton(

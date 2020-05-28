@@ -137,11 +137,11 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                   },
                 );
               }
-              if (_currentStep != 2) {
+              else if (_currentStep != 2 && hasClass==true) {
                 setState(() {
                   _currentStep++;
                 });
-              } else {
+              } else if(hasClass==true) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => TeacherHome()));
                 showDialog(
@@ -246,7 +246,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                             final existingClasses =
                                 await classCollection.getDocuments();
                             for (var doc in existingClasses.documents) {
-                              print(doc.documentID);
+                              //print(doc.documentID);
                               if (doc.documentID ==
                                   classNameController.text.trim()) {
                                 docExists = true;
@@ -431,7 +431,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         },
       );
       roster = [];
-      print(addedStudents.toString());
+      //print(addedStudents.toString());
       setState(() {});
     }
 
@@ -515,7 +515,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   Widget addProject() {
     Future<void> assignProject(String uid, String className, String projectID,
         DateTime dueDate) async {
-      print(dueDate);
+      //print(dueDate);
       //create project under the class
       DocumentReference classDoc = Firestore.instance
           .collection('Teachers')
@@ -680,7 +680,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       _project = newValue;
-                                      print(_project);
+                                      //print(_project);
                                     });
                                   },
                                   items: snapshot.data.documents
@@ -750,7 +750,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       _project = newValue;
-                                      print(_project);
+                                      //print(_project);
                                     });
                                   },
                                   items: snapshot.data.documents
