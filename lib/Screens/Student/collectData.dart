@@ -250,7 +250,7 @@ bool _checkforAnswers(){
           break;
         case 1:
           widget.questionType[_currentQuestion] = 1;
-          return Column(
+          return SingleChildScrollView( child:Column(
             children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
@@ -281,11 +281,11 @@ bool _checkforAnswers(){
               getNextButton(context),
               getPrevButton(context)
             ],
-          );
+          ));
           break;
         case 2:
           widget.questionType[_currentQuestion] = 2;
-          return Column(children: <Widget>[
+          return SingleChildScrollView(child:Column(children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
@@ -308,13 +308,13 @@ bool _checkforAnswers(){
                     })),
             getNextButton(context),
             getPrevButton(context)
-          ]);
+          ]));
           break;
         case 3:
           widget.questionType[_currentQuestion] = 3;
           var questionNum = _currentQuestion; 
           var code = widget.student.code; 
-          return Column(
+          return SingleChildScrollView(child: Column(
             children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
@@ -340,11 +340,11 @@ bool _checkforAnswers(){
                     })),
             getNextButton(context),
             getPrevButton(context)
-          ]);
+          ]));
           break;
         case 4:
           widget.questionType[_currentQuestion] = 4;
-          return Column(children: <Widget>[
+          return SingleChildScrollView(child: Column(children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
@@ -367,11 +367,11 @@ bool _checkforAnswers(){
                     })),
             getNextButton(context),
             getPrevButton(context)
-          ]);
+          ]));
           break;
         case 5:
           widget.questionType[_currentQuestion] = 5;
-          return Column(children: <Widget>[
+          return SingleChildScrollView(child: Column(children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
@@ -431,7 +431,7 @@ bool _checkforAnswers(){
             // ),
             getNextButton(context),
             getPrevButton(context)
-          ]);
+          ]));
           break;
       }
     } else {

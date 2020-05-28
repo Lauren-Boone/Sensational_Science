@@ -103,6 +103,7 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                   RaisedButton(
                     onPressed: () async {
                       if(_ackDelete) {
+                        List<String> studentCodeList = [];
                         var studentCodes = await Firestore.instance.collection('Teachers')
                         .document(widget.teachID)
                         .collection('Classes')
@@ -122,6 +123,10 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                         .document(widget.classID)
                         .collection('Projects')
                         .document(widget.projectID);
+                        //save the list of student codes so we know which ones to delete
+                        studentCodes.documents.forEach((element) {
+                          studentCodeList.add(element.documentID);
+                        });
                         //get project questions, so we know if/where the images are to delete
                         var tldProjID = await project.get().then((value) { return value.data['projectID']; });
                         var questions = await Firestore.instance.collection('Projects')
@@ -159,6 +164,13 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                           await roster.document(element.data['student']).updateData({
                             "codes": FieldValue.arrayRemove(deleteVal)
                           });
+                        });
+                        //delete the student documents from the project
+                        studentCodeList.forEach((element) async {
+                        await Firestore.instance.runTransaction((transaction) async {
+                          await transaction.delete(project.collection('Students').document(element));
+                        });
+
                         });
                         //delete the project from the class
                         await Firestore.instance.runTransaction((transaction) async {

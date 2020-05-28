@@ -304,10 +304,13 @@ return _color;
             child: Column(
               children: <Widget>[
                new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 Expanded(
                   child: new ListView.builder(
                       itemCount: widget
@@ -345,10 +348,13 @@ return _color;
               children: <Widget>[
                
                 new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 new Expanded(
                   child: charts.PieChart(
                     multGraph,
@@ -396,10 +402,13 @@ return _color;
             child: Column(
               children: <Widget>[
                new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 Expanded(
                   child: new ListView.builder(
                     itemCount: widget
@@ -437,10 +446,13 @@ return _color;
             child: Column(
               children: <Widget>[
                 new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 Container(
                   height: MediaQuery.of(context).size.height/3,
                   width: MediaQuery.of(context).size.width/3,
@@ -483,11 +495,13 @@ return _color;
               children: <Widget>[
                 
                 new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,
-                        style: TextStyle(color: Colors.black, fontSize: 25),
-                        )
-                        ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
+                      widget.proj.questions[_currentQuestion].question,
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                      ),
+              ),),
                 new Expanded(
                   child: charts.BarChart(
                     multGraph,
@@ -546,10 +560,13 @@ return _color;
             children: <Widget>[
               
               new Card(
-                  child: new Text(
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
                       widget.proj.questions[_currentQuestion].question,
                       style: TextStyle(color: Colors.black, fontSize: 25),
-                      )),
+                      ),
+              ),),
               Expanded(
                 child: FutureBuilder(
                     future: _getImages(context,
