@@ -38,13 +38,22 @@ class AddQuestionsToProject extends StatefulWidget {
 
 //List<TextEditingController> questions = new List<TextEditingController>();
 
+ List<DynamicWidget> questionwidgets = [];
+ _removeQuestion(int number){
+   questionwidgets.removeAt(number);
+ }
+List<List<TextEditingController>> answers = [];
+ _removeAnswers(int number){
+   answers.removeAt(number);
+ }
+
 class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
   //List<DynamicWidget> addQuestiontoAccordion = new List();
-  List<DynamicWidget> questionwidgets = [];
+ 
   List<ItemData> items = [];
   List<String> typecontroller=[];
   List<TextEditingController> questions=[];
-  List<List<TextEditingController>> answers = [];
+  //List<List<TextEditingController>> answers = [];
   List<String> types = ["MultipleChoice", "TextInputItem", "ShortAnswerItem", "UserLocation", "NumericalInputItem", "AddImageInput"];
   String curVal='MultipleChoice';
 
@@ -342,6 +351,13 @@ class _DynamicWidgetState extends State<DynamicWidget> {
             shrinkWrap: true,
             itemCount: widget.answers.length,
             itemBuilder: (_, index) => widget.answers[index]),
+        new RaisedButton(
+          child: Text("Remove question"),
+          onPressed: ()=>{
+              _removeQuestion(widget.numq),
+              _removeAnswers(widget.numq),
+          },
+        )
       ],
             ),
         );
@@ -360,6 +376,13 @@ class _DynamicWidgetState extends State<DynamicWidget> {
                 //questions.add(controller);
               }),
             ),
+              new RaisedButton(
+          child: Text("Remove question"),
+          onPressed: ()=>{
+              _removeQuestion(widget.numq),
+             // _removeAnswers(widget.numq),
+          },
+        )
           ],
         ),
       );
