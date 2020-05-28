@@ -89,6 +89,27 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
               RaisedButton(
                   child: Text('Click to view compiled data for each question'),
                   onPressed: () {
+                    if(data.answers.length==0){
+                       showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Oops there are no answers yet"),
+                              content: Text(
+                                  "Try again later after the due date or when more students have completed the project."),
+                              actions: <Widget>[
+                                RaisedButton(
+                                  child: Text("Close"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ]
+                            );
+                          }
+                        );
+                    }
+                    else{
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -96,7 +117,9 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
                             CompileData(proj: proj, compData: data),
                       ),
                     );
-                  })
+                    }
+                  }),
+                  
             ]),
           ),
         ),
@@ -208,7 +231,9 @@ class _CompileDataState extends State<CompileData> {
     RandomColor _randomColor = RandomColor();
 
 Color _color = _randomColor.randomColor(
-  colorSaturation: ColorSaturation.highSaturation
+  colorSaturation: ColorSaturation.lowSaturation,
+  colorBrightness: ColorBrightness.primary,
+  colorHue: ColorHue.multiple(colorHues: [ColorHue.green, ColorHue.blue]),
 );
 return _color;
   }
@@ -272,15 +297,13 @@ return _color;
       case 'TextInputItem':
         return Material(
           child: Container(
-            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+            padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
            // color: Colors.white,
             child: Column(
               children: <Widget>[
-               new Card(
-                    child: new Text(
-                        widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
-                         )
-                        ),
+               new Text(
+                   widget.proj.questions[_currentQuestion].question,style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
                 Expanded(
                   child: new ListView.builder(
                       itemCount: widget
@@ -289,11 +312,12 @@ return _color;
                         print(widget
                             .proj.questions[_currentQuestion].compAnswers[index]);
                         return Card(
+                          color: getColor(),
                           
                                                   child: ListTile(
                             title: Text(
                                 widget.proj.questions[_currentQuestion].compAnswers[index],
-                                style: TextStyle(color: getColor(), fontSize: 19)),
+                                style: TextStyle(color: Colors.white, fontSize: 19)),
                           ),
                         );
                       },
