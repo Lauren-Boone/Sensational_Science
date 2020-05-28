@@ -63,11 +63,13 @@ class StudentHome extends StatelessWidget {
                     label:
                         Text('Log out', style: TextStyle(color: Colors.black)),
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
+                      Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => Authenticate()),
-                        (Route<dynamic> route) => false,
+                        (Route<dynamic> route) => false
                       );
+                        // Navigator.of(context).pushReplacement(
+                        // MaterialPageRoute(builder: (context) => Authenticate()),
+                      // );
                     },
                   ),
                 ]),
