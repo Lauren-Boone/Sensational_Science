@@ -4,6 +4,7 @@ import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Screens/Teacher/viewprojectstaging.dart';
 import 'package:sensational_science/Services/projectDB.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/user.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
@@ -103,6 +104,7 @@ class _ViewProjectState extends State<ViewProject> {
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
     return new Material(
+      color: appTheme.scaffoldBackgroundColor,
       child: new Scaffold(
           appBar: AppBar(
             title: Text("Your Project"),
@@ -174,33 +176,39 @@ class _ViewProjectState extends State<ViewProject> {
     if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
-          return Column(children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(16.0),
-              width: MediaQuery.of(context).size.width / 1.2,
-              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
-                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
-            ),
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 1.33,
-              child: Center(
-                  child: new TextQuestionWidget(
-                      textAnswerController:
-                          widget.controllers[_currentQuestion])),
-            ),
-            getNextButton(context)
-          ]);
+          return Material(
+            color: appTheme.scaffoldBackgroundColor,
+                      child: Column(children: <Widget>[
+              Container(
+                color: appTheme.scaffoldBackgroundColor,
+                padding: EdgeInsets.all(16.0),
+                width: MediaQuery.of(context).size.width / 1.2,
+                child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                    widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width / 1.33,
+                child: Center(
+                    child: new TextQuestionWidget(
+                        textAnswerController:
+                            widget.controllers[_currentQuestion])),
+              ),
+              getNextButton(context)
+            ]),
+          );
           break;
         case 1:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3 * 2,
               child: SizedBox(
@@ -216,12 +224,14 @@ class _ViewProjectState extends State<ViewProject> {
         case 2:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 1.33,
               child: new ShortAnswerQuestion(
@@ -233,12 +243,14 @@ class _ViewProjectState extends State<ViewProject> {
         case 3:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 1.33,
               child: new UserLocationInfo(
@@ -251,12 +263,14 @@ class _ViewProjectState extends State<ViewProject> {
         case 4:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 1.33,
               child: new NumericalQuestion(
@@ -267,12 +281,14 @@ class _ViewProjectState extends State<ViewProject> {
         case 5:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 1.33,
               child: RaisedButton(
@@ -297,7 +313,8 @@ class _ViewProjectState extends State<ViewProject> {
           break;
       }
     } else {
-      return Column(children: <Widget>[
+      return Column(
+        children: <Widget>[
         Padding(
           padding: EdgeInsets.all(20.0),
           child:Text(

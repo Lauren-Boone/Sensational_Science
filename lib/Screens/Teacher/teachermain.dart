@@ -225,9 +225,10 @@ class _MainHelpState extends State<MainHelp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: modalHelpTheme,
+      color: modalHelpTheme.backgroundColor,
       home: SingleChildScrollView(
         child: Container(
-          color: modalHelpTheme.backgroundColor,
+          //color: modalHelpTheme.backgroundColor,
           padding: EdgeInsets.fromLTRB(30, 10, 10, 30),
           child: Column(
             children: <Widget>[

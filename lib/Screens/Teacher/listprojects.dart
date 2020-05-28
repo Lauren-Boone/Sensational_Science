@@ -104,6 +104,7 @@ List<String> subjects = [
           ],
         ),
             body: Material(
+              color: appTheme.scaffoldBackgroundColor,
               child: Column(
                 children: <Widget>[
                   new DropdownButton(

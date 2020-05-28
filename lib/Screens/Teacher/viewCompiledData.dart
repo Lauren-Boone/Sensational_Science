@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/locationmap.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import '../../Services/getproject.dart';
 
 import 'teachermain.dart';
@@ -47,6 +48,7 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
 
   Widget build(BuildContext context) {
     return Material(
+      //color: appTheme.scaffoldBackgroundColor,
       child: Scaffold(
         appBar: AppBar(
           title: Text("View Data"),
@@ -271,6 +273,7 @@ class _CompileDataState extends State<CompileData> {
   Widget build(BuildContext context) {
     if (_currentQuestion >= widget.proj.questions.length) {
       return Material(
+        color: appTheme.scaffoldBackgroundColor,
           child: FittedBox(
         fit: BoxFit.scaleDown,
         child: Container(
@@ -293,6 +296,7 @@ class _CompileDataState extends State<CompileData> {
     switch (widget.proj.questions[_currentQuestion].type.toString()) {
       case 'TextInputItem':
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: Container(
             padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
             // color: Colors.white,
@@ -340,9 +344,11 @@ class _CompileDataState extends State<CompileData> {
         List<charts.Series<GraphVals, String>> multGraph = [];
         _getGraph(multGraph);
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: Container(
+            color: appTheme.scaffoldBackgroundColor,
             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
+            //color: Colors.white,
             child: Column(
               children: <Widget>[
                 Padding(
@@ -376,10 +382,12 @@ class _CompileDataState extends State<CompileData> {
                       ),
                     ],
                     defaultRenderer: new charts.ArcRendererConfig(
+                      
                       arcWidth: 250,
                       arcRendererDecorators: [
                         new charts.ArcLabelDecorator(
                           labelPosition: charts.ArcLabelPosition.inside,
+                          
                         ),
                       ],
                     ),
@@ -395,9 +403,10 @@ class _CompileDataState extends State<CompileData> {
         break;
       case 'ShortAnswerItem':
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: Container(
             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
+            //color: Colors.white,
             child: Column(
               children: <Widget>[
                 Padding(
@@ -441,6 +450,7 @@ class _CompileDataState extends State<CompileData> {
             latlonInfo:
                 '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: new Container(
             margin: EdgeInsets.only(top: 60),
             constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
@@ -472,9 +482,10 @@ class _CompileDataState extends State<CompileData> {
         List<charts.Series<GraphVals, String>> multGraph = [];
         _getGraph(multGraph);
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: Container(
             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
+            //color: Colors.white,
             child: Column(
               children: <Widget>[
                 Padding(
@@ -535,60 +546,63 @@ class _CompileDataState extends State<CompileData> {
 
         break;
       case 'AddImageInput':
-        return new Container(
-          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: new Text(
-                  "#" +
-                      (_currentQuestion + 1).toString() +
-                      ": " +
-                      widget.proj.questions[_currentQuestion].question,
-                  style: TextStyle(color: Colors.black, fontSize: 25, decoration: TextDecoration.none),
+        return Material(
+          color: appTheme.scaffoldBackgroundColor,
+                  child: new Container(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            //color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25, decoration: TextDecoration.none),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: FutureBuilder(
-                    future: _getImages(context,
-                        widget.proj.questions[_currentQuestion].compAnswers),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView(
-                          children: snapshot.data,
-                        );
-                      }
-                      if (!snapshot.hasData) {
-                        List<Widget> waitList = [];
-                        for (var i = 0;
-                            i <
-                                widget.proj.questions[_currentQuestion]
-                                    .compAnswers.length;
-                            i++) {
-                          waitList.add(Container(
-                            height: MediaQuery.of(context).size.height / 10,
-                            width: MediaQuery.of(context).size.width / 10,
-                            child: CupertinoActivityIndicator(),
-                          ));
+                Expanded(
+                  child: FutureBuilder(
+                      future: _getImages(context,
+                          widget.proj.questions[_currentQuestion].compAnswers),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView(
+                            children: snapshot.data,
+                          );
                         }
-                        if (waitList.length < 1) {
-                          waitList.add(Container(
-                            height: MediaQuery.of(context).size.height / 10,
-                            width: MediaQuery.of(context).size.width / 10,
-                            child: CupertinoActivityIndicator(),
-                          ));
+                        if (!snapshot.hasData) {
+                          List<Widget> waitList = [];
+                          for (var i = 0;
+                              i <
+                                  widget.proj.questions[_currentQuestion]
+                                      .compAnswers.length;
+                              i++) {
+                            waitList.add(Container(
+                              height: MediaQuery.of(context).size.height / 10,
+                              width: MediaQuery.of(context).size.width / 10,
+                              child: CupertinoActivityIndicator(),
+                            ));
+                          }
+                          if (waitList.length < 1) {
+                            waitList.add(Container(
+                              height: MediaQuery.of(context).size.height / 10,
+                              width: MediaQuery.of(context).size.width / 10,
+                              child: CupertinoActivityIndicator(),
+                            ));
+                          }
+                          return ListView(
+                            children: waitList,
+                          );
                         }
-                        return ListView(
-                          children: waitList,
-                        );
-                      }
-                    }),
-              ),
-              getPrevButton(context),
-              getNextButton(context),
-            ],
+                      }),
+                ),
+                getPrevButton(context),
+                getNextButton(context),
+              ],
+            ),
           ),
         );
         break;
