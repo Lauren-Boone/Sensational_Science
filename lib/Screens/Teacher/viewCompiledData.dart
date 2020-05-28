@@ -89,7 +89,7 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
               RaisedButton(
                   child: Text('Click to view compiled data for each question'),
                   onPressed: () {
-                    if(data.answers.length==0){
+                    //if(data.answers.length==0){
                        showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -108,8 +108,8 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
                             );
                           }
                         );
-                    }
-                    else{
+                   // }
+                   // else{
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -117,7 +117,7 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
                             CompileData(proj: proj, compData: data),
                       ),
                     );
-                    }
+                   // }
                   }),
                   
             ]),
