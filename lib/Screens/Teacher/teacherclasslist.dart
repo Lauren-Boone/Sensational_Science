@@ -64,7 +64,7 @@ return _color;
                   return Container(
                     height: SizeConfig.verticalSize * 8,
                     child: Card(
-                      color: getColor(),
+                      color: Colors.grey[700],
                     child: new ListTile(
                       title: new Text(document['name'], maxLines: 2, style: modalLabel), 
                       //subtitle: FittedBox(fit:BoxFit.scaleDown, child: new Text('Click to View Class Info', maxLines: 2),), 

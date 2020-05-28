@@ -13,7 +13,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class StudentHome extends StatelessWidget {
   final String classData;
 
+ 
   StudentHome({
+    
     Key key,
     @required this.classData,
   })  : assert(classData != null),
@@ -21,6 +23,7 @@ class StudentHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     // final student = Student.getForCode(classData);
     // String subject = student.classSubject;
     // Icon icon = chooseIcon(subject);
@@ -31,6 +34,8 @@ class StudentHome extends StatelessWidget {
         if(student == null){
           return CircularProgressIndicator(); 
         }
+        GetProject project = new GetProject(student.projectTitle, student.projectID,);
+        project.questionData();
         return MaterialApp(
           theme: appTheme,
           home: Scaffold(
@@ -66,6 +71,7 @@ class StudentHome extends StatelessWidget {
                   RaisedButton(
                     child: Text('Collect Data For Project'),
                     onPressed: () {
+                      
                       if (DateTime.now().isBefore(stream.data['dueDate'].toDate())) {
                         Navigator.push(
                           context,
@@ -73,7 +79,8 @@ class StudentHome extends StatelessWidget {
                             builder: (context) => CollectDataStaging(
                                 student.projectTitle,
                                 student.projectID,
-                                classData),
+                                classData,
+                                project),
                           ),
                         );
                       } else {

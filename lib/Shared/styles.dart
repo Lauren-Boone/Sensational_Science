@@ -15,8 +15,8 @@ final appTheme = ThemeData(
   brightness: Brightness.light,
   //backgroundColor: Colors.grey[500],
   //  accentColor: Colors.lightBlueAccent,
-  accentColor: Colors.deepPurpleAccent,
-  primarySwatch: Colors.teal,
+ // accentColor: Colors.deepPurpleAccent,
+  primarySwatch: Colors.indigo,
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.indigo[600],
     shape: RoundedRectangleBorder(),
