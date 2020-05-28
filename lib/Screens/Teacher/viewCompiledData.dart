@@ -232,7 +232,7 @@ class _CompileDataState extends State<CompileData> {
     Color _color = _randomColor.randomColor(
       colorSaturation: ColorSaturation.lowSaturation,
       colorBrightness: ColorBrightness.primary,
-      colorHue: ColorHue.multiple(colorHues: [ColorHue.green, ColorHue.blue]),
+      //colorHue: ColorHue.multiple(colorHues: [ColorHue.green, ColorHue.blue]),
     );
     return _color;
   }

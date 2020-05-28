@@ -62,11 +62,11 @@ return _color;
               return new ListView(
                 children: snapshot.data.documents.map((document) {
                   return Container(
-                    height: SizeConfig.verticalSize * 8,
+                   // height: SizeConfig.verticalSize * 8,
                     child: Card(
                       color: Colors.grey[700],
                     child: new ListTile(
-                      title: new Text(document['name'], maxLines: 2, style: modalLabel), 
+                      title: new Text(document['name'], style: classLabel), 
                       //subtitle: FittedBox(fit:BoxFit.scaleDown, child: new Text('Click to View Class Info', maxLines: 2),), 
                       trailing: Icon(Icons.arrow_forward_ios),
                       onTap: () => {

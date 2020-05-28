@@ -53,7 +53,7 @@ class StudentHome extends StatelessWidget {
           home: Scaffold(
             appBar: AppBar(
                 title: Text('Project Home Page'),
-                backgroundColor: Colors.deepPurple,
+                //backgroundColor: Colors.deepPurple,
                 actions: <Widget>[
                   FlatButton.icon(
                     icon: Icon(
@@ -85,6 +85,11 @@ class StudentHome extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
+                          Container(
+                            height: 300.0,
+                            width: 300.0,
+                            child: chooseIcon(student.classSubject.toString()),
+                          ),
                           RaisedButton(
                             child: Text('Collect Data For Project'),
                             onPressed: () {
@@ -169,11 +174,7 @@ class StudentHome extends StatelessWidget {
                               }
                             },
                           ),
-                          Container(
-                            height: 300.0,
-                            width: 300.0,
-                            child: chooseIcon(student.classSubject.toString()),
-                          ),
+                          
                         ],
                       );
                     }),
