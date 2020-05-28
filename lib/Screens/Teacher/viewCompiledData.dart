@@ -49,7 +49,7 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
   }
 
   Widget build(BuildContext context) {
-     
+
     return Material(
           child: Scaffold(
         appBar: AppBar(
@@ -152,8 +152,14 @@ class _CompileDataState extends State<CompileData> {
         images.add(new Container(
           height: MediaQuery.of(context).size.height / 1.25,
           width: MediaQuery.of(context).size.width / 1.25,
-          child: nextImage,
-        ));
+          child: Card(
+            margin: EdgeInsets.all(10.0),
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: nextImage,
+            ),
+          ),
+        ),);
       }
     }
     if (images.length < 1) {
@@ -558,6 +564,7 @@ return _color;
                       }
                     }),
               ),
+              getPrevButton(context),
               getNextButton(context),
             ],
           ),

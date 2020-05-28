@@ -154,7 +154,13 @@ class _CompileDataState extends State<CompileData> {
         images.add(new Container(
           height: MediaQuery.of(context).size.height / 1.25,
           width: MediaQuery.of(context).size.width / 1.25,
-          child: nextImage,
+          child: Card(
+            margin: EdgeInsets.all(10.0),
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: nextImage,
+            ),
+          ),
         ));
       }
     }
@@ -580,6 +586,7 @@ return _color;
                       }
                     }),
               ),
+              getPrevButton(context),
               getNextButton(context),
             ],
           ),
