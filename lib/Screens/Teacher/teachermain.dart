@@ -66,63 +66,6 @@ class _TeacherHomeState extends State<TeacherHome> {
             children: <Widget>[
               Card(
                 child: ListTile(
-                  title: Text('Classes',
-                      style: TextStyle(
-                        fontSize: 20,
-                      )),
-                  subtitle: Text(
-                      'View All Classes, view class info, add roster, and view compiled data',
-                      style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  onTap: () => {
-                    setState(() {}),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ClassListPage(),
-                      ),
-                    ),
-                  },
-                ),
-              ),
-
-              Card(
-                child: ListTile(
-                  title:
-                      Text('View All projects', style: TextStyle(fontSize: 20)),
-                  subtitle:
-                      Text('Public Projects', style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PublicProjectsList(),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Card(
-                child: ListTile(
-                  title: Text('Assign Project to Class',
-                      style: TextStyle(fontSize: 20)),
-                  subtitle: Text(
-                      'Assign an Existing Project to an Existing Class',
-                      style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddProjectToClass(),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Card(
-                child: ListTile(
                   title: Text('Create Project', style: TextStyle(fontSize: 20)),
                   subtitle: Text('Create A New Project From Scratch',
                       style: TextStyle(fontSize: 17)),
@@ -155,9 +98,68 @@ class _TeacherHomeState extends State<TeacherHome> {
               ),
               Card(
                 child: ListTile(
+                  title: Text('All Classes',
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
+                  subtitle: Text(
+                      'View All Classes, view class info, add roster, and view compiled data',
+                      style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () => {
+                    setState(() {}),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ClassListPage(),
+                      ),
+                    ),
+                  },
+                ),
+              ),
+
+              
+              Card(
+                child: ListTile(
+                  title: Text('Assign Project to Class',
+                      style: TextStyle(fontSize: 20)),
+                  subtitle: Text(
+                      'Assign an Existing Project to an Existing Class',
+                      style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddProjectToClass(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              
+              Card(
+                child: ListTile(
+                  title:
+                      Text('View Public Projects', style: TextStyle(fontSize: 20)),
+                  subtitle:
+                      Text('Projects that teachers have shared', style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PublicProjectsList(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Card(
+                child: ListTile(
                   title: Text('View Your Projects',
                       style: TextStyle(fontSize: 20)),
-                  subtitle: Text('', style: TextStyle(fontSize: 17)),
+                  subtitle: Text("Projects you've created or added to your list", style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Navigator.push(
