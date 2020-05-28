@@ -48,12 +48,12 @@ class UserLocationInfo extends StatefulWidget {
     try {
       Position currentUserPosition = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print(currentUserPosition);
+      //print(currentUserPosition);
       return currentUserPosition;
     } catch (ex) {
       Position currentUserPosition;
       currentUserPosition = null;
-      print('Error getting user location');
+      //print('Error getting user location');
       return currentUserPosition;
     }
   }
@@ -108,7 +108,7 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                     if (widget.userLocationController.text == "")
                       Text(
                           "Invalid or no user location entered. User Location will be set to (0.0, 0.0) ");
-                    print('Inner Success');
+                    //print('Inner Success');
                   });
                   print("Success!");
                 }else if(kIsWeb){
@@ -128,7 +128,7 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                         widget.userLocationController.text,
                         widget.questionNum.toString());
                           
-                    print('Inner Web Success');
+                    //print('Inner Web Success');
                   }));
 
                   // getCurrentPosition(allowInterop((pos){
@@ -156,7 +156,7 @@ class _UserLocationInfoState extends State<UserLocationInfo> {
                           
                     // print('Inner Web Success');
                   // })); 
-                  print('Web Success');
+                  //print('Web Success');
                 
                           
                   // print(results); 

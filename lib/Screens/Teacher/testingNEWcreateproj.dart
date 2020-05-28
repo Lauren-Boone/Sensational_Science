@@ -155,7 +155,7 @@ bool _checkforInput(){
                               onChanged: (String newValue) {
                                curVal = newValue;
                                
-                               print(curVal);
+                               //print(curVal);
                                 setState(() {
                                   
                                 });
@@ -246,17 +246,17 @@ bool _checkforInput(){
                                     });
                                     i++;
                                   }
-                                  questions.forEach((element) {
-                                    print(element.value.text);
-                                  });
-                                  typecontroller.forEach((element) {
-                                    print(element);
-                                  });
-                                  answers.forEach((element) {
-                                    element.forEach((e) {
-                                      print(e.value.text);
-                                    });
-                                  });
+                                  // questions.forEach((element) {
+                                  //   //print(element.value.text);
+                                  // });
+                                  // typecontroller.forEach((element) {
+                                  //   //print(element);
+                                  // });
+                                  // answers.forEach((element) {
+                                  //   element.forEach((e) {
+                                  //     //print(e.value.text);
+                                  //   });
+                                  // });
 
                                 });
                              String docID=  widget.proj.createProjectDoc(widget.title, widget.pub, user.uid);

@@ -47,7 +47,6 @@ Future<File> getImage(String code, String qNum) async {
   }
   final file = await _localFile(code, '$qNum.png');
   int size = await file.length();
-  print("size of file: " + size.toString());
   if(size < 1) {
     return null;
   }

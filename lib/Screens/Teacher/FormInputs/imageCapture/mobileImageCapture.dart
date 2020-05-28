@@ -60,7 +60,7 @@ class _ImageCaptureState extends State<ImageCapture> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: (){
-                print(widget.imgLocController.text);
+                //print(widget.imgLocController.text);
                 Navigator.pop(context, false);
               },
             )),

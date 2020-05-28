@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sensational_science/Screens/Student/student_collect_data.dart';
@@ -45,7 +46,7 @@ class CollectData extends StatefulWidget {
     for (int i = 1; i < project.questions.length; i++) {
       controllers.add(new TextEditingController());
       questionType.add(6);
-      print("Values of i " + i.toString());
+      //print("Values of i " + i.toString());
     }
   }
 
@@ -249,7 +250,7 @@ bool _checkforAnswers(){
           break;
         case 1:
           widget.questionType[_currentQuestion] = 1;
-          return Column(
+          return SingleChildScrollView( child:Column(
             children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
@@ -280,11 +281,11 @@ bool _checkforAnswers(){
               getNextButton(context),
               getPrevButton(context)
             ],
-          );
+          ));
           break;
         case 2:
           widget.questionType[_currentQuestion] = 2;
-          return Column(children: <Widget>[
+          return SingleChildScrollView(child:Column(children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
@@ -307,13 +308,13 @@ bool _checkforAnswers(){
                     })),
             getNextButton(context),
             getPrevButton(context)
-          ]);
+          ]));
           break;
         case 3:
           widget.questionType[_currentQuestion] = 3;
           var questionNum = _currentQuestion; 
           var code = widget.student.code; 
-          return Column(
+          return SingleChildScrollView(child: Column(
             children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
@@ -339,11 +340,11 @@ bool _checkforAnswers(){
                     })),
             getNextButton(context),
             getPrevButton(context)
-          ]);
+          ]));
           break;
         case 4:
           widget.questionType[_currentQuestion] = 4;
-          return Column(children: <Widget>[
+          return SingleChildScrollView(child: Column(children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
@@ -366,11 +367,11 @@ bool _checkforAnswers(){
                     })),
             getNextButton(context),
             getPrevButton(context)
-          ]);
+          ]));
           break;
         case 5:
           widget.questionType[_currentQuestion] = 5;
-          return Column(children: <Widget>[
+          return SingleChildScrollView(child: Column(children: <Widget>[
             Container(
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
@@ -392,7 +393,7 @@ bool _checkforAnswers(){
                       onPressed: () async {
                         File preFilledFile;
                         if (!kIsWeb && widget.controllers[_currentQuestion].text != null) {
-                          print(widget.controllers[_currentQuestion].text);
+                          //print(widget.controllers[_currentQuestion].text);
                           preFilledFile = await getImage(
                               widget.student.code, _currentQuestion.toString());
                         }
@@ -411,9 +412,26 @@ bool _checkforAnswers(){
                     );
                   }),
             ),
+            //DO NOT DELETE - Working on previewing photo, only works with first loaded photo
+            // Container(
+            //   margin: EdgeInsets.all(10),
+            //   width: MediaQuery.of(context).size.width / 1.2,
+            //   child: FutureBuilder(
+            //       future: getImage(widget.student.code, _currentQuestion.toString()),
+            //       builder: (context, answer) {
+            //         if (!answer.hasData) return Text('');
+            //         if (answer.data == null) return Text('');
+            //         return Container(
+            //           padding: EdgeInsets.all(10.0),
+            //           height: MediaQuery.of(context).size.height * 0.4,
+            //           child: new Image.file(answer.data,
+            //           height: MediaQuery.of(context).size.height * 0.3,),
+            //           );
+            //       }),
+            // ),
             getNextButton(context),
             getPrevButton(context)
-          ]);
+          ]));
           break;
       }
     } else {

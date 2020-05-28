@@ -123,8 +123,8 @@ class _ImageCaptureState extends State<ImageCapture> {
       ),
       floatingActionButton: RaisedButton(
         onPressed: (){
-          print('text of controller when leaving: ' + widget.imgLocController.text);
-          print('value.text of controller when leaving: ' + widget.imgLocController.value.text);
+          //print('text of controller when leaving: ' + widget.imgLocController.text);
+          //print('value.text of controller when leaving: ' + widget.imgLocController.value.text);
           Navigator.pop(context);
         },
         child: Text("Go Back"),
@@ -192,7 +192,7 @@ class _UploaderState extends State<Uploader> {
           setState(() {
             _uploadTask = _storage.ref().child(widget.location).putFile(widget.file);
             widget.controller.text = widget.location;
-            print('location in image_capture: ' + widget.controller.value.text);
+            //print('location in image_capture: ' + widget.controller.value.text);
           });
         }),
       );

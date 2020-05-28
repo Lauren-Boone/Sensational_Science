@@ -141,11 +141,11 @@ class _DynamicWidgetState extends State<DynamicWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text("Question Number: " + widget.numq.toString(),
-                style: TextStyle(fontSize: 15)),
-            new Text("Type: " + widget.type),
+            Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), child: new Text("#" + (widget.numq + 1).toString(),
+                style: TextStyle(fontSize: 15)),),
+            Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), child: new Text("Multiple Choice Question"),),
             Center(
-              child: new Text("Question: " + widget.question,
+              child: new Text(widget.question,
                   style: TextStyle(fontSize: 18, color: Colors.red)),
             ),
             new ListView.builder(
@@ -153,7 +153,7 @@ class _DynamicWidgetState extends State<DynamicWidget> {
                 itemCount: widget.answers.length,
                 itemBuilder: (_, index) => widget.answerWidget[index]),
             Center(
-              child: new Text("Correct Answer: " + widget.keyAnswers,
+              child: new Text("Answer Key: Index " + widget.keyAnswers,
                   style: TextStyle(color: Colors.green, fontSize: 20)),
             ),
           ],
@@ -176,15 +176,15 @@ class _DynamicWidgetState extends State<DynamicWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new Text("Question Number: " + widget.numq.toString(),
-                  style: TextStyle(fontSize: 16)),
-              new Text("Type: " + widget.type),
+              Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), child: new Text("#" + (widget.numq + 1).toString(),
+                  style: TextStyle(fontSize: 16)),),
+              Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), child: new Text("Image Upload Question"),),
               Center(
-                child: new Text("Question: " + widget.question,
+                child: new Text(widget.question,
                     style: TextStyle(fontSize: 20, color: Colors.red), ),
               ),
               Center(
-                child: new Text("Answers:",
+                child: new Text("Answer Key:",
                     style: TextStyle(color: Colors.green, fontSize: 20)),
               ),
               Center(
@@ -227,15 +227,20 @@ class _DynamicWidgetState extends State<DynamicWidget> {
         child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text("Question Number: " + widget.numq.toString(),
-                style: TextStyle(fontSize: 16)),
-            new Text("Type: " + widget.type),
+            Padding(padding: EdgeInsets.fromLTRB(20, 5, 0, 0), child: new Text("#" + (widget.numq+1).toString(),
+                style: TextStyle(fontSize: 16)),),
+            Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), 
+              child: widget.type == "TextInputItem"? new Text("Text Input Question")
+              : widget.type == "ShortAnswerItem"? new Text("Short Answer Question")
+              : widget.type == "UserLocation" ? new Text("Location Question")
+              : new Text("Numerical Input Question"),
+            ),
             Center(
-              child: new Text("Question: " + widget.question,
+              child: new Text(widget.question,
                   style: TextStyle(fontSize: 20, color: Colors.red)),
             ),
             Center(
-              child: new Text("Answers: " + widget.keyAnswers,
+              child: new Text("Answer Key: " + widget.keyAnswers,
                   style: TextStyle(color: Colors.green, fontSize: 20)),
             ),
           ],
@@ -271,7 +276,7 @@ class DynamicAnswers extends StatelessWidget {
           width: 50,
           child: new Text(
               "Answer " + this.numAnswer.toString() + ": " + this.answer,
-              style: TextStyle(fontSize: 14, color: Colors.green)),
+              style: TextStyle(fontSize: 14, color: Colors.black)),
         ));
   }
 }

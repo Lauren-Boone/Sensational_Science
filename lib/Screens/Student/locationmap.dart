@@ -75,7 +75,7 @@ class LocationMapState extends State<LocationMap> {
   // }
   Widget build(BuildContext context) {
     // print(locationInfo);
-    print("in location" + widget.lms.toString());
+    //print("in location" + widget.lms.toString());
     RegExp exp = new RegExp(r"^Lat: (.*), Long: (.*)");
     var lms_actual = widget.lms.toString();
     var lms_test = widget.lms.latlonInfo;
@@ -89,7 +89,7 @@ class LocationMapState extends State<LocationMap> {
      lat = double.parse(matches.toList()[0].group(1));
      lon = double.parse(matches.toList()[0].group(2));
     }else{
-      print("No valid location info available. Location Info set to (0.0, 0.0)");
+      //print("No valid location info available. Location Info set to (0.0, 0.0)");
       lat = 0.0; 
       lon = 0.0; 
       check = false; 
