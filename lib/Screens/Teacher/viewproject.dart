@@ -56,7 +56,7 @@ class ViewProject extends StatefulWidget {
       this.student) {
     for (int i = 1; i < this.project.questions.length; i++) {
       controllers.add(new TextEditingController());
-      print("Values of i " + i.toString());
+      //print("Values of i " + i.toString());
     }
   }
 
@@ -166,7 +166,7 @@ class _ViewProjectState extends State<ViewProject> {
                 widget.controllers[_currentQuestion].value.text);
           }
 
-          print(questionObservations.toJson());
+          //print(questionObservations.toJson());
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
               _currentQuestion++;

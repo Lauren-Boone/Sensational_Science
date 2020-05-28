@@ -130,7 +130,7 @@ class _DeleteProjectFromClassState extends State<DeleteProjectFromClass> {
                         if (questions.data['hasImage'] != null && questions.data['hasImage']) {
                           for (var count=0; count<questions.data['count']; count++) {
                             if(questions.data['Question' + count.toString()]['Type'] == "AddImageInput") {
-                              print("found an image question!");
+                              //print("found an image question!");
                               imageQs.add(count);
                             }
                           }

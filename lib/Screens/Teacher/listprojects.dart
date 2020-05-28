@@ -134,7 +134,7 @@ List<String> subjects = [
               });
               }
                
-              print(filter);
+              //print(filter);
             },
           ),
            SwitchListTile(
@@ -145,7 +145,7 @@ List<String> subjects = [
                     setState(() {
                        hasownedfilter = value;
                       
-                      print( hasownedfilter);
+                      //print( hasownedfilter);
                       if ( hasownedfilter.toString() == 'false') {
                         toggleview = 'Current Setting: Viewing project you have created';
                       } else {

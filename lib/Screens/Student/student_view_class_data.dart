@@ -44,8 +44,8 @@ class _ViewClassDataState extends State<ViewClassData> {
   void initState() {
     super.initState();
     data
-        .getStudentsAnswers(this.className, this.classDocProjID)
-        .whenComplete(() => print("Got answers!"));
+        .getStudentsAnswers(this.className, this.classDocProjID);
+        //.whenComplete(() => print("Got answers!"));
   }
 
   Widget build(BuildContext context) {
@@ -307,8 +307,8 @@ return _color;
                       itemCount: widget
                           .proj.questions[_currentQuestion].compAnswers.length,
                       itemBuilder: (context, index) {
-                        print(widget
-                            .proj.questions[_currentQuestion].compAnswers[index]);
+                        // print(widget
+                        //     .proj.questions[_currentQuestion].compAnswers[index]);
                         return Card(
                           
                                                   child: ListTile(
@@ -399,8 +399,8 @@ return _color;
                     itemCount: widget
                         .proj.questions[_currentQuestion].compAnswers.length,
                     itemBuilder: (context, index) {
-                      print(widget
-                          .proj.questions[_currentQuestion].compAnswers[index]);
+                      //print(widget
+                      //    .proj.questions[_currentQuestion].compAnswers[index]);
                       return ListTile(
                         title: Text(
                             '${widget.proj.questions[_currentQuestion].compAnswers[index]}',

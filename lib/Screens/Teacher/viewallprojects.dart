@@ -73,7 +73,7 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
                   });
                 }
 
-                print(filter);
+                //print(filter);
               },
             ),
             new SizedBox(),
@@ -312,9 +312,9 @@ class _ViewPublicStagingState extends State<ViewPublicStaging> {
                   onPressed: () {
                     //color: Colors.blue;
                     setState(() {});
-                    project.questions.forEach((element) {
-                      print(element.question);
-                    });
+                    // project.questions.forEach((element) {
+                    //   //print(element.question);
+                    // });
 
                     if (titleExists) {
                       return showDialog(

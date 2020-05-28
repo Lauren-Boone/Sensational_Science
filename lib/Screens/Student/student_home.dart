@@ -164,7 +164,7 @@ class StudentHome extends StatelessWidget {
 }
 
 Icon chooseIcon(String subject) {
-  print("Choose Icon: " + subject.toString());
+  //print("Choose Icon: " + subject.toString());
   switch (subject) {
     case 'Physics':
       {

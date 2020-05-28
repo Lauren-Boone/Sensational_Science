@@ -173,7 +173,7 @@ final TextEditingController projectTitleController =
                                setState(() {
                                   
                                 });
-                                print(subjectVal);
+                                //print(subjectVal);
                               },
                               //onChanged: (value) => setState(() => _currentInfo = value),
                             ),
@@ -188,7 +188,7 @@ final TextEditingController projectTitleController =
                       onChanged: (value) {
                         setState(() {
                           pub = value;
-                          print(pub);
+                          //print(pub);
                           if (pub.toString() == 'true') {
                             pubpriv = 'Current Setting: Public';
                           } else {

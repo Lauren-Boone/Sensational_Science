@@ -20,7 +20,7 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
       if (!doc.exists) {
         return null;
       }
-      print(doc.data);
+      //print(doc.data);
       return doc.data;
       //return [doc['teacher'], doc['project'], doc['class']];
     });

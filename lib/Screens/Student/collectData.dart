@@ -46,7 +46,7 @@ class CollectData extends StatefulWidget {
     for (int i = 1; i < project.questions.length; i++) {
       controllers.add(new TextEditingController());
       questionType.add(6);
-      print("Values of i " + i.toString());
+      //print("Values of i " + i.toString());
     }
   }
 
@@ -393,7 +393,7 @@ bool _checkforAnswers(){
                       onPressed: () async {
                         File preFilledFile;
                         if (!kIsWeb && widget.controllers[_currentQuestion].text != null) {
-                          print(widget.controllers[_currentQuestion].text);
+                          //print(widget.controllers[_currentQuestion].text);
                           preFilledFile = await getImage(
                               widget.student.code, _currentQuestion.toString());
                         }
