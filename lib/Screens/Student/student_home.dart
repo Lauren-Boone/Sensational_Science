@@ -96,7 +96,8 @@ class StudentHome extends StatelessWidget {
                                     builder: (context) => CollectDataStaging(
                                         student.projectTitle,
                                         student.projectID,
-                                        classData),
+                                        classData,
+                                        project),
                                   ),
                                 );
                               } else {
