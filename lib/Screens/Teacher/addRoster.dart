@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:random_color/random_color.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/user.dart';
 import 'package:sensational_science/Screens/Teacher/viewStudentCodes.dart';
 
@@ -116,6 +117,7 @@ String success = '';
 Widget build(BuildContext context){
   final user = Provider.of<User>(context);
     return Material(
+      color: appTheme.scaffoldBackgroundColor,
           child: Scaffold(
         
         //backgroundColor: Colors.green[200],
@@ -142,12 +144,16 @@ Widget build(BuildContext context){
           ],
         ),
         body: Container(
+          color: appTheme.scaffoldBackgroundColor,
           width: MediaQuery.of(context).size.width,
           //height: MediaQuery.of(context).size.height * 0.8,
           child: Column(
             children: [
+              SizedBox(height: 20),
               new Text('Current Roster', style: TextStyle(fontSize: 20)),
-              new Text('Select a student to view their project access codes', style: TextStyle(fontSize: 16)),
+              SizedBox(height: 10),
+              new Text('Select a student to view their project access codes and their project answers', style: TextStyle(fontSize: 18)),
+              SizedBox(height: 20),
               new StreamBuilder(
                 stream: Firestore.instance.collection('Teachers').
                   document(user.uid)
