@@ -65,9 +65,9 @@ final AuthService _auth = AuthService();
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return StreamProvider<List<Teacher>>.value(
-        value: DatabaseService().user,
-        
+    return Provider<Teacher>(
+        // value: DatabaseService().user,
+        create: (_) => Teacher(), 
           child: Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by

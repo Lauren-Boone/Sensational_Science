@@ -25,7 +25,8 @@ class _SignInState extends State<SignIn> {
   String error='';
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
         backgroundColor: Colors.green[200],
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
@@ -131,6 +132,7 @@ class _SignInState extends State<SignIn> {
       // width: 120.0, child: Image.asset('assets/images/logo.jpg'),)
           // ],
         ),
+          )
           );
       // ),
 
