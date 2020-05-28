@@ -79,7 +79,7 @@ class CreateAccountState extends State<CreateAccount> {
           ),
         ],
         ),
-        // backgroundColor: Colors.lightBlue[100],
+        
         body: Form(
             key: _formKey,
             child: Padding(
@@ -156,7 +156,7 @@ class CreateAccountState extends State<CreateAccount> {
                     child: RaisedButton(child: Text('Create Account'),
                      onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        // dynamic result = await authorization.createUserAccount(emailController.text, passwordController.text); 
+                        
                         if (passwordController.text ==
                             passwordCheckController.text) {
                               //add fname and lname to create the user account
