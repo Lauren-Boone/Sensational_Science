@@ -88,66 +88,64 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
   Widget filterWidget(BuildContext context) {
     final user = Provider.of<User>(context);
     if (hasfilter) {
-      return SingleChildScrollView(
-              child: Expanded(
+      return Expanded(
           child: Column(
             children: <Widget>[
-              new StreamBuilder(
-                stream: Firestore.instance
-                    .collection('Projects')
-                    .where('public', isEqualTo: true)
-                    .where('subject', isEqualTo: filter)
-                    .snapshots(),
-                builder: (BuildContext context, snapshot) {
-                  if (!snapshot.hasData) return new Text('...Loading');
-                  return new Expanded(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: new ListView(
-                        children: snapshot.data.documents.map<Widget>((doc) {
-                          return Card(
-                            child: SingleChildScrollView(
-                                                          child: new ExpansionTile(
-                                 key: GlobalKey(),
-                                title: new Text(doc['title']),
-                                subtitle: new Text('Click the arrow to see the description'),
-                                
-                                children: <Widget>[
-                                  SingleChildScrollView(
-                                                                      child: ListTile(
-                                      title: Text(doc['info']),
-                                      trailing: Icon(Icons.arrow_forward_ios),
-                                      onTap: () => {
-                                    //projInfo= _getInfo(document['docID']),
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => ViewPublicStaging(
-                                            doc['title'],
-                                            doc.documentID,
-                                            doc['info'],
-                                            "",
-                                            user.uid),
-                                      ),
-                                    )
-                                },
-                                    ),
-                                  )
-
-                                ]
-                                
+      new StreamBuilder(
+        stream: Firestore.instance
+            .collection('Projects')
+            .where('public', isEqualTo: true)
+            .where('subject', isEqualTo: filter)
+            .snapshots(),
+        builder: (BuildContext context, snapshot) {
+          if (!snapshot.hasData) return new Text('...Loading');
+          return new Expanded(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: new ListView(
+                children: snapshot.data.documents.map<Widget>((doc) {
+                  return Card(
+                    child: SingleChildScrollView(
+                                                  child: new ExpansionTile(
+                         key: GlobalKey(),
+                        title: new Text(doc['title']),
+                        subtitle: new Text('Click the arrow to see the description'),
+                        
+                        children: <Widget>[
+                          SingleChildScrollView(
+                                                              child: ListTile(
+                              title: Text(doc['info']),
+                              trailing: Icon(Icons.arrow_forward_ios),
+                              onTap: () => {
+                            //projInfo= _getInfo(document['docID']),
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ViewPublicStaging(
+                                    doc['title'],
+                                    doc.documentID,
+                                    doc['info'],
+                                    "",
+                                    user.uid),
                               ),
+                            )
+                        },
                             ),
-                          );
-                        }).toList(),
+                          )
+
+                        ]
+                        
                       ),
                     ),
                   );
-                },
+                }).toList(),
               ),
+            ),
+          );
+        },
+      ),
             ],
           ),
-        ),
-      );
+        );
     } else {
       return Expanded(
         child: Column(
