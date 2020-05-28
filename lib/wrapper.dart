@@ -12,11 +12,20 @@ import 'Screens/home/home.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    // final user = Provider.of<User>(context);
     
-    print('testing');
+    // print('testing');
     
-    if(user == null){
+    // if(user == null){
+    //    print(user);
+    //   return Authenticate();
+    // }
+    // else{
+    //    print(user.uid);
+    //   return Home();
+    // }
+    return Consumer<User>(builder: (context, user, child){
+      if(user == null){
        print(user);
       return Authenticate();
     }
@@ -24,6 +33,7 @@ class Wrapper extends StatelessWidget {
        print(user.uid);
       return Home();
     }
-    
+    },); 
+
   }
 }

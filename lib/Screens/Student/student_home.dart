@@ -29,7 +29,7 @@ class StudentHome extends StatelessWidget {
       create: (_) => Student.getForCode(classData),
       child: Consumer<Student>(builder: (context, student, child) {
         if(student == null){
-          return CircularProgressIndicator(); 
+          return new Container(child: CircularProgressIndicator()); 
         }
         return MaterialApp(
           theme: appTheme,
