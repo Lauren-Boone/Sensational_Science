@@ -142,12 +142,6 @@ class _ViewProjectState extends State<ViewProject> {
         // )
         ),
           ),
-      //     floatingActionButton: RaisedButton(
-      //       onPressed: () {
-      // Navigator.pop(context);
-      //       },
-      //       child: Text('Go back'),
-      //     ),
         ),
     );
   }

@@ -72,7 +72,7 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
                );
                  },
                  child: Text('Click to View Questions'),
-                 //color: Colors.blue,
+                
                ),
              ]),
            ),

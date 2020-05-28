@@ -461,25 +461,6 @@ return _color;
                   height: MediaQuery.of(context).size.height/3,
                   width: MediaQuery.of(context).size.width/3,
                   child: new LocationMap(lms: lms),
-                  // child: RaisedButton(
-                  //   child: Text('Click to load map'),
-
-                  //   onPressed: () {
-                  //     // var locationInfoMap = createLocationMap;
-                  //     var locationInfoMap = widget
-                  //         .proj.questions[_currentQuestion].compAnswers[0];
-                  //         final lms = locationInfo(latlonInfo: '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
-                  //     // locationInfoMap.longitude = widget
-                  //     //     .proj.questions[_currentQuestion].compAnswers[0][1];
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) => LocationMap(
-                  //                 lms: lms,
-                  //               )),
-                  //     );
-                  //   },
-                  // ),
                 ),
                 getPrevButton(context),
                 getNextButton(context),

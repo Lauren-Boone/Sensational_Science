@@ -7,8 +7,6 @@ import 'dart:async';
 import 'addRoster.dart';
 
 class ViewRoster extends StatefulWidget {
- //DocumentSnapshot snapshot;
- //final String classID;
   final String name;
 
   ViewRoster({ this.name});
