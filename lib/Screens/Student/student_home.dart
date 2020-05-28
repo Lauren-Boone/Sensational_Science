@@ -29,7 +29,15 @@ class StudentHome extends StatelessWidget {
       create: (_) => Student.getForCode(classData),
       child: Consumer<Student>(builder: (context, student, child) {
         if(student == null){
-          return new Container(child: CircularProgressIndicator()); 
+          return new Scaffold(appBar: AppBar(
+                title: Text('Loading'),
+                backgroundColor: Colors.deepPurple,
+                actions: <Widget>[
+                  FlatButton.icon(
+                    icon: Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    )),]), body:Container(width: 250, height: 250, child: CircularProgressIndicator())); 
         }
         return MaterialApp(
           theme: appTheme,
