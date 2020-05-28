@@ -7,11 +7,11 @@ class CollectDataStaging extends StatefulWidget {
   final String projectID; 
   final String title; 
   final String student;
-  
-  CollectDataStaging( this.title, this.projectID, this.student); 
+  final GetProject project;
+  CollectDataStaging( this.title, this.projectID, this.student, this.project); 
 
   @override
-  _CollectDataStagingState createState() => _CollectDataStagingState(this.title, this.projectID, this.student);
+  _CollectDataStagingState createState() => _CollectDataStagingState(this.title, this.projectID, this.student, this.project);
 }
 
 class _CollectDataStagingState extends State<CollectDataStaging> {
@@ -19,13 +19,14 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
   String docIDref;
   String title;
   String student;
-  String projInfo= "Please continue to collect your data";
-  _CollectDataStagingState(title, docID, student) {
+  //String projInfo= "Please continue to collect your data";
+  _CollectDataStagingState(title, docID, student, project) {
     this.docIDref = docID;
     this.title = title;
     this.student = student;
-    project = new GetProject(title, docID);
-    project.questionData();
+    this.project=project;
+    //project = new GetProject(title, docID);
+    //project.questionData();
   }
   @override
   Widget build(BuildContext context) {
@@ -43,20 +44,19 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
           body:
       Container(
         padding: EdgeInsets.all(20),
-        child: Center(
+        child: SingleChildScrollView(
+          child: Center(
              child: Column(children: <Widget>[
-               Card(
-                 child:  Text(
-                   widget.title,style: TextStyle(
-                     fontSize: 34,
-                   ),),
-               ),
-               Card(
-                 child: Text(this.projInfo,
-                   style: TextStyle(
-                     fontSize: 18,
-                   )),
-               ),
+               Text(
+                 widget.title,style: TextStyle(
+                   fontSize: 34,
+                 ),),
+                 SizedBox(height: 20),
+               Text(project.info,
+                 style: TextStyle(
+                   fontSize: 18,
+                 )),
+                  SizedBox(height: 20),
                RaisedButton(
                  onPressed: () {
                    //color: Colors.blue;
@@ -72,9 +72,10 @@ class _CollectDataStagingState extends State<CollectDataStaging> {
                );
                  },
                  child: Text('Click to View Questions'),
-                 //color: Colors.blue,
+                
                ),
              ]),
+          ),
            ),
       )
         

@@ -141,13 +141,15 @@ class _DynamicWidgetState extends State<DynamicWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), child: new Text("#" + (widget.numq + 1).toString(),
+            Padding(padding: EdgeInsets.fromLTRB(20,10,0,0), child: new Text("#" + (widget.numq + 1).toString(),
                 style: TextStyle(fontSize: 15)),),
             Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), child: new Text("Multiple Choice Question"),),
-            Center(
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Center(
               child: new Text(widget.question,
                   style: TextStyle(fontSize: 18, color: Colors.red)),
-            ),
+            ),),
             new ListView.builder(
                 shrinkWrap: true,
                 itemCount: widget.answers.length,
@@ -179,15 +181,21 @@ class _DynamicWidgetState extends State<DynamicWidget> {
               Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), child: new Text("#" + (widget.numq + 1).toString(),
                   style: TextStyle(fontSize: 16)),),
               Padding(padding: EdgeInsets.fromLTRB(20,5,0,0), child: new Text("Image Upload Question"),),
-              Center(
-                child: new Text(widget.question,
-                    style: TextStyle(fontSize: 20, color: Colors.red), ),
-              ),
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Center(
+              child: new Text(widget.question,
+                  style: TextStyle(fontSize: 18, color: Colors.red)),
+            ),),
               Center(
                 child: new Text("Answer Key:",
                     style: TextStyle(color: Colors.green, fontSize: 20)),
               ),
+              !widget.hasKey?
               Center(
+                child: new Text( widget.keyAnswers, style: TextStyle(color: Colors.green, fontSize:20)),
+              )
+              : Center(
                 child: new FutureBuilder(
                   future: _getImage(context, widget.keyAnswers),
                   builder: (context, snapshot) {
@@ -235,10 +243,12 @@ class _DynamicWidgetState extends State<DynamicWidget> {
               : widget.type == "UserLocation" ? new Text("Location Question")
               : new Text("Numerical Input Question"),
             ),
-            Center(
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Center(
               child: new Text(widget.question,
-                  style: TextStyle(fontSize: 20, color: Colors.red)),
-            ),
+                  style: TextStyle(fontSize: 18, color: Colors.red)),
+            ),),
             Center(
               child: new Text("Answer Key: " + widget.keyAnswers,
                   style: TextStyle(color: Colors.green, fontSize: 20)),

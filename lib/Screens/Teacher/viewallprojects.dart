@@ -5,6 +5,7 @@ import 'package:sensational_science/Screens/Teacher/projectPreview.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Screens/Teacher/viewprojectstaging.dart';
 import 'package:sensational_science/Services/getproject.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/user.dart';
 
 class PublicProjectsList extends StatefulWidget {
@@ -88,49 +89,63 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
     final user = Provider.of<User>(context);
     if (hasfilter) {
       return Expanded(
-        child: Column(
-          children: <Widget>[
-            new StreamBuilder(
-              stream: Firestore.instance
-                  .collection('Projects')
-                  .where('public', isEqualTo: true)
-                  .where('subject', isEqualTo: filter)
-                  .snapshots(),
-              builder: (BuildContext context, snapshot) {
-                if (!snapshot.hasData) return new Text('...Loading');
-                return new Expanded(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: new ListView(
-                      children: snapshot.data.documents.map<Widget>((doc) {
-                        return Card(
-                          child: new ListTile(
-                            title: new Text(doc['title']),
-                            trailing: Icon(Icons.arrow_forward_ios),
-                            onTap: () => {
-                              //projInfo= _getInfo(document['docID']),
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ViewPublicStaging(
-                                      doc['title'],
-                                      doc.documentID,
-                                      doc['info'],
-                                      "",
-                                      user.uid),
-                                ),
-                              )
-                            },
-                          ),
-                        );
-                      }).toList(),
+          child: Column(
+            children: <Widget>[
+      new StreamBuilder(
+        stream: Firestore.instance
+            .collection('Projects')
+            .where('public', isEqualTo: true)
+            .where('subject', isEqualTo: filter)
+            .snapshots(),
+        builder: (BuildContext context, snapshot) {
+          if (!snapshot.hasData) return new Text('...Loading');
+          return new Expanded(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: new ListView(
+                children: snapshot.data.documents.map<Widget>((doc) {
+                  return Card(
+                    child: SingleChildScrollView(
+                                                  child: new ExpansionTile(
+                         key: GlobalKey(),
+                        title: new Text(doc['title']),
+                        subtitle: new Text('Click the arrow to see the description'),
+                        
+                        children: <Widget>[
+                          SingleChildScrollView(
+                                                              child: ListTile(
+                              title: Text(doc['info']),
+                              trailing: Icon(Icons.arrow_forward_ios),
+                              onTap: () => {
+                            //projInfo= _getInfo(document['docID']),
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ViewPublicStaging(
+                                    doc['title'],
+                                    doc.documentID,
+                                    doc['info'],
+                                    "",
+                                    user.uid),
+                              ),
+                            )
+                        },
+                            ),
+                          )
+
+                        ]
+                        
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                }).toList(),
+              ),
             ),
-          ],
-        ),
-      );
+          );
+        },
+      ),
+            ],
+          ),
+        );
     } else {
       return Expanded(
         child: Column(
@@ -148,10 +163,14 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
                     child: new ListView(
                       children: snapshot.data.documents.map<Widget>((doc) {
                         return Card(
-                          child: new ListTile(
+                          child: new ExpansionTile(
+                            key: GlobalKey(),
                             title: new Text(doc['title']),
-                            subtitle: new Text(doc['info']),
-                            trailing: Icon(Icons.arrow_forward_ios),
+                            //subtitle: new Text(doc['info']),
+                            children: <Widget>[
+                              ListTile(
+                                title: new Text(doc['info']),
+                                  trailing: Icon(Icons.arrow_forward_ios),
                             onTap: () => {
                               //projInfo= _getInfo(document['docID']),
                               Navigator.of(context).push(
@@ -165,6 +184,10 @@ class _PublicProjectsListState extends State<PublicProjectsList> {
                                 ),
                               )
                             },
+                              )
+
+                            ],
+                          
                           ),
                         );
                       }).toList(),
@@ -273,7 +296,9 @@ class _ViewPublicStagingState extends State<ViewPublicStaging> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Container(
+      color: appTheme.scaffoldBackgroundColor,
       child: Material(
+        color: appTheme.scaffoldBackgroundColor,
         child: new Scaffold(
           appBar: AppBar(
             title: Text("View Project Information"),

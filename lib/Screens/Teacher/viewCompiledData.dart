@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sensational_science/Screens/Student/locationmap.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import '../../Services/getproject.dart';
 
 import 'teachermain.dart';
@@ -11,19 +12,17 @@ import '../Student/locationmap.dart';
 
 var createLocationMap = LocationMap();
 
-
-
 class TeacherViewClassData extends StatefulWidget {
   //final String user;
   final String className;
   final String classProjDocID;
   final GetProject proj;
-  
+
   TeacherViewClassData({this.className, this.classProjDocID, this.proj});
   //final String docID;
   @override
-  _TeacherViewClassDataState createState() =>
-      _TeacherViewClassDataState(this.proj, this.className, this.classProjDocID);
+  _TeacherViewClassDataState createState() => _TeacherViewClassDataState(
+      this.proj, this.className, this.classProjDocID);
 }
 
 class _TeacherViewClassDataState extends State<TeacherViewClassData> {
@@ -43,37 +42,34 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
   @override
   void initState() {
     super.initState();
-    data
-        .getStudentsAnswers(this.className, this.classDocProjID);
-        //.whenComplete(() => print("Got answers!"));
+    data.getStudentsAnswers(this.className, this.classDocProjID);
+    //.whenComplete(() => print("Got answers!"));
   }
 
   Widget build(BuildContext context) {
-
     return Material(
-          child: Scaffold(
+      //color: appTheme.scaffoldBackgroundColor,
+      child: Scaffold(
         appBar: AppBar(
-            title: Text("View Data"),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () => Navigator.pop(context, false),
-
-            ),
-             actions: <Widget>[
+          title: Text("View Data"),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context, false),
+          ),
+          actions: <Widget>[
             FlatButton.icon(
-                icon: Icon(Icons.home, color: Colors.black),
-                label: Text('Home', style: TextStyle(color: Colors.black)),
-            onPressed: () {
-                 Navigator.pushAndRemoveUntil(
+              icon: Icon(Icons.home, color: Colors.black),
+              label: Text('Home', style: TextStyle(color: Colors.black)),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => TeacherHome()),
                   (Route<dynamic> route) => false,
                 );
-                        
-                },
+              },
             ),
           ],
-            ),
+        ),
         body: Container(
           margin: EdgeInsets.all(40),
           child: Center(
@@ -89,6 +85,25 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
               RaisedButton(
                   child: Text('Click to view compiled data for each question'),
                   onPressed: () {
+                    if(data.hasAnswers == false){
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              title: Text("Oops there are no answers yet"),
+                              content: Text(
+                                  "Try again later after the due date or when more students have completed the project."),
+                              actions: <Widget>[
+                                RaisedButton(
+                                  child: Text("Close"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ]);
+                        });
+                     }
+                    else{
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -96,7 +111,8 @@ class _TeacherViewClassDataState extends State<TeacherViewClassData> {
                             CompileData(proj: proj, compData: data),
                       ),
                     );
-                  })
+                   }
+                  }),
             ]),
           ),
         ),
@@ -149,17 +165,19 @@ class _CompileDataState extends State<CompileData> {
             fit: BoxFit.scaleDown,
           );
         });
-        images.add(new Container(
-          height: MediaQuery.of(context).size.height / 1.25,
-          width: MediaQuery.of(context).size.width / 1.25,
-          child: Card(
-            margin: EdgeInsets.all(10.0),
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: nextImage,
+        images.add(
+          new Container(
+            height: MediaQuery.of(context).size.height / 1.25,
+            width: MediaQuery.of(context).size.width / 1.25,
+            child: Card(
+              margin: EdgeInsets.all(10.0),
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: nextImage,
+              ),
             ),
           ),
-        ),);
+        );
       }
     }
     if (images.length < 1) {
@@ -196,7 +214,7 @@ class _CompileDataState extends State<CompileData> {
       graphData
           .add(new GraphVals(key.toString(), value, _randColor.randomColor()));
     });
- 
+
     multGraph.add(
       charts.Series(
         data: graphData,
@@ -210,13 +228,15 @@ class _CompileDataState extends State<CompileData> {
     );
   }
 
-  Color getColor(){
+  Color getColor() {
     RandomColor _randomColor = RandomColor();
 
-Color _color = _randomColor.randomColor(
-  colorSaturation: ColorSaturation.highSaturation
-);
-return _color;
+    Color _color = _randomColor.randomColor(
+      colorSaturation: ColorSaturation.lowSaturation,
+      colorBrightness: ColorBrightness.primary,
+      //colorHue: ColorHue.multiple(colorHues: [ColorHue.green, ColorHue.blue]),
+    );
+    return _color;
   }
 
   Widget getNextButton(BuildContext context) {
@@ -253,10 +273,10 @@ return _color;
   Widget build(BuildContext context) {
     if (_currentQuestion >= widget.proj.questions.length) {
       return Material(
-        child: FittedBox(        
-          fit: BoxFit.scaleDown, 
-          child: Container(
-          
+        color: appTheme.scaffoldBackgroundColor,
+          child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Container(
             margin: EdgeInsets.all(50),
             //color: Colors.white,
             child: Column(
@@ -267,9 +287,8 @@ return _color;
                   onPressed: () => Navigator.of(context).pop(),
                 )
               ],
-            )),)
-
-      );
+            )),
+      ));
     }
     while (proj.questions[_currentQuestion].compAnswers.length == 0) {
       setState(() {});
@@ -277,36 +296,41 @@ return _color;
     switch (widget.proj.questions[_currentQuestion].type.toString()) {
       case 'TextInputItem':
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: Container(
-            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-           // color: Colors.white,
+            padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+            // color: Colors.white,
             child: Column(
               children: <Widget>[
-               new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
-                      widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                      ),
-              ),),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25),
+                  ),
+                ),
                 Expanded(
                   child: new ListView.builder(
-                      itemCount: widget
-                          .proj.questions[_currentQuestion].compAnswers.length,
-                      itemBuilder: (context, index) {
-                        // print(widget
-                        //     .proj.questions[_currentQuestion].compAnswers[index]);
-                        return Card(
-                          
-                                                  child: ListTile(
-                            title: Text(
-                                widget.proj.questions[_currentQuestion].compAnswers[index],
-                                style: TextStyle(color: getColor(), fontSize: 19)),
-                          ),
-                        );
-                      },
-                    ),
+                    itemCount: widget
+                        .proj.questions[_currentQuestion].compAnswers.length,
+                    itemBuilder: (context, index) {
+                      // print(widget
+                      //     .proj.questions[_currentQuestion].compAnswers[index]);
+                      return Card(
+                        color: getColor(),
+                        child: ListTile(
+                          title: Text(
+                              widget.proj.questions[_currentQuestion]
+                                  .compAnswers[index],
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 19)),
+                        ),
+                      );
+                    },
+                  ),
                 ),
                 getPrevButton(context),
                 getNextButton(context),
@@ -320,20 +344,23 @@ return _color;
         List<charts.Series<GraphVals, String>> multGraph = [];
         _getGraph(multGraph);
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: Container(
-             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
+            color: appTheme.scaffoldBackgroundColor,
+            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+            //color: Colors.white,
             child: Column(
               children: <Widget>[
-               
-                new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
-                      widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                      ),
-              ),),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25, decoration: TextDecoration.none),
+                  ),
+                ),
                 new Expanded(
                   child: charts.PieChart(
                     multGraph,
@@ -355,10 +382,12 @@ return _color;
                       ),
                     ],
                     defaultRenderer: new charts.ArcRendererConfig(
+                      
                       arcWidth: 250,
                       arcRendererDecorators: [
                         new charts.ArcLabelDecorator(
                           labelPosition: charts.ArcLabelPosition.inside,
+                          
                         ),
                       ],
                     ),
@@ -374,19 +403,22 @@ return _color;
         break;
       case 'ShortAnswerItem':
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: Container(
-             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
+            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+            //color: Colors.white,
             child: Column(
               children: <Widget>[
-               new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
-                      widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                      ),
-              ),),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25),
+                  ),
+                ),
                 Expanded(
                   child: new ListView.builder(
                     itemCount: widget
@@ -397,7 +429,7 @@ return _color;
                       return ListTile(
                         title: Text(
                             '${widget.proj.questions[_currentQuestion].compAnswers[index]}',
-                           style: TextStyle(color: getColor(), fontSize: 25)),
+                            style: TextStyle(color: getColor(), fontSize: 25)),
                       );
                     },
                   ),
@@ -418,42 +450,26 @@ return _color;
             latlonInfo:
                 '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: new Container(
-            margin: EdgeInsets.only(top: 60), 
+            margin: EdgeInsets.only(top: 60),
             constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
             child: Column(
               children: <Widget>[
-                new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
-                      widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                      ),
-              ),),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25),
+                  ),
+                ),
                 Container(
-                  height: MediaQuery.of(context).size.height/3,
-                  width: MediaQuery.of(context).size.width/3,
+                  height: MediaQuery.of(context).size.height / 3,
+                  width: MediaQuery.of(context).size.width / 3,
                   child: new LocationMap(lms: lms),
-                  // child: RaisedButton(
-                  //   child: Text('Click to load map'),
-
-                  //   onPressed: () {
-                  //     // var locationInfoMap = createLocationMap;
-                  //     var locationInfoMap = widget
-                  //         .proj.questions[_currentQuestion].compAnswers[0];
-                  //         final lms = locationInfo(latlonInfo: '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
-                  //     // locationInfoMap.longitude = widget
-                  //     //     .proj.questions[_currentQuestion].compAnswers[0][1];
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) => LocationMap(
-                  //                 lms: lms,
-                  //               )),
-                  //     );
-                  //   },
-                  // ),
                 ),
                 getPrevButton(context),
                 getNextButton(context),
@@ -466,20 +482,22 @@ return _color;
         List<charts.Series<GraphVals, String>> multGraph = [];
         _getGraph(multGraph);
         return Material(
+          color: appTheme.scaffoldBackgroundColor,
           child: Container(
-             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
+            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+            //color: Colors.white,
             child: Column(
               children: <Widget>[
-                
-                new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
-                      widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                      ),
-              ),),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25),
+                  ),
+                ),
                 new Expanded(
                   child: charts.BarChart(
                     multGraph,
@@ -487,20 +505,18 @@ return _color;
                     animationDuration: Duration(seconds: 1),
                     // barRendererDecorator: new charts.BarLabelDecorator<String>(),
                     domainAxis: new charts.OrdinalAxisSpec(
-                      renderSpec: charts.GridlineRendererSpec(labelStyle: 
-                      new charts.TextStyleSpec(
-                  fontSize: 18),
+                      renderSpec: charts.GridlineRendererSpec(
+                        labelStyle: new charts.TextStyleSpec(fontSize: 18),
+                      ),
                     ),
+                    primaryMeasureAxis: new charts.NumericAxisSpec(
+                      renderSpec: new charts.GridlineRendererSpec(
+                        // Tick and Label styling here.
+                        labelStyle: new charts.TextStyleSpec(
+                            fontSize: 18, // size in Pts.
+                            color: charts.MaterialPalette.black),
+                      ),
                     ),
-                     primaryMeasureAxis: new charts.NumericAxisSpec(
-          renderSpec: new charts.GridlineRendererSpec(
-
-              // Tick and Label styling here.
-              labelStyle: new charts.TextStyleSpec(
-                  fontSize: 18, // size in Pts.
-                  color: charts.MaterialPalette.black),
-          ),
-                     ),
                     behaviors: [
                       new charts.DatumLegend(
                         outsideJustification:
@@ -508,7 +524,6 @@ return _color;
                         horizontalFirst: true,
                         desiredMaxRows: 2,
                         showMeasures: true,
-                        
                         entryTextStyle: charts.TextStyleSpec(
                           color: charts.MaterialPalette.purple.shadeDefault,
                           fontFamily: 'Georgia',
@@ -531,59 +546,63 @@ return _color;
 
         break;
       case 'AddImageInput':
-        return new Container(
-           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              
-              new Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: new Text( "#" + (_currentQuestion + 1).toString() + ": " +
-                      widget.proj.questions[_currentQuestion].question,
-                      style: TextStyle(color: Colors.black, fontSize: 25),
-                      ),
-              ),),
-              Expanded(
-                child: FutureBuilder(
-                    future: _getImages(context,
-                        widget.proj.questions[_currentQuestion].compAnswers),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView(
-                          children: snapshot.data,
-                        );
-                      }
-                      if (!snapshot.hasData) {
-                        List<Widget> waitList = [];
-                        for (var i = 0;
-                            i <
-                                widget.proj.questions[_currentQuestion]
-                                    .compAnswers.length;
-                            i++) {
-                          waitList.add(Container(
-                            height: MediaQuery.of(context).size.height / 10,
-                            width: MediaQuery.of(context).size.width / 10,
-                            child: CupertinoActivityIndicator(),
-                          ));
+        return Material(
+          color: appTheme.scaffoldBackgroundColor,
+                  child: new Container(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            //color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: new Text(
+                    "#" +
+                        (_currentQuestion + 1).toString() +
+                        ": " +
+                        widget.proj.questions[_currentQuestion].question,
+                    style: TextStyle(color: Colors.black, fontSize: 25, decoration: TextDecoration.none),
+                  ),
+                ),
+                Expanded(
+                  child: FutureBuilder(
+                      future: _getImages(context,
+                          widget.proj.questions[_currentQuestion].compAnswers),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView(
+                            children: snapshot.data,
+                          );
                         }
-                        if (waitList.length < 1) {
-                          waitList.add(Container(
-                            height: MediaQuery.of(context).size.height / 10,
-                            width: MediaQuery.of(context).size.width / 10,
-                            child: CupertinoActivityIndicator(),
-                          ));
+                        if (!snapshot.hasData) {
+                          List<Widget> waitList = [];
+                          for (var i = 0;
+                              i <
+                                  widget.proj.questions[_currentQuestion]
+                                      .compAnswers.length;
+                              i++) {
+                            waitList.add(Container(
+                              height: MediaQuery.of(context).size.height / 10,
+                              width: MediaQuery.of(context).size.width / 10,
+                              child: CupertinoActivityIndicator(),
+                            ));
+                          }
+                          if (waitList.length < 1) {
+                            waitList.add(Container(
+                              height: MediaQuery.of(context).size.height / 10,
+                              width: MediaQuery.of(context).size.width / 10,
+                              child: CupertinoActivityIndicator(),
+                            ));
+                          }
+                          return ListView(
+                            children: waitList,
+                          );
                         }
-                        return ListView(
-                          children: waitList,
-                        );
-                      }
-                    }),
-              ),
-              getPrevButton(context),
-              getNextButton(context),
-            ],
+                      }),
+                ),
+                getPrevButton(context),
+                getNextButton(context),
+              ],
+            ),
           ),
         );
         break;

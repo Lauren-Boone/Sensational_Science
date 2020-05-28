@@ -166,7 +166,7 @@ Widget build(BuildContext context){
                       child: new ListView(
                         children: snapshot.data.documents.map<Widget>((doc){
                           return Card(
-                            color: getColor(),
+                            color: Colors.teal[400],
                                                       child: new ListTile(
                               //hoverColor: Colors.blue,
                               title: new Text(doc['name']),

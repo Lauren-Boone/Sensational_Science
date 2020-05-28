@@ -132,7 +132,7 @@ class CompiledProject {
   
   CompiledProject({this.proj});
   List<Questions> answers = new List();
-
+  bool hasAnswers=false;
   Future getStudentsAnswers(String className, String classProjectID) async {
     //print(proj.toString()); 
     QuerySnapshot snap = await Firestore.instance
@@ -145,6 +145,7 @@ class CompiledProject {
       //print(snap.documents[i].data.toString()); 
       snap.documents[i].data.forEach((key, value) {
         if ("$key" == "Answers") {
+          hasAnswers=true;
           j = 0;
           //print("J = $j"); 
           value.forEach((e) {
