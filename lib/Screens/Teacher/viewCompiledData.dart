@@ -274,9 +274,14 @@ class _CompileDataState extends State<CompileData> {
     if (_currentQuestion >= widget.proj.questions.length) {
       return Material(
         color: appTheme.scaffoldBackgroundColor,
-          child: FittedBox(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: FittedBox(
         fit: BoxFit.scaleDown,
         child: Container(
+          color: appTheme.scaffoldBackgroundColor,
             margin: EdgeInsets.all(50),
             //color: Colors.white,
             child: Column(
@@ -288,6 +293,7 @@ class _CompileDataState extends State<CompileData> {
                 )
               ],
             )),
+            ),
       ));
     }
     while (proj.questions[_currentQuestion].compAnswers.length == 0) {
@@ -297,7 +303,12 @@ class _CompileDataState extends State<CompileData> {
       case 'TextInputItem':
         return Material(
           color: appTheme.scaffoldBackgroundColor,
-          child: Container(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
+              color: appTheme.scaffoldBackgroundColor,
             padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
             // color: Colors.white,
             child: Column(
@@ -337,6 +348,7 @@ class _CompileDataState extends State<CompileData> {
               ],
             ),
           ),
+          ),
         );
 
         break;
@@ -345,7 +357,11 @@ class _CompileDataState extends State<CompileData> {
         _getGraph(multGraph);
         return Material(
           color: appTheme.scaffoldBackgroundColor,
-          child: Container(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
             color: appTheme.scaffoldBackgroundColor,
             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
             //color: Colors.white,
@@ -398,13 +414,19 @@ class _CompileDataState extends State<CompileData> {
               ],
             ),
           ),
+          ),
         );
 
         break;
       case 'ShortAnswerItem':
         return Material(
           color: appTheme.scaffoldBackgroundColor,
-          child: Container(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
+              color: appTheme.scaffoldBackgroundColor,
             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
             //color: Colors.white,
             child: Column(
@@ -439,6 +461,7 @@ class _CompileDataState extends State<CompileData> {
               ],
             ),
           ),
+          ),
         );
 
         break;
@@ -451,7 +474,12 @@ class _CompileDataState extends State<CompileData> {
                 '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
           color: appTheme.scaffoldBackgroundColor,
-          child: new Container(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: new Container(
+              color: appTheme.scaffoldBackgroundColor,
             margin: EdgeInsets.only(top: 60),
             constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
             child: Column(
@@ -476,6 +504,7 @@ class _CompileDataState extends State<CompileData> {
               ],
             ),
           ),
+          ),
         );
         break;
       case 'NumericalInputItem':
@@ -483,7 +512,12 @@ class _CompileDataState extends State<CompileData> {
         _getGraph(multGraph);
         return Material(
           color: appTheme.scaffoldBackgroundColor,
-          child: Container(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
+              color: appTheme.scaffoldBackgroundColor,
             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
             //color: Colors.white,
             child: Column(
@@ -542,13 +576,19 @@ class _CompileDataState extends State<CompileData> {
               ],
             ),
           ),
+          ),
         );
 
         break;
       case 'AddImageInput':
         return Material(
           color: appTheme.scaffoldBackgroundColor,
-                  child: new Container(
+                  child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: new Container(
+              color: appTheme.scaffoldBackgroundColor,
             padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
             //color: Colors.white,
             child: Column(
@@ -604,10 +644,19 @@ class _CompileDataState extends State<CompileData> {
               ],
             ),
           ),
+                  ),
         );
         break;
       default:
-        return new Container();
+        return new Material(
+          color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text("No Data Available")
+            ),
+          body: Container(),
+          )
+        );
     }
   }
 }

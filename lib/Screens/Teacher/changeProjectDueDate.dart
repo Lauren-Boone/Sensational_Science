@@ -53,17 +53,20 @@ class _ChangeProjectDueDateState extends State<ChangeProjectDueDate> {
           child: Column(
             children: [
               Card(
-                child: Text("Current Due Date: " + widget.dueDate.toString())
+                child: ListTile(
+                  title: Text("Current Due Date: " + widget.dueDate.toString())
+                ),
               ),
               Container(
                 padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.1,
+                  right: MediaQuery.of(context).size.width * 0.1,
                   bottom: 10.0),
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: DateTimeField(
                   format: DateFormat("yyyy-MM-dd"),
                   decoration: const InputDecoration(
-                    hintText: 'Project Due Date',
+                    hintText: 'New Project Due Date',
                     hintStyle: TextStyle(color: Colors.green),
                   ),
                   onChanged: (dt) => setState(() => _date = dt),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sensational_science/Screens/Student/student_home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sensational_science/Shared/styles.dart';
@@ -53,6 +54,10 @@ class _StudentEnterCodeState extends State<StudentEnterCode> {
                     height: 20,
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
                     controller: codeController,
                     decoration: const InputDecoration(
                       hintText: 'Enter your project code',
