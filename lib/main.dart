@@ -9,78 +9,56 @@ import 'package:sensational_science/Services/auth.dart';
 import 'dart:io' show Platform;
 import 'Screens/Login/sign_in.dart';
 import 'Screens/home/home.dart';
-import 'wrapper.dart';
+// import 'wrapper.dart';
 import 'models/user.dart';
 import 'dart:io' show Platform;
 
-Future<String>loadApiKey() async{
-  if(Platform.isAndroid){
-    return await rootBundle.loadString('assets/androidkey.txt'); 
-  }else if(Platform.isIOS){
-    return await rootBundle.loadString('assets/keys.txt'); 
+Future<String> loadApiKey() async {
+  if (Platform.isAndroid) {
+    return await rootBundle.loadString('assets/androidkey.txt');
+  } else if (Platform.isIOS) {
+    return await rootBundle.loadString('assets/keys.txt');
   }
 }
 
 void main() {
-  
   runApp(MyApp());
-  if(!kIsWeb){
+  if (!kIsWeb) {
     loadApiKey().then((value) => GoogleMap.init(value));
-  }
-  else 
+  } else
     GoogleMap.init('AIzaSyA2zhLJzZCBXwj6dQ8KAExZcuZpE3HpWXU');
-}
-
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamProvider<User>.value(
-//       value: AuthService().user,
-//           child: MaterialApp(
-//         home: Wrapper(
-          
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-class CheckAuthorization extends StatefulWidget{
-  @override 
-  _CheckAuthorizationState createState() => new _CheckAuthorizationState(); 
-}
-
-class _CheckAuthorizationState extends State<CheckAuthorization>{
-  bool loggedIn; 
-  var currentUser; 
-  @override 
-  void initState(){
-    loggedIn = false; 
-    FirebaseAuth.instance.currentUser().then((user)=> user != null
-      ? setState((){
-        loggedIn = true; 
-        currentUser = new User(uid: user.uid); 
-
-      }): null); 
-        
-      super.initState(); 
-  } 
-
-
-
-  @override
-  Widget build(BuildContext context){
-    return loggedIn ? new Home() : new SignIn(); 
-  }
-    
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new CheckAuthorization(); 
+    return MaterialApp(home: new Wrapper());
   }
 }
 
+class Wrapper extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return StreamBuilder<FirebaseUser>(stream: FirebaseAuth.instance.onAuthStateChanged, builder: (context, snapshot){
+      if(snapshot.connectionState == ConnectionState.active){
+        FirebaseUser user = snapshot.data; 
+        if (user == null){
+          return SignIn(); 
+        }
+         var currentUser = new User(uid: user.uid);
+        return Provider<User>.value(value: currentUser, child: Home()); 
+      }else{
+        return Scaffold(
+          body: Center(
+            child: Container(
+              width: 250, 
+              height: 250, 
+              child: CircularProgressIndicator(), 
+            )
+          )
+        );
+      }
+    }); 
+  }
+}

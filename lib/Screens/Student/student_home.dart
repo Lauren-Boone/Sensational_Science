@@ -5,6 +5,7 @@ import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/getproject.dart';
 import 'package:provider/provider.dart';
+import '../../main.dart';
 import 'collectDataStaging.dart';
 import 'student_view_class_data.dart';
 import 'package:sensational_science/Screens/Login/authenticate.dart';
@@ -56,7 +57,7 @@ class StudentHome extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => Authenticate()),
+                        MaterialPageRoute(builder: (context) => Wrapper()),
                         (Route<dynamic> route) => false,
                       );
                     },
