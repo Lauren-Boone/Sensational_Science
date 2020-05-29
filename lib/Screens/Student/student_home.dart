@@ -5,9 +5,9 @@ import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/getproject.dart';
 import 'package:provider/provider.dart';
+import '../../main.dart';
 import 'collectDataStaging.dart';
 import 'student_view_class_data.dart';
-import 'package:sensational_science/Screens/Login/authenticate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StudentHome extends StatelessWidget {
@@ -46,7 +46,7 @@ class StudentHome extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => Authenticate()),
+                        MaterialPageRoute(builder: (context) => Wrapper()),
                         (Route<dynamic> route) => false,);
                     },),
                   ],
@@ -71,9 +71,10 @@ class StudentHome extends StatelessWidget {
                     label:
                         Text('Log out', style: TextStyle(color: Colors.black)),
                     onPressed: () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => Authenticate()),
-                        (Route<dynamic> route) => false
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => Wrapper()),
+                        (Route<dynamic> route) => false,
                       );
                         // Navigator.of(context).pushReplacement(
                         // MaterialPageRoute(builder: (context) => Authenticate()),

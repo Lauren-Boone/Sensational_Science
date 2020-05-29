@@ -50,7 +50,9 @@ class AddProject {
   String docID;
   int numberQuestions;
 
-
+void setDocID(String docID){
+  this.docID = docID;
+}
   String getDocID() {
     return docID;
   }
@@ -154,13 +156,13 @@ docRef.setData({
       'subject': this.subject,
     });
 
-    Firestore.instance.runTransaction((transaction) async {
-      await transaction.set(
+    DocumentReference docRef2 = 
           Firestore.instance
               .collection("Teachers")
               .document(uid)
               .collection('Created Projects')
-              .document(),
+              .document();
+              docRef2.setData(
           {
             'docIDref': docRef.documentID,
             'title': title,
@@ -168,7 +170,7 @@ docRef.setData({
             'subject': this.subject,
             "owned": true,
           });
-    });
+   
     docID = docRef.documentID;
     return getDocID();
   }

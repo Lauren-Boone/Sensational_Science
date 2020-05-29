@@ -26,6 +26,7 @@ Stream<User> get user{
     try{  
   AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
   FirebaseUser user = result.user;
+  print("auth: " + user.toString()); 
   return _userFromFireBaseUser(user);
 }catch(e){
 print(e.toString());
