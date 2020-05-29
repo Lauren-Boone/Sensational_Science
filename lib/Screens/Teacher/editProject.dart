@@ -297,24 +297,23 @@ class _EditQuestionsState extends State<EditQuestions> {
                       i++;
                     }
                      });
-
+/*
                   if (proj.public == false) {
                    title.text = proj.title;
                      getAddProj();
+                      docID = proj.docID;
+                     updateProj.setDocID(docID);
                   if (proj.public == true) {
                     docID = updateProj.createProjectDoc(
                         title.text, proj.public, user.uid);
-                  } else {
-                    docID = proj.docID;
-                    updateProj.setDocID(docID);
-                  }
+                  } 
 
                   updateProj.addProjectDataToDoc(user.uid, questions,
                       typecontroller, answers, numQuestions, docID);
                   updateProj.addtodb(numQuestions);
                   Navigator.of(context).pop();
-                  } 
-                  else {
+                  } */
+                 // else {
                     return showDialog(
                      context: context,
                      builder: (BuildContext context){
@@ -334,13 +333,10 @@ class _EditQuestionsState extends State<EditQuestions> {
                               newTitle=title.text;
                             });
                             getAddProj();
-                  if (proj.public == true) {
+                  
                     docID = updateProj.createProjectDoc(
                         title.text, proj.public, user.uid);
-                  } else {
-                    docID = proj.docID;
-                    updateProj.setDocID(docID);
-                  }
+                  
 
                   updateProj.addProjectDataToDoc(user.uid, questions,
                       typecontroller, answers, numQuestions, docID);
@@ -360,7 +356,7 @@ class _EditQuestionsState extends State<EditQuestions> {
                     );
                     
                     
-                  }
+                 // }
 
                   
                     //questions.forEach((element) {
