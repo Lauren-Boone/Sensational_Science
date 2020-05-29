@@ -404,6 +404,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
             'Subject': project.data['projectSubject'], //project subject
           });
         });
+        addedStudents.add(e.controller.text);
       });
 
       // //increment the count of students in the class
@@ -453,8 +454,11 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                 child: new ListView.builder(
                   itemCount: addedStudents.length,
                   itemBuilder: (context, index) {
-                    return new ListTile(
-                      title: Text(addedStudents[index]),
+                    return Card(
+                      color: Colors.teal[400],
+                      child: new ListTile(
+                        title: Text(addedStudents[index]),
+                      ),
                     );
                   }
                 ),
