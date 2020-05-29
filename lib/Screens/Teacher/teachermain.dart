@@ -39,38 +39,48 @@ class _TeacherHomeState extends State<TeacherHome> {
         home: Scaffold(
           appBar: AppBar(title: Text("Home"), actions: <Widget>[
             StreamBuilder(
-              stream: Firestore.instance.collection("Teachers").document(Provider.of<User>(context).uid).snapshots(),
-              builder: (context, stream) {
-                if (!stream.hasData) {
-                  return new FlatButton.icon(
-              icon: Icon(Icons.person, color: Colors.black),
-              label: Text('Log out', style: TextStyle(color: Colors.black)),
-              onPressed: () async {
-                await _auth.signOut();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Authenticate()),
-                );
-              },
-            );
-                } else {
-                  print(stream.data);
-                  return Tooltip(
-                    waitDuration: Duration(milliseconds: 1),
-              message: 'Logged in as: ' + stream.data['fName'] + ' ' + stream.data['lName'] + ', ' + stream.data['email'],
-              child: new FlatButton.icon(
-              icon: Icon(Icons.person, color: Colors.black),
-              label: Text('Log out', style: TextStyle(color: Colors.black)),
-              onPressed: () async {
-                await _auth.signOut();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Authenticate()),
-                );
-              },
-            ),
-            );
-                }
+                stream: Firestore.instance
+                    .collection("Teachers")
+                    .document(Provider.of<User>(context).uid)
+                    .snapshots(),
+                builder: (context, stream) {
+                  if (!stream.hasData) {
+                    return new FlatButton.icon(
+                      icon: Icon(Icons.person, color: Colors.black),
+                      label: Text('Log out',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () async {
+                        await _auth.signOut();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (context) => Authenticate()),
+                        );
+                      },
+                    );
+                  } else {
+                    return Tooltip(
+                      waitDuration: Duration(milliseconds: 1),
+                      message: 'Logged in as: ' +
+                          stream.data['fName'] +
+                          ' ' +
+                          stream.data['lName'] +
+                          ', ' +
+                          stream.data['email'],
+                      child: new FlatButton.icon(
+                        icon: Icon(Icons.person, color: Colors.black),
+                        label: Text('Log out',
+                            style: TextStyle(color: Colors.black)),
+                        onPressed: () async {
+                          await _auth.signOut();
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (context) => Authenticate()),
+                          );
+                        },
+                      ),
+                    );
+                  }
                 }),
-
             new FlatButton.icon(
               onPressed: () => {
                 showModalBottomSheet(
@@ -143,7 +153,6 @@ class _TeacherHomeState extends State<TeacherHome> {
                 ),
               ),
 
-              
               Card(
                 child: ListTile(
                   title: Text('Assign Project to Class',
@@ -162,13 +171,13 @@ class _TeacherHomeState extends State<TeacherHome> {
                   },
                 ),
               ),
-              
+
               Card(
                 child: ListTile(
-                  title:
-                      Text('View Public Projects', style: TextStyle(fontSize: 20)),
-                  subtitle:
-                      Text('Projects that teachers have shared', style: TextStyle(fontSize: 17)),
+                  title: Text('View Public Projects',
+                      style: TextStyle(fontSize: 20)),
+                  subtitle: Text('Projects that teachers have shared',
+                      style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Navigator.push(
@@ -184,7 +193,9 @@ class _TeacherHomeState extends State<TeacherHome> {
                 child: ListTile(
                   title: Text('View Your Projects',
                       style: TextStyle(fontSize: 20)),
-                  subtitle: Text("Projects you've created or added to your list", style: TextStyle(fontSize: 17)),
+                  subtitle: Text(
+                      "Projects you've created or added to your list",
+                      style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Navigator.push(
