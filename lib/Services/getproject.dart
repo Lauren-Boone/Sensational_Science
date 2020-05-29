@@ -21,6 +21,7 @@ class GetProject {
   String info;
   String subject;
   String teacherID;
+  bool public;
   GetProject(String title, String docID) {
     this.docID = docID;
     this.title = title;
@@ -52,6 +53,9 @@ class GetProject {
           questionSnap.data.forEach((key, value) {
             if ('$key' == 'info') {
                 this.info = '$value';
+              }
+              if('$key' == 'public'){
+                this.public=true;
               }
             if ('$key' != 'count' &&
                 '$key' != 'public' &&
@@ -85,6 +89,9 @@ class GetProject {
         });
   }
 
+  updateProject(){
+
+  }
   orderProject(int count) {
     //this.questions.sort((a,b)=> a.number.compareTo(b.number));
     //this.questions.forEach((element) {
@@ -166,3 +173,5 @@ class CompiledProject {
     // });
   }
 }
+
+

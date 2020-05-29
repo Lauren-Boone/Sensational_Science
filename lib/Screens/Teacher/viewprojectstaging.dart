@@ -6,6 +6,7 @@ import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/models/user.dart';
 import 'viewproject.dart';
 import '../../Services/getproject.dart';
+import 'editProject.dart';
 
 class ViewProjectStaging extends StatefulWidget {
   final String projectID;
@@ -28,6 +29,7 @@ class _ViewProjectStagingState extends State<ViewProjectStaging> {
   String projInfo;
   String createdProjID;
   bool hasKey = false;
+  
   String uid;
   List<dynamic> answers = new List();
   _ViewProjectStagingState(title, docID, projInfo, createdProjID, uid) {
@@ -140,6 +142,17 @@ class _ViewProjectStagingState extends State<ViewProjectStaging> {
                           hasKey: hasKey),
                     ),
                   ),
+                },
+              ),
+              RaisedButton(
+                child: Text('Click to edit project'),
+                onPressed: ()=>{
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context)=> EditQuestions(title: this.title, proj: this.project),
+                    )
+                  )
+
                 },
               )
             ]),

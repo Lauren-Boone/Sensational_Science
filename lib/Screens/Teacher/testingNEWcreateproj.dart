@@ -54,10 +54,7 @@ List<ItemData> items = [];
    
  }
 List<List<TextEditingController>> answers = [];
- _removeAnswers(int number){
-  questionwidgets[number-1].answers.removeAt(number-1);
-  
- }
+ 
 bool needStateChange = false;
 class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
   //List<DynamicWidget> addQuestiontoAccordion = new List();
