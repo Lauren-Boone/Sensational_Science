@@ -31,29 +31,29 @@ class StudentHome extends StatelessWidget {
     return FutureProvider<Student>(
       create: (_) => Student.getForCode(classData),
       child: Consumer<Student>(builder: (context, student, child) {
-        if (student == null) {
-          return new Scaffold(
-              appBar: AppBar(
-                  title: Text('Loading'),
-                  backgroundColor: Colors.deepPurple,
-                  actions: <Widget>[
-                    FlatButton.icon(
-                        icon: Icon(
-                      Icons.person,
-                      color: Colors.black,
-                    ),
-                    label: Text('Log out', style: TextStyle(color: Colors.black)),
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => Wrapper()),
-                        (Route<dynamic> route) => false,);
-                    },),
-                  ],
-              ),
-              body: Container(
-                  width: 250, height: 250, child: CircularProgressIndicator()));
-        }
+        // if (student == null) {
+        //   return new Scaffold(
+        //       appBar: AppBar(
+        //           title: Text('Loading'),
+        //           backgroundColor: Colors.deepPurple,
+        //           actions: <Widget>[
+        //             FlatButton.icon(
+        //                 icon: Icon(
+        //               Icons.person,
+        //               color: Colors.black,
+        //             ),
+        //             label: Text('Log out', style: TextStyle(color: Colors.black)),
+        //             onPressed: () {
+        //               Navigator.pushAndRemoveUntil(
+        //                 context,
+        //                 MaterialPageRoute(builder: (context) => Wrapper()),
+        //                 (Route<dynamic> route) => false,);
+        //             },),
+        //           ],
+        //       ),
+        //       body: Container(
+        //           width: 250, height: 250, child: CircularProgressIndicator()));
+        // }
         GetProject project = new GetProject(student.projectTitle, student.projectID,);
         project.questionData();
         return MaterialApp(

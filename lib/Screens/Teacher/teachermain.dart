@@ -16,6 +16,8 @@ import 'package:sensational_science/Screens/Login/authenticate.dart';
 import 'staging.dart';
 import 'listprojects.dart';
 import 'viewallprojects.dart';
+import 'package:sensational_science/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TeacherHome extends StatefulWidget {
   TeacherHome({Key key}) : super(key: key);
@@ -36,7 +38,26 @@ class _TeacherHomeState extends State<TeacherHome> {
         theme: appTheme,
         home: Scaffold(
           appBar: AppBar(title: Text("Home"), actions: <Widget>[
-            new FlatButton.icon(
+            StreamBuilder(
+              stream: Firestore.instance.collection("Teachers").document(Provider.of<User>(context).uid).snapshots(),
+              builder: (context, stream) {
+                if (!stream.hasData) {
+                  return new FlatButton.icon(
+              icon: Icon(Icons.person, color: Colors.black),
+              label: Text('Log out', style: TextStyle(color: Colors.black)),
+              onPressed: () async {
+                await _auth.signOut();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Authenticate()),
+                );
+              },
+            );
+                } else {
+                  print(stream.data);
+                  return Tooltip(
+                    waitDuration: Duration(milliseconds: 1),
+              message: 'Logged in as: ' + stream.data['fName'] + ' ' + stream.data['lName'] + ', ' + stream.data['email'],
+              child: new FlatButton.icon(
               icon: Icon(Icons.person, color: Colors.black),
               label: Text('Log out', style: TextStyle(color: Colors.black)),
               onPressed: () async {
@@ -46,6 +67,10 @@ class _TeacherHomeState extends State<TeacherHome> {
                 );
               },
             ),
+            );
+                }
+                }),
+
             new FlatButton.icon(
               onPressed: () => {
                 showModalBottomSheet(
