@@ -31,6 +31,10 @@ class StudentHome extends StatelessWidget {
     return FutureProvider<Student>(
       create: (_) => Student.getForCode(classData),
       child: Consumer<Student>(builder: (context, student, child) {
+        if(student == null){
+          return new MaterialApp(home: Container(
+                  width: 100, height: 100, child: CircularProgressIndicator())); 
+        }
         // if (student == null) {
         //   return new Scaffold(
         //       appBar: AppBar(
