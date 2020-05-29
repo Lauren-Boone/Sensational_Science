@@ -54,7 +54,7 @@ List<String> subjects = [
           .document(uid)
           .collection('Created Projects')
           .where(filterId, isEqualTo: filter)
-          .where('owned', isEqualTo: ownedfilter )
+          .where('owned', isEqualTo: hasownedfilter )
           .snapshots();
       }
       else if(subjectFilter){
@@ -68,7 +68,7 @@ List<String> subjects = [
         return Firestore.instance.collection('Teachers')
           .document(uid)
           .collection('Created Projects')
-          .where('owned', isEqualTo: ownedfilter )
+          .where('owned', isEqualTo: hasownedfilter )
           .snapshots();
       }
     
@@ -144,16 +144,16 @@ List<String> subjects = [
              SwitchListTile(
                     value: hasownedfilter,
                     title:
-                        const Text('Toggle to view projects you created or all'),
+                        const Text('Toggle to view only projects you created or both created and added'),
                     onChanged: (value) {
                       setState(() {
                          hasownedfilter = value;
                         
                         //print( hasownedfilter);
                         if ( hasownedfilter.toString() == 'false') {
-                          toggleview = 'Current Setting: Viewing project you have created';
+                          toggleview = 'Current Setting: Viewing project you have created and added';
                         } else {
-                          toggleview = 'Current Setting: Viewing project you have added';
+                          toggleview = 'Current Setting: Viewing only project you created';
                         }
                       });
                     },

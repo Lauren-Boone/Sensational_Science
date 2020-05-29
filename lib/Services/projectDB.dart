@@ -166,6 +166,7 @@ docRef.setData({
             'title': title,
             'info': this.info,
             'subject': this.subject,
+            "owned": true,
           });
     });
     docID = docRef.documentID;
