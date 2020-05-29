@@ -274,10 +274,15 @@ return _color;
   Widget build(BuildContext context) {
     if (_currentQuestion >= widget.proj.questions.length) {
       return Material(
-        child: FittedBox(        
+        color: appTheme.scaffoldBackgroundColor,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: FittedBox(        
           fit: BoxFit.scaleDown, 
           child: Container(
-          
+            color: appTheme.scaffoldBackgroundColor,
             margin: EdgeInsets.all(50),
             //color: Colors.white,
             child: Column(
@@ -289,7 +294,7 @@ return _color;
                 )
               ],
             )),)
-
+        ),
       );
     }
     while (proj.questions[_currentQuestion].compAnswers.length == 0) {
@@ -298,7 +303,13 @@ return _color;
     switch (widget.proj.questions[_currentQuestion].type.toString()) {
       case 'TextInputItem':
         return Material(
-          child: Container(
+          color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
+          color: appTheme.scaffoldBackgroundColor,
             padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
            // color: Colors.white,
             child: Column(
@@ -334,6 +345,7 @@ return _color;
               ],
             ),
           ),
+        ),
         );
 
         break;
@@ -341,9 +353,14 @@ return _color;
         List<charts.Series<GraphVals, String>> multGraph = [];
         _getGraph(multGraph);
         return Material(
-          child: Container(
+          color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
+          color: appTheme.scaffoldBackgroundColor,
              padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
             child: Column(
               children: <Widget>[
                
@@ -391,14 +408,20 @@ return _color;
               ],
             ),
           ),
+        ),
         );
 
         break;
       case 'ShortAnswerItem':
         return Material(
-          child: Container(
+          color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
              padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
+          color: appTheme.scaffoldBackgroundColor,
             child: Column(
               children: <Widget>[
                new Card(
@@ -429,6 +452,7 @@ return _color;
               ],
             ),
           ),
+          ),
         );
 
         break;
@@ -440,7 +464,13 @@ return _color;
             latlonInfo:
                 '${widget.proj.questions[_currentQuestion].compAnswers[0]}');
         return Material(
-          child: new Container(
+          color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: new Container(
+          color: appTheme.scaffoldBackgroundColor,
             margin: EdgeInsets.only(top: 60), 
             constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
             child: Column(
@@ -463,15 +493,21 @@ return _color;
               ],
             ),
           ),
+        ),
         );
         break;
       case 'NumericalInputItem':
         List<charts.Series<GraphVals, String>> multGraph = [];
         _getGraph(multGraph);
         return Material(
-          child: Container(
+          color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
              padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-            color: Colors.white,
+          color: appTheme.scaffoldBackgroundColor,
             child: Column(
               children: <Widget>[
                 
@@ -530,13 +566,20 @@ return _color;
               ],
             ),
           ),
+        ),
         );
 
         break;
       case 'AddImageInput':
-        return new Container(
+        return new Material(
+          color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(proj.title)
+            ),
+            body: Container(
            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-          color: Colors.white,
+          color: appTheme.scaffoldBackgroundColor,
           child: Column(
             children: <Widget>[
               
@@ -588,10 +631,20 @@ return _color;
               getNextButton(context),
             ],
           ),
+          ),
+        ),
         );
         break;
       default:
-        return new Container();
+        return new Material(
+          color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text("No Data Available")
+            ),
+          body: Container(),
+          )
+        );
     }
   }
 }

@@ -5,6 +5,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sensational_science/models/student.dart';
 import 'package:sensational_science/Services/storeLocally.dart';
+import 'package:sensational_science/Shared/styles.dart';
+
 
 //code based off of https://fireship.io/lessons/flutter-file-uploads-cloud-storage/
 
@@ -53,10 +55,11 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new Scaffold(
+    return new Material(
+      color: appTheme.scaffoldBackgroundColor,
+      child: new Scaffold(
         appBar: AppBar(
-            title: Text(widget.student.projectTitle + " Question " + widget.questionNum),
+            title: Text(widget.student.projectTitle + " #" + (int.parse(widget.questionNum) + 1).toString()),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: (){
@@ -81,7 +84,9 @@ class _ImageCaptureState extends State<ImageCapture> {
         ),
 
         //preview the image and crop it
-        body: ListView(
+        body: Material(
+          color: appTheme.scaffoldBackgroundColor,
+          child: ListView(
           children: <Widget>[
             if (imageFile != null) ...[
               Image.file(imageFile),
@@ -105,7 +110,7 @@ class _ImageCaptureState extends State<ImageCapture> {
             ]
           ],
         ),
-          
+        ),  
       ),
     );
   }

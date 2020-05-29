@@ -35,8 +35,8 @@ class _SignInState extends State<SignIn> {
             title: Text('Log In'),
             actions: <Widget>[
               FlatButton.icon(
-                icon: Icon(Icons.person),
-                label: Text('Register'),
+                icon: Icon(Icons.person, color: Colors.black),
+                label: Text('Register', style: TextStyle(color: Colors.black,)),
                 onPressed: () => Navigator.push(
                           context, MaterialPageRoute(
                             builder: (context) => CreateAccount()

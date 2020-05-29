@@ -6,6 +6,8 @@ import 'dart:html' as html;
 import 'dart:ui' as ui;
 import 'package:sensational_science/models/student.dart';
 import 'dart:io';
+import 'package:sensational_science/Shared/styles.dart';
+
 
 class ImageCapture extends StatefulWidget {
   final Student student;
@@ -118,7 +120,9 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Material(
+      color: appTheme.scaffoldBackgroundColor,
+      child: Scaffold(
       appBar: AppBar(
         title: Text(widget.student.projectTitle + " Question " + widget.questionNum),
         leading: IconButton(
@@ -129,7 +133,9 @@ class _ImageCaptureState extends State<ImageCapture> {
             Navigator.pop(context, false);
           },
         )),
-      body: ListView(
+      body: Material(
+        color: appTheme.scaffoldBackgroundColor,
+        child: ListView(
         children: [
           if (uploadedImage != null) ... [
             Image.memory(uploadedImage),
@@ -158,6 +164,7 @@ class _ImageCaptureState extends State<ImageCapture> {
           ),
         ],
       ),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
@@ -172,6 +179,7 @@ class _ImageCaptureState extends State<ImageCapture> {
           ]
         ),
       ),
+    ),
     );
   }
 }

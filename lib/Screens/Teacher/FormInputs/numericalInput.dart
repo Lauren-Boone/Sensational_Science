@@ -24,6 +24,7 @@ class _NumericalInputItemState extends State<NumericalInputItem> {
    //backgroundBlendMode: BlendMode.darken
   ),
       child: new TextFormField(
+        keyboardType: TextInputType.number,
         controller: widget.controller,
         decoration: new InputDecoration(
           labelText: " Numerical Input Question",
