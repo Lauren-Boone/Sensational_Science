@@ -62,7 +62,7 @@ class GetProject {
                 '$key' != 'teacherID' &&
                 '$key' != 'subject') {
               // count = value['Number'];
-              print(value['Type']);
+              //print(value['Type']);
               Questions question = new Questions(
                 type: value['Type'],
                 number: value['Number'],
@@ -76,7 +76,7 @@ class GetProject {
                 //question.answers.addAll(value['Answers']);
               }
               
-              print('adding');
+              //print('adding');
               this.questions.add(question);
               //count--;
             }
@@ -96,7 +96,7 @@ class GetProject {
 
     // }
     // }
-    printproj();
+    // printproj();
   }
 
   int getType(int index) {
@@ -117,14 +117,16 @@ class GetProject {
     return -1;
   }
 
-  printproj() {
-    questions.forEach((e) {
-      print(e.question);
-      print(e.number);
-      print(e.type);
-      print(e.answers);
-    });
-  }
+  getQuestions() {}
+
+  // printproj() {
+  //   questions.forEach((e) {
+  //     print(e.question);
+  //     print(e.number);
+  //     print(e.type);
+  //     print(e.answers);
+  //   });
+  // }
 }
 
 class CompiledProject {
@@ -132,9 +134,9 @@ class CompiledProject {
   
   CompiledProject({this.proj});
   List<Questions> answers = new List();
-
+  bool hasAnswers=false;
   Future getStudentsAnswers(String className, String classProjectID) async {
-    print(proj.toString()); 
+    //print(proj.toString()); 
     QuerySnapshot snap = await Firestore.instance
         .collection('codes')
         .where('Project', isEqualTo: classProjectID)
@@ -142,14 +144,15 @@ class CompiledProject {
         .getDocuments();
     int j = 0;
     for (int i = 0; i < snap.documents.length; ++i) {
-      print(snap.documents[i].data.toString()); 
+      //print(snap.documents[i].data.toString()); 
       snap.documents[i].data.forEach((key, value) {
         if ("$key" == "Answers") {
+          hasAnswers=true;
           j = 0;
-          print("J = $j"); 
+          //print("J = $j"); 
           value.forEach((e) {
             if (j < proj.questions.length) {
-              print("Project Questions J = $j"); 
+              //print("Project Questions J = $j"); 
               this.proj.questions[j].compAnswers.add(e.toString());
               j++;
             }
@@ -158,8 +161,8 @@ class CompiledProject {
         
       });
     }
-    proj.questions.forEach((element) {
-      print(element.compAnswers);
-    });
+    // proj.questions.forEach((element) {
+    //   print(element.compAnswers);
+    // });
   }
 }

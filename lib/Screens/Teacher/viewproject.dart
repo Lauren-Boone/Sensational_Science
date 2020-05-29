@@ -4,6 +4,7 @@ import 'package:sensational_science/Screens/Student/student_collect_data.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Screens/Teacher/viewprojectstaging.dart';
 import 'package:sensational_science/Services/projectDB.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/user.dart';
 import '../../models/project.dart';
 import '../../Services/getproject.dart';
@@ -52,23 +53,12 @@ class ViewProject extends StatefulWidget {
   final GetProject project;
   bool done = false;
   List<TextEditingController> controllers = [new TextEditingController()];
-  // Observation studentObservations;
-//GetProject project;
   ViewProject(this.title, this.docIDref, this.project, this.createdProjectID,
       this.student) {
-    //this.docIDref = docID;
-
-    // this.project = project;
-
-    // this.controllers = new List();
-    //project.questionData().then((ignore) {
     for (int i = 1; i < this.project.questions.length; i++) {
       controllers.add(new TextEditingController());
-      print("Values of i " + i.toString());
+      //print("Values of i " + i.toString());
     }
-    // });
-
-    // studentObservations = new Observation(docID);
   }
 
   AddProject proj;
@@ -114,6 +104,7 @@ class _ViewProjectState extends State<ViewProject> {
   Widget build(BuildContext context) {
     List<TextEditingController> answers = [];
     return new Material(
+      color: appTheme.scaffoldBackgroundColor,
       child: new Scaffold(
           appBar: AppBar(
             title: Text("Your Project"),
@@ -153,12 +144,6 @@ class _ViewProjectState extends State<ViewProject> {
         // )
         ),
           ),
-          floatingActionButton: RaisedButton(
-            onPressed: () {
-      Navigator.pop(context);
-            },
-            child: Text('Go back'),
-          ),
         ),
     );
   }
@@ -177,7 +162,7 @@ class _ViewProjectState extends State<ViewProject> {
                 widget.controllers[_currentQuestion].value.text);
           }
 
-          print(questionObservations.toJson());
+          //print(questionObservations.toJson());
           if (_currentQuestion < widget.project.questions.length) {
             setState(() {
               _currentQuestion++;
@@ -191,33 +176,39 @@ class _ViewProjectState extends State<ViewProject> {
     if (_currentQuestion < widget.project.questions.length) {
       switch (number) {
         case 0:
-          return Column(children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(16.0),
-              width: MediaQuery.of(context).size.width / 1.2,
-              child: Text("#" + (_currentQuestion + 1).toString() + ": " +
-                  widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
-            ),
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width / 1.33,
-              child: Center(
-                  child: new TextQuestionWidget(
-                      textAnswerController:
-                          widget.controllers[_currentQuestion])),
-            ),
-            getNextButton(context)
-          ]);
+          return Material(
+            color: appTheme.scaffoldBackgroundColor,
+                      child: Column(children: <Widget>[
+              Container(
+                color: appTheme.scaffoldBackgroundColor,
+                padding: EdgeInsets.all(16.0),
+                width: MediaQuery.of(context).size.width / 1.2,
+                child: Text("#" + (_currentQuestion + 1).toString() + ": " +
+                    widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width / 1.33,
+                child: Center(
+                    child: new TextQuestionWidget(
+                        textAnswerController:
+                            widget.controllers[_currentQuestion])),
+              ),
+              getNextButton(context)
+            ]),
+          );
           break;
         case 1:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 3 * 2,
               child: SizedBox(
@@ -233,12 +224,14 @@ class _ViewProjectState extends State<ViewProject> {
         case 2:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 1.33,
               child: new ShortAnswerQuestion(
@@ -250,12 +243,14 @@ class _ViewProjectState extends State<ViewProject> {
         case 3:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 1.33,
               child: new UserLocationInfo(
@@ -268,12 +263,14 @@ class _ViewProjectState extends State<ViewProject> {
         case 4:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 1.33,
               child: new NumericalQuestion(
@@ -284,12 +281,14 @@ class _ViewProjectState extends State<ViewProject> {
         case 5:
           return Column(children: <Widget>[
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width / 1.2,
               child: Text("#" + (_currentQuestion + 1).toString() + ": " +
                   widget.project.questions[_currentQuestion].question, style: TextStyle(fontSize: 20)),
             ),
             Container(
+              color: appTheme.scaffoldBackgroundColor,
               margin: EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width / 1.33,
               child: RaisedButton(
@@ -314,17 +313,20 @@ class _ViewProjectState extends State<ViewProject> {
           break;
       }
     } else {
-      return Column(children: <Widget>[
-        Text(
-            "Would you like to save your answers as an answer key/example project?",
-            textScaleFactor: 2),
+      return Column(
+        children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child:Text(
+              "Would you like to save your answers as an answer key/example project?",
+              textScaleFactor: 2),
+        ),
         RaisedButton(
           child: Text('Go back and review answers'),
           onPressed: () => {
             setState(() {
               _currentQuestion = 0;
             }),
-            //getQuestionWidget(),
           },
         ),
         RaisedButton(

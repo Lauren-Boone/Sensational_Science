@@ -218,7 +218,7 @@ return _color;
                         setState(() {
                           _class = newValue;
                           _checkForRoster(user.uid);
-                          print(_class);
+                          //print(_class);
                         });
                       },
                       items: snapshot.data.documents
@@ -308,7 +308,7 @@ return _color;
                       onChanged: (String newValue) {
                         setState(() {
                           _project = newValue;
-                          print(_project);
+                          //print(_project);
                         });
                       },
                       items: snapshot.data.documents
@@ -377,7 +377,7 @@ return _color;
                         onChanged: (String newValue) {
                           setState(() {
                             _project = newValue;
-                            print(_project);
+                            //print(_project);
                           });
                         },
                         items: snapshot.data.documents

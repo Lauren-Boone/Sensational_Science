@@ -15,8 +15,10 @@ final appTheme = ThemeData(
   brightness: Brightness.light,
   //backgroundColor: Colors.grey[500],
   //  accentColor: Colors.lightBlueAccent,
-  accentColor: Colors.deepPurpleAccent,
-  primarySwatch: Colors.teal,
+ // accentColor: Colors.deepPurpleAccent,
+ backgroundColor: Colors.grey[50],
+  primarySwatch: Colors.indigo,
+  scaffoldBackgroundColor: Colors.indigo[50],
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.indigo[600],
     shape: RoundedRectangleBorder(),
@@ -26,7 +28,7 @@ final appTheme = ThemeData(
     splashColor: Colors.purpleAccent,
   ),
   cardTheme: CardTheme(
-    color: Colors.green[100],
+    color: Colors.grey[400],
   ),
   iconTheme: IconThemeData(
     color: Colors.grey,
@@ -76,6 +78,14 @@ const modalInfo = TextStyle(
   fontSize: 15,
   fontWeight: FontWeight.normal,
   color: Colors.black,
+  decoration: TextDecoration.none,
+  fontFamily: 'montserrat',
+);
+
+const classLabel = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.normal,
+  color: Colors.white,
   decoration: TextDecoration.none,
   fontFamily: 'montserrat',
 );

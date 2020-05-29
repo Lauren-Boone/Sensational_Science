@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Screens/Teacher/viewprojectstaging.dart';
+import 'package:sensational_science/Shared/styles.dart';
 import 'package:sensational_science/models/user.dart';
 import 'viewproject.dart';
 import 'dart:async';
@@ -82,113 +83,117 @@ List<String> subjects = [
 @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Projects You've Created"),
-             actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.home, color: Colors.black),
-              label: Text('Home', style: TextStyle(color: Colors.black)),
-                onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeacherHome()),
-                  (Route<dynamic> route) => false,
+    return Material(
+      color: appTheme.scaffoldBackgroundColor,
+          child: Scaffold(
+        appBar: AppBar(
+          title: Text("Projects You've Created"),
+               actions: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.home, color: Colors.black),
+                label: Text('Home', style: TextStyle(color: Colors.black)),
+                  onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => TeacherHome()),
+                    (Route<dynamic> route) => false,
+                  );
+                        
+                },
+            ),
+          ],
+        ),
+            body: Material(
+              color: appTheme.scaffoldBackgroundColor,
+              child: Column(
+                children: <Widget>[
+                  new DropdownButton(
+                    value: curVal,
+              items: subjects.map<DropdownMenuItem<String>>((String value) {
+                
+                              return DropdownMenuItem<String>(
+                                value: value,
+                  child: Text(value),
                 );
-                      
-              },
-          ),
-        ],
-      ),
-          body: Material(
-            child: Column(
-              children: <Widget>[
-                new DropdownButton(
-                  value: curVal,
-            items: subjects.map<DropdownMenuItem<String>>((String value) {
-              
-                            return DropdownMenuItem<String>(
-                              value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (String newValue) {
-              curVal=newValue;
-              if(newValue == 'All'){
-                setState(() {
-                  
-                  subjectFilter=false;
-                  hasfilter=false;
+              }).toList(),
+              onChanged: (String newValue) {
+                curVal=newValue;
+                if(newValue == 'All'){
+                  setState(() {
+                    
+                    subjectFilter=false;
+                    hasfilter=false;
+                    _getStream(user.uid);
+                  });
+                }
+                else{
+                
+                setState(() { 
+                  curVal;
+                   hasfilter = true;
+                  filter = newValue;
+                  filterId='subject';
+                  subjectFilter=true;
                   _getStream(user.uid);
                 });
-              }
-              else{
-              
-              setState(() { 
-                curVal;
-                 hasfilter = true;
-                filter = newValue;
-                filterId='subject';
-                subjectFilter=true;
-                _getStream(user.uid);
-              });
-              }
-               
-              print(filter);
-            },
-          ),
-           SwitchListTile(
-                  value: hasownedfilter,
-                  title:
-                      const Text('Toggle to view projects you created or all'),
-                  onChanged: (value) {
-                    setState(() {
-                       hasownedfilter = value;
-                      
-                      print( hasownedfilter);
-                      if ( hasownedfilter.toString() == 'false') {
-                        toggleview = 'Current Setting: Viewing project you have created';
-                      } else {
-                        toggleview = 'Current Setting: Viewing project you have added';
-                      }
-                    });
-                  },
-                  subtitle: Text(toggleview),
-                ),
-                new StreamBuilder<QuerySnapshot>(
-          stream: _getStream(user.uid),
-          builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                if(!snapshot.hasData)return new Text('..Loading');
-                
-                return Expanded(
-                                  child: new ListView(
-                      children: snapshot.data.documents.map((document){
-                        
-                        return new ListTile( 
-  
-                            title: new Text(document['title']),
-                            subtitle: new Text('Click to View Project'),
-                            trailing: Icon(Icons.arrow_forward_ios), 
-                      onTap: () =>{
-                        //projInfo= _getInfo(document['docID']),
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>ViewProjectStaging(document['title'], document['docIDref'], document['info'], document.documentID, user.uid ),
-                          ),
-                        )
-                      },
-                          
-                          
-                        );
-                        
-                      }).toList(),
-                      ),
-                );
-          }
-
-        ),
-              ],
+                }
+                 
+                //print(filter);
+              },
             ),
+             SwitchListTile(
+                    value: hasownedfilter,
+                    title:
+                        const Text('Toggle to view projects you created or all'),
+                    onChanged: (value) {
+                      setState(() {
+                         hasownedfilter = value;
+                        
+                        //print( hasownedfilter);
+                        if ( hasownedfilter.toString() == 'false') {
+                          toggleview = 'Current Setting: Viewing project you have created';
+                        } else {
+                          toggleview = 'Current Setting: Viewing project you have added';
+                        }
+                      });
+                    },
+                    subtitle: Text(toggleview),
+                  ),
+                  new StreamBuilder<QuerySnapshot>(
+            stream: _getStream(user.uid),
+            builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                  if(!snapshot.hasData)return new Text('..Loading');
+                  
+                  return Expanded(
+                                    child: new ListView(
+                        children: snapshot.data.documents.map((document){
+                          
+                          return new ListTile( 
+  
+                              title: new Text(document['title']),
+                              subtitle: new Text('Click to View Project'),
+                              trailing: Icon(Icons.arrow_forward_ios), 
+                        onTap: () =>{
+                          //projInfo= _getInfo(document['docID']),
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>ViewProjectStaging(document['title'], document['docIDref'], document['info'], document.documentID, user.uid ),
+                            ),
+                          )
+                        },
+                            
+                            
+                          );
+                          
+                        }).toList(),
+                        ),
+                  );
+            }
+
+          ),
+                ],
+              ),
+        ),
       ),
     );
     

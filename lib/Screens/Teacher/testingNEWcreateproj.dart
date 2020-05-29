@@ -37,19 +37,38 @@ class AddQuestionsToProject extends StatefulWidget {
 }
 
 //List<TextEditingController> questions = new List<TextEditingController>();
-
-class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
-  //List<DynamicWidget> addQuestiontoAccordion = new List();
-  List<DynamicWidget> questionwidgets = [];
-  List<ItemData> items = [];
+int numQuestions = 0;
+List<ItemData> items = [];
   List<String> typecontroller=[];
   List<TextEditingController> questions=[];
-  List<List<TextEditingController>> answers = [];
+ List<DynamicWidget> questionwidgets = [];
+ _removeQuestion(int number){
+   questionwidgets.removeAt(number-1);
+   typecontroller.removeAt((number-1));
+   //questions.removeAt((number-1));
+   //items.removeAt(number-1);
+   numQuestions--;
+   for(int i = (number-1); i<questionwidgets.length; ++i){
+     questionwidgets[i].numq = i+1;
+   }
+   
+ }
+List<List<TextEditingController>> answers = [];
+ _removeAnswers(int number){
+  questionwidgets[number-1].answers.removeAt(number-1);
+  
+ }
+bool needStateChange = false;
+class _AddQuestionsToProjectState extends State<AddQuestionsToProject> {
+  //List<DynamicWidget> addQuestiontoAccordion = new List();
+ 
+  
+  //List<List<TextEditingController>> answers = [];
   List<String> types = ["MultipleChoice", "TextInputItem", "ShortAnswerItem", "UserLocation", "NumericalInputItem", "AddImageInput"];
   String curVal='MultipleChoice';
 
   //String selected;
-  int numQuestions = 0;
+  
 bool _checkforInput(){
   bool retVal = true;
   if(questionwidgets.length==0){
@@ -73,8 +92,15 @@ bool _checkforInput(){
   });
   return retVal;
 }
+bool reset = false;
+callback(reset) {
+        setState(() {
+           needStateChange=false;
+        });
+      }
   @override
   Widget build(BuildContext context) {
+    
      final user = Provider.of<User>(context);
     return Material(
       child: Scaffold(
@@ -122,6 +148,7 @@ bool _checkforInput(){
               child: new ListView.builder(
                   itemCount: questionwidgets.length,
                   itemBuilder: (_, index) => questionwidgets[index]),
+                  
             ),
             new RaisedButton(
               child: new Text('Add a Question'),
@@ -155,7 +182,7 @@ bool _checkforInput(){
                               onChanged: (String newValue) {
                                curVal = newValue;
                                
-                               print(curVal);
+                               //print(curVal);
                                 setState(() {
                                   
                                 });
@@ -178,7 +205,7 @@ bool _checkforInput(){
                                   numQuestions++;
                                   setState(() {
                                    questionwidgets.add(new DynamicWidget(
-                                      type: curVal, numq: numQuestions));
+                                      type: curVal, numq: numQuestions, callback: callback));
                                       typecontroller.add(curVal);
                                   });
                              
@@ -246,17 +273,17 @@ bool _checkforInput(){
                                     });
                                     i++;
                                   }
-                                  questions.forEach((element) {
-                                    print(element.value.text);
-                                  });
-                                  typecontroller.forEach((element) {
-                                    print(element);
-                                  });
-                                  answers.forEach((element) {
-                                    element.forEach((e) {
-                                      print(e.value.text);
-                                    });
-                                  });
+                                  // questions.forEach((element) {
+                                  //   //print(element.value.text);
+                                  // });
+                                  // typecontroller.forEach((element) {
+                                  //   //print(element);
+                                  // });
+                                  // answers.forEach((element) {
+                                  //   element.forEach((e) {
+                                  //     //print(e.value.text);
+                                  //   });
+                                  // });
 
                                 });
                              String docID=  widget.proj.createProjectDoc(widget.title, widget.pub, user.uid);
@@ -301,11 +328,13 @@ class DynamicWidget extends StatefulWidget {
   final controller = new TextEditingController();
   // final answercontroller = new List<TextEditingController>();
   final answers = new List<DynamicAnswers>();
+  final Function(bool) callback;
+
   int numAnswers = 0;
   final String type;
-  final int numq;
+   int numq;
 
-  DynamicWidget({this.type, this.numq});
+  DynamicWidget({this.type, this.numq, this.callback});
   @override
   _DynamicWidgetState createState() => _DynamicWidgetState();
 }
@@ -342,6 +371,17 @@ class _DynamicWidgetState extends State<DynamicWidget> {
             shrinkWrap: true,
             itemCount: widget.answers.length,
             itemBuilder: (_, index) => widget.answers[index]),
+        new RaisedButton(
+          child: Text("Remove question"),
+          onPressed: ()=>{
+            
+              _removeQuestion(widget.numq),
+              //_removeAnswers(widget.numq),
+              needStateChange=true,
+              widget.callback(true),
+              setState((){}),
+          },
+        )
       ],
             ),
         );
@@ -360,6 +400,16 @@ class _DynamicWidgetState extends State<DynamicWidget> {
                 //questions.add(controller);
               }),
             ),
+              new RaisedButton(
+          child: Text("Remove question"),
+          onPressed: ()=>{
+              _removeQuestion(widget.numq),
+              needStateChange=true,
+              widget.callback(true),
+             // _removeAnswers(widget.numq),
+             setState((){}),
+          },
+        )
           ],
         ),
       );

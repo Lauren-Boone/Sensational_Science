@@ -9,12 +9,12 @@ Future<Position> getUserLocation() async {
   try {
     Position currentUserPosition = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(currentUserPosition);
+    //print(currentUserPosition);
     return currentUserPosition;
   } catch (ex) {
     Position currentUserPosition;
     currentUserPosition = null;
-    print('Error getting user location');
+    //print('Error getting user location');
     return currentUserPosition;
   }
 }
@@ -30,12 +30,12 @@ class UserLocation extends StatefulWidget {
   try {
     Position currentUserPosition = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(currentUserPosition);
+    //print(currentUserPosition);
     return currentUserPosition;
   } catch (ex) {
     Position currentUserPosition;
     currentUserPosition = null;
-    print('Error getting user location');
+    //print('Error getting user location');
     return currentUserPosition;
   }
 }
@@ -60,39 +60,6 @@ class UserLocationState extends State<UserLocation> {
           labelText: " Location Answer Question",
           fillColor: Colors.white,
         ),
-      /*return new Container(
-          margin: EdgeInsets.all(3.0),
-          child: new Card(
-            child: new Container(
-              margin: EdgeInsets.all(3.0),
-              child: Column(
-                children: <Widget>[
-                  new TextField(
-                    controller: widget.controller,
-                    decoration: new InputDecoration(
-                      hintText: 'Location Description',
-                    ),
-                  ),
-                  RaisedButton(
-                    child: Text("Location"),
-                    onPressed: () {
-                      getUserLocation().then((result) {
-                        setState(() {
-                          results = result;
-                        });
-                      });
-                      print("Success!");
-                      print(results);
-                    // if(results != null)
-                    // new Text('$results');
-                    },
-                  ),
-                  if(results != null)
-                    new Text('$results'),
-                ],
-              ),
-            ),
-          ),*/
         ),
     );
   }

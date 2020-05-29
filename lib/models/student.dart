@@ -15,7 +15,7 @@ class Student{
   Student({this.code}) {
     final codeDoc = Firestore.instance.collection('codes').document(code).get();
     codeDoc.then( (doc) {
-      print(doc.data['Subject'].toString()); 
+      //print(doc.data['Subject'].toString()); 
       className = doc.data['Class'];
       studentName = doc.data['Name'];
       projectCode = doc.data['Project'];
@@ -42,7 +42,7 @@ class Student{
   static Future<Student> getForCode(String code) async{
     final doc = await Firestore.instance.collection('codes').document(code).get();
       Student student = new Student.empty(); 
-      print(doc.data['Subject'].toString()); 
+      //print(doc.data['Subject'].toString()); 
       student.className = doc.data['Class'];
       student.studentName = doc.data['Name'];
       student.projectCode = doc.data['Project'];

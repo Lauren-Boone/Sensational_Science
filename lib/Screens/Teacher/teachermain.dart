@@ -56,7 +56,6 @@ class _TeacherHomeState extends State<TeacherHome> {
                         child: MainHelp(),
                       );
                     }),
-
               },
               icon: Icon(Icons.help, color: Colors.black),
               label: Text("Help", style: TextStyle(color: Colors.black)),
@@ -65,81 +64,6 @@ class _TeacherHomeState extends State<TeacherHome> {
 
           body: ListView(
             children: <Widget>[
-              Card(
-                child: ListTile(
-                  title: Text('Classes',
-                      style: TextStyle(
-                        fontSize: 20,
-                      )),
-                  subtitle: Text(
-                      'View All Classes, view class info, add roster, and view compiled data',
-                      style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  onTap: () => {
-                    setState(() {}),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ClassListPage(),
-                      ),
-                    ),
-                  },
-                ),
-              ),
-              // Card(
-              //                 child: Ink(
-              //    color: Colors.white,
-              //     child: ListTile(
-              //       title: Text('Add Class', style: TextStyle(fontSize: 20)),
-              //       subtitle: Text('Add A New Class', style: TextStyle(fontSize: 17)),
-              //       trailing: Icon(Icons.arrow_forward_ios),
-              //       onTap: (){
-              //         Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //             builder: (context) =>AddClassPage(),
-              //           ),
-              //         );
-              //       },
-              //     ),
-              //   ),
-              // ),
-
-              Card(
-                child: ListTile(
-                  title:
-                      Text('View All projects', style: TextStyle(fontSize: 20)),
-                  subtitle:
-                      Text('Public Projects', style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PublicProjectsList(),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Card(
-                child: ListTile(
-                  title: Text('Assign Project to Class',
-                      style: TextStyle(fontSize: 20)),
-                  subtitle: Text(
-                      'Assign an Existing Project to an Existing Class',
-                      style: TextStyle(fontSize: 17)),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddProjectToClass(),
-                      ),
-                    );
-                  },
-                ),
-              ),
               Card(
                 child: ListTile(
                   title: Text('Create Project', style: TextStyle(fontSize: 20)),
@@ -174,9 +98,68 @@ class _TeacherHomeState extends State<TeacherHome> {
               ),
               Card(
                 child: ListTile(
+                  title: Text('All Classes',
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
+                  subtitle: Text(
+                      'View All Classes, view class info, add roster, and view compiled data',
+                      style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () => {
+                    setState(() {}),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ClassListPage(),
+                      ),
+                    ),
+                  },
+                ),
+              ),
+
+              
+              Card(
+                child: ListTile(
+                  title: Text('Assign Project to Class',
+                      style: TextStyle(fontSize: 20)),
+                  subtitle: Text(
+                      'Assign an Existing Project to an Existing Class',
+                      style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddProjectToClass(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              
+              Card(
+                child: ListTile(
+                  title:
+                      Text('View Public Projects', style: TextStyle(fontSize: 20)),
+                  subtitle:
+                      Text('Projects that teachers have shared', style: TextStyle(fontSize: 17)),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PublicProjectsList(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Card(
+                child: ListTile(
                   title: Text('View Your Projects',
                       style: TextStyle(fontSize: 20)),
-                  subtitle: Text('', style: TextStyle(fontSize: 17)),
+                  subtitle: Text("Projects you've created or added to your list", style: TextStyle(fontSize: 17)),
                   trailing: Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Navigator.push(
@@ -244,9 +227,10 @@ class _MainHelpState extends State<MainHelp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: modalHelpTheme,
+      color: modalHelpTheme.backgroundColor,
       home: SingleChildScrollView(
-              child: Container(
-          color: modalHelpTheme.backgroundColor,
+        child: Container(
+          //color: modalHelpTheme.backgroundColor,
           padding: EdgeInsets.fromLTRB(30, 10, 10, 30),
           child: Column(
             children: <Widget>[
@@ -254,9 +238,9 @@ class _MainHelpState extends State<MainHelp> {
                 title: Text(
                   "This is your home page",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 23,
-                    ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 trailing: Icon(
@@ -266,8 +250,8 @@ class _MainHelpState extends State<MainHelp> {
                 onTap: () => {Navigator.of(context).pop()},
               ),
               SingleChildScrollView(
-                            child: Column(
-             crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListTile(
                       title: Text("From this page you can navigate to:",
@@ -297,7 +281,7 @@ class _MainHelpState extends State<MainHelp> {
                             style: modalInfo,
                           ),
                         ])),
-                         SizedBox(height: 20),
+                    SizedBox(height: 20),
                     RichText(
                       text: TextSpan(
                           text: "View All Projects: ",
@@ -310,7 +294,7 @@ class _MainHelpState extends State<MainHelp> {
                             ),
                           ]),
                     ),
-                     SizedBox(height: 20),
+                    SizedBox(height: 20),
                     RichText(
                       text: TextSpan(
                           text: "View Your Projects: ",
@@ -323,7 +307,7 @@ class _MainHelpState extends State<MainHelp> {
                             ),
                           ]),
                     ),
-                     SizedBox(height: 20),
+                    SizedBox(height: 20),
                     RichText(
                       text: TextSpan(
                           text: "Create A Project: ",
@@ -336,7 +320,7 @@ class _MainHelpState extends State<MainHelp> {
                             ),
                           ]),
                     ),
-                     SizedBox(height: 20),
+                    SizedBox(height: 20),
                     RichText(
                       text: TextSpan(
                           text: "Assign a Project to a Class: ",
@@ -349,7 +333,6 @@ class _MainHelpState extends State<MainHelp> {
                             ),
                           ]),
                     ),
-                     
                   ],
                 ),
               ),

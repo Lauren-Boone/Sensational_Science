@@ -71,7 +71,7 @@ class _ChangeProjectDueDateState extends State<ChangeProjectDueDate> {
                     return showDatePicker(
                         context: context,
                         firstDate: DateTime.now(),
-                        initialDate: currentValue ?? widget.dueDate,
+                        initialDate: currentValue ??(DateTime.now().isAfter(widget.dueDate)?DateTime.now():widget.dueDate),
                         lastDate: DateTime(2100));
                   },
                   validator: (value) {

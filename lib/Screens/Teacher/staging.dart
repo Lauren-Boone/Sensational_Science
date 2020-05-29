@@ -120,7 +120,8 @@ final TextEditingController projectTitleController =
           //backgroundColor: Colors.grey[100],
           body: Container(
             margin: EdgeInsets.all(10),
-            child: Form(
+            child: SingleChildScrollView(
+              child: Form(
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
@@ -129,8 +130,12 @@ final TextEditingController projectTitleController =
                       controller: projectTitleController,
                       validator: (val) =>
                           val.isEmpty ? 'Enter Project Title' : null,
-                      decoration: const InputDecoration(
+                      decoration: new InputDecoration(
+                        labelText: 'Title',
                         hintText: 'Project Title',
+                        fillColor: Colors.white,
+                        enabledBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
+                        focusedBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
                       ),
                       //onChanged: (val) => setState(() => _currentTitle = val),
                     ),
@@ -139,10 +144,16 @@ final TextEditingController projectTitleController =
                       //initialValue: _currentInfo,
                       controller: projectInfo,
                       validator: (val) =>
-                          val.isEmpty ? 'Enter Project Description' : null,
-                      decoration: const InputDecoration(
-                        hintText: 'Project Description',
+                          val.isEmpty ? 'Enter Project Description & Instructions' : null,
+                      decoration: new InputDecoration(
+                        labelText: "Description & Instructions",
+                        hintText: "Project Description & Instructions",
+                        fillColor: Colors.white,
+                        enabledBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
+                        focusedBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
+
                       ),
+                      maxLines: 10,
                       //onChanged: (value) => setState(() => _currentInfo = value),
                     ),
                     SizedBox(height: 20),
@@ -173,7 +184,7 @@ final TextEditingController projectTitleController =
                                setState(() {
                                   
                                 });
-                                print(subjectVal);
+                                //print(subjectVal);
                               },
                               //onChanged: (value) => setState(() => _currentInfo = value),
                             ),
@@ -188,7 +199,7 @@ final TextEditingController projectTitleController =
                       onChanged: (value) {
                         setState(() {
                           pub = value;
-                          print(pub);
+                          //print(pub);
                           if (pub.toString() == 'true') {
                             pubpriv = 'Current Setting: Public';
                           } else {
@@ -290,7 +301,7 @@ final TextEditingController projectTitleController =
           ),
         ),
           ),
-    );
+    ),);
   }
 }
 

@@ -176,6 +176,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
     return Material(
       child: SingleChildScrollView(
       child: Container(
+        color: appTheme.scaffoldBackgroundColor,
         child: Column(
           children: <Widget>[
             Form(
@@ -246,7 +247,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                             final existingClasses =
                                 await classCollection.getDocuments();
                             for (var doc in existingClasses.documents) {
-                              print(doc.documentID);
+                              //print(doc.documentID);
                               if (doc.documentID ==
                                   classNameController.text.trim()) {
                                 docExists = true;
@@ -431,7 +432,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
         },
       );
       roster = [];
-      print(addedStudents.toString());
+      //print(addedStudents.toString());
       setState(() {});
     }
 
@@ -440,6 +441,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
     final user = Provider.of<User>(context);
     return Material(
       child: Container(
+        color: appTheme.scaffoldBackgroundColor,
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * .6,
         child: Column(
@@ -515,7 +517,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
   Widget addProject() {
     Future<void> assignProject(String uid, String className, String projectID,
         DateTime dueDate) async {
-      print(dueDate);
+      //print(dueDate);
       //create project under the class
       DocumentReference classDoc = Firestore.instance
           .collection('Teachers')
@@ -612,7 +614,9 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
 
     final user = Provider.of<User>(context);
     return new Material(
+       color: appTheme.scaffoldBackgroundColor,
       child: Container(
+         color: appTheme.scaffoldBackgroundColor,
         child: new Column(
           children: <Widget>[
             Padding(
@@ -680,7 +684,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       _project = newValue;
-                                      print(_project);
+                                      //print(_project);
                                     });
                                   },
                                   items: snapshot.data.documents
@@ -750,7 +754,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       _project = newValue;
-                                      print(_project);
+                                      //print(_project);
                                     });
                                   },
                                   items: snapshot.data.documents
@@ -862,7 +866,9 @@ class DynamicWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+       color: appTheme.scaffoldBackgroundColor,
       child: Container(
+         color: appTheme.scaffoldBackgroundColor,
         margin: new EdgeInsets.all(8.0),
         child: new TextField(
           controller: controller,
