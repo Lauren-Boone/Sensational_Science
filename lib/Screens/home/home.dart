@@ -45,18 +45,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   //int _counter = 0;
-final AuthService _auth = AuthService();
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-
-    void _showSettingsPanel(){
-      showModalBottomSheet(context: context, builder: (context){
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-          child: SettingsForm(),
-
-          );
-      });
+    void _showSettingsPanel() {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              child: SettingsForm(),
+            );
+          });
     }
 
     // This method is rerun every time setState is called, for instance as done
@@ -66,9 +66,8 @@ final AuthService _auth = AuthService();
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return StreamProvider<List<Teacher>>.value(
-        value: DatabaseService().user,
-        
-          child: Scaffold(
+      value: DatabaseService().user,
+      child: Scaffold(
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
@@ -77,72 +76,63 @@ final AuthService _auth = AuthService();
             FlatButton.icon(
               icon: Icon(Icons.person),
               label: Text('Log out'),
-              onPressed: () async{
+              onPressed: () async {
                 await _auth.signOut();
               },
-              
             ),
             FlatButton.icon(
               icon: Icon(Icons.settings),
               label: Text('Settings'),
               onPressed: () => _showSettingsPanel(),
             ),
-
           ],
         ),
         backgroundColor: Colors.grey[100],
         body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          // a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          child: Column(children: <Widget>[
+            // Center is a layout widget. It takes a single child and positions it
+            // in the middle of the parent.
+            // a layout widget. It takes a list of children and
+            // arranges them vertically. By default, it sizes itself to fit its
+            // children horizontally, and tries to be as tall as its parent.
+            //
+            // Invoke "debug painting" (press "p" in the console, choose the
+            // "Toggle Debug Paint" action from the Flutter Inspector in Android
+            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+            // to see the wireframe for each widget.
+            //
+            // Column has various properties to control how it sizes itself and
+            // how it positions its children. Here we use mainAxisAlignment to
+            // center the children vertically; the main axis here is the vertical
+            // axis because Columns are vertical (the cross axis would be
+            // horizontal).
+            child: Column(
+          children: <Widget>[
             RaisedButton(
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=> TeacherHome())
-                );
-              },
-              child: Text("Teacher Page")
-            ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => TeacherHome()));
+                },
+                child: Text("Teacher Page")),
             RaisedButton(
               onPressed: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=> StudentEnterCode())
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => StudentEnterCode()));
               },
               child: Text("Access Project With Student Code"),
             ),
-                  RaisedButton(
+            RaisedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=> TestDatabase())
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TestDatabase()));
               },
               child: Text("View List of Users"),
-            ),       
-          
-          ],)
-        ),
-        
-          
-         // This trailing comma makes auto-formatting nicer for build methods.
+            ),
+          ],
+        )),
 
+        // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
   }

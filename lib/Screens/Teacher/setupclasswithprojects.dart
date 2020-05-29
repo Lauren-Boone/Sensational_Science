@@ -404,6 +404,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
             'Subject': project.data['projectSubject'], //project subject
           });
         });
+        addedStudents.add(e.controller.text);
       });
 
       // //increment the count of students in the class
