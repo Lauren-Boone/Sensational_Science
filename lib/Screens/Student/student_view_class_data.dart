@@ -469,7 +469,7 @@ return _color;
             appBar: AppBar(
               title: Text(proj.title)
             ),
-            body: new Container(
+            body: Center(child: new Container(
           color: appTheme.scaffoldBackgroundColor,
             margin: EdgeInsets.only(top: 60), 
             constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
@@ -494,6 +494,7 @@ return _color;
             ),
           ),
         ),
+        ), 
         );
         break;
       case 'NumericalInputItem':
