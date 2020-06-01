@@ -56,7 +56,7 @@ List<List<TextEditingController>> answers = [];
 
 
 bool needStateChange = false;
-
+ int i = 0;
 class _EditQuestionsState extends State<EditQuestions> {
   GetProject proj;
   AddProject updateProj;
@@ -65,7 +65,7 @@ class _EditQuestionsState extends State<EditQuestions> {
   String docID;
   _EditQuestionsState(GetProject proj) {
     this.proj = proj;
-
+    questionwidgets.length = 0;
     _getquestionwidgets();
   }
 
@@ -145,7 +145,7 @@ class _EditQuestionsState extends State<EditQuestions> {
       needStateChange = false;
     });
   }
-
+bool updated=false;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -155,7 +155,9 @@ class _EditQuestionsState extends State<EditQuestions> {
           title: const Text('Add Questions To the Project'),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () => {Navigator.pop(context, true),
+           
+            }
           ),
           actions: <Widget>[
             FlatButton.icon(
@@ -250,9 +252,9 @@ class _EditQuestionsState extends State<EditQuestions> {
             ),
             RaisedButton(
               child: Text('Submit Created Project'),
-              onPressed: () {
+              onPressed: () =>{
                 if (questionwidgets.length == 0) {
-                  return showDialog(
+                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
@@ -266,9 +268,9 @@ class _EditQuestionsState extends State<EditQuestions> {
                                 },
                               )
                             ]);
-                      });
+                      }),
                 } else if (!_checkforInput()) {
-                  return showDialog(
+                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
@@ -284,9 +286,11 @@ class _EditQuestionsState extends State<EditQuestions> {
                                 },
                               )
                             ]);
-                      });
-                } else {
-                int i = 0;
+                      }),
+                }
+                else{
+                
+                i = 0,
                   questionwidgets.forEach((element) {
                     questions.add(element.controller);
                     if (element.answers.length > 0) {
@@ -296,25 +300,8 @@ class _EditQuestionsState extends State<EditQuestions> {
                       });
                       i++;
                     }
-                     });
-/*
-                  if (proj.public == false) {
-                   title.text = proj.title;
-                     getAddProj();
-                      docID = proj.docID;
-                     updateProj.setDocID(docID);
-                  if (proj.public == true) {
-                    docID = updateProj.createProjectDoc(
-                        title.text, proj.public, user.uid);
-                  } 
-
-                  updateProj.addProjectDataToDoc(user.uid, questions,
-                      typecontroller, answers, numQuestions, docID);
-                  updateProj.addtodb(numQuestions);
-                  Navigator.of(context).pop();
-                  } */
-                 // else {
-                    return showDialog(
+                     }),
+                    showDialog(
                      context: context,
                      builder: (BuildContext context){
                        return AlertDialog(
@@ -329,9 +316,10 @@ class _EditQuestionsState extends State<EditQuestions> {
                       RaisedButton(
                           child: Text("Continue"),
                           onPressed: () {
-                            setState(() {
+                            //setState(() {
                               newTitle=title.text;
-                            });
+                              updated=true;
+                           // });
                             getAddProj();
                   
                     docID = updateProj.createProjectDoc(
@@ -341,56 +329,34 @@ class _EditQuestionsState extends State<EditQuestions> {
                   updateProj.addProjectDataToDoc(user.uid, questions,
                       typecontroller, answers, numQuestions, docID);
                   updateProj.addtodb(numQuestions);
-                           Navigator.pop(context);
-                            Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeacherHome()),
-                  (Route<dynamic> route) => false,
-                );
-                           //Navigator.of(context).pop();
+                           
+                 Navigator.of(context).pop();
+               
+  //Navigator.of(context).pop();
+  
+                           
+                                     
                           }),
                     ]
                        );
                      }
                     
-                    );
+                    ),
+                     Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
+                ),
+                   
                     
-                    
-                 // }
-
+                
                   
-                    //questions.forEach((element) {
-                    //print(element.value.text);
-                    // });
-                    // typecontroller.forEach((element) {
-                    //   //print(element);
-                    // });
-                    // answers.forEach((element) {
-                    //   element.forEach((e) {
-                    //     //print(e.value.text);
-                    //   });
-                    // });
-                 
-                 
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  return showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                            title: Text("Project Successfully UPdated"),
-                            content: Text(
-                                "You can view this project is projects you've created. You will need to create a new answer key!"),
-                            actions: <Widget>[
-                              RaisedButton(
-                                child: Text('Close'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ]);
-                      });
+                    
+                  
                 }
+               
+            
+                
               },
             )
           ],
