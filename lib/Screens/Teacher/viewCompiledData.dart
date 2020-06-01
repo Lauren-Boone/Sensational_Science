@@ -186,7 +186,7 @@ class _CompileDataState extends State<CompileData> {
     return images;
   }
 
-  _getGraph(List<charts.Series<GraphVals, String>> multGraph) {
+  _getGraph(List<charts.Series<GraphVals, String>> multGraph, bool numerical) {
     Map<String, Color> colorKey = new Map();
     List<GraphVals> graphData = [];
     Map<String, int> elementCount = new Map();
@@ -214,6 +214,10 @@ class _CompileDataState extends State<CompileData> {
       graphData
           .add(new GraphVals(key.toString(), value, _randColor.randomColor()));
     });
+
+    if(numerical){
+      graphData.sort((a,b)=> int.parse(a.title).compareTo(int.parse(b.title)));
+    }
 
     multGraph.add(
       charts.Series(
@@ -354,7 +358,7 @@ class _CompileDataState extends State<CompileData> {
         break;
       case 'MultipleChoice':
         List<charts.Series<GraphVals, String>> multGraph = [];
-        _getGraph(multGraph);
+        _getGraph(multGraph, false);
         return Material(
           color: appTheme.scaffoldBackgroundColor,
           child: Scaffold(
@@ -393,7 +397,7 @@ class _CompileDataState extends State<CompileData> {
                         entryTextStyle: charts.TextStyleSpec(
                           color: charts.MaterialPalette.purple.shadeDefault,
                           fontFamily: 'Georgia',
-                          fontSize: 20,
+                          fontSize: 10,
                         ),
                       ),
                     ],
@@ -510,7 +514,7 @@ class _CompileDataState extends State<CompileData> {
         break;
       case 'NumericalInputItem':
         List<charts.Series<GraphVals, String>> multGraph = [];
-        _getGraph(multGraph);
+        _getGraph(multGraph, true);
         return Material(
           color: appTheme.scaffoldBackgroundColor,
           child: Scaffold(
@@ -540,11 +544,14 @@ class _CompileDataState extends State<CompileData> {
                     animationDuration: Duration(seconds: 1),
                     // barRendererDecorator: new charts.BarLabelDecorator<String>(),
                     domainAxis: new charts.OrdinalAxisSpec(
+                       showAxisLine: true,
                       renderSpec: charts.GridlineRendererSpec(
+                        
                         labelStyle: new charts.TextStyleSpec(fontSize: 18),
                       ),
                     ),
                     primaryMeasureAxis: new charts.NumericAxisSpec(
+                      
                       renderSpec: new charts.GridlineRendererSpec(
                         // Tick and Label styling here.
                         labelStyle: new charts.TextStyleSpec(
@@ -568,7 +575,7 @@ class _CompileDataState extends State<CompileData> {
                     ],
 
                     defaultRenderer: new charts.BarRendererConfig(
-                      groupingType: charts.BarGroupingType.grouped,
+                      groupingType: charts.BarGroupingType.groupedStacked,
                     ),
                   ),
                 ),

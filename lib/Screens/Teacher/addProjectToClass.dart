@@ -175,6 +175,14 @@ return _color;
             //color: appTheme.backgroundColor,
       child: new Column(
         children: <Widget>[
+           SizedBox(height:20),
+          Text("Assign a Project to a Class", style: TextStyle(fontSize: 20)),
+          SizedBox(height:20),
+          SizedBox(height:20),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: Text("Step 1: Choose a Class", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
           new StreamBuilder<QuerySnapshot>(
             stream: Firestore.instance
             .collection('Teachers')
@@ -186,19 +194,13 @@ return _color;
             return Center(
               child: Text("Loading . . ."),
             );
+            
           return new Container(
             padding: EdgeInsets.only(bottom: 10.0),
             width: MediaQuery.of(context).size.width * 0.9,
             child: new Row(
               children: <Widget>[
-                new Expanded(
-                  flex: 2,
-                  child: new Container(
-                    padding:
-                        EdgeInsets.fromLTRB(10.0, 16.0, 10.0, 10.0),
-                    child: Text("Class to Assign Project For", style: modalLabel),
-                  ),
-                ),
+                //Text("Class to Assign Project For", style: modalLabel),
                 new Expanded(
                   flex: 4,
                   child: new InputDecorator(
@@ -207,7 +209,7 @@ return _color;
                       hintStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                     isEmpty: _class == null,
@@ -248,6 +250,11 @@ return _color;
           );
             },
           ),
+          SizedBox(height:40),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: Text("Step 2: Choose a type of project to select from", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
           Padding(
             padding: EdgeInsets.only(
           left: MediaQuery.of(context).size.width * 0.1,
@@ -255,7 +262,7 @@ return _color;
             child: Row(
           children: [
             Text("View my projects only",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.normal),
             ),
             Switch(
               value: myProjectsOnly,
@@ -270,6 +277,11 @@ return _color;
           ],
             ),
           ),
+          SizedBox(height:40),
+         Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: Text("Step 3: Choose a Project", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
           myProjectsOnly ? new StreamBuilder<QuerySnapshot>(
             stream: Firestore.instance.collection('Teachers').document(user.uid).collection('Created Projects').snapshots(),
             builder: (context, snapshot) {
@@ -282,14 +294,7 @@ return _color;
             width: MediaQuery.of(context).size.width * 0.9,
             child: new Row(
               children: <Widget>[
-                new Expanded(
-                  flex: 2,
-                  child: new Container(
-                    padding:
-                        EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                    child: Text("Project to Assign", style: modalLabel),
-                  ),
-                ),
+                //Text("Project to Assign", style: modalLabel),
                 new Expanded(
                   flex: 4,
                   child: new InputDecorator(
@@ -298,7 +303,7 @@ return _color;
                       hintStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                     isEmpty: _project == null,
@@ -315,19 +320,7 @@ return _color;
                           .map((DocumentSnapshot document) {
                         return new DropdownMenuItem<String>(
                           value: document.data['docIDref'],
-                          child: new Container(
-                            decoration: new BoxDecoration(
-                              color: getColor(),
-                              borderRadius:
-                                  new BorderRadius.circular(3.0),
-                            ),
-                            height: 32.0,
-                            width: MediaQuery.of(context).size.width *
-                                0.52,
-                            padding: EdgeInsets.fromLTRB(
-                                10.0, 5.0, 10.0, 0.0),
-                            child: Text(document.data['title'], style: TextStyle(color: Colors.white)),
-                          ),
+                          child: Text(document.data['title'], style: TextStyle(color: Colors.black)),
                         );
                       }).toList(),
                     ),
@@ -408,10 +401,14 @@ return _color;
           },
             ),
           ),
+           SizedBox(height:40),
+           Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: Text("Step 4: Choose a Due Date", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
           Container(
-            padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.1,
-            bottom: 10.0),
+            //padding: EdgeInsets.all(20),
+            padding: EdgeInsets.only(bottom: 10.0),
             width: MediaQuery.of(context).size.width * 0.9,
             child: DateTimeField(
           format: DateFormat("yyyy-MM-dd"),
