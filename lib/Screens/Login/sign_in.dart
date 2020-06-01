@@ -34,8 +34,10 @@ class _SignInState extends State<SignIn> {
             //backgroundColor: Colors.deepPurple,
             title: Text('Log In'),
             actions: <Widget>[
-              FlatButton.icon(
-                color: Colors.white,
+              OutlineButton.icon(
+                // color: Colors.white,
+                textColor: Colors.white,
+                // borderSide: BorderSide(color: Colors.blue, width: 3),
                 icon: Icon(Icons.person),
                 label: Text('Register'),
                 onPressed: () => Navigator.push(
