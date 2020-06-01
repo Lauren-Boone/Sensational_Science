@@ -346,9 +346,9 @@ class _ViewPublicStagingState extends State<ViewPublicStaging> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                                title: Text("Project Exists in your List"),
+                                title: Text("This Project Already Exists in your List"),
                                 content: Text(
-                                    "This project is already in your list of projects!."),
+                                    "This project was not added and is already in your list of projects!."),
                                 actions: <Widget>[
                                   RaisedButton(
                                     child: Text('Close'),
@@ -358,8 +358,29 @@ class _ViewPublicStagingState extends State<ViewPublicStaging> {
                                   )
                                 ]);
                           });
-                    } else {
+                    } 
+                    else {
+                      titleExists = true;
                       addProjectToTeacher();
+                       showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                                title: Text("Success! Project added your your list"),
+                                content: Text(
+                                    "This project now under your project in the main menu."),
+                                actions: <Widget>[
+                                  RaisedButton(
+                                    child: Text('Close'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ]);
+                          });
+                          setState((){
+                            titleExists = true;
+                          });
                     }
                   },
                   child: Text('Click to add this project your project list!'),
