@@ -171,12 +171,14 @@ class _CompileDataState extends State<CompileData> {
   }
 
   _getGraph(List<charts.Series<GraphVals, String>> multGraph) {
+    bool numerical = false;
     Map<String, Color> colorKey = new Map();
     List<GraphVals> graphData = [];
     Map<String, int> elementCount = new Map();
     proj.questions[_currentQuestion].compAnswers.forEach((element) {
       String title = "";
       if (proj.questions[_currentQuestion].type == 'MultipleChoice') {
+        numerical = true;
         title = proj.questions[_currentQuestion].answers[int.parse(element)];
       } else {
         title = element.toString();
@@ -198,25 +200,10 @@ class _CompileDataState extends State<CompileData> {
       graphData
           .add(new GraphVals(key.toString(), value, _randColor.randomColor()));
     });
-    /*
-   proj.questions[_currentQuestion].compAnswers.forEach((element) {
-       String title="";
-       if(proj.questions[_currentQuestion].type=='MultipleChoice'){
-             title=proj.questions[_currentQuestion].answers[int.parse(element)];
-           }
-           else{
-             title = element.toString();
-           }
-         
-              RandomColor _randColor = RandomColor();
-              
-              while (colorKey.containsValue(_randColor.randomColor())){
-                _randColor=RandomColor();
-              }
-              colorKey[element]=_randColor.randomColor();
-           graphData.add(new GraphVals(title, elementCount[element], _randColor.randomColor() ));
-           // }
-    });*/
+  
+  if(numerical){
+      graphData.sort((a,b)=> int.parse(a.title).compareTo(int.parse(b.title)));
+    }
 
     multGraph.add(
       charts.Series(
