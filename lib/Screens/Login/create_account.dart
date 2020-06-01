@@ -71,8 +71,9 @@ class CreateAccountState extends State<CreateAccount> {
             //backgroundColor: Colors.deepPurple,
             title: Text("Create Account"),
              actions: <Widget>[
-            FlatButton.icon(
-              color: Colors.white,
+            OutlineButton.icon(
+              // color: Colors.white,
+              textColor: Colors.white,
               icon: Icon(Icons.person),
               label: Text('Sign In'),
               onPressed: () => Navigator.push(
