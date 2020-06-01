@@ -170,15 +170,13 @@ class _CompileDataState extends State<CompileData> {
     return images;
   }
 
-  _getGraph(List<charts.Series<GraphVals, String>> multGraph) {
-    bool numerical = false;
+  _getGraph(List<charts.Series<GraphVals, String>> multGraph, bool numerical) {
     Map<String, Color> colorKey = new Map();
     List<GraphVals> graphData = [];
     Map<String, int> elementCount = new Map();
     proj.questions[_currentQuestion].compAnswers.forEach((element) {
       String title = "";
       if (proj.questions[_currentQuestion].type == 'MultipleChoice') {
-        numerical = true;
         title = proj.questions[_currentQuestion].answers[int.parse(element)];
       } else {
         title = element.toString();
@@ -191,6 +189,7 @@ class _CompileDataState extends State<CompileData> {
       }
     });
     elementCount.forEach((key, value) {
+      
       RandomColor _randColor = RandomColor();
 
       while (colorKey.containsValue(_randColor.randomColor())) {
@@ -200,10 +199,8 @@ class _CompileDataState extends State<CompileData> {
       graphData
           .add(new GraphVals(key.toString(), value, _randColor.randomColor()));
     });
-  
-  if(numerical){
-      graphData.sort((a,b)=> int.parse(a.title).compareTo(int.parse(b.title)));
-    }
+
+    
 
     multGraph.add(
       charts.Series(
@@ -214,6 +211,50 @@ class _CompileDataState extends State<CompileData> {
             charts.ColorUtil.fromDartColor(vals.colorval),
         id: 'Class Data',
         labelAccessorFn: (GraphVals vals, _) => '${vals.value}',
+      ),
+    );
+  }
+  _getNumericalGraph(List<charts.Series<GraphValsNum, String>> multGraph) {
+    Map<String, Color> colorKey = new Map();
+    List<GraphValsNum> graphData = [];
+    Map<String, int> elementCount = new Map();
+    proj.questions[_currentQuestion].compAnswers.forEach((element) {
+      String title = "";
+    
+        title = element.toString();
+      
+
+      if (elementCount.containsKey(title)) {
+        elementCount[title] += 1;
+      } else {
+        elementCount[title] = 1;
+      }
+    });
+    elementCount.forEach((key, value) {
+      
+      RandomColor _randColor = RandomColor();
+
+      while (colorKey.containsValue(_randColor.randomColor())) {
+        _randColor = RandomColor();
+      }
+      colorKey['$key'] = _randColor.randomColor();
+      graphData
+          .add(new GraphValsNum(double.parse(key), value, _randColor.randomColor()));
+    });
+
+    
+      graphData.sort((a,b)=> a.title.compareTo(b.title));
+    
+
+    multGraph.add(
+      charts.Series(
+        data: graphData,
+        domainFn: (GraphValsNum vals, _) => (vals.title).toString(),
+        measureFn: (GraphValsNum vals, _) => vals.value,
+        colorFn: (GraphValsNum vals, _) =>
+            charts.ColorUtil.fromDartColor(vals.colorval),
+        id: 'Class Data',
+        labelAccessorFn: (GraphValsNum vals, _) => '${vals.value}',
       ),
     );
   }
@@ -338,7 +379,7 @@ return _color;
         break;
       case 'MultipleChoice':
         List<charts.Series<GraphVals, String>> multGraph = [];
-        _getGraph(multGraph);
+        _getGraph(multGraph, true);
         return Material(
           color: appTheme.scaffoldBackgroundColor,
           child: Scaffold(
@@ -376,7 +417,7 @@ return _color;
                           color: charts.MaterialPalette.purple.shadeDefault,
                           
                           fontFamily: 'Georgia',
-                          fontSize: 20,
+                          fontSize: 10,
                         ),
                       ),
                     ],
@@ -485,8 +526,8 @@ return _color;
         );
         break;
       case 'NumericalInputItem':
-        List<charts.Series<GraphVals, String>> multGraph = [];
-        _getGraph(multGraph);
+        List<charts.Series<GraphValsNum, String>> multGraph = [];
+        _getNumericalGraph(multGraph);
         return Material(
           color: appTheme.scaffoldBackgroundColor,
           child: Scaffold(
@@ -643,4 +684,11 @@ class GraphVals {
   Color colorval;
 
   GraphVals(this.title, this.value, this.colorval);
+}
+class GraphValsNum {
+  int value;
+  double title;
+  Color colorval;
+
+  GraphValsNum(this.title, this.value, this.colorval);
 }

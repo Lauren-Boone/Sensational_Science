@@ -23,14 +23,18 @@ class _NumericalQuestionState extends State<NumericalQuestion> {
       controller: widget.numAnswerController,
       
       decoration: new InputDecoration(
+        
         labelText: "Numerical Answer",
         fillColor: Colors.white,
         enabledBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
         focusedBorder: new OutlineInputBorder(borderSide: BorderSide( color: Colors.black, width: 1.0)),
 
       ),
+       keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
        inputFormatters: <TextInputFormatter>[
-    WhitelistingTextInputFormatter.digitsOnly
+    //WhitelistingTextInputFormatter.digitsOnly,
+    
+  
 ], // Only numbers can be entered
     ),
     ),
