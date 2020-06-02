@@ -6,6 +6,7 @@ import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Services/getproject.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import 'package:sensational_science/models/user.dart';
+import '../../Shared/styles.dart';
 
 // Displays one Entry. If the entry has children then it's displayed
 // with an ExpansionTile.
@@ -84,18 +85,20 @@ class _EditQuestionsState extends State<EditQuestions> {
   _getquestionwidgets() {
     proj.questions.forEach((element) {
       DynamicWidget toAdd = new DynamicWidget(
-          type: element.type, numq: element.number + 1, callback: callback);
+          type: element.type, numq: element.number + 1, callback: callback,);
       typecontroller.add(element.type);
-      questionwidgets.add(toAdd);
+     questionwidgets.add(toAdd);
       if (element.type == "MultipleChoice") {
         int i = 0;
         element.answers.forEach((e) {
-          DynamicAnswers answer = new DynamicAnswers(numAnswers: i);
+          DynamicAnswers answer = new DynamicAnswers(numAnswers: (i+1));
           answer.answercontroller.text = e;
           toAdd.answers.add(answer);
-
+          toAdd.numAnswers=(i+1);
           i++;
         });
+        
+         
       }
       questionwidgets[element.number].controller.text = element.question;
       numQuestions++;
@@ -191,6 +194,8 @@ bool updated=false;
           children: <Widget>[
             Expanded(
               child: new ListView.builder(
+                 physics: ScrollPhysics(),
+                shrinkWrap: true,
                   itemCount: questionwidgets.length,
                   itemBuilder: (_, index) => questionwidgets[index]),
             ),
@@ -372,7 +377,7 @@ class DynamicWidget extends StatefulWidget {
   final answers = new List<DynamicAnswers>();
   final Function(bool) callback;
 
-  int numAnswers = 0;
+  int numAnswers;
   final String type;
   int numq;
 
@@ -401,13 +406,14 @@ class _DynamicWidgetState extends State<DynamicWidget> {
             new RaisedButton(
               child: Text('Add Answers'),
               onPressed: () => {
-                //widget.numAnswers++,
+                widget.numAnswers++,
                 widget.answers
                     .add(new DynamicAnswers(numAnswers: widget.numAnswers)),
                 setState(() {}),
               },
             ),
             new ListView.builder(
+                 physics: ScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: widget.answers.length,
                 itemBuilder: (_, index) => widget.answers[index]),
@@ -463,14 +469,24 @@ class DynamicAnswers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+       
         width: MediaQuery.of(context).size.width / 2,
-        child: SizedBox(
-          width: 50,
-          child: new TextField(
-            controller: answercontroller,
-            decoration:
-                new InputDecoration(hintText: 'Enter A Multiple Choice Answer'),
-          ),
-        ));
+    child: Row(
+      children: [
+         Padding(padding: EdgeInsets.fromLTRB(10 , 0, 0, 0),),
+        new Text((numAnswers).toString() +". ", textAlign: TextAlign.left, style: modalInfo, ),
+        Padding(padding: EdgeInsets.fromLTRB(30 , 0, 0, 0),),
+        SizedBox(
+        
+        width: MediaQuery.of(context).size.width / 1.5,
+        child: new TextField(
+        
+        controller: answercontroller,
+        decoration:
+            new InputDecoration(hintText: 'Enter A Multiple Choice Answer'),
+        ),
+      ),
+      ],
+    ));
   }
 }
