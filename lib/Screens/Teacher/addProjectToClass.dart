@@ -230,7 +230,7 @@ return _color;
                             value: document.documentID,
                             child: new Container(
                               decoration: new BoxDecoration(
-                                color: getColor(),
+                                //color: getColor(),
                                 borderRadius:
                                     new BorderRadius.circular(3.0),
                               ),
@@ -239,7 +239,7 @@ return _color;
                                   0.52,
                               padding: EdgeInsets.fromLTRB(
                                   10.0, 5.0, 10.0, 0.0),
-                              child: Text(document.data['name'], style: TextStyle(color: Colors.white)),
+                              child: Text(document.data['name'], style: TextStyle(color: Colors.black)),
                             ),
                           );
                         }).toList(),
@@ -345,23 +345,16 @@ return _color;
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: new Row(
                   children: <Widget>[
-                    new Expanded(
-                      flex: 2,
-                      child: new Container(
-                        padding:
-                            EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                        child: Text("Project to Assign", style: modalLabel),
-                      ),
-                    ),
+                  
                     new Expanded(
                       flex: 4,
                       child: new InputDecorator(
                         decoration: const InputDecoration(
                           hintText: 'Choose a project',
                           hintStyle: TextStyle(
-                            color: Colors.green,
+                            color: Colors.black,
                             fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                         isEmpty: _project == null,
@@ -378,19 +371,7 @@ return _color;
                               .map((DocumentSnapshot document) {
                             return new DropdownMenuItem<String>(
                               value: document.documentID,
-                              child: new Container(
-                                decoration: new BoxDecoration(
-                                  color: getColor(),
-                                  borderRadius:
-                                      new BorderRadius.circular(3.0),
-                                ),
-                                height: 32.0,
-                                width: MediaQuery.of(context).size.width *
-                                    0.52,
-                                padding: EdgeInsets.fromLTRB(
-                                    10.0, 5.0, 10.0, 0.0),
-                                child: Text(document.data['title'], style: TextStyle(color: Colors.white)),
-                              ),
+                              child: Text(document.data['title'], style: TextStyle(color: Colors.black)),
                             );
                           }).toList(),
                         ),
