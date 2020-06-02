@@ -128,6 +128,10 @@ return _color;
    
       
   }
+  String classname="";
+  String project = "";
+  String dueDate="";
+
 
   @override
   Widget build(BuildContext context) {
@@ -177,237 +181,269 @@ return _color;
               child: new Column(
           children: <Widget>[
              SizedBox(height:20),
-            Text("Assign a Project to a Class", style: TextStyle(fontSize: 20)),
+            Text("Assign a Project to a Class", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height:20),
-            SizedBox(height:20),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: Text("Step 1: Choose a Class", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
-            new StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
-              .collection('Teachers')
-              .document(user.uid)
-              .collection('Classes')
-              .snapshots(),
-              builder: (context, snapshot) {
-            if (!snapshot.hasData)
-              return Center(
-                child: Text("Loading . . ."),
-              );
-              
-            return new Container(
-              padding: EdgeInsets.only(bottom: 10.0),
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: new Row(
-                children: <Widget>[
-                  //Text("Class to Assign Project For", style: modalLabel),
-                  new Expanded(
-                    flex: 4,
-                    child: new InputDecorator(
-                      decoration: const InputDecoration(
-                        hintText: 'Choose a class',
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      isEmpty: _class == null,
-                      child: new DropdownButton(
-                        value: _class,
-                        isDense: true,
-                        onChanged: (String newValue) {
-                          setState(() {
-                            _class = newValue;
-                            _checkForRoster(user.uid);
-                            //print(_class);
-                          });
-                        },
-                        items: snapshot.data.documents
-                            .map((DocumentSnapshot document) {
-                          return new DropdownMenuItem<String>(
-                            value: document.documentID,
-                            child: new Container(
-                              decoration: new BoxDecoration(
-                                //color: getColor(),
-                                borderRadius:
-                                    new BorderRadius.circular(3.0),
-                              ),
-                              height: 32.0,
-                              width: MediaQuery.of(context).size.width *
-                                  0.52,
-                              padding: EdgeInsets.fromLTRB(
-                                  10.0, 5.0, 10.0, 0.0),
-                              child: Text(document.data['name'], style: TextStyle(color: Colors.black)),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-              },
-            ),
-            SizedBox(height:40),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: Text("Step 2: Choose a type of project to select from", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
-            Padding(
-              padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * 0.1,
-            bottom: 10.0),
-              child: Row(
-            children: [
-              Text("View my projects only",
-                style: TextStyle(fontWeight: FontWeight.normal),
-              ),
-              Switch(
-                value: myProjectsOnly,
-                onChanged: (value) {
-                  setState(() {
-                    myProjectsOnly = value;
-                  });
-                },
-                activeTrackColor: Colors.lightGreenAccent,
-                activeColor: Colors.green,
-              ),
-            ],
-              ),
-            ),
-            SizedBox(height:40),
-           Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: Text("Step 3: Choose a Project", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
-            myProjectsOnly ? new StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection('Teachers').document(user.uid).collection('Created Projects').snapshots(),
-              builder: (context, snapshot) {
-            if (!snapshot.hasData)
-              return Center(
-                child: Text('Loading . . .'),
-              );
-            return new Container(
-              padding: EdgeInsets.only(bottom: 10.0),
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: new Row(
-                children: <Widget>[
-                  //Text("Project to Assign", style: modalLabel),
-                  new Expanded(
-                    flex: 4,
-                    child: new InputDecorator(
-                      decoration: const InputDecoration(
-                        hintText: 'Choose a project',
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      isEmpty: _project == null,
-                      child: new DropdownButton(
-                        value: _project,
-                        isDense: true,
-                        onChanged: (String newValue) {
-                          setState(() {
-                            _project = newValue;
-                            //print(_project);
-                          });
-                        },
-                        items: snapshot.data.documents
-                            .map((DocumentSnapshot document) {
-                          return new DropdownMenuItem<String>(
-                            value: document.data['docIDref'],
-                            child: Text(document.data['title'], style: TextStyle(color: Colors.black)),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-              },
-            ) 
-            : Container(
-                            child: new StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('Projects').snapshots(),
-            builder: (context, snapshot) {
+          
+            Card(
+                          child: ExpansionTile(
+                            title: Text("Step 1: Choose a Class", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                            //subtitle: Text(classname),
+                            key: GlobalKey(),
+                            children: <Widget>[
+new StreamBuilder<QuerySnapshot>(
+                          stream: Firestore.instance
+                          .collection('Teachers')
+                          .document(user.uid)
+                          .collection('Classes')
+                          .snapshots(),
+                          builder: (context, snapshot) {
               if (!snapshot.hasData)
-                return Center(
-                  child: Text('Loading . . .'),
-                );
+                          return Center(
+                            child: Text("Loading . . ."),
+                          );
+                          
               return new Container(
-                padding: EdgeInsets.only(bottom: 10.0),
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: new Row(
-                  children: <Widget>[
-                  
-                    new Expanded(
-                      flex: 4,
-                      child: new InputDecorator(
-                        decoration: const InputDecoration(
-                          hintText: 'Choose a project',
-                          hintStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.normal,
+               
+                          padding: EdgeInsets.only(bottom: 10.0),
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: new Row(
+                            children: <Widget>[
+                              //Text("Class to Assign Project For", style: modalLabel),
+                              new Expanded(
+                                flex: 4,
+                                child: new InputDecorator(
+                                  decoration: const InputDecoration(
+                                    hintText: 'Choose a class',
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  isEmpty: _class == null,
+                                  child: new DropdownButton(
+                                    value: _class,
+                                    isDense: true,
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        _class = newValue;
+                                        classname="Selected: "+ _class;
+                                        _checkForRoster(user.uid);
+                                        //print(_class);
+                                      });
+                                    },
+                                    items: snapshot.data.documents
+                                        .map((DocumentSnapshot document) {
+                                      return new DropdownMenuItem<String>(
+                                        value: document.documentID,
+                                        child: new Container(
+                                          decoration: new BoxDecoration(
+                                            //color: getColor(),
+                                            borderRadius:
+                                                new BorderRadius.circular(3.0),
+                                          ),
+                                          height: 32.0,
+                                          width: MediaQuery.of(context).size.width *
+                                              0.52,
+                                          padding: EdgeInsets.fromLTRB(
+                                              10.0, 5.0, 10.0, 0.0),
+                                          child: Text(document.data['name'], style: TextStyle(color: Colors.black)),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        isEmpty: _project == null,
-                        child: new DropdownButton(
-                          value: _project,
-                          isDense: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              _project = newValue;
-                              //print(_project);
-                            });
-                          },
-                          items: snapshot.data.documents
-                              .map((DocumentSnapshot document) {
-                            return new DropdownMenuItem<String>(
-                              value: document.documentID,
-                              child: Text(document.data['title'], style: TextStyle(color: Colors.black)),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               );
-            },
+                          },
               ),
+
+                            ],
+                            ),
             ),
-             SizedBox(height:40),
-             Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: Text("Step 4: Choose a Due Date", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
-            Container(
-              //padding: EdgeInsets.all(20),
-              padding: EdgeInsets.only(bottom: 10.0),
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: DateTimeField(
+            
+            SizedBox(height:10),
+            Card(
+                          child: ExpansionTile(
+                            title: Text("Step 2: Choose a type of project to select from", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+         children: <Widget>[
+               Padding(
+                          padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.1,
+              bottom: 10.0),
+                          child: Row(
+              children: [
+                          Text("View my projects only",
+                            style: TextStyle(fontWeight: FontWeight.normal),
+                          ),
+                          Switch(
+                            value: myProjectsOnly,
+                            onChanged: (value) {
+                              setState(() {
+                                myProjectsOnly = value;
+                              });
+                            },
+                            activeTrackColor: Colors.lightGreenAccent,
+                            activeColor: Colors.green,
+                          ),
+              ],
+                          ),
+              ),
+         ],
+          ),
+            ),
+          
+            SizedBox(height:10),
+           Card(
+                        child: ExpansionTile(
+                          key: GlobalKey(),
+                          title: Text("Step 3: Choose a Project", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          //subtitle: Text(project),
+                          children: <Widget>[
+myProjectsOnly ? new StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance.collection('Teachers').document(user.uid).collection('Created Projects').snapshots(),
+                        builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                        return Center(
+                          child: Text('Loading . . .'),
+                        );
+              return new Container(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: new Row(
+                          children: <Widget>[
+                            //Text("Project to Assign", style: modalLabel),
+                            new Expanded(
+                              flex: 4,
+                              child: new InputDecorator(
+                                decoration: const InputDecoration(
+                                  hintText: 'Choose a project',
+                                  hintStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                isEmpty: _project == null,
+                                child: new DropdownButton(
+                                  value: _project,
+                                  isDense: true,
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      
+                                      _project = newValue;
+                                     // project="Selected: "+ ;
+                                      //print(_project);
+                                    });
+                                  },
+                                  items: snapshot.data.documents
+                                      .map((DocumentSnapshot document) {
+                                       
+                                    return new DropdownMenuItem<String>(
+                                      
+                                      value: document.data['docIDref'],
+                                      child: Text(document.data['title'],style: TextStyle(color: Colors.black)),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+              );
+                        },
+              ) 
+              : Container(
+                                      child: new StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance.collection('Projects').snapshots(),
+              builder: (context, snapshot) {
+                        if (!snapshot.hasData)
+                          return Center(
+                            child: Text('Loading . . .'),
+                          );
+                        return new Container(
+                          padding: EdgeInsets.only(bottom: 10.0),
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: new Row(
+                            children: <Widget>[
+                            
+                              new Expanded(
+                                flex: 4,
+                                child: new InputDecorator(
+                                  decoration: const InputDecoration(
+                                    hintText: 'Choose a project',
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  isEmpty: _project == null,
+                                  child: new DropdownButton(
+                                    value: _project,
+                                    isDense: true,
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        _project = newValue;
+                                        //print(_project);
+                                      });
+                                    },
+                                    items: snapshot.data.documents
+                                        .map((DocumentSnapshot document) {
+                                      return new DropdownMenuItem<String>(
+                                        value: document.documentID,
+                                        child: Text(document.data['title'], style: TextStyle(color: Colors.black)),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+              },
+                        ),
+              ),
+
+                          ]
+                          
+                          ),
+           ),
+            
+             SizedBox(height:10),
+             Card(
+                            child: ExpansionTile(
+                              title: Text("Step 4: Choose a Due Date", textAlign: TextAlign.start, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              children: <Widget>[
+
+Container(
+                            //padding: EdgeInsets.all(20),
+                            padding: EdgeInsets.only(bottom: 10.0),
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: DateTimeField(
             format: DateFormat("yyyy-MM-dd"),
             decoration: const InputDecoration(
-              hintText: 'Project Due Date',
-              hintStyle: TextStyle(color: Colors.black),
+                            hintText: 'Select Project Due Date',
+                            icon: Icon(Icons.calendar_today),
+                            hintStyle: TextStyle(color: Colors.black),
             ),
             onChanged: (dt) => setState(() => _date = dt),
             onShowPicker: (context, currentValue) {
-              return showDatePicker(
-                  context: context,
-                  firstDate: DateTime.now(),
-                  initialDate: currentValue ?? DateTime.now(),
-                  lastDate: DateTime(2100));
+                            return showDatePicker(
+                                context: context,
+                                firstDate: DateTime.now(),
+                                initialDate: currentValue ?? DateTime.now(),
+                                lastDate: DateTime(2100));
             },
-              ),
+                            ),
             ),
+
+                              ],
+                              ),
+             ),
+            
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(
