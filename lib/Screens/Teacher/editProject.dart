@@ -377,9 +377,9 @@ class DynamicWidget extends StatefulWidget {
   final answers = new List<DynamicAnswers>();
   final Function(bool) callback;
 
-  int numAnswers;
+  int numAnswers = 0;
   final String type;
-  int numq;
+   int numq;
 
   DynamicWidget({this.type, this.numq, this.callback});
   @override
@@ -387,81 +387,112 @@ class DynamicWidget extends StatefulWidget {
 }
 
 class _DynamicWidgetState extends State<DynamicWidget> {
+  
   @override
   Widget build(BuildContext context) {
     if (widget.type == "MultipleChoice") {
-      return Container(
-        // constraints: BoxConstraints(minWidth: 230.0, minHeight: 25.0),
-        margin: new EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            new Text("Question: " + widget.numq.toString(),
+      return Card(
+              child: SingleChildScrollView(
+                child: Container(
+                // constraints: BoxConstraints(minWidth: 230.0, minHeight: 25.0),
+                margin: new EdgeInsets.all(8.0),
+                child: Column(
+            children: <Widget>[
+              new Text("Question: " + widget.numq.toString(),
                 style: TextStyle(fontSize: 20)),
-            new Text("Type: " + widget.type),
-            new TextField(
-              controller: widget.controller,
-              decoration: new InputDecoration(hintText: 'Enter Question Here'),
-              //onChanged: ((val) {}),
-            ),
-            new RaisedButton(
-              child: Text('Add Answers'),
-              onPressed: () => {
+              new Text("Type: " + widget.type),
+              new TextField(
+                controller: widget.controller,
+                decoration: new InputDecoration(hintText: 'Enter Question Here'),
+                //onChanged: ((val) {}),
+              ),
+              
+              Row(
+                children: [
+          Container(
+            margin: EdgeInsets.all(10),
+            child: new RaisedButton(
+                child: Text('Add Answers'),
+                onPressed: () => {
                 widget.numAnswers++,
                 widget.answers
-                    .add(new DynamicAnswers(numAnswers: widget.numAnswers)),
+            .add(new DynamicAnswers(numAnswers: widget.numAnswers)),
                 setState(() {}),
+                },
+                
+              ),
+          ),
+              
+          Container(
+            margin: EdgeInsets.all(10),
+            //alignment: Alignment.topRight,
+            child: new RaisedButton(
+              
+              child: Text("Remove question"),
+              onPressed: ()=>{
+                
+                  _removeQuestion(widget.numq),
+                  //_removeAnswers(widget.numq),
+                  needStateChange=true,
+                  widget.callback(true),
+                  setState((){}),
               },
             ),
-            new ListView.builder(
-                 physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: widget.answers.length,
-                itemBuilder: (_, index) => widget.answers[index]),
-            new RaisedButton(
-              child: Text("Remove question"),
-              onPressed: () => {
-                _removeQuestion(widget.numq),
-                //_removeAnswers(widget.numq),
-                needStateChange = true,
-                widget.callback(true),
-                setState(() {}),
-              },
-            )
-          ],
+          ),
+                ],
+              ),
+              SingleChildScrollView(
+                            child: new ListView.builder(
+                              physics: ScrollPhysics(),
+                 
+          shrinkWrap: true,
+          itemCount: widget.answers.length,
+          itemBuilder: (_, index) => widget.answers[index]
+
+          
+          ),
+              ),
+              
+            ],
+          ),
+              ),
         ),
       );
     } else {
-      return Container(
-        margin: new EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            new Text("Question: " + widget.numq.toString(),
-                style: TextStyle(fontSize: 20)),
-            new Text("Type: " + widget.type),
-            new TextField(
-              controller: widget.controller,
-              decoration: new InputDecoration(hintText: 'Enter Question Here'),
-              onChanged: ((val) {
-                //questions.add(controller);
-              }),
-            ),
-            new RaisedButton(
+      return Card(
+              child: SingleChildScrollView(
+                child: Container(
+            margin: new EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                new Text("Question: " + widget.numq.toString(),
+                    style: TextStyle(fontSize: 20)),
+                new Text("Type: " + widget.type),
+                new TextField(
+                  controller: widget.controller,
+                  decoration: new InputDecoration(hintText: 'Enter Question Here'),
+                  onChanged: ((val) {
+                    //questions.add(controller);
+                  }),
+                ),
+                  new RaisedButton(
               child: Text("Remove question"),
-              onPressed: () => {
-                _removeQuestion(widget.numq),
-                needStateChange = true,
-                widget.callback(true),
-                // _removeAnswers(widget.numq),
-                setState(() {}),
+              onPressed: ()=>{
+                  _removeQuestion(widget.numq),
+                  needStateChange=true,
+                  widget.callback(true),
+                 // _removeAnswers(widget.numq),
+                 setState((){}),
               },
             )
-          ],
+              ],
+            ),
+          ),
         ),
       );
     }
   }
 }
-
 class DynamicAnswers extends StatelessWidget {
   final answercontroller = new TextEditingController();
   final int numAnswers;
