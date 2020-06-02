@@ -659,21 +659,14 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: new Row(
                           children: <Widget>[
-                            new Expanded(
-                              flex: 2,
-                              child: new Container(
-                                padding:
-                                    EdgeInsets.fromLTRB(10.0, 10.0, 7.0, 8.0),
-                                child: Text("Project to Assign"),
-                              ),
-                            ),
+                            
                             new Expanded(
                               flex: 4,
                               child: new InputDecorator(
                                 decoration: const InputDecoration(
                                   hintText: 'Choose a project',
                                   hintStyle: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.black,
                                     fontSize: 15.0,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -692,20 +685,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                       .map((DocumentSnapshot document) {
                                     return new DropdownMenuItem<String>(
                                       value: document.data['docIDref'],
-                                      child: new Container(
-                                        decoration: new BoxDecoration(
-                                          color: Colors.lightGreen,
-                                          borderRadius:
-                                              new BorderRadius.circular(3.0),
-                                        ),
-                                        height: 32.0,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.5,
-                                        padding: EdgeInsets.fromLTRB(
-                                            10.0, 5.0, 10.0, 0.0),
-                                        child: Text(document.data['title']),
-                                      ),
+                                      child: Text(document.data['title']),
                                     );
                                   }).toList(),
                                 ),
@@ -729,22 +709,15 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: new Row(
                           children: <Widget>[
-                            new Expanded(
-                              flex: 2,
-                              child: new Container(
-                                padding:
-                                    EdgeInsets.fromLTRB(12.0, 10.0, 10.0, 10.0),
-                                child: Text("Project to Assign"),
-                              ),
-                            ),
+                            //Text("Project to Assign"),
                             new Expanded(
                               flex: 4,
                               child: new InputDecorator(
                                 decoration: const InputDecoration(
                                   hintText: 'Choose a project',
                                   hintStyle: TextStyle(
-                                    color: Colors.green,
-                                    fontSize: 16.0,
+                                    color: Colors.black,
+                                    fontSize: 15.0,
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
@@ -762,20 +735,7 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                                       .map((DocumentSnapshot document) {
                                     return new DropdownMenuItem<String>(
                                       value: document.documentID,
-                                      child: new Container(
-                                        decoration: new BoxDecoration(
-                                          color: Colors.lightGreen,
-                                          borderRadius:
-                                              new BorderRadius.circular(3.0),
-                                        ),
-                                        height: 32.0,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.52,
-                                        padding: EdgeInsets.fromLTRB(
-                                            10.0, 5.0, 10.0, 0.0),
-                                        child: Text(document.data['title']),
-                                      ),
+                                      child: Text(document.data['title']),
                                     );
                                   }).toList(),
                                 ),
@@ -787,23 +747,24 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                     },
                   ),
             Container(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.1, bottom: 10.0),
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: DateTimeField(
-                format: DateFormat("yyyy-MM-dd"),
-                decoration: const InputDecoration(
-                  hintText: 'Project Due Date',
-                  hintStyle: TextStyle(color: Colors.green),
+             
+              child: Center(
+                child: DateTimeField(
+                  format: DateFormat("yyyy-MM-dd"),
+                  decoration: const InputDecoration(
+                   
+                    hintText: 'Select Project Due Date',
+                    hintStyle: TextStyle(color: Colors.black,),
+                  ),
+                  onChanged: (dt) => setState(() => _date = dt),
+                  onShowPicker: (context, currentValue) {
+                    return showDatePicker(
+                        context: context,
+                        firstDate: DateTime.now(),
+                        initialDate: currentValue ?? DateTime.now(),
+                        lastDate: DateTime(2100));
+                  },
                 ),
-                onChanged: (dt) => setState(() => _date = dt),
-                onShowPicker: (context, currentValue) {
-                  return showDatePicker(
-                      context: context,
-                      firstDate: DateTime.now(),
-                      initialDate: currentValue ?? DateTime.now(),
-                      lastDate: DateTime(2100));
-                },
               ),
             ),
             Padding(
