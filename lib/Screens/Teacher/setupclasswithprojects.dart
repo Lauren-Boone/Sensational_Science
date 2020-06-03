@@ -650,10 +650,28 @@ class _SetUpClassStepsState extends State<SetUpClassSteps> {
                         .collection('Created Projects')
                         .snapshots(),
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData)
+                      if (!snapshot.hasData) {
                         return Center(
                           child: Text('Loading . . .'),
                         );
+                      }
+                      if (snapshot.data.documents.length == 0) {
+                        return new Container(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        width:
+                            MediaQuery.of(context).size.width * 0.9,
+                        child: new Row(
+                          children: <Widget>[
+                            //Text("Project to Assign", style: modalLabel),
+                            new Expanded(
+                              flex: 4,
+                              child: new Text("You have no projects in your list, please choose from all projects or add/create projects for your list.",
+                              style: TextStyle(color: Colors.red)),
+                            ),
+                          ],
+                        ),
+                        );
+                      }
                       return new Container(
                         padding: EdgeInsets.only(bottom: 10.0),
                         width: MediaQuery.of(context).size.width * 0.9,

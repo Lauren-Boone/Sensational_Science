@@ -125,7 +125,7 @@ return _color;
                                           context,
                                           new MaterialPageRoute(
                                             builder: (context) =>
-                                                new AddProjectToClass(),
+                                                new AddProjectToClass(selectedClass: widget.name),
                                           ))
                                     },
                                   ),
