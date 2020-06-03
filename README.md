@@ -1,16 +1,8 @@
 # sensational_science
 
-An open source Flutter project inspired by Citizen Science Projects that aims to give K-8 students and teachers an application where teachers can create science projects and students can complete them.
+Given the current state of in-person education, technology enabled remote learning can play a great role in keeping students’ education on track. Sensational Science Projects is an application designed to help supply a platform to develop and distribute science projects from teachers to their classes. As many teachers are encountering this remote learning challenge for the first time, this application promotes sharing of projects between teachers by allowing teachers to post their projects publicly so that other teachers can use and edit them for their own use and do not need to re-invent existing projects. 
+Sensational Science Projects was modeled after the concept of Citizen Science Projects, where data collection is crowd sourced. The data can be collected remotely and submitted through an online platform. Sensational Science Projects applies this concept to enable remote data collection and adds in data compilation so that students and teachers can see trends within the entire class’s data instead of just their own. It aims to allow K-8 teachers to create and edit projects to meet the needs of their class instead of adapting their wants to match the existing Citizen Science Project. We hope Sensational Science Projects will help K-8 teachers and students explore science together even though they are remote.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
