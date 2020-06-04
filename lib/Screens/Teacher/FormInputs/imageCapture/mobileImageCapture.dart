@@ -89,7 +89,11 @@ class _ImageCaptureState extends State<ImageCapture> {
           child: ListView(
           children: <Widget>[
             if (imageFile != null) ...[
-              Image.file(imageFile),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Image.file(imageFile),
+              ),
               Row(
                 children: <Widget>[
                   FlatButton(
@@ -108,6 +112,15 @@ class _ImageCaptureState extends State<ImageCapture> {
                 qNum: widget.questionNum,
                 controller: widget.imgLocController),
             ]
+            else
+            Container(
+              height: MediaQuery.of(context).size.height * 0.6,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Center(
+                child: Text("Choose to take a photo or a photo from file from the bottom pane"),
+              ),
+            )          
+
           ],
         ),
         ),  
@@ -132,10 +145,12 @@ class _UploaderState extends State<Uploader> {
   @override
   Widget build(BuildContext context) {
     if (widget.uploaded == false) {
-      return FlatButton.icon(
-        label: Text('Save to Project'),
-        icon: Icon(Icons.arrow_downward),
-        onPressed: () => setState(() => widget.uploaded = true)
+      return Card(
+        child: ListTile(
+        title: Text('Save to Project'),
+        trailing: Icon(Icons.arrow_downward),
+        onTap: () => setState(() => widget.uploaded = true)
+        ),
       );
     } else { 
       return new FutureBuilder(
@@ -143,14 +158,14 @@ class _UploaderState extends State<Uploader> {
         builder: (context, AsyncSnapshot<File> snapshot) {
           if (snapshot.hasData) {
             widget.controller.text = '${widget.student.teacherID}/${widget.student.className}/${widget.student.projectCode}/${widget.qNum}/${widget.student.studentID}.png';          
-            return Center(
-              child: Text('Success!',
+            return Card(
+            child: ListTile(
+              title: Text('Success!',
                 style: TextStyle(
                   fontSize: 24,
-                  color: Colors.green,
-                  backgroundColor: Colors.indigo,
                 ),
               ),
+            ),
             );
           } else {
             return CircularProgressIndicator();
