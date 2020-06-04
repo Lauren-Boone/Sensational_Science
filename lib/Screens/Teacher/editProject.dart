@@ -6,6 +6,7 @@ import 'package:sensational_science/Screens/Teacher/teachermain.dart';
 import 'package:sensational_science/Services/getproject.dart';
 import 'package:sensational_science/Services/projectDB.dart';
 import 'package:sensational_science/models/user.dart';
+import '../../Shared/styles.dart';
 
 // Displays one Entry. If the entry has children then it's displayed
 // with an ExpansionTile.
@@ -56,7 +57,7 @@ List<List<TextEditingController>> answers = [];
 
 
 bool needStateChange = false;
-
+ int i = 0;
 class _EditQuestionsState extends State<EditQuestions> {
   GetProject proj;
   AddProject updateProj;
@@ -65,7 +66,7 @@ class _EditQuestionsState extends State<EditQuestions> {
   String docID;
   _EditQuestionsState(GetProject proj) {
     this.proj = proj;
-
+    questionwidgets.length = 0;
     _getquestionwidgets();
   }
 
@@ -84,18 +85,20 @@ class _EditQuestionsState extends State<EditQuestions> {
   _getquestionwidgets() {
     proj.questions.forEach((element) {
       DynamicWidget toAdd = new DynamicWidget(
-          type: element.type, numq: element.number + 1, callback: callback);
+          type: element.type, numq: element.number + 1, callback: callback,);
       typecontroller.add(element.type);
-      questionwidgets.add(toAdd);
+     questionwidgets.add(toAdd);
       if (element.type == "MultipleChoice") {
         int i = 0;
         element.answers.forEach((e) {
-          DynamicAnswers answer = new DynamicAnswers(numAnswers: i);
+          DynamicAnswers answer = new DynamicAnswers(numAnswers: (i+1));
           answer.answercontroller.text = e;
           toAdd.answers.add(answer);
-
+          toAdd.numAnswers=(i+1);
           i++;
         });
+        
+         
       }
       questionwidgets[element.number].controller.text = element.question;
       numQuestions++;
@@ -145,7 +148,7 @@ class _EditQuestionsState extends State<EditQuestions> {
       needStateChange = false;
     });
   }
-
+bool updated=false;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -155,7 +158,9 @@ class _EditQuestionsState extends State<EditQuestions> {
           title: const Text('Add Questions To the Project'),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () => {Navigator.pop(context, true),
+           
+            }
           ),
           actions: <Widget>[
             FlatButton.icon(
@@ -189,6 +194,8 @@ class _EditQuestionsState extends State<EditQuestions> {
           children: <Widget>[
             Expanded(
               child: new ListView.builder(
+                 physics: ScrollPhysics(),
+                shrinkWrap: true,
                   itemCount: questionwidgets.length,
                   itemBuilder: (_, index) => questionwidgets[index]),
             ),
@@ -250,9 +257,9 @@ class _EditQuestionsState extends State<EditQuestions> {
             ),
             RaisedButton(
               child: Text('Submit Created Project'),
-              onPressed: () {
+              onPressed: () =>{
                 if (questionwidgets.length == 0) {
-                  return showDialog(
+                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
@@ -266,9 +273,9 @@ class _EditQuestionsState extends State<EditQuestions> {
                                 },
                               )
                             ]);
-                      });
+                      }),
                 } else if (!_checkforInput()) {
-                  return showDialog(
+                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
@@ -284,9 +291,11 @@ class _EditQuestionsState extends State<EditQuestions> {
                                 },
                               )
                             ]);
-                      });
-                } else {
-                int i = 0;
+                      }),
+                }
+                else{
+                
+                i = 0,
                   questionwidgets.forEach((element) {
                     questions.add(element.controller);
                     if (element.answers.length > 0) {
@@ -296,25 +305,8 @@ class _EditQuestionsState extends State<EditQuestions> {
                       });
                       i++;
                     }
-                     });
-/*
-                  if (proj.public == false) {
-                   title.text = proj.title;
-                     getAddProj();
-                      docID = proj.docID;
-                     updateProj.setDocID(docID);
-                  if (proj.public == true) {
-                    docID = updateProj.createProjectDoc(
-                        title.text, proj.public, user.uid);
-                  } 
-
-                  updateProj.addProjectDataToDoc(user.uid, questions,
-                      typecontroller, answers, numQuestions, docID);
-                  updateProj.addtodb(numQuestions);
-                  Navigator.of(context).pop();
-                  } */
-                 // else {
-                    return showDialog(
+                     }),
+                    showDialog(
                      context: context,
                      builder: (BuildContext context){
                        return AlertDialog(
@@ -329,9 +321,10 @@ class _EditQuestionsState extends State<EditQuestions> {
                       RaisedButton(
                           child: Text("Continue"),
                           onPressed: () {
-                            setState(() {
+                            //setState(() {
                               newTitle=title.text;
-                            });
+                              updated=true;
+                           // });
                             getAddProj();
                   
                     docID = updateProj.createProjectDoc(
@@ -341,56 +334,34 @@ class _EditQuestionsState extends State<EditQuestions> {
                   updateProj.addProjectDataToDoc(user.uid, questions,
                       typecontroller, answers, numQuestions, docID);
                   updateProj.addtodb(numQuestions);
-                           Navigator.pop(context);
-                            Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeacherHome()),
-                  (Route<dynamic> route) => false,
-                );
-                           //Navigator.of(context).pop();
+                           
+                 Navigator.of(context).pop();
+               
+  //Navigator.of(context).pop();
+  
+                           
+                                     
                           }),
                     ]
                        );
                      }
                     
-                    );
+                    ),
+                     Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TeacherHome()),
+                  (Route<dynamic> route) => false,
+                ),
+                   
                     
-                    
-                 // }
-
+                
                   
-                    //questions.forEach((element) {
-                    //print(element.value.text);
-                    // });
-                    // typecontroller.forEach((element) {
-                    //   //print(element);
-                    // });
-                    // answers.forEach((element) {
-                    //   element.forEach((e) {
-                    //     //print(e.value.text);
-                    //   });
-                    // });
-                 
-                 
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  return showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                            title: Text("Project Successfully UPdated"),
-                            content: Text(
-                                "You can view this project is projects you've created. You will need to create a new answer key!"),
-                            actions: <Widget>[
-                              RaisedButton(
-                                child: Text('Close'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ]);
-                      });
+                    
+                  
                 }
+               
+            
+                
               },
             )
           ],
@@ -408,7 +379,7 @@ class DynamicWidget extends StatefulWidget {
 
   int numAnswers = 0;
   final String type;
-  int numq;
+   int numq;
 
   DynamicWidget({this.type, this.numq, this.callback});
   @override
@@ -416,80 +387,112 @@ class DynamicWidget extends StatefulWidget {
 }
 
 class _DynamicWidgetState extends State<DynamicWidget> {
+  
   @override
   Widget build(BuildContext context) {
     if (widget.type == "MultipleChoice") {
-      return Container(
-        // constraints: BoxConstraints(minWidth: 230.0, minHeight: 25.0),
-        margin: new EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            new Text("Question: " + widget.numq.toString(),
+      return Card(
+              child: SingleChildScrollView(
+                child: Container(
+                // constraints: BoxConstraints(minWidth: 230.0, minHeight: 25.0),
+                margin: new EdgeInsets.all(8.0),
+                child: Column(
+            children: <Widget>[
+              new Text("Question: " + widget.numq.toString(),
                 style: TextStyle(fontSize: 20)),
-            new Text("Type: " + widget.type),
-            new TextField(
-              controller: widget.controller,
-              decoration: new InputDecoration(hintText: 'Enter Question Here'),
-              //onChanged: ((val) {}),
-            ),
-            new RaisedButton(
-              child: Text('Add Answers'),
-              onPressed: () => {
-                //widget.numAnswers++,
+              new Text("Type: " + widget.type),
+              new TextField(
+                controller: widget.controller,
+                decoration: new InputDecoration(hintText: 'Enter Question Here'),
+                //onChanged: ((val) {}),
+              ),
+              
+              Row(
+                children: [
+          Container(
+            margin: EdgeInsets.all(10),
+            child: new RaisedButton(
+                child: Text('Add Answers'),
+                onPressed: () => {
+                widget.numAnswers++,
                 widget.answers
-                    .add(new DynamicAnswers(numAnswers: widget.numAnswers)),
+            .add(new DynamicAnswers(numAnswers: widget.numAnswers)),
                 setState(() {}),
+                },
+                
+              ),
+          ),
+              
+          Container(
+            margin: EdgeInsets.all(10),
+            //alignment: Alignment.topRight,
+            child: new RaisedButton(
+              
+              child: Text("Remove question"),
+              onPressed: ()=>{
+                
+                  _removeQuestion(widget.numq),
+                  //_removeAnswers(widget.numq),
+                  needStateChange=true,
+                  widget.callback(true),
+                  setState((){}),
               },
             ),
-            new ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.answers.length,
-                itemBuilder: (_, index) => widget.answers[index]),
-            new RaisedButton(
-              child: Text("Remove question"),
-              onPressed: () => {
-                _removeQuestion(widget.numq),
-                //_removeAnswers(widget.numq),
-                needStateChange = true,
-                widget.callback(true),
-                setState(() {}),
-              },
-            )
-          ],
+          ),
+                ],
+              ),
+              SingleChildScrollView(
+                            child: new ListView.builder(
+                              physics: ScrollPhysics(),
+                 
+          shrinkWrap: true,
+          itemCount: widget.answers.length,
+          itemBuilder: (_, index) => widget.answers[index]
+
+          
+          ),
+              ),
+              
+            ],
+          ),
+              ),
         ),
       );
     } else {
-      return Container(
-        margin: new EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            new Text("Question: " + widget.numq.toString(),
-                style: TextStyle(fontSize: 20)),
-            new Text("Type: " + widget.type),
-            new TextField(
-              controller: widget.controller,
-              decoration: new InputDecoration(hintText: 'Enter Question Here'),
-              onChanged: ((val) {
-                //questions.add(controller);
-              }),
-            ),
-            new RaisedButton(
+      return Card(
+              child: SingleChildScrollView(
+                child: Container(
+            margin: new EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                new Text("Question: " + widget.numq.toString(),
+                    style: TextStyle(fontSize: 20)),
+                new Text("Type: " + widget.type),
+                new TextField(
+                  controller: widget.controller,
+                  decoration: new InputDecoration(hintText: 'Enter Question Here'),
+                  onChanged: ((val) {
+                    //questions.add(controller);
+                  }),
+                ),
+                  new RaisedButton(
               child: Text("Remove question"),
-              onPressed: () => {
-                _removeQuestion(widget.numq),
-                needStateChange = true,
-                widget.callback(true),
-                // _removeAnswers(widget.numq),
-                setState(() {}),
+              onPressed: ()=>{
+                  _removeQuestion(widget.numq),
+                  needStateChange=true,
+                  widget.callback(true),
+                 // _removeAnswers(widget.numq),
+                 setState((){}),
               },
             )
-          ],
+              ],
+            ),
+          ),
         ),
       );
     }
   }
 }
-
 class DynamicAnswers extends StatelessWidget {
   final answercontroller = new TextEditingController();
   final int numAnswers;
@@ -497,14 +500,24 @@ class DynamicAnswers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+       
         width: MediaQuery.of(context).size.width / 2,
-        child: SizedBox(
-          width: 50,
-          child: new TextField(
-            controller: answercontroller,
-            decoration:
-                new InputDecoration(hintText: 'Enter A Multiple Choice Answer'),
-          ),
-        ));
+    child: Row(
+      children: [
+         Padding(padding: EdgeInsets.fromLTRB(10 , 0, 0, 0),),
+        new Text((numAnswers).toString() +". ", textAlign: TextAlign.left, style: modalInfo, ),
+        Padding(padding: EdgeInsets.fromLTRB(30 , 0, 0, 0),),
+        SizedBox(
+        
+        width: MediaQuery.of(context).size.width / 1.5,
+        child: new TextField(
+        
+        controller: answercontroller,
+        decoration:
+            new InputDecoration(hintText: 'Enter A Multiple Choice Answer'),
+        ),
+      ),
+      ],
+    ));
   }
 }

@@ -86,7 +86,7 @@ final TextEditingController projectTitleController =
         color: appTheme.backgroundColor,
             child: Scaffold(
           appBar: AppBar(
-            title: Text("Add Project Info"),
+            title: Text("Project Info"),
             actions: <Widget>[
               FlatButton.icon(
                 icon: Icon(Icons.home, color: Colors.black),

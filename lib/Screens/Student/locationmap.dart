@@ -79,7 +79,7 @@ class LocationMapState extends State<LocationMap> {
           children: <Widget>[
             if (check)
               new Container(
-                margin: EdgeInsets.only(top: 10),
+                // margin: EdgeInsets.all(10.0),
                 height: heightSize,
                 width: widthSize,
                 child: GoogleMap(

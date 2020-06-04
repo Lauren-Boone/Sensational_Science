@@ -34,9 +34,12 @@ class _SignInState extends State<SignIn> {
             //backgroundColor: Colors.deepPurple,
             title: Text('Log In'),
             actions: <Widget>[
-              FlatButton.icon(
-                icon: Icon(Icons.person, color: Colors.black),
-                label: Text('Register', style: TextStyle(color: Colors.black,)),
+              OutlineButton.icon(
+                // color: Colors.white,
+                textColor: Colors.white,
+                // borderSide: BorderSide(color: Colors.blue, width: 3),
+                icon: Icon(Icons.person),
+                label: Text('Register'),
                 onPressed: () => Navigator.push(
                           context, MaterialPageRoute(
                             builder: (context) => CreateAccount()
@@ -51,7 +54,7 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: <Widget>[
                   RaisedButton(
-                    color: Colors.blue[400],
+                   // color: Colors.blue[400],
                     child: Text('Access Project Using Student Code'),
                     onPressed: () {
                       Navigator.push(
@@ -93,7 +96,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         SizedBox(height: 20),
                         RaisedButton(
-                          color: Colors.blue[400],
+                          //color: Colors.blue[400],
                           child: Text(
                             'Sign In',
                           ),

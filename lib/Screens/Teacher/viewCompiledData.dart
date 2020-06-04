@@ -186,7 +186,7 @@ class _CompileDataState extends State<CompileData> {
     return images;
   }
 
-  _getGraph(List<charts.Series<GraphVals, String>> multGraph) {
+  _getGraph(List<charts.Series<GraphVals, String>> multGraph, bool numerical) {
     Map<String, Color> colorKey = new Map();
     List<GraphVals> graphData = [];
     Map<String, int> elementCount = new Map();
@@ -205,6 +205,7 @@ class _CompileDataState extends State<CompileData> {
       }
     });
     elementCount.forEach((key, value) {
+      
       RandomColor _randColor = RandomColor();
 
       while (colorKey.containsValue(_randColor.randomColor())) {
@@ -215,6 +216,8 @@ class _CompileDataState extends State<CompileData> {
           .add(new GraphVals(key.toString(), value, _randColor.randomColor()));
     });
 
+    
+
     multGraph.add(
       charts.Series(
         data: graphData,
@@ -224,6 +227,50 @@ class _CompileDataState extends State<CompileData> {
             charts.ColorUtil.fromDartColor(vals.colorval),
         id: 'Class Data',
         labelAccessorFn: (GraphVals vals, _) => '${vals.value}',
+      ),
+    );
+  }
+  _getNumericalGraph(List<charts.Series<GraphValsNum, String>> multGraph) {
+    Map<String, Color> colorKey = new Map();
+    List<GraphValsNum> graphData = [];
+    Map<String, int> elementCount = new Map();
+    proj.questions[_currentQuestion].compAnswers.forEach((element) {
+      String title = "";
+    
+        title = element.toString();
+      
+
+      if (elementCount.containsKey(title)) {
+        elementCount[title] += 1;
+      } else {
+        elementCount[title] = 1;
+      }
+    });
+    elementCount.forEach((key, value) {
+      
+      RandomColor _randColor = RandomColor();
+
+      while (colorKey.containsValue(_randColor.randomColor())) {
+        _randColor = RandomColor();
+      }
+      colorKey['$key'] = _randColor.randomColor();
+      graphData
+          .add(new GraphValsNum(double.parse(key), value, _randColor.randomColor()));
+    });
+
+    
+      graphData.sort((a,b)=> a.title.compareTo(b.title));
+    
+
+    multGraph.add(
+      charts.Series(
+        data: graphData,
+        domainFn: (GraphValsNum vals, _) => (vals.title).toString(),
+        measureFn: (GraphValsNum vals, _) => vals.value,
+        colorFn: (GraphValsNum vals, _) =>
+            charts.ColorUtil.fromDartColor(vals.colorval),
+        id: 'Class Data',
+        labelAccessorFn: (GraphValsNum vals, _) => '${vals.value}',
       ),
     );
   }
@@ -354,7 +401,7 @@ class _CompileDataState extends State<CompileData> {
         break;
       case 'MultipleChoice':
         List<charts.Series<GraphVals, String>> multGraph = [];
-        _getGraph(multGraph);
+        _getGraph(multGraph, false);
         return Material(
           color: appTheme.scaffoldBackgroundColor,
           child: Scaffold(
@@ -393,7 +440,7 @@ class _CompileDataState extends State<CompileData> {
                         entryTextStyle: charts.TextStyleSpec(
                           color: charts.MaterialPalette.purple.shadeDefault,
                           fontFamily: 'Georgia',
-                          fontSize: 20,
+                          fontSize: 10,
                         ),
                       ),
                     ],
@@ -478,7 +525,7 @@ class _CompileDataState extends State<CompileData> {
             appBar: AppBar(
               title: Text(proj.title)
             ),
-            body: new Container(
+            body: Center(child:new Container(
               color: appTheme.scaffoldBackgroundColor,
             margin: EdgeInsets.only(top: 60),
             constraints: BoxConstraints(minWidth: 125.0, minHeight: 270.7),
@@ -505,11 +552,12 @@ class _CompileDataState extends State<CompileData> {
             ),
           ),
           ),
+          ),
         );
         break;
       case 'NumericalInputItem':
-        List<charts.Series<GraphVals, String>> multGraph = [];
-        _getGraph(multGraph);
+        List<charts.Series<GraphValsNum, String>> multGraph = [];
+        _getNumericalGraph(multGraph);
         return Material(
           color: appTheme.scaffoldBackgroundColor,
           child: Scaffold(
@@ -539,11 +587,14 @@ class _CompileDataState extends State<CompileData> {
                     animationDuration: Duration(seconds: 1),
                     // barRendererDecorator: new charts.BarLabelDecorator<String>(),
                     domainAxis: new charts.OrdinalAxisSpec(
+                       showAxisLine: true,
                       renderSpec: charts.GridlineRendererSpec(
-                        labelStyle: new charts.TextStyleSpec(fontSize: 18),
+                        
+                        labelStyle: new charts.TextStyleSpec(fontSize: 16),
                       ),
                     ),
                     primaryMeasureAxis: new charts.NumericAxisSpec(
+                      
                       renderSpec: new charts.GridlineRendererSpec(
                         // Tick and Label styling here.
                         labelStyle: new charts.TextStyleSpec(
@@ -561,13 +612,13 @@ class _CompileDataState extends State<CompileData> {
                         entryTextStyle: charts.TextStyleSpec(
                           color: charts.MaterialPalette.purple.shadeDefault,
                           fontFamily: 'Georgia',
-                          fontSize: 30,
+                          fontSize: 12,
                         ),
                       ),
                     ],
 
                     defaultRenderer: new charts.BarRendererConfig(
-                      groupingType: charts.BarGroupingType.grouped,
+                      groupingType: charts.BarGroupingType.groupedStacked,
                     ),
                   ),
                 ),
@@ -662,9 +713,17 @@ class _CompileDataState extends State<CompileData> {
 }
 
 class GraphVals {
-  int value;
+ int value;
   String title;
   Color colorval;
 
   GraphVals(this.title, this.value, this.colorval);
+}
+
+class GraphValsNum {
+ int value;
+  double title;
+  Color colorval;
+
+  GraphValsNum(this.title, this.value, this.colorval);
 }

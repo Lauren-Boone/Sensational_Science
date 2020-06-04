@@ -38,11 +38,14 @@ class _ViewProjectStagingState extends State<ViewProjectStaging> {
     this.projInfo = projInfo;
     this.createdProjID = createdProjID;
     this.uid = uid;
-
-    project = new GetProject(title, docID);
+   
+ project = new GetProject(title, docID);
+ project.questionData();
+    
+  
     //_getQuestions();
 
-    project.questionData();
+    
     if (createdProjID == "") {
     } else {
       getAnswers(uid);
