@@ -72,11 +72,11 @@ class _ImageCaptureState extends State<ImageCapture> {
           child: Row(
             children: <Widget> [
               IconButton(
-                icon: Icon(Icons.photo_camera),
+                icon: Icon(Icons.photo_camera, color: Colors.black),
                 onPressed: () => _pickImage(ImageSource.camera),
               ),
               IconButton(
-                icon: Icon(Icons.photo_library),
+                icon: Icon(Icons.photo_library, color: Colors.black),
                 onPressed: () => _pickImage(ImageSource.gallery),
               ),
             ],
@@ -89,22 +89,20 @@ class _ImageCaptureState extends State<ImageCapture> {
           child: ListView(
           children: <Widget>[
             if (imageFile != null) ...[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.6,
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: Image.file(imageFile),
-              ),
-              Row(
-                children: <Widget>[
-                  FlatButton(
-                    child: Icon(Icons.crop),
-                    onPressed: _cropImage,
-                  ),
-                  FlatButton(
-                    child: Icon(Icons.clear),
-                    onPressed: _clear,
-                  ),
-                ],
+              Image.file(imageFile),
+              Card(
+                child: Row(
+                  children: <Widget>[
+                    FlatButton(
+                      child: Icon(Icons.crop),
+                      onPressed: _cropImage,
+                    ),
+                    FlatButton(
+                      child: Icon(Icons.clear),
+                      onPressed: _clear,
+                    ),
+                  ],
+                ),
               ),
 
               Uploader(file: imageFile, 
@@ -148,7 +146,7 @@ class _UploaderState extends State<Uploader> {
       return Card(
         child: ListTile(
         title: Text('Save to Project'),
-        trailing: Icon(Icons.arrow_downward),
+        trailing: Icon(Icons.arrow_downward, color: Colors.black),
         onTap: () => setState(() => widget.uploaded = true)
         ),
       );
@@ -159,13 +157,15 @@ class _UploaderState extends State<Uploader> {
           if (snapshot.hasData) {
             widget.controller.text = '${widget.student.teacherID}/${widget.student.className}/${widget.student.projectCode}/${widget.qNum}/${widget.student.studentID}.png';          
             return Card(
-            child: ListTile(
-              title: Text('Success!',
+              child: ListTile(
+                title: Center(
+              child: Text('Success!',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 24
                 ),
               ),
-            ),
+                ),
+              ),
             );
           } else {
             return CircularProgressIndicator();
