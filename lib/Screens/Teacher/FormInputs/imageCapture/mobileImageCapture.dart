@@ -72,11 +72,11 @@ class _ImageCaptureState extends State<ImageCapture> {
           child: Row(
             children: <Widget> [
               IconButton(
-                icon: Icon(Icons.photo_camera),
+                icon: Icon(Icons.photo_camera, color: Colors.black),
                 onPressed: () => _pickImage(ImageSource.camera),
               ),
               IconButton(
-                icon: Icon(Icons.photo_library),
+                icon: Icon(Icons.photo_library, color: Colors.black),
                 onPressed: () => _pickImage(ImageSource.gallery),
               ),
             ],
@@ -90,17 +90,19 @@ class _ImageCaptureState extends State<ImageCapture> {
           children: <Widget>[
             if (imageFile != null) ...[
               Image.file(imageFile),
-              Row(
-                children: <Widget>[
-                  FlatButton(
-                    child: Icon(Icons.crop),
-                    onPressed: _cropImage,
-                  ),
-                  FlatButton(
-                    child: Icon(Icons.clear),
-                    onPressed: _clear,
-                  ),
-                ],
+              Card(
+                child: Row(
+                  children: <Widget>[
+                    FlatButton(
+                      child: Icon(Icons.crop),
+                      onPressed: _cropImage,
+                    ),
+                    FlatButton(
+                      child: Icon(Icons.clear),
+                      onPressed: _clear,
+                    ),
+                  ],
+                ),
               ),
 
               Uploader(file: imageFile, 
@@ -132,10 +134,12 @@ class _UploaderState extends State<Uploader> {
   @override
   Widget build(BuildContext context) {
     if (widget.uploaded == false) {
-      return FlatButton.icon(
-        label: Text('Save to Project'),
-        icon: Icon(Icons.arrow_downward),
-        onPressed: () => setState(() => widget.uploaded = true)
+      return Card(
+        child: ListTile(
+        title: Text('Save to Project'),
+        trailing: Icon(Icons.arrow_downward, color: Colors.black),
+        onTap: () => setState(() => widget.uploaded = true)
+        ),
       );
     } else { 
       return new FutureBuilder(
@@ -143,12 +147,14 @@ class _UploaderState extends State<Uploader> {
         builder: (context, AsyncSnapshot<File> snapshot) {
           if (snapshot.hasData) {
             widget.controller.text = '${widget.student.teacherID}/${widget.student.className}/${widget.student.projectCode}/${widget.qNum}/${widget.student.studentID}.png';          
-            return Center(
+            return Card(
+              child: ListTile(
+                title: Center(
               child: Text('Success!',
                 style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.green,
-                  backgroundColor: Colors.indigo,
+                  fontSize: 24
+                ),
+              ),
                 ),
               ),
             );
