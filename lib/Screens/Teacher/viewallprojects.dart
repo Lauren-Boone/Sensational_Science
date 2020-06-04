@@ -335,12 +335,7 @@ class _ViewPublicStagingState extends State<ViewPublicStaging> {
                     )),
                 RaisedButton(
                   onPressed: () {
-                    //color: Colors.blue;
                     setState(() {});
-                    // project.questions.forEach((element) {
-                    //   //print(element.question);
-                    // });
-
                     if (titleExists) {
                       return showDialog(
                           context: context,
