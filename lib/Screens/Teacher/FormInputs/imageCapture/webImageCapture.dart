@@ -23,7 +23,8 @@ class ImageCapture extends StatefulWidget {
 
 class _ImageCaptureState extends State<ImageCapture> {
   Widget _camera;
-  html.VideoElement _cameraVideo = new html.VideoElement();
+  // html.VideoElement _cameraVideo = new html.VideoElement();
+  html.VideoElement _cameraVideo;
   String key = UniqueKey().toString();
   Uint8List uploadedImage;
   String option1Text = "Select an image to upload";
@@ -108,17 +109,19 @@ class _ImageCaptureState extends State<ImageCapture> {
   void _cameraReStart() {
     setState(() {
       //clear out old camera
+      if (_cameraVideo != null) {
             _cameraVideo.captureStream().getVideoTracks().forEach((track) {
               track.stop();
             });            
             _cameraVideo.pause();
             _cameraVideo.removeAttribute('src');
             _cameraVideo.load();
+      }
       //start a new camera
       _cameraVideo = new html.VideoElement();
       //platformViewRegistry shows an error but should still work
-      ui.platformViewRegistry.registerViewFactory('cameraVideo', (int viewId) => _cameraVideo);
-      _camera = HtmlElementView(key: UniqueKey(), viewType: 'cameraVideo');
+      ui.platformViewRegistry.registerViewFactory('cameraVideo$key', (int viewId) => _cameraVideo);
+      _camera = HtmlElementView(key: UniqueKey(), viewType: 'cameraVideo$key');
       html.window.navigator.getUserMedia(video: true).then((html.MediaStream stream) {
         _cameraVideo.srcObject = stream;
       });
