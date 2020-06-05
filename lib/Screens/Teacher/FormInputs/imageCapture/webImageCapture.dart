@@ -33,15 +33,6 @@ class _ImageCaptureState extends State<ImageCapture> {
   @override
   void initState() {
     super.initState();
-    // _cameraVideo = new html.VideoElement();
-    // //platformViewRegistry shows an error but should still work
-    // ui.platformViewRegistry.registerViewFactory('cameraVideo', (int viewId) => _cameraVideo);
-    // _camera = HtmlElementView(key: UniqueKey(), viewType: 'cameraVideo');
-    // html.window.navigator.getUserMedia(video: true).then((html.MediaStream stream) {
-    //   _cameraVideo.srcObject = stream;
-    // });
-
-    // _cameraVideo.play();
   }
 
   _startFilePicker() async {
@@ -98,13 +89,12 @@ class _ImageCaptureState extends State<ImageCapture> {
 
     reader.readAsArrayBuffer(imageBlob);
 
-    // cameraFeed.getVideoTracks().forEach((track) {
-    //   track.stop();
-    // });
-    // _cameraVideo.pause();
-    // _cameraVideo.removeAttribute('src');
-    // _cameraVideo.load();
-    //super.dispose();
+    _cameraVideo.captureStream().getVideoTracks().forEach((track) {
+      track.stop();
+    });            
+    _cameraVideo.pause();
+    _cameraVideo.removeAttribute('src');
+    _cameraVideo.load();    
   }
 
   //remove image
@@ -113,21 +103,10 @@ class _ImageCaptureState extends State<ImageCapture> {
       _selectFromCamera = false;
       uploadedImage = null;
     });
-      //re-start the camera
-    //   _cameraVideo = new html.VideoElement();
-    //   //platformViewRegistry shows an error but should still work
-    //   ui.platformViewRegistry.registerViewFactory('cameraVideo', (int viewId) => _cameraVideo);
-    //   _camera = HtmlElementView(key: UniqueKey(), viewType: 'cameraVideo');
-    //   html.window.navigator.getUserMedia(video: true).then((html.MediaStream stream) {
-    //     _cameraVideo.srcObject = stream;
-    //   });
-
-    //   _cameraVideo.play();
-    // });
   }
 
   void _cameraReStart() {
-    setState(() async {
+    setState(() {
       //clear out old camera
             _cameraVideo.captureStream().getVideoTracks().forEach((track) {
               track.stop();
@@ -145,6 +124,9 @@ class _ImageCaptureState extends State<ImageCapture> {
       });
 
       _cameraVideo.play();
+    });
+    setState(() {
+      uploadedImage = null;
       _selectFromCamera = true;
     });
   }
@@ -166,7 +148,7 @@ class _ImageCaptureState extends State<ImageCapture> {
             _cameraVideo.pause();
             _cameraVideo.removeAttribute('src');
             _cameraVideo.load();
-            super.dispose();
+            //super.dispose();
             Navigator.pop(context, false);
           },
         )),
