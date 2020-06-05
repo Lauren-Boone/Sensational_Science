@@ -72,15 +72,11 @@ class CreateAccountState extends State<CreateAccount> {
             title: Text("Create Account"),
              actions: <Widget>[
             OutlineButton.icon(
-              // color: Colors.white,
+              color: Colors.white,
               textColor: Colors.white,
               icon: Icon(Icons.person),
               label: Text('Sign In'),
-              onPressed: () => Navigator.push(
-                        context, MaterialPageRoute(
-                          builder: (context) => SignIn()
-                        ),
-              )
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ],
           ),
